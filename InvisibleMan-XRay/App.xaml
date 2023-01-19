@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:InvisibleMan_XRay"
              StartupUri="Windows/MainWindow/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Colors.xaml"/>
+                <ResourceDictionary Source="Assets/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="SegoeUI">pack://application:,,,/Assets/Fonts/#SegoeUI</FontFamily>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
