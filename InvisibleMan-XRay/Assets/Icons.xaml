@@ -68,4 +68,21 @@
             </Canvas>
         </VisualBrush.Visual>
     </VisualBrush>
+
+    <VisualBrush x:Key="Icon.Plus">
+        <VisualBrush.Visual>
+            <Canvas>
+                <Path Data="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" Fill="#2d2d2d"/>
+            </Canvas>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
+    <!-- Extra colors -->
+    <VisualBrush x:Key="Icon.Server.MintyGreen">
+        <VisualBrush.Visual>
+            <Canvas>
+                <Path Data="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM344 152c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm96-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zM344 408c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm104-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z" Fill="#6dcc8e"/>
+            </Canvas>
+        </VisualBrush.Visual>
+    </VisualBrush>
 </ResourceDictionary>

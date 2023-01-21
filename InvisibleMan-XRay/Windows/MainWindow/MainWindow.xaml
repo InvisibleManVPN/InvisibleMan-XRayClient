@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InvisibleMan_XRay"
         mc:Ignorable="d"
-        Title="Invisible Man - XRay"
+        Title="Invisible Man XRay"
         Height="550" 
         Width="400" 
         WindowStartupLocation="CenterScreen" 
