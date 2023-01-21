@@ -7,8 +7,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
-                <ResourceDictionary Source="Styles/Buttons.xaml"/>
                 <ResourceDictionary Source="Assets/Icons.xaml"/>
+
+                <ResourceDictionary Source="Styles/Components/Buttons.xaml"/>
+                <ResourceDictionary Source="Styles/Components/RadioButtons.xaml"/>
+                <ResourceDictionary Source="Styles/Components/TextBoxes.xaml"/>
+                <ResourceDictionary Source="Styles/Components/ScrollViews.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="SegoeUI">pack://application:,,,/Assets/Fonts/#SegoeUI</FontFamily>
