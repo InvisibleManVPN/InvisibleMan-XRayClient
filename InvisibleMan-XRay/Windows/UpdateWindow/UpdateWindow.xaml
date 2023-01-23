@@ -1,0 +1,76 @@
+<Window x:Class="InvisibleMan_XRay.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InvisibleMan_XRay"
+        mc:Ignorable="d"
+        Title="Invisible Man XRay - Update"
+        Height="450" 
+        Width="350" 
+        WindowStartupLocation="CenterOwner"  
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.DarkGray"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center">
+            <Grid>
+                <Ellipse Width="120" Height="120" Fill="{StaticResource Color.LightGray}"></Ellipse>
+                <Rectangle Fill="{StaticResource Icon.Update.Check}" 
+                    Width="70" Height="50" Visibility="Visible"/>
+
+                <Rectangle Fill="{StaticResource Icon.Update.New}" 
+                    Width="70" Height="50" Visibility="Hidden"/>
+
+                <Rectangle Fill="{StaticResource Icon.Update.Latest}" 
+                    Width="70" Height="50" Visibility="Hidden"/>
+
+                <Rectangle Fill="{StaticResource Icon.Update.Error}" 
+                    Width="70" Height="50" Visibility="Hidden"/>
+            </Grid>
+            
+            <Label Content="Waiting for server response..." Foreground="White" Margin="0 10" HorizontalContentAlignment="Center"
+                FontFamily="{StaticResource SegoeUI}" FontWeight="Light" FontSize="16"/>
+
+            <Button Width="200" Height="40" Margin="0 20"
+                    Content="CANCEL" Style="{StaticResource Button.Rectangle.Red}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
+                    Foreground="{StaticResource Color.Gray}">
+
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
+            </Grid.Effect>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource Icon.Update.MintyGreen}" Grid.Column="0" 
+                Width="35" Height="35" Margin="0" 
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
+                        Content="UPDATE" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
+                        Content="Check for updates" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
