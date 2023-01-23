@@ -88,7 +88,7 @@
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
-                    Style="{StaticResource Button.Rectangle.Green}" 
+                    Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}">
                 </Button>
