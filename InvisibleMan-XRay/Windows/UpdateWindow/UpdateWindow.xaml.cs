@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace InvisibleMan_XRay
+namespace InvisibleManXRay
 {
     /// <summary>
     /// Interaction logic for UpdateWindow.xaml
