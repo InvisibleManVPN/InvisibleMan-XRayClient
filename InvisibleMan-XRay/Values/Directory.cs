@@ -1,7 +1,8 @@
 namespace InvisibleManXRay.Values
 {
-    public static class Directory
+    internal static class Directory
     {
-        public const string LIBRARIES = "./InvisibleMan-XRay/Libraries";
+        public const string ROOT = "./InvisibleMan-XRay";
+        public const string LIBRARIES = $"{ROOT}/Libraries";
     }
 }
