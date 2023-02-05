@@ -2,6 +2,7 @@ package xray
 
 import (
 	"C"
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -14,39 +15,21 @@ import (
 	_ "github.com/xtls/xray-core/main/distro/all"
 )
 
-func RunTest(path string) {
-	cpath := C.CString(path)
-	Run(cpath)
-}
+//export StartServer
+func StartServer(config *C.char) {
+	configJson := C.GoString(config)
+	configObj := &core.Config{}
+	json.Unmarshal([]byte(configJson), configObj)
 
-//export Run
-func Run(path *C.char) {
-	fmt.Println("Running xray-core...")
-
-	pathStr := C.GoString(path)
-	format := getConfigFormat(pathStr)
-
-	file := getConfigFile(pathStr)
-	if file == nil {
-		fmt.Println("error | failed to get config file.")
-		os.Exit(1)
-	}
-
-	c, err := core.LoadConfig(format, file)
+	server, err := core.New(configObj)
 	if err != nil {
-		fmt.Println("error | failed to load config file >", err)
-		os.Exit(2)
-	}
-
-	server, err := core.New(c)
-	if err != nil {
-		fmt.Println("error | failed to start server >", err)
-		os.Exit(3)
+		fmt.Println("error | failed to initialize the server >", err)
+		return
 	}
 
 	if err := server.Start(); err != nil {
 		fmt.Println("error | failed to start server >", err)
-		os.Exit(4)
+		return
 	}
 
 	defer server.Close()
