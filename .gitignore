@@ -1,4 +1,4 @@
 /Files
 /InvisibleMan-XRay/bin
 /InvisibleMan-XRay/obj
-/XRay-Wrapper/*.dll
+*.dll
