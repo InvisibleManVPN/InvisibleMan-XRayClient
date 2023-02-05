@@ -1,6 +1,9 @@
 package xray
 
 import (
+	"C"
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -9,28 +12,46 @@ import (
 	"github.com/xtls/xray-core/core"
 )
 
-func getConfigFormat(path string) string {
-	ext := strings.TrimPrefix(filepath.Ext(path), ".")
-	f := core.GetFormatByExtension(ext)
-	if f == "" {
-		f = "auto"
-	}
-	return f
-}
+//export GetConfigFormat
+func GetConfigFormat(path *C.char) *C.char {
+	file := C.GoString(path)
+	ext := strings.TrimPrefix(filepath.Ext(file), ".")
+	format := core.GetFormatByExtension(ext)
 
-func getConfigFile(path string) cmdarg.Arg {
-	if isFileExists(path) {
-		return cmdarg.Arg{path}
+	if format == "" {
+		format = "auto"
 	}
 
-	return nil
+	return C.CString(format)
 }
 
-func isFileExists(file string) bool {
+//export IsFileExists
+func IsFileExists(path *C.char) bool {
+	file := C.GoString(path)
 	if file == "" {
 		return false
 	}
 
 	info, err := os.Stat(file)
 	return err == nil && !info.IsDir()
+}
+
+//export LoadConfig
+func LoadConfig(ext *C.char, path *C.char) *C.char {
+	format := C.GoString(ext)
+	file := cmdarg.Arg{C.GoString(path)}
+
+	config, err := core.LoadConfig(format, file)
+	if err != nil {
+		fmt.Println("error | failed to load config file >", err)
+		return C.CString("")
+	}
+
+	configJson, err := json.Marshal(config)
+	if err != nil {
+		fmt.Println("error | failed to encode config to json >", err)
+		return C.CString("")
+	}
+
+	return C.CString(string(configJson))
 }
