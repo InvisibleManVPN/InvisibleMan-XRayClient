@@ -2,14 +2,14 @@
 
 namespace InvisibleManXRay
 {
-    using Core;
+    using Managers;
 
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            InvisibleManXRayCore core = new InvisibleManXRayCore();
-            core.Initialize();
+            AppManager appManager = new AppManager();
+            appManager.Initialize();
         }
     }
 }
