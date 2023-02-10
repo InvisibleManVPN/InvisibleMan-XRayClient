@@ -5,7 +5,7 @@ namespace InvisibleManXRay.Core
 {
     using Values;
 
-    public class XRayCoreWrapper
+    internal class XRayCoreWrapper
     {
         public static string GetConfigFormat(string path)
         {
