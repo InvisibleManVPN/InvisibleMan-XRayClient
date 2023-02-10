@@ -10,14 +10,14 @@ namespace InvisibleManXRay.Handlers
     {
         private UserSettings userSettings;
 
-        public int GetConfigIndex() => userSettings.ConfigIndex;
-
         public SettingsHandler()
         {
-            this.userSettings = TryLoadUserSettingsFromFile();
+            this.userSettings = LoadUserSettings();
         }
 
-        private UserSettings TryLoadUserSettingsFromFile()
+        public int GetConfigIndex() => userSettings.ConfigIndex;
+
+        private UserSettings LoadUserSettings()
         {
             if (!File.Exists(Path.USER_SETTINGS))
                 return new UserSettings();
