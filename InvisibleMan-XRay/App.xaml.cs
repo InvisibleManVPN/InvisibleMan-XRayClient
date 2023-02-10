@@ -8,8 +8,20 @@ namespace InvisibleManXRay
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            AppManager appManager = new AppManager();
-            appManager.Initialize();
+            InitializeAppManager();
+            InitializeMainWindow();
+
+            void InitializeAppManager()
+            {
+                AppManager appManager = new AppManager();
+                appManager.Initialize();
+            }
+
+            void InitializeMainWindow()
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
         }
     }
 }
