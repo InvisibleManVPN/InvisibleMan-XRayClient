@@ -24,6 +24,7 @@ namespace InvisibleManXRay.Managers
             handlersManager = new HandlersManager();
 
             handlersManager.AddHandler(new SettingsHandler());
+            handlersManager.AddHandler(new ConfigHandler());
         }
     }
 }
