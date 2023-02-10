@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace InvisibleManXRay.Core
 {
@@ -16,21 +15,25 @@ namespace InvisibleManXRay.Core
             this.getConfig = getConfig;
         }
 
-        public IEnumerable<Status> Run()
+        public Status LoadConfig()
         {
             Config config = getConfig.Invoke();
 
             if (!XRayCoreWrapper.IsFileExists(config.Path))
-                yield return new Status(Code.ERROR, Message.NO_CONFIGS_FOUND);
+                return new Status(Code.ERROR, Message.NO_CONFIGS_FOUND);
 
             string format = XRayCoreWrapper.GetConfigFormat(config.Path);
             string file = XRayCoreWrapper.LoadConfig(format, config.Path);
 
             if (!JsonUtility.IsJsonValid(file))
-                yield return new Status(Code.ERROR, Message.INVALID_CONFIG);
-            
-            yield return new Status(Code.SUCCESS, null);
-            XRayCoreWrapper.StartServer(file);
+                return new Status(Code.ERROR, Message.INVALID_CONFIG);
+
+            return new Status(Code.SUCCESS, file);
+        }
+
+        public void Run(string config)
+        {
+            XRayCoreWrapper.StartServer(config);
         }
     }
 }
