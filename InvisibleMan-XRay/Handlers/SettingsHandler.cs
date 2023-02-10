@@ -5,6 +5,7 @@ namespace InvisibleManXRay.Handlers
 {
     using Models;
     using Values;
+    using Utilities;
 
     public class SettingsHandler : Handler
     {
@@ -23,6 +24,9 @@ namespace InvisibleManXRay.Handlers
                 return new UserSettings();
 
             string rawSettings = File.ReadAllText(Path.USER_SETTINGS);
+            if (!JsonUtility.IsJsonValid(rawSettings))
+                return new UserSettings();
+
             return JsonConvert.DeserializeObject<UserSettings>(rawSettings);
         }
     }

@@ -1,11 +1,11 @@
 using System;
-using System.Text.Json;
 using System.Collections.Generic;
 
 namespace InvisibleManXRay.Core
 {
     using Models;
     using Values;
+    using Utilities;
 
     public class InvisibleManXRayCore
     {
@@ -26,23 +26,11 @@ namespace InvisibleManXRay.Core
             string format = XRayCoreWrapper.GetConfigFormat(config.Path);
             string file = XRayCoreWrapper.LoadConfig(format, config.Path);
 
-            if (!IsValidateJsonConfig())
+            if (!JsonUtility.IsJsonValid(file))
                 yield return new Status(Code.ERROR, Message.INVALID_CONFIG);
             
             yield return new Status(Code.SUCCESS, null);
             XRayCoreWrapper.StartServer(file);
-
-            bool IsValidateJsonConfig()
-            {
-                try
-                {
-                    return JsonDocument.Parse(file) != null;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            }
         }
     }
 }
