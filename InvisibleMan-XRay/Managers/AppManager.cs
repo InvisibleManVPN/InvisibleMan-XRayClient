@@ -5,28 +5,25 @@ namespace InvisibleManXRay.Managers
 
     public class AppManager
     {
-        public InvisibleManXRayCore Core { get; private set; }
-        public HandlersManager HandlersManager { get; private set; }
-        public static AppManager Instance { get; private set; }
+        private InvisibleManXRayCore core;
+        private HandlersManager handlersManager;
 
         public void Initialize()
         {
-            if (Instance != null)
-                return;
-            
-            Instance = this;
+            RegisterCore();
+            RegisterHandlers();
         }
 
         private void RegisterCore()
         {
-            Core = new InvisibleManXRayCore();
+            core = new InvisibleManXRayCore();
         }
 
         private void RegisterHandlers()
         {
-            HandlersManager = new HandlersManager();
+            handlersManager = new HandlersManager();
 
-            HandlersManager.AddHandler(new SettingsHandler());
+            handlersManager.AddHandler(new SettingsHandler());
         }
     }
 }
