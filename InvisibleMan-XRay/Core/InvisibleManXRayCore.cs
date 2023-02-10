@@ -1,28 +1,48 @@
-using System.Threading;
+using System;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace InvisibleManXRay.Core
 {
     using Models;
+    using Values;
 
     public class InvisibleManXRayCore
     {
-        public static InvisibleManXRayCore Instance;
+        private Func<Config> getConfig;
 
-        public void Initialize()
+        public void Setup(Func<Config> getConfig)
         {
-            if (Instance != null)
-                return;
-            
-            Instance = this;
+            this.getConfig = getConfig;
         }
 
-        public void Run(Config config)
+        public IEnumerable<Status> Run()
         {
-            Thread xrayCoreThread = new Thread(() => {
-                XRayCoreWrapper.Run(config.Path);
-            });
+            Config config = getConfig.Invoke();
+
+            if (!XRayCoreWrapper.IsFileExists(config.Path))
+                yield return new Status(Code.ERROR, Message.NO_CONFIGS_FOUND);
+
+            string format = XRayCoreWrapper.GetConfigFormat(config.Path);
+            string file = XRayCoreWrapper.LoadConfig(format, config.Path);
+
+            if (!IsValidateJsonConfig())
+                yield return new Status(Code.ERROR, Message.INVALID_CONFIG);
             
-            xrayCoreThread.Start();
+            yield return new Status(Code.SUCCESS, null);
+            XRayCoreWrapper.StartServer(file);
+
+            bool IsValidateJsonConfig()
+            {
+                try
+                {
+                    return JsonDocument.Parse(file) != null;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

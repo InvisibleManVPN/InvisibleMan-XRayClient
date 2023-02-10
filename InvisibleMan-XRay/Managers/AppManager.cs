@@ -12,7 +12,9 @@ namespace InvisibleManXRay.Managers
         {
             RegisterCore();
             RegisterHandlers();
+
             SetupHandlers();
+            SetupCore();
         }
 
         private void RegisterCore()
@@ -32,6 +34,13 @@ namespace InvisibleManXRay.Managers
         {
             handlersManager.GetHandler<ConfigHandler>().Setup(
                 getConfigIndex: handlersManager.GetHandler<SettingsHandler>().GetConfigIndex
+            );
+        }
+
+        private void SetupCore()
+        {
+            core.Setup(
+                getConfig: handlersManager.GetHandler<ConfigHandler>().GetConfig
             );
         }
     }
