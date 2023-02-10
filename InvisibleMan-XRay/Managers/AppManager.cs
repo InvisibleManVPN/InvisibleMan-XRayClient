@@ -2,19 +2,24 @@ namespace InvisibleManXRay.Managers
 {
     using Core;
     using Handlers;
+    using Factories;
 
     public class AppManager
     {
         private InvisibleManXRayCore core;
         private HandlersManager handlersManager;
 
+        public WindowFactory WindowFactory;
+
         public void Initialize()
         {
             RegisterCore();
             RegisterHandlers();
+            RegisterFactory();
 
             SetupHandlers();
             SetupCore();
+            SetupFactory();
         }
 
         private void RegisterCore()
@@ -30,6 +35,11 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new ConfigHandler());
         }
 
+        private void RegisterFactory()
+        {
+            WindowFactory = new WindowFactory();
+        }
+
         private void SetupHandlers()
         {
             handlersManager.GetHandler<ConfigHandler>().Setup(
@@ -42,6 +52,11 @@ namespace InvisibleManXRay.Managers
             core.Setup(
                 getConfig: handlersManager.GetHandler<ConfigHandler>().GetConfig
             );
+        }
+
+        private void SetupFactory()
+        {
+            WindowFactory.Setup(core, handlersManager);
         }
     }
 }

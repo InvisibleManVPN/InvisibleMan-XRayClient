@@ -20,15 +20,15 @@ namespace InvisibleManXRay.Core
             Config config = getConfig.Invoke();
 
             if (!XRayCoreWrapper.IsFileExists(config.Path))
-                return new Status(Code.ERROR, Message.NO_CONFIGS_FOUND);
+                return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
 
             string format = XRayCoreWrapper.GetConfigFormat(config.Path);
             string file = XRayCoreWrapper.LoadConfig(format, config.Path);
 
             if (!JsonUtility.IsJsonValid(file))
-                return new Status(Code.ERROR, Message.INVALID_CONFIG);
+                return new Status(Code.ERROR, SubCode.INVALID_CONFIG, Message.INVALID_CONFIG);
 
-            return new Status(Code.SUCCESS, file);
+            return new Status(Code.SUCCESS, SubCode.SUCCESS, file);
         }
 
         public void Run(string config)
