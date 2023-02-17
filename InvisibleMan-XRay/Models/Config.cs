@@ -16,12 +16,12 @@ namespace InvisibleManXRay.Models
         public string UpdateTime => updateTime;
         public ConfigType Type => type;
 
-        public Config(string path, string name, ConfigType type)
+        public Config(string path, string name, ConfigType type, string updateTime)
         {
             this.path = path;
             this.name = name;
             this.type = type;
-            this.updateTime = DateTime.Now.ToShortDateString();
+            this.updateTime = updateTime;
         }
     }
 }

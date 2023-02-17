@@ -81,10 +81,13 @@ namespace InvisibleManXRay.Handlers
             return new Config(
                 path: $"{Directory.CONFIGS}/{GetFileName(path)}",
                 name: GetFileName(path),
-                type: ConfigType.FILE
+                type: ConfigType.FILE,
+                updateTime: GetFileLastUpdateTime(path)
             );
         }
 
         private string GetFileName(string path) => System.IO.Path.GetFileName(path);
+
+        private string GetFileLastUpdateTime(string path) => System.IO.File.GetLastWriteTime(path).ToShortDateString();
     }
 }
