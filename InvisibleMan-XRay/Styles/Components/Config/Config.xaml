@@ -6,7 +6,7 @@
     mc:Ignorable="d" 
     d:DesignHeight="50" d:DesignWidth="300">
 
-    <Grid>
+    <Grid Margin="0 0 0 2">
         <Button Style="{StaticResource Button.Rectangle.Gray}"/>
 
         <Grid>

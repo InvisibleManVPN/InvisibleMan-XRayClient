@@ -164,6 +164,7 @@ namespace InvisibleManXRay
         private void LoadConfigsList()
         {
             List<Config> configs = getAllConfigs.Invoke();
+            ClearConfigsList();
 
             foreach (Config config in configs)
             {
@@ -180,8 +181,11 @@ namespace InvisibleManXRay
 
             void AddConfigToList(Components.Config configComponent)
             {
+                textNoServer.Visibility = Visibility.Collapsed;
                 listConfigs.Children.Add(configComponent);
             }
+
+            void ClearConfigsList() => listConfigs.Children.Clear();
         }
     }
 }
