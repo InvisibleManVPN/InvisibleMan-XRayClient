@@ -171,7 +171,9 @@ namespace InvisibleManXRay
         private void LoadConfigsList()
         {
             List<Config> configs = getAllConfigs.Invoke();
-            ClearConfigsList();
+            
+            if (configs.Count > 0)
+                ClearConfigsList();
 
             foreach (Config config in configs)
             {
