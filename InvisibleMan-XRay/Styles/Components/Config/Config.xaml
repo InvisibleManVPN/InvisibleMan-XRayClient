@@ -1,0 +1,109 @@
+<UserControl x:Class="InvisibleManXRay.Components.Config"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="50" d:DesignWidth="300">
+
+    <Grid>
+        <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Rectangle Fill="{StaticResource Color.Green}"></Rectangle>
+            </Grid>
+
+            <Grid Margin="5" Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Config name" FontFamily="{StaticResource SegoeUI}" 
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Margin="10 0 10 -3" Foreground="White" FontWeight="Normal" FontSize="15" IsHitTestVisible="False"/>
+
+                <Label Grid.Row="1" Content="Update time" FontFamily="{StaticResource SegoeUI}" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="10 -3 10 0" Foreground="LightGray" FontWeight="Normal" FontSize="12" IsHitTestVisible="False"/>
+
+            </Grid>
+            
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="Visible"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+                    <Ellipse
+                        Width="8" Height="8" Margin="0 0 2 0"
+                        VerticalAlignment="Center"
+                        Fill="{StaticResource Color.Red}"/>
+                    <Label Content="Timeout" FontFamily="{StaticResource SegoeUI}"
+                        VerticalAlignment="Center"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="Hidden"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+                    <Ellipse
+                        Width="8" Height="8" Margin="0 0 2 0"
+                        VerticalAlignment="Center"
+                        Fill="{StaticResource Color.Green}"/>
+                    <Label Content="Available" FontFamily="{StaticResource SegoeUI}"
+                        VerticalAlignment="Center"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                    <Button Width="20" Height="20"
+                        Style="{StaticResource Button.None}" ToolTip="Edit" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Rectangle Fill="{StaticResource Icon.Edit}" Grid.Column="0" 
+                            Width="12" Height="12" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    </Button>
+
+                    <Button Width="20" Height="20"
+                        Style="{StaticResource Button.None}" ToolTip="Delete" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Rectangle Fill="{StaticResource Icon.Delete}" Grid.Column="0" 
+                            Width="12" Height="12" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    </Button>
+
+                    <Button Width="20" Height="20"
+                        Style="{StaticResource Button.None}" ToolTip="Update" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Rectangle Fill="{StaticResource Icon.Refresh}" Grid.Column="0" 
+                            Width="12" Height="12" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    </Button>
+
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

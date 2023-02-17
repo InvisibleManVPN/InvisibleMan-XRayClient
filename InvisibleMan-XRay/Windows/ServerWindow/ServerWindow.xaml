@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InvisibleManXRay"
+        xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
         mc:Ignorable="d"
         Title="Invisible Man XRay - Server config"
         Height="450" 
