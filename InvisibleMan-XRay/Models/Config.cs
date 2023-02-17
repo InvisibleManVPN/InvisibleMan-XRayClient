@@ -14,9 +14,8 @@ namespace InvisibleManXRay.Models
         public string Name => name;
         public ConfigType Type => type;
 
-        public Config(int index, string path, string name, ConfigType type)
+        public Config(string path, string name, ConfigType type)
         {
-            this.index = index;
             this.path = path;
             this.name = name;
             this.type = type;

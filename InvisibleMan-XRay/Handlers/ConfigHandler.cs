@@ -10,18 +10,42 @@ namespace InvisibleManXRay.Handlers
     public class ConfigHandler : Handler
     {
         private Func<ConfigSettings> getConfigSettings;
+        private Action<Config> onAddToConfigSettings;
 
-        public void Setup(Func<ConfigSettings> getConfigSettings)
+        public void Setup(
+            Func<ConfigSettings> getConfigSettings,
+            Action<Config> onAddToConfigSettings)
         {
             this.getConfigSettings = getConfigSettings;
+            this.onAddToConfigSettings = onAddToConfigSettings;
         }
 
         public void AddConfig(string path)
         {
-            string fileName = System.IO.Path.GetFileName(path);
+            string configName = GenerateConfigName();
+            CopyToConfigsDirectory();
+            onAddToConfigSettings.Invoke(CreateConfig());
+
+            string GenerateConfigName() => $"{DateTime.UtcNow.ToFileTimeUtc()}{GetFileExtension()}";
             
-            System.IO.Directory.CreateDirectory(Directory.CONFIGS);                
-            File.Copy(path, $"{Directory.CONFIGS}/{fileName}");
+            string GetFileExtension() => System.IO.Path.GetExtension(path);
+
+            string GetFileName() => System.IO.Path.GetFileName(path);
+
+            void CopyToConfigsDirectory()
+            {
+                System.IO.Directory.CreateDirectory(Directory.CONFIGS);          
+                File.Copy(path, $"{Directory.CONFIGS}/{configName}");
+            }
+
+            Config CreateConfig()
+            {
+                return new Config(
+                    path: $"{Directory.CONFIGS}/{configName}",
+                    name: GetFileName(),
+                    type: ConfigType.FILE
+                );
+            }
         }
 
         public Config GetCurrentConfig()

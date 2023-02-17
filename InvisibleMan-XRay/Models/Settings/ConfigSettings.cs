@@ -6,5 +6,11 @@ namespace InvisibleManXRay.Models.Settings
     {
         public int CurrentConfigIndex;
         public List<Config> Configs;
+
+        public ConfigSettings()
+        {
+            this.CurrentConfigIndex = 0;
+            this.Configs = new List<Config>();
+        }
     }
 }
