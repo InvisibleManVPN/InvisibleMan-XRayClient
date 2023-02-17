@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using System.Collections.Generic;
 using Microsoft.Win32;
 
 namespace InvisibleManXRay
@@ -10,6 +11,7 @@ namespace InvisibleManXRay
     public partial class ServerWindow : Window
     {
         private string configPath = null;
+        private Func<List<Config>> getAllConfigs;
         private Func<string, Status> loadConfig;
         private Action<string> onAddConfig;
 
@@ -18,10 +20,19 @@ namespace InvisibleManXRay
             InitializeComponent();
         }
 
-        public void Setup(Func<string, Status> loadConfig, Action<string> onAddConfig)
+        public void Setup(
+            Func<List<Config>> getAllConfigs, 
+            Func<string, Status> loadConfig, 
+            Action<string> onAddConfig)
         {
+            this.getAllConfigs = getAllConfigs;
             this.loadConfig = loadConfig;
             this.onAddConfig = onAddConfig;
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            GoToServersPanel();
         }
 
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
@@ -147,6 +158,30 @@ namespace InvisibleManXRay
         {
             panelAdd.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
+            LoadConfigsList();
+        }
+
+        private void LoadConfigsList()
+        {
+            List<Config> configs = getAllConfigs.Invoke();
+
+            foreach (Config config in configs)
+            {
+                Components.Config configComponent = CreateConfigComponent(config);
+                AddConfigToList(configComponent);
+            }
+
+            Components.Config CreateConfigComponent(Config config)
+            {
+                Components.Config configComponent = new Components.Config();
+                configComponent.Setup(config);
+                return configComponent;
+            }
+
+            void AddConfigToList(Components.Config configComponent)
+            {
+                listConfigs.Children.Add(configComponent);
+            }
         }
     }
 }

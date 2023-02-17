@@ -8,5 +8,11 @@ namespace InvisibleManXRay.Components
         {
             InitializeComponent();
         }
+
+        public void Setup(Models.Config config)
+        {
+            textConfigName.Content = config.Name;
+            textUpdateTime.Content = config.UpdateTime;
+        }
     }
 }

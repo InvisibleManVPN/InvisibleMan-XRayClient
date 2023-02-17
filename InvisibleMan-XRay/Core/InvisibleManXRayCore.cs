@@ -9,10 +9,12 @@ namespace InvisibleManXRay.Core
     public class InvisibleManXRayCore
     {
         private Func<Config> getConfig;
+        private Action<string> onFailLoadingConfig;
 
-        public void Setup(Func<Config> getConfig)
+        public void Setup(Func<Config> getConfig, Action<string> onFailLoadingConfig)
         {
             this.getConfig = getConfig;
+            this.onFailLoadingConfig = onFailLoadingConfig;
         }
         
         public Status LoadConfig()
@@ -28,7 +30,10 @@ namespace InvisibleManXRay.Core
         public Status LoadConfig(string path)
         {
             if (!XRayCoreWrapper.IsFileExists(path))
+            {
+                onFailLoadingConfig.Invoke(path);
                 return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+            }
 
             string format = XRayCoreWrapper.GetConfigFormat(path);
             string file = XRayCoreWrapper.LoadConfig(format, path);

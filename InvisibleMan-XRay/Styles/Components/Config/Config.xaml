@@ -27,12 +27,12 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="Config name" FontFamily="{StaticResource SegoeUI}" 
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                <Label Grid.Row="0" Content="Config name" x:Name="textConfigName"
+                    FontFamily="{StaticResource SegoeUI}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                     Margin="10 0 10 -3" Foreground="White" FontWeight="Normal" FontSize="15" IsHitTestVisible="False"/>
 
-                <Label Grid.Row="1" Content="Update time" FontFamily="{StaticResource SegoeUI}" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                <Label Grid.Row="1" Content="Update time" x:Name="textUpdateTime"
+                    FontFamily="{StaticResource SegoeUI}" HorizontalAlignment="Left" VerticalAlignment="Top"
                     Margin="10 -3 10 0" Foreground="LightGray" FontWeight="Normal" FontSize="12" IsHitTestVisible="False"/>
 
             </Grid>

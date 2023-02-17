@@ -9,8 +9,8 @@ namespace InvisibleManXRay
     public partial class MainWindow : Window
     {
         private Func<Status> loadConfig;
-        private Action<string> onRunServer;
         private Func<ServerWindow> openServerWindow;
+        private Action<string> onRunServer;
 
         public MainWindow()
         {
@@ -19,12 +19,12 @@ namespace InvisibleManXRay
 
         public void Setup(
             Func<Status> loadConfig, 
-            Action<string> onRunServer, 
-            Func<ServerWindow> openServerWindow)
+            Func<ServerWindow> openServerWindow,
+            Action<string> onRunServer)
         {
             this.loadConfig = loadConfig;
-            this.onRunServer = onRunServer;
             this.openServerWindow = openServerWindow;
+            this.onRunServer = onRunServer;
         }
 
         private void OnConnectButtonClick(object sender, RoutedEventArgs e)

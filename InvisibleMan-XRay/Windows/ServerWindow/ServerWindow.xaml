@@ -25,8 +25,8 @@
 
         <Grid Grid.Row="1" Visibility="Visible" x:Name="panelServers">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="There is no server configuration" 
+                <StackPanel Orientation="Vertical" x:Name="listConfigs">
+                    <TextBlock Text="There is no server configuration" x:Name="textNoServer"
                         FontFamily="{StaticResource SegoeUI}"
                         HorizontalAlignment="Center" VerticalAlignment="Top" 
                         Margin="0 20" Foreground="Gray" 

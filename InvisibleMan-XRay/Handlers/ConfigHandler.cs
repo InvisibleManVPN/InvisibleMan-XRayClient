@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace InvisibleManXRay.Handlers
 {
@@ -11,13 +12,16 @@ namespace InvisibleManXRay.Handlers
     {
         private Func<ConfigSettings> getConfigSettings;
         private Action<Config> onAddToConfigSettings;
+        private Action<string> onFailLoadingConfig;
 
         public void Setup(
             Func<ConfigSettings> getConfigSettings,
-            Action<Config> onAddToConfigSettings)
+            Action<Config> onAddToConfigSettings,
+            Action<string> onFailLoadingConfig)
         {
             this.getConfigSettings = getConfigSettings;
             this.onAddToConfigSettings = onAddToConfigSettings;
+            this.onFailLoadingConfig = onFailLoadingConfig;
         }
 
         public void AddConfig(string path)
@@ -62,5 +66,9 @@ namespace InvisibleManXRay.Handlers
                 return null;
             }
         }
+
+        public List<Config> GetAllConfigs() => getConfigSettings.Invoke().Configs;
+
+        public void FailLoadingConfig(string path) => onFailLoadingConfig.Invoke(path);
     }
 }

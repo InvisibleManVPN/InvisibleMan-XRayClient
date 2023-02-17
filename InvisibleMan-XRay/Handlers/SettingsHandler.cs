@@ -17,19 +17,24 @@ namespace InvisibleManXRay.Handlers
             this.userSettings = LoadUserSettings();
         }
 
-        public ConfigSettings GetConfigSettings() => userSettings.ConfigSettings;
+        public ConfigSettings GetConfigSettings()
+        {
+            if (userSettings.ConfigSettings == null)
+                userSettings.ConfigSettings = new ConfigSettings();
+
+            return userSettings.ConfigSettings;
+        } 
 
         public void AddToConfigSettings(Config config)
         {
-            InitializeConfigSettings();
             userSettings.ConfigSettings.Configs.Add(config);
             SaveUserSettings();
+        }
 
-            void InitializeConfigSettings()
-            {
-                if (userSettings.ConfigSettings == null)
-                    userSettings.ConfigSettings = new ConfigSettings();
-            }
+        public void RemoveFromConfigSettings(string path)
+        {
+            userSettings.ConfigSettings.Configs.RemoveAll(config => config.Path == path);
+            SaveUserSettings();
         }
 
         private UserSettings LoadUserSettings()
