@@ -97,8 +97,10 @@ namespace InvisibleManXRay
                 }
 
                 onAddConfig.Invoke(configPath);
+                SetActiveLoadingPanel(false);
+                GoToServersPanel();
 
-                 void HandleError()
+                void HandleError()
                 {
                     switch (configStatus.SubCode)
                     {
