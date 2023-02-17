@@ -80,7 +80,8 @@
                         FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
                         HorizontalAlignment="Center" VerticalAlignment="Top" 
                         Margin="0" Foreground="{StaticResource Color.Blue}" 
-                        FontWeight="Normal" FontSize="14"/>
+                        FontWeight="Normal" FontSize="14" Cursor="Hand"
+                        PreviewMouseDown="OnManageServersClick"/>
                 </StackPanel>
 
                 <Button Grid.Row="4" Width="200" Height="40" 

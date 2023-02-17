@@ -27,6 +27,11 @@ namespace InvisibleManXRay
             this.onRunServer = onRunServer;
         }
 
+        private void OnManageServersClick(object sender, RoutedEventArgs e)
+        {
+            OpenServerWindow();
+        }
+
         private void OnConnectButtonClick(object sender, RoutedEventArgs e)
         {
             Status configStatus = loadConfig.Invoke();
@@ -63,11 +68,7 @@ namespace InvisibleManXRay
                     );
 
                     if (result == MessageBoxResult.OK)
-                    {
-                        ServerWindow serverWindow = openServerWindow.Invoke();
-                        serverWindow.Owner = this;
-                        serverWindow.ShowDialog();
-                    }
+                        OpenServerWindow();
                 }
 
                 void HandleInvalidConfigError()
@@ -80,6 +81,13 @@ namespace InvisibleManXRay
                     );
                 }
             }
+        }
+
+        private void OpenServerWindow()
+        {
+            ServerWindow serverWindow = openServerWindow.Invoke();
+            serverWindow.Owner = this;
+            serverWindow.ShowDialog();
         }
     }
 }
