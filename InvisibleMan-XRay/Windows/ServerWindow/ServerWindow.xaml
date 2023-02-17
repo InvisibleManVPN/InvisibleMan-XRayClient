@@ -66,10 +66,10 @@
                         </Button>
 
                         <TextBlock Grid.Row="2" Text="No file chosen..." 
-                        Margin="10 0" Foreground="White" VerticalAlignment="Center"
-                        FontFamily="{StaticResource SegoeUI}" 
-                        FontWeight="Normal" FontSize="14"
-                        x:Name="textBlockFileName"/>
+                            Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                            FontFamily="{StaticResource SegoeUI}" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBlockFileName"/>
                     </StackPanel>
 
                 </StackPanel>

@@ -96,6 +96,12 @@ namespace InvisibleManXRay
                 panelLoading.Visibility = visibility;
             }
 
+            void ClearConfigPath()
+            {
+                configPath = null;
+                textBlockFileName.Text = "No file chosen...";
+            }
+
             void TryAddConfig()
             {
                 Status configStatus = loadConfig.Invoke(configPath);
@@ -109,6 +115,7 @@ namespace InvisibleManXRay
 
                 onAddConfig.Invoke(configPath);
                 SetActiveLoadingPanel(false);
+                ClearConfigPath();
                 GoToServersPanel();
 
                 void HandleError()
