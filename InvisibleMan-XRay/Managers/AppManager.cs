@@ -43,14 +43,16 @@ namespace InvisibleManXRay.Managers
         private void SetupHandlers()
         {
             handlersManager.GetHandler<ConfigHandler>().Setup(
-                getConfigIndex: handlersManager.GetHandler<SettingsHandler>().GetConfigIndex
+                getConfigSettings: handlersManager.GetHandler<SettingsHandler>().GetConfigSettings
             );
         }
 
         private void SetupCore()
         {
+            ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+
             core.Setup(
-                getConfig: handlersManager.GetHandler<ConfigHandler>().GetConfig
+                getConfig: configHandler.GetCurrentConfig
             );
         }
 

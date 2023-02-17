@@ -22,7 +22,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Visibility="Visible">
+        <Grid Grid.Row="1" Visibility="Visible" x:Name="panelServers">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="There is no server configuration" 
@@ -35,7 +35,8 @@
 
             <Button Width="40" Height="40" Margin="0 0 15 15" 
                 Style="{StaticResource Button.Circle}" ToolTip="Add new server configuration" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Click="OnAddButtonClick">
 
                 <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
                     Width="15" Height="15" Margin="0" 
@@ -43,7 +44,7 @@
             </Button>
         </Grid>
 
-        <Grid Grid.Row="1" Visibility="Hidden">
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAdd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
@@ -59,13 +60,15 @@
                         <Button Width="100" Height="30" Content="CHOOSE FILE" 
                             Style="{StaticResource Button.Rectangle.Green}" 
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
-                            Foreground="{StaticResource Color.Gray}">
+                            Foreground="{StaticResource Color.Gray}"
+                            Click="OnChooseFileButtonClick">
                         </Button>
 
                         <TextBlock Grid.Row="2" Text="No file chosen..." 
                         Margin="10 0" Foreground="White" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" 
-                        FontWeight="Normal" FontSize="14"/>
+                        FontWeight="Normal" FontSize="14"
+                        x:Name="textBlockFileName"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -84,15 +87,28 @@
                 <Button Width="100" Height="30" Content="IMPORT" 
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
-                    Foreground="{StaticResource Color.Gray}">
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnImportButtonClick">
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
                     Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
-                    Foreground="{StaticResource Color.Gray}">
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick">
                 </Button>
             </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
+            Visibility="Hidden" x:Name="panelLoading">
+            
+            <TextBlock Grid.Row="2" Text="PLEASE WAIT..." 
+                Margin="10 0" Foreground="White" 
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                FontFamily="{StaticResource SegoeUI}" 
+                FontWeight="Normal" FontSize="14"/>
+                
         </Grid>
 
         <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">

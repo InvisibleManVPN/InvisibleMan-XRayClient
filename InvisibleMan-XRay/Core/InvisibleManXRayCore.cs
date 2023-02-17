@@ -14,16 +14,24 @@ namespace InvisibleManXRay.Core
         {
             this.getConfig = getConfig;
         }
-
+        
         public Status LoadConfig()
         {
             Config config = getConfig.Invoke();
 
-            if (!XRayCoreWrapper.IsFileExists(config.Path))
+            if (config == null)
                 return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
 
-            string format = XRayCoreWrapper.GetConfigFormat(config.Path);
-            string file = XRayCoreWrapper.LoadConfig(format, config.Path);
+            return LoadConfig(config.Path);
+        }
+
+        public Status LoadConfig(string path)
+        {
+            if (!XRayCoreWrapper.IsFileExists(path))
+                return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+
+            string format = XRayCoreWrapper.GetConfigFormat(path);
+            string file = XRayCoreWrapper.LoadConfig(format, path);
 
             if (!JsonUtility.IsJsonValid(file))
                 return new Status(Code.ERROR, SubCode.INVALID_CONFIG, Message.INVALID_CONFIG);

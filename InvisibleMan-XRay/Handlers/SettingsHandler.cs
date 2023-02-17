@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Handlers
 {
-    using Models;
+    using Models.Settings;
     using Values;
     using Utilities;
 
@@ -16,7 +16,7 @@ namespace InvisibleManXRay.Handlers
             this.userSettings = LoadUserSettings();
         }
 
-        public int GetConfigIndex() => userSettings.ConfigIndex;
+        public ConfigSettings GetConfigSettings() => userSettings.ConfigSettings;
 
         private UserSettings LoadUserSettings()
         {

@@ -2,6 +2,7 @@ namespace InvisibleManXRay.Factories
 {
     using Core;
     using Managers;
+    using Handlers;
 
     public class WindowFactory
     {
@@ -29,6 +30,11 @@ namespace InvisibleManXRay.Factories
         private ServerWindow CreateServerWindow()
         {
             ServerWindow serverWindow = new ServerWindow();
+            serverWindow.Setup(
+                loadConfig: core.LoadConfig,
+                onAddConfig: handlersManager.GetHandler<ConfigHandler>().AddConfig
+            );
+            
             return serverWindow;
         }
     }
