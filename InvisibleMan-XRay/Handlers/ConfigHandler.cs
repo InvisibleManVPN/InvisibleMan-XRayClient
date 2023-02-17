@@ -1,65 +1,58 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace InvisibleManXRay.Handlers
 {
     using Models;
-    using Models.Settings;
     using Values;
 
     public class ConfigHandler : Handler
     {
-        private Func<ConfigSettings> getConfigSettings;
-        private Action<Config> onAddToConfigSettings;
-        private Action<string> onFailLoadingConfig;
+        private Dictionary<string, Config> configs;
+        private Func<int> getCurrentConfigIndex;
 
-        public void Setup(
-            Func<ConfigSettings> getConfigSettings,
-            Action<Config> onAddToConfigSettings,
-            Action<string> onFailLoadingConfig)
+        public ConfigHandler()
         {
-            this.getConfigSettings = getConfigSettings;
-            this.onAddToConfigSettings = onAddToConfigSettings;
-            this.onFailLoadingConfig = onFailLoadingConfig;
+            this.configs = new Dictionary<string, Config>();
+            LoadConfigsFile();
+
+            void LoadConfigsFile()
+            {
+                string[] files = System.IO.Directory.GetFiles(Directory.CONFIGS);
+
+                foreach(string file in files)
+                {
+                    AddConfigToList(CreateConfig(file));
+                }
+            }
+        }
+
+        public void Setup(Func<int> getCurrentConfigIndex)
+        {
+            this.getCurrentConfigIndex = getCurrentConfigIndex;
         }
 
         public void AddConfig(string path)
         {
-            string configName = GenerateConfigName();
             CopyToConfigsDirectory();
-            onAddToConfigSettings.Invoke(CreateConfig());
-
-            string GenerateConfigName() => $"{DateTime.UtcNow.ToFileTimeUtc()}{GetFileExtension()}";
-            
-            string GetFileExtension() => System.IO.Path.GetExtension(path);
-
-            string GetFileName() => System.IO.Path.GetFileName(path);
+            AddConfigToList(CreateConfig(path));
 
             void CopyToConfigsDirectory()
             {
                 System.IO.Directory.CreateDirectory(Directory.CONFIGS);          
-                File.Copy(path, $"{Directory.CONFIGS}/{configName}");
-            }
-
-            Config CreateConfig()
-            {
-                return new Config(
-                    path: $"{Directory.CONFIGS}/{configName}",
-                    name: GetFileName(),
-                    type: ConfigType.FILE
-                );
+                File.Copy(path, $"{Directory.CONFIGS}/{GetFileName(path)}", true);
             }
         }
 
         public Config GetCurrentConfig()
         {
-            ConfigSettings configSettings = getConfigSettings.Invoke();
+            int currentConfigIndex = getCurrentConfigIndex.Invoke();
             
             try
             {
-                int currentConfigIndex = configSettings.CurrentConfigIndex;
-                return configSettings.Configs[currentConfigIndex];
+                return configs.ElementAt(currentConfigIndex).Value;
             }
             catch
             {
@@ -67,8 +60,31 @@ namespace InvisibleManXRay.Handlers
             }
         }
 
-        public List<Config> GetAllConfigs() => getConfigSettings.Invoke().Configs;
+        public List<Config> GetAllConfigs() => configs.Select(config => config.Value).ToList();
 
-        public void FailLoadingConfig(string path) => onFailLoadingConfig.Invoke(path);
+        public void RemoveConfigFromList(string path)
+        {
+            if (configs.ContainsKey(path))
+                configs.Remove(path);
+        }
+
+        private void AddConfigToList(Config config)
+        {
+            if (configs.ContainsKey(config.Path))
+                configs[config.Path] = config;
+            else
+                configs.Add(config.Path, config);
+        }
+
+        private Config CreateConfig(string path)
+        {
+            return new Config(
+                path: $"{Directory.CONFIGS}/{GetFileName(path)}",
+                name: GetFileName(path),
+                type: ConfigType.FILE
+            );
+        }
+
+        private string GetFileName(string path) => System.IO.Path.GetFileName(path);
     }
 }

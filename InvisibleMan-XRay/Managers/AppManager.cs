@@ -45,9 +45,7 @@ namespace InvisibleManXRay.Managers
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
 
             handlersManager.GetHandler<ConfigHandler>().Setup(
-                getConfigSettings: settingsHandler.GetConfigSettings,
-                onAddToConfigSettings: settingsHandler.AddToConfigSettings,
-                onFailLoadingConfig: settingsHandler.RemoveFromConfigSettings
+                getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex
             );
         }
 
@@ -57,7 +55,7 @@ namespace InvisibleManXRay.Managers
 
             core.Setup(
                 getConfig: configHandler.GetCurrentConfig,
-                onFailLoadingConfig: configHandler.FailLoadingConfig
+                onFailLoadingConfig: configHandler.RemoveConfigFromList
             );
         }
 
