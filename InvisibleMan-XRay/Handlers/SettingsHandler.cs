@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 namespace InvisibleManXRay.Handlers
 {
     using Models;
-    using Models.Settings;
     using Values;
     using Utilities;
 
@@ -12,29 +11,11 @@ namespace InvisibleManXRay.Handlers
     {
         private UserSettings userSettings;
 
+        public UserSettings UserSettings => userSettings;
+
         public SettingsHandler()
         {
             this.userSettings = LoadUserSettings();
-        }
-
-        public ConfigSettings GetConfigSettings()
-        {
-            if (userSettings.ConfigSettings == null)
-                userSettings.ConfigSettings = new ConfigSettings();
-
-            return userSettings.ConfigSettings;
-        } 
-
-        public void AddToConfigSettings(Config config)
-        {
-            userSettings.ConfigSettings.Configs.Add(config);
-            SaveUserSettings();
-        }
-
-        public void RemoveFromConfigSettings(string path)
-        {
-            userSettings.ConfigSettings.Configs.RemoveAll(config => config.Path == path);
-            SaveUserSettings();
         }
 
         private UserSettings LoadUserSettings()
