@@ -195,6 +195,12 @@ namespace InvisibleManXRay
                 Components.Config configComponent = new Components.Config();
                 configComponent.Setup(
                     config: config, 
+                    onSelect: () => {
+                        int selectedConfigIndex = getAllConfigs.Invoke().FindIndex(
+                            item => item == config
+                        );
+                        onUpdateConfigIndex.Invoke(selectedConfigIndex);
+                    },
                     onDelete: () => {
                         onDeleteConfig.Invoke();
                         LoadConfigsList();

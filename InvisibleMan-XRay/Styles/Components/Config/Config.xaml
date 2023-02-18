@@ -7,7 +7,7 @@
     d:DesignHeight="50" d:DesignWidth="300">
 
     <Grid Margin="0 0 0 2">
-        <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+        <Button Style="{StaticResource Button.Rectangle.Gray}" Click="OnSelectButtonClick"/>
 
         <Grid>
             <Grid.ColumnDefinitions>

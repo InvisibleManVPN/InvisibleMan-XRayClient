@@ -11,6 +11,7 @@ namespace InvisibleManXRay.Components
     public partial class Config : UserControl
     {
         private Models.Config config;
+        private Action onSelect;
         private Action onDelete;
 
         public Config()
@@ -18,9 +19,10 @@ namespace InvisibleManXRay.Components
             InitializeComponent();
         }
 
-        public void Setup(Models.Config config, Action onDelete)
+        public void Setup(Models.Config config, Action onSelect, Action onDelete)
         {
             this.config = config;
+            this.onSelect = onSelect;
             this.onDelete = onDelete;
 
             UpdateUI();
@@ -30,6 +32,11 @@ namespace InvisibleManXRay.Components
         {
             textConfigName.Content = config.Name;
             textUpdateTime.Content = config.UpdateTime;
+        }
+
+        private void OnSelectButtonClick(object sender, RoutedEventArgs e)
+        {
+            onSelect.Invoke();
         }
 
         private void OnEditButtonClick(object sender, RoutedEventArgs e)
