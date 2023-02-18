@@ -22,9 +22,9 @@ namespace InvisibleManXRay.Handlers
             {
                 string[] files = System.IO.Directory.GetFiles(Directory.CONFIGS);
 
-                foreach(string file in files)
+                foreach(string filePath in files)
                 {
-                    AddConfigToList(CreateConfig(file));
+                    AddConfigToList(CreateConfig(filePath));
                 }
             }
         }
@@ -36,14 +36,19 @@ namespace InvisibleManXRay.Handlers
 
         public void AddConfig(string path)
         {
+            string destinationPath = $"{Directory.CONFIGS}/{GetFileName(path)}";
+
             CopyToConfigsDirectory();
-            AddConfigToList(CreateConfig(path));
+            SetLastUpdateTime();
+            AddConfigToList(CreateConfig(destinationPath));
 
             void CopyToConfigsDirectory()
             {
                 System.IO.Directory.CreateDirectory(Directory.CONFIGS);          
-                File.Copy(path, $"{Directory.CONFIGS}/{GetFileName(path)}", true);
+                File.Copy(path, destinationPath, true);
             }
+
+            void SetLastUpdateTime() => File.SetLastWriteTime(destinationPath, DateTime.Now);
         }
 
         public Config GetCurrentConfig()
@@ -82,12 +87,12 @@ namespace InvisibleManXRay.Handlers
                 path: $"{Directory.CONFIGS}/{GetFileName(path)}",
                 name: GetFileName(path),
                 type: ConfigType.FILE,
-                updateTime: GetFileLastUpdateTime(path)
+                updateTime: GetFileUpdateTime(path)
             );
         }
 
         private string GetFileName(string path) => System.IO.Path.GetFileName(path);
 
-        private string GetFileLastUpdateTime(string path) => System.IO.File.GetLastWriteTime(path).ToShortDateString();
+        private string GetFileUpdateTime(string path) => System.IO.File.GetLastWriteTime(path).ToShortDateString();
     }
 }
