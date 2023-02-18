@@ -30,12 +30,14 @@ namespace InvisibleManXRay.Factories
         private ServerWindow CreateServerWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(
                 getAllConfigs: configHandler.GetAllConfigs,
                 loadConfig: core.LoadConfig,
-                onAddConfig: configHandler.AddConfig
+                onAddConfig: configHandler.AddConfig,
+                onUpdateConfigIndex: settingsHandler.UpdateCurrentConfigIndex
             );
             
             return serverWindow;

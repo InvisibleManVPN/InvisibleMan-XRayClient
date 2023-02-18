@@ -14,6 +14,7 @@ namespace InvisibleManXRay
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> loadConfig;
         private Action<string> onAddConfig;
+        private Action<int> onUpdateConfigIndex;
 
         public ServerWindow()
         {
@@ -23,11 +24,13 @@ namespace InvisibleManXRay
         public void Setup(
             Func<List<Config>> getAllConfigs, 
             Func<string, Status> loadConfig, 
-            Action<string> onAddConfig)
+            Action<string> onAddConfig,
+            Action<int> onUpdateConfigIndex)
         {
             this.getAllConfigs = getAllConfigs;
             this.loadConfig = loadConfig;
             this.onAddConfig = onAddConfig;
+            this.onUpdateConfigIndex = onUpdateConfigIndex;
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -114,6 +117,7 @@ namespace InvisibleManXRay
                 }
 
                 onAddConfig.Invoke(configPath);
+                onUpdateConfigIndex.Invoke(GetLastConfigIndex());
                 SetActiveLoadingPanel(false);
                 ClearConfigPath();
                 GoToServersPanel();
@@ -152,6 +156,8 @@ namespace InvisibleManXRay
                         );
                     }
                 }
+
+                int GetLastConfigIndex() => getAllConfigs.Invoke().Count - 1;
             }
         }
 

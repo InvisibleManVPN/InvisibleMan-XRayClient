@@ -18,6 +18,12 @@ namespace InvisibleManXRay.Handlers
             this.userSettings = LoadUserSettings();
         }
 
+        public void UpdateCurrentConfigIndex(int index)
+        {
+            userSettings.CurrentConfigIndex = index;
+            SaveUserSettings();
+        }
+
         private UserSettings LoadUserSettings()
         {
             if (!File.Exists(Path.USER_SETTINGS))
