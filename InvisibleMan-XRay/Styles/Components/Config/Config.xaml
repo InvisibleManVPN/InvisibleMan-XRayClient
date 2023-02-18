@@ -74,7 +74,8 @@
 
                     <Button Width="20" Height="20"
                         Style="{StaticResource Button.None}" ToolTip="Edit" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="OnEditButtonClick">
 
                         <Rectangle Fill="{StaticResource Icon.Edit}" Grid.Column="0" 
                             Width="12" Height="12" Margin="0" 
