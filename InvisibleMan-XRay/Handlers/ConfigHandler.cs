@@ -27,11 +27,12 @@ namespace InvisibleManXRay.Handlers
         public void LoadConfigFiles()
         {
             configs.Clear();
-            
-            string[] files = System.IO.Directory.GetFiles(Directory.CONFIGS);
-            foreach(string filePath in files)
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(Directory.CONFIGS);
+            FileInfo[] files = directoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToArray();
+            foreach(FileInfo file in files)
             {
-                AddConfigToList(CreateConfig(filePath));
+                AddConfigToList(CreateConfig(file.FullName));
             }
         }
 
@@ -40,7 +41,7 @@ namespace InvisibleManXRay.Handlers
             string destinationPath = $"{Directory.CONFIGS}/{GetFileName(path)}";
 
             CopyToConfigsDirectory();
-            SetLastUpdateTime();
+            SetFileTime();
             AddConfigToList(CreateConfig(destinationPath));
 
             void CopyToConfigsDirectory()
@@ -49,7 +50,11 @@ namespace InvisibleManXRay.Handlers
                 File.Copy(path, destinationPath, true);
             }
 
-            void SetLastUpdateTime() => File.SetLastWriteTime(destinationPath, DateTime.Now);
+            void SetFileTime()
+            {
+                File.SetCreationTime(destinationPath, DateTime.Now);
+                File.SetLastWriteTime(destinationPath, DateTime.Now);
+            }
         }
 
         public Config GetCurrentConfig()
