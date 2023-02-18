@@ -16,22 +16,23 @@ namespace InvisibleManXRay.Handlers
         public ConfigHandler()
         {
             this.configs = new Dictionary<string, Config>();
-            LoadConfigsFile();
-
-            void LoadConfigsFile()
-            {
-                string[] files = System.IO.Directory.GetFiles(Directory.CONFIGS);
-
-                foreach(string filePath in files)
-                {
-                    AddConfigToList(CreateConfig(filePath));
-                }
-            }
+            LoadConfigFiles();
         }
 
         public void Setup(Func<int> getCurrentConfigIndex)
         {
             this.getCurrentConfigIndex = getCurrentConfigIndex;
+        }
+
+        public void LoadConfigFiles()
+        {
+            configs.Clear();
+            
+            string[] files = System.IO.Directory.GetFiles(Directory.CONFIGS);
+            foreach(string filePath in files)
+            {
+                AddConfigToList(CreateConfig(filePath));
+            }
         }
 
         public void AddConfig(string path)

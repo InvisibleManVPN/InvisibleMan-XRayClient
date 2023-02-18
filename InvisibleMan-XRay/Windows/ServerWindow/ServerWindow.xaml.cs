@@ -11,9 +11,11 @@ namespace InvisibleManXRay
     public partial class ServerWindow : Window
     {
         private string configPath = null;
+        private Func<int> getCurrentConfigIndex;
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> loadConfig;
         private Action<string> onAddConfig;
+        private Action onDeleteConfig;
         private Action<int> onUpdateConfigIndex;
 
         public ServerWindow()
@@ -22,14 +24,18 @@ namespace InvisibleManXRay
         }
 
         public void Setup(
+            Func<int> getCurrentConfigIndex,
             Func<List<Config>> getAllConfigs, 
             Func<string, Status> loadConfig, 
             Action<string> onAddConfig,
+            Action onDeleteConfig,
             Action<int> onUpdateConfigIndex)
         {
+            this.getCurrentConfigIndex = getCurrentConfigIndex;
             this.getAllConfigs = getAllConfigs;
             this.loadConfig = loadConfig;
             this.onAddConfig = onAddConfig;
+            this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfigIndex = onUpdateConfigIndex;
         }
 
@@ -156,8 +162,6 @@ namespace InvisibleManXRay
                         );
                     }
                 }
-
-                int GetLastConfigIndex() => getAllConfigs.Invoke().Count - 1;
             }
         }
 
@@ -177,10 +181,9 @@ namespace InvisibleManXRay
         private void LoadConfigsList()
         {
             List<Config> configs = getAllConfigs.Invoke();
+            ClearConfigsList();
+            HandleShowingNoServerExistsHint();
             
-            if (configs.Count > 0)
-                ClearConfigsList();
-
             foreach (Config config in configs)
             {
                 Components.Config configComponent = CreateConfigComponent(config);
@@ -190,17 +193,50 @@ namespace InvisibleManXRay
             Components.Config CreateConfigComponent(Config config)
             {
                 Components.Config configComponent = new Components.Config();
-                configComponent.Setup(config);
+                configComponent.Setup(
+                    config: config, 
+                    onDelete: () => {
+                        onDeleteConfig.Invoke();
+                        LoadConfigsList();
+                        HandleCurrentConfigIndex();
+
+                        void HandleCurrentConfigIndex()
+                        {
+                            int currentConfigIndex = getCurrentConfigIndex.Invoke();
+                            int deletedConfigIndex = getAllConfigs.Invoke().FindIndex(
+                                item => item == config
+                            );
+
+                            if (deletedConfigIndex == -1)
+                                onUpdateConfigIndex.Invoke(GetLastConfigIndex());
+                            else if (deletedConfigIndex < currentConfigIndex)
+                                onUpdateConfigIndex.Invoke(currentConfigIndex - 1);
+                        }
+                });
+
                 return configComponent;
             }
 
-            void AddConfigToList(Components.Config configComponent)
-            {
-                textNoServer.Visibility = Visibility.Collapsed;
-                listConfigs.Children.Add(configComponent);
-            }
+            void AddConfigToList(Components.Config configComponent) => listConfigs.Children.Add(configComponent);
 
             void ClearConfigsList() => listConfigs.Children.Clear();
+
+            void HandleShowingNoServerExistsHint()
+            {
+                if (configs.Count > 0)
+                    textNoServer.Visibility = Visibility.Collapsed;
+                else
+                    textNoServer.Visibility = Visibility.Visible;
+            }
         }
+
+        private int GetLastConfigIndex()
+        {
+            int configsCount = getAllConfigs.Invoke().Count;
+
+            if (configsCount == 0)
+                return 0;
+            return configsCount - 1;
+        } 
     }
 }

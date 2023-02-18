@@ -85,7 +85,8 @@
 
                     <Button Width="20" Height="20"
                         Style="{StaticResource Button.None}" ToolTip="Delete" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="OnDeleteButtonClick">
 
                         <Rectangle Fill="{StaticResource Icon.Delete}" Grid.Column="0" 
                             Width="12" Height="12" Margin="0" 
