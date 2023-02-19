@@ -28,6 +28,12 @@ namespace InvisibleManXRay.Components
             UpdateUI();
         }
 
+        public void SetSelection(bool isSelect)
+        {
+            Visibility visibility = isSelect ? Visibility.Visible : Visibility.Hidden;
+            gridSelect.Visibility = visibility;
+        }
+
         private void UpdateUI()
         {
             textConfigName.Content = config.Name;

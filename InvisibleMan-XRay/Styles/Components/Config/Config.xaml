@@ -17,6 +17,10 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
+                <Rectangle Fill="Gray"></Rectangle>
+            </Grid>
+
+            <Grid Grid.Column="0" Visibility="Hidden" x:Name="gridSelect">
                 <Rectangle Fill="{StaticResource Color.Green}"></Rectangle>
             </Grid>
 

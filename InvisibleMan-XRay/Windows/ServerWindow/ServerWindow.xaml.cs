@@ -11,6 +11,8 @@ namespace InvisibleManXRay
     public partial class ServerWindow : Window
     {
         private string configPath = null;
+        private List<Components.Config> configComponents;
+
         private Func<int> getCurrentConfigIndex;
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> loadConfig;
@@ -176,14 +178,17 @@ namespace InvisibleManXRay
             panelAdd.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
             LoadConfigsList();
+            SelectConfig(getCurrentConfigIndex.Invoke());
         }
 
         private void LoadConfigsList()
         {
+            configComponents = new List<Components.Config>();
             List<Config> configs = getAllConfigs.Invoke();
+
             ClearConfigsList();
             HandleShowingNoServerExistsHint();
-            
+
             foreach (Config config in configs)
             {
                 Components.Config configComponent = CreateConfigComponent(config);
@@ -200,11 +205,13 @@ namespace InvisibleManXRay
                             item => item == config
                         );
                         onUpdateConfigIndex.Invoke(selectedConfigIndex);
+                        SelectConfig(selectedConfigIndex);
                     },
                     onDelete: () => {
                         onDeleteConfig.Invoke();
                         LoadConfigsList();
                         HandleCurrentConfigIndex();
+                        SelectConfig(getCurrentConfigIndex.Invoke());
 
                         void HandleCurrentConfigIndex()
                         {
@@ -223,9 +230,13 @@ namespace InvisibleManXRay
                 return configComponent;
             }
 
-            void AddConfigToList(Components.Config configComponent) => listConfigs.Children.Add(configComponent);
-
             void ClearConfigsList() => listConfigs.Children.Clear();
+
+            void AddConfigToList(Components.Config configComponent) 
+            {
+                configComponents.Add(configComponent);
+                listConfigs.Children.Add(configComponent);
+            }
 
             void HandleShowingNoServerExistsHint()
             {
@@ -244,5 +255,23 @@ namespace InvisibleManXRay
                 return 0;
             return configsCount - 1;
         } 
+
+        private void SelectConfig(int index)
+        {
+            DeselectAllConfigs();
+            SelectConfig();
+
+            void DeselectAllConfigs() => configComponents.ForEach(
+                configComponent => configComponent.SetSelection(false)
+            );
+            
+            void SelectConfig()
+            {
+                if (index == configComponents.Count)
+                    return;
+                
+                configComponents[index].SetSelection(true);
+            } 
+        }
     }
 }
