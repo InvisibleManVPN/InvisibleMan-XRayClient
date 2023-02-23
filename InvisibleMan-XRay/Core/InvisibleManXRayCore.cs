@@ -8,6 +8,8 @@ namespace InvisibleManXRay.Core
 
     public class InvisibleManXRayCore
     {
+        private const int DEFAULT_PORT = 10801;
+
         private Func<Config> getConfig;
         private Action<string> onFailLoadingConfig;
 
@@ -46,7 +48,7 @@ namespace InvisibleManXRay.Core
 
         public void Run(string config)
         {
-            XRayCoreWrapper.StartServer(config);
+            XRayCoreWrapper.StartServer(config, DEFAULT_PORT);
         }
     }
 }

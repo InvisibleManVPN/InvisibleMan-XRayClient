@@ -8,8 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/xtls/xray-core/app/proxyman"
 	"github.com/xtls/xray-core/common/cmdarg"
+	"github.com/xtls/xray-core/common/net"
+	"github.com/xtls/xray-core/common/serial"
 	"github.com/xtls/xray-core/core"
+	"github.com/xtls/xray-core/proxy/http"
 )
 
 //export GetConfigFormat
@@ -54,4 +58,24 @@ func LoadConfig(ext *C.char, path *C.char) *C.char {
 	}
 
 	return C.CString(string(configJson))
+}
+
+func overrideInbound(port net.Port) []*core.InboundHandlerConfig {
+	return []*core.InboundHandlerConfig{
+		{
+			ReceiverSettings: serial.ToTypedMessage(&proxyman.ReceiverConfig{
+				PortList: &net.PortList{
+					Range: []*net.PortRange{
+						net.SinglePortRange(port),
+					},
+				},
+				Listen: &net.IPOrDomain{
+					Address: &net.IPOrDomain_Ip{
+						Ip: []byte{127, 0, 0, 1},
+					},
+				},
+			}),
+			ProxySettings: serial.ToTypedMessage(&http.ServerConfig{}),
+		},
+	}
 }
