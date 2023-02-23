@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func RunTest(path string) {
+func RunTest(path string, port int) {
 	fmt.Println("start testing...")
 	cpath := C.CString(path)
 
@@ -23,6 +23,6 @@ func RunTest(path string) {
 	config := LoadConfig(format, file)
 	fmt.Println("config:", C.GoString(config))
 
-	StartServer(config)
+	StartServer(config, port)
 	fmt.Println("end of test.")
 }

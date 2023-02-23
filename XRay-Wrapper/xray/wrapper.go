@@ -10,16 +10,19 @@ import (
 	"runtime/debug"
 	"syscall"
 
+	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/core"
 
 	_ "github.com/xtls/xray-core/main/distro/all"
 )
 
 //export StartServer
-func StartServer(config *C.char) {
+func StartServer(config *C.char, port int) {
 	configJson := C.GoString(config)
 	configObj := &core.Config{}
+
 	json.Unmarshal([]byte(configJson), configObj)
+	configObj.Inbound = overrideInbound(net.Port(port))
 
 	server, err := core.New(configObj)
 	if err != nil {
