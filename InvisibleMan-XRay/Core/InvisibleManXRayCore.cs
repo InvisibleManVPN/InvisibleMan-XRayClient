@@ -11,6 +11,8 @@ namespace InvisibleManXRay.Core
     {
         private Func<Config> getConfig;
 
+        private const int DEFAULT_PORT = 10801;
+
         public void Setup(Func<Config> getConfig)
         {
             this.getConfig = getConfig;
@@ -30,7 +32,7 @@ namespace InvisibleManXRay.Core
                 yield return new Status(Code.ERROR, Message.INVALID_CONFIG);
             
             yield return new Status(Code.SUCCESS, null);
-            XRayCoreWrapper.StartServer(file);
+            XRayCoreWrapper.StartServer(file, DEFAULT_PORT);
         }
     }
 }

@@ -31,12 +31,12 @@ namespace InvisibleManXRay.Core
             static extern IntPtr LoadConfig(string format, string file);
         }
 
-        public static void StartServer(string config)
+        public static void StartServer(string config, int port)
         {
-            StartServer(config);
+            StartServer(config, port);
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "StartServer")]
-            static extern void StartServer(string config);
+            static extern void StartServer(string config, int port);
         }
     }
 }
