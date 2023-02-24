@@ -2,12 +2,14 @@ package xray
 
 import (
 	"C"
-	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"runtime"
 	"runtime/debug"
+	"strconv"
 	"syscall"
 
 	"github.com/xtls/xray-core/common/net"
@@ -18,10 +20,7 @@ import (
 
 //export StartServer
 func StartServer(config *C.char, port int) {
-	configJson := C.GoString(config)
-	configObj := &core.Config{}
-
-	json.Unmarshal([]byte(configJson), configObj)
+	configObj := convertJsonToObject(config)
 	configObj.Inbound = overrideInbound(net.Port(port))
 
 	server, err := core.New(configObj)
@@ -45,4 +44,40 @@ func StartServer(config *C.char, port int) {
 		signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
 		<-osSignals
 	}
+}
+
+//export TestConnection
+func TestConnection(config *C.char, port int) bool {
+	configObj := convertJsonToObject(config)
+	configObj.Inbound = overrideInbound(net.Port(port))
+
+	server, err := core.New(configObj)
+	if err != nil {
+		return false
+	}
+
+	if err := server.Start(); err != nil {
+		return false
+	}
+
+	proxyUrl, err := url.Parse("http://127.0.0.1:" + strconv.Itoa(port))
+	if err != nil {
+		return false
+	}
+
+	http.DefaultTransport = &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
+	response, err := http.Head("https://www.gstatic.com/generate_204")
+
+	if err != nil {
+		return false
+	}
+
+	server.Close()
+	fmt.Println("info | response code >", response.StatusCode)
+
+	if response.StatusCode == 204 {
+		return true
+	}
+
+	return false
 }

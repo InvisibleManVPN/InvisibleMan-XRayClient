@@ -60,6 +60,14 @@ func LoadConfig(ext *C.char, path *C.char) *C.char {
 	return C.CString(string(configJson))
 }
 
+func convertJsonToObject(config *C.char) *core.Config {
+	configJson := C.GoString(config)
+	configObj := &core.Config{}
+
+	json.Unmarshal([]byte(configJson), configObj)
+	return configObj
+}
+
 func overrideInbound(port net.Port) []*core.InboundHandlerConfig {
 	return []*core.InboundHandlerConfig{
 		{
