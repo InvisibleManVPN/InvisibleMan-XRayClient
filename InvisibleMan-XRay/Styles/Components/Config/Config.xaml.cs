@@ -11,19 +11,26 @@ namespace InvisibleManXRay.Components
     public partial class Config : UserControl
     {
         private Models.Config config;
+        
         private Action onSelect;
         private Action onDelete;
+        private Func<string, bool> testConnection;
 
         public Config()
         {
             InitializeComponent();
         }
 
-        public void Setup(Models.Config config, Action onSelect, Action onDelete)
+        public void Setup(
+            Models.Config config, 
+            Action onSelect, 
+            Action onDelete, 
+            Func<string, bool> testConnection)
         {
             this.config = config;
             this.onSelect = onSelect;
             this.onDelete = onDelete;
+            this.testConnection = testConnection;
 
             UpdateUI();
         }
@@ -38,6 +45,8 @@ namespace InvisibleManXRay.Components
         {
             textConfigName.Content = config.Name;
             textUpdateTime.Content = config.UpdateTime;
+            
+            HandleConfigStatus(config.Availability);
         }
 
         private void OnSelectButtonClick(object sender, RoutedEventArgs e)
@@ -96,6 +105,54 @@ namespace InvisibleManXRay.Components
                     onDelete.Invoke();
                 }
             }
+        }
+
+        private void OnCheckButtonClick(object sender, RoutedEventArgs e)
+        {
+            bool isConnectionAvailable = testConnection.Invoke(config.Path);
+            Models.Availability availability = isConnectionAvailable ? Models.Availability.AVAILABLE : Models.Availability.TIMEOUT;
+            HandleConfigStatus(availability);
+        }
+
+        private void HandleConfigStatus(Models.Availability availability)
+        {
+            config.SetAvailability(availability);
+
+            switch(availability)
+            {
+                case Models.Availability.NOT_CHECKED:
+                    ShowNotCheckedStatus();
+                    break;
+                case Models.Availability.AVAILABLE:
+                    ShowAvailableStatus();
+                    break;
+                case Models.Availability.TIMEOUT:
+                    ShowTimeoutStatus();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ShowNotCheckedStatus()
+        {
+            statusNotChecked.Visibility = Visibility.Visible;
+            statusAvailable.Visibility = Visibility.Hidden;
+            statusTimeout.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowAvailableStatus()
+        {
+            statusAvailable.Visibility = Visibility.Visible;
+            statusNotChecked.Visibility = Visibility.Hidden;
+            statusTimeout.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowTimeoutStatus()
+        {
+            statusTimeout.Visibility = Visibility.Visible;
+            statusNotChecked.Visibility = Visibility.Hidden;
+            statusAvailable.Visibility = Visibility.Hidden;
         }
     }
 }

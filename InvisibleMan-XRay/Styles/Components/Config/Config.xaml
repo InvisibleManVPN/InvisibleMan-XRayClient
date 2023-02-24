@@ -48,7 +48,22 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="Visible"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    x:Name="statusNotChecked">
+
+                    <Ellipse
+                        Width="8" Height="8" Margin="0 0 2 0"
+                        VerticalAlignment="Center"
+                        Fill="Gray"/>
+                    <Label Content="Not checked" FontFamily="{StaticResource SegoeUI}"
+                        VerticalAlignment="Center"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="Hidden"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    x:Name="statusTimeout">
 
                     <Ellipse
                         Width="8" Height="8" Margin="0 0 2 0"
@@ -61,7 +76,8 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Visibility="Hidden"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    x:Name="statusAvailable">
 
                     <Ellipse
                         Width="8" Height="8" Margin="0 0 2 0"
@@ -99,11 +115,12 @@
                     </Button>
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Update" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Style="{StaticResource Button.None}" ToolTip="Check" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="OnCheckButtonClick">
 
-                        <Rectangle Fill="{StaticResource Icon.Refresh}" Grid.Column="0" 
-                            Width="12" Height="12" Margin="0" 
+                        <Rectangle Fill="{StaticResource Icon.Connection}" Grid.Column="0" 
+                            Width="15" Height="11" Margin="0" 
                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                     </Button>

@@ -16,6 +16,7 @@ namespace InvisibleManXRay
         private Func<int> getCurrentConfigIndex;
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> loadConfig;
+        private Func<string, bool> testConnection;
         private Action<string> onAddConfig;
         private Action onDeleteConfig;
         private Action<int> onUpdateConfigIndex;
@@ -29,6 +30,7 @@ namespace InvisibleManXRay
             Func<int> getCurrentConfigIndex,
             Func<List<Config>> getAllConfigs, 
             Func<string, Status> loadConfig, 
+            Func<string, bool> testConnection,
             Action<string> onAddConfig,
             Action onDeleteConfig,
             Action<int> onUpdateConfigIndex)
@@ -36,6 +38,7 @@ namespace InvisibleManXRay
             this.getCurrentConfigIndex = getCurrentConfigIndex;
             this.getAllConfigs = getAllConfigs;
             this.loadConfig = loadConfig;
+            this.testConnection = testConnection;
             this.onAddConfig = onAddConfig;
             this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfigIndex = onUpdateConfigIndex;
@@ -225,7 +228,12 @@ namespace InvisibleManXRay
                             else if (deletedConfigIndex < currentConfigIndex)
                                 onUpdateConfigIndex.Invoke(currentConfigIndex - 1);
                         }
-                });
+                    },
+                    testConnection: (configPath) => {
+                        Status configStatus = loadConfig.Invoke(configPath);
+                        return testConnection.Invoke(configStatus.Content);
+                    }
+                );
 
                 return configComponent;
             }

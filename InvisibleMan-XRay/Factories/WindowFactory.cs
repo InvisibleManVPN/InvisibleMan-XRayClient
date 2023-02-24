@@ -37,6 +37,7 @@ namespace InvisibleManXRay.Factories
                 getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex,
                 getAllConfigs: configHandler.GetAllConfigs,
                 loadConfig: core.LoadConfig,
+                testConnection: core.Test,
                 onAddConfig: configHandler.AddConfig,
                 onDeleteConfig: configHandler.LoadConfigFiles,
                 onUpdateConfigIndex: settingsHandler.UpdateCurrentConfigIndex
