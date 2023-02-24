@@ -38,7 +38,10 @@ namespace InvisibleManXRay
             Config config = getConfig.Invoke();
 
             if (config == null)
+            {
                 textServerConfig.Content = Message.NO_SERVER_CONFIGURATION;
+                return;
+            }
             
             textServerConfig.Content = config.Name;
         }
