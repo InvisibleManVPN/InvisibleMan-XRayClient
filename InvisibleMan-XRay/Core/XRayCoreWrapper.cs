@@ -38,5 +38,13 @@ namespace InvisibleManXRay.Core
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "StartServer")]
             static extern void StartServer(string config, int port);
         }
+
+        public static bool TestConnection(string config, int port)
+        {
+            return TestConnection(config, port);
+
+            [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "TestConnection")]
+            static extern bool TestConnection(string config, int port);
+        }
     }
 }
