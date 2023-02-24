@@ -17,8 +17,11 @@ namespace InvisibleManXRay.Factories
 
         public MainWindow CreateMainWindow()
         {
+            ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+
             MainWindow mainWindow = new MainWindow();
             mainWindow.Setup(
+                getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 openServerWindow: CreateServerWindow,
                 onRunServer: core.Run

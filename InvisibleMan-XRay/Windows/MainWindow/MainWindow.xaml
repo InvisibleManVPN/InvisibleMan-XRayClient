@@ -70,7 +70,8 @@
 
                 <Label Grid.Row="2" Content="No server configuration" FontFamily="{StaticResource SegoeUI}" 
                     HorizontalAlignment="Center"
-                    Margin="0" Foreground="White" FontWeight="Light" FontSize="18"/>
+                    Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
+                    x:Name="textServerConfig"/>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Rectangle Fill="{StaticResource Icon.Server}" Grid.Column="0" 

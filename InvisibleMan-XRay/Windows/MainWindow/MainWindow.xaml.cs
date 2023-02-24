@@ -8,8 +8,10 @@ namespace InvisibleManXRay
 
     public partial class MainWindow : Window
     {
+        private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<ServerWindow> openServerWindow;
+
         private Action<string> onRunServer;
 
         public MainWindow()
@@ -18,13 +20,27 @@ namespace InvisibleManXRay
         }
 
         public void Setup(
+            Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<ServerWindow> openServerWindow,
             Action<string> onRunServer)
         {
+            this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.openServerWindow = openServerWindow;
             this.onRunServer = onRunServer;
+
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            Config config = getConfig.Invoke();
+
+            if (config == null)
+                textServerConfig.Content = Message.NO_SERVER_CONFIGURATION;
+            
+            textServerConfig.Content = config.Name;
         }
 
         private void OnManageServersClick(object sender, RoutedEventArgs e)
@@ -88,6 +104,7 @@ namespace InvisibleManXRay
             ServerWindow serverWindow = openServerWindow.Invoke();
             serverWindow.Owner = this;
             serverWindow.ShowDialog();
+            UpdateUI();
         }
     }
 }

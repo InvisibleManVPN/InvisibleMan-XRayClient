@@ -7,5 +7,6 @@ namespace InvisibleManXRay.Values
         public const string NO_FILES_SELECTED = "No files were selected.\nAdd a server configuration file.";
         public const string FILE_DOESNT_EXISTS = "This file doesn't exists.\nMaybe it has been deleted.";
         public const string DELETE_CONFIRMATION = "Are you sure you want to delete {0}?";
+        public const string NO_SERVER_CONFIGURATION = "No server configuration";
     }
 }
