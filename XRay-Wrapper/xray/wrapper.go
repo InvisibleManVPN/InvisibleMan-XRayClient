@@ -11,6 +11,7 @@ import (
 	"runtime/debug"
 	"strconv"
 	"syscall"
+	"time"
 
 	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/core"
@@ -57,18 +58,24 @@ func TestConnection(config *C.char, port int) bool {
 	}
 
 	if err := server.Start(); err != nil {
+		server.Close()
 		return false
 	}
 
 	proxyUrl, err := url.Parse("http://127.0.0.1:" + strconv.Itoa(port))
 	if err != nil {
+		server.Close()
 		return false
 	}
 
-	http.DefaultTransport = &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
+	http.DefaultTransport = &http.Transport{
+		Proxy:               http.ProxyURL(proxyUrl),
+		TLSHandshakeTimeout: time.Second * 5,
+	}
 	response, err := http.Head("https://www.gstatic.com/generate_204")
 
 	if err != nil {
+		server.Close()
 		return false
 	}
 
