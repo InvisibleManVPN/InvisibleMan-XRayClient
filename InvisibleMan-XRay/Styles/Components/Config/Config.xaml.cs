@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,9 +17,30 @@ namespace InvisibleManXRay.Components
         private Action onDelete;
         private Func<string, bool> testConnection;
 
+        private BackgroundWorker checkConnectionWorker;
+
         public Config()
         {
             InitializeComponent();
+            InitializeCheckConnectionWorker();
+
+            void InitializeCheckConnectionWorker()
+            {
+                checkConnectionWorker = new BackgroundWorker();
+                checkConnectionWorker.DoWork += (sender, e) => {
+                    Dispatcher.BeginInvoke(new Action(delegate {
+                        ShowLoadingProgress();
+                    }));
+
+                    bool isConnectionAvailable = testConnection.Invoke(config.Path);
+
+                    Dispatcher.BeginInvoke(new Action(delegate {
+                        Models.Availability availability = isConnectionAvailable ? Models.Availability.AVAILABLE : Models.Availability.TIMEOUT;
+                        HandleConfigStatus(availability);
+                        ShowCheckButton();
+                    }));
+                };
+            }
         }
 
         public void Setup(
@@ -109,9 +131,7 @@ namespace InvisibleManXRay.Components
 
         private void OnCheckButtonClick(object sender, RoutedEventArgs e)
         {
-            bool isConnectionAvailable = testConnection.Invoke(config.Path);
-            Models.Availability availability = isConnectionAvailable ? Models.Availability.AVAILABLE : Models.Availability.TIMEOUT;
-            HandleConfigStatus(availability);
+            checkConnectionWorker.RunWorkerAsync();
         }
 
         private void HandleConfigStatus(Models.Availability availability)
@@ -153,6 +173,18 @@ namespace InvisibleManXRay.Components
             statusTimeout.Visibility = Visibility.Visible;
             statusNotChecked.Visibility = Visibility.Hidden;
             statusAvailable.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowLoadingProgress()
+        {
+            progressLoading.Visibility = Visibility.Visible;
+            buttonCheck.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowCheckButton()
+        {
+            buttonCheck.Visibility = Visibility.Visible;
+            progressLoading.Visibility = Visibility.Collapsed;
         }
     }
 }
