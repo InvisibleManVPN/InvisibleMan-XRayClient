@@ -19,6 +19,8 @@ import (
 	_ "github.com/xtls/xray-core/main/distro/all"
 )
 
+var osSignals = make(chan os.Signal, 1)
+
 //export StartServer
 func StartServer(config *C.char, port int) {
 	configObj := convertJsonToObject(config)
@@ -41,10 +43,14 @@ func StartServer(config *C.char, port int) {
 	debug.FreeOSMemory()
 
 	{
-		osSignals := make(chan os.Signal, 1)
 		signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
 		<-osSignals
 	}
+}
+
+//export StopServer
+func StopServer() {
+	osSignals <- syscall.SIGTERM
 }
 
 //export TestConnection
