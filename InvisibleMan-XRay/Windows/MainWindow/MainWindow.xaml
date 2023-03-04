@@ -35,7 +35,7 @@
 
                 <StackPanel Grid.Row="0" Orientation="Vertical"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                    Visibility="Visible">
+                    Visibility="Visible" x:Name="statusDisconnect">
                     
                     <Grid Width="120" Height="120" Margin="0">
                         <Rectangle Fill="{StaticResource Icon.Disconnect}"/>
@@ -57,7 +57,7 @@
 
                 <StackPanel Grid.Row="0" Orientation="Vertical"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                    Visibility="Hidden">
+                    Visibility="Hidden" x:Name="statusConnect">
 
                     <Grid Width="120" Height="120" Margin="0">
                         <Controls:Glow x:Name="effectGlow"/>
@@ -97,14 +97,15 @@
                     Content="CONNECT" Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                     Foreground="{StaticResource Color.Gray}" Visibility="Visible"
-                    Click="OnConnectButtonClick">
+                    Click="OnConnectButtonClick" x:Name="buttonConnect">
 
                 </Button>
 
                 <Button Grid.Row="4" Width="200" Height="40" 
                     Content="DISCONNECT" Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
-                    Foreground="{StaticResource Color.Gray}" Visibility="Hidden">
+                    Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
+                    Click="OnDisconnectButtonClick" x:Name="buttonDisconnect">
 
                 </Button>
             </Grid>

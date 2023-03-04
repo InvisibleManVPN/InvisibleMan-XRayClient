@@ -33,6 +33,7 @@ namespace InvisibleManXRay.Managers
 
             handlersManager.AddHandler(new SettingsHandler());
             handlersManager.AddHandler(new ConfigHandler());
+            handlersManager.AddHandler(new ProxyHandler());
         }
 
         private void RegisterFactory()
@@ -52,9 +53,11 @@ namespace InvisibleManXRay.Managers
         private void SetupCore()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+            ProxyHandler proxyHandler = handlersManager.GetHandler<ProxyHandler>();
 
             core.Setup(
                 getConfig: configHandler.GetCurrentConfig,
+                getProxy: proxyHandler.GetProxy,
                 onFailLoadingConfig: configHandler.RemoveConfigFromList
             );
         }

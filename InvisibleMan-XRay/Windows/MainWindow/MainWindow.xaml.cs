@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.ComponentModel;
 
 namespace InvisibleManXRay
 {
@@ -11,24 +12,109 @@ namespace InvisibleManXRay
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<ServerWindow> openServerWindow;
-
         private Action<string> onRunServer;
+        private Action onStopServer;
+        private Action onEnableProxy;
+        private Action onDisableProxy;
+
+        private BackgroundWorker connectWorker;
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeConnectWorker();
+
+            void InitializeConnectWorker()
+            {
+                connectWorker = new BackgroundWorker();
+
+                connectWorker.DoWork += (sender, e) => {
+                    Dispatcher.BeginInvoke(new Action(delegate {
+                        SetActiveLoadingProgress(true);
+                    }));
+
+                    Status configStatus = loadConfig.Invoke();
+
+                    if (configStatus.Code == Code.ERROR)
+                    {
+                        Dispatcher.BeginInvoke(new Action(delegate {
+                            HandleError();
+                            SetActiveLoadingProgress(false);
+                        }));
+
+                        return;
+                    }
+
+                    onEnableProxy.Invoke();
+
+                    Dispatcher.BeginInvoke(new Action(delegate {
+                        SetActiveLoadingProgress(false);
+                        ShowConnectStatus();
+                    }));
+
+                    onRunServer.Invoke(configStatus.Content);
+
+                    Dispatcher.BeginInvoke(new Action(delegate {
+                        ShowDisconnectStatus();
+                    }));
+
+                    void HandleError()
+                    {
+                        switch (configStatus.SubCode)
+                        {
+                            case SubCode.NO_CONFIG:
+                                HandleNoConfigError();
+                                break;
+                            case SubCode.INVALID_CONFIG:
+                                HandleInvalidConfigError();
+                                break;
+                            default:
+                                return;
+                        }
+
+                        void HandleNoConfigError()
+                        {
+                            MessageBoxResult result = MessageBox.Show(
+                                configStatus.Content, 
+                                Caption.WARNING, 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Warning
+                            );
+
+                            if (result == MessageBoxResult.OK)
+                                OpenServerWindow();
+                        }
+
+                        void HandleInvalidConfigError()
+                        {
+                            MessageBox.Show(
+                                configStatus.Content, 
+                                Caption.ERROR, 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error
+                            );
+                        }
+                    }
+                };
+            }
         }
 
         public void Setup(
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<ServerWindow> openServerWindow,
-            Action<string> onRunServer)
+            Action<string> onRunServer,
+            Action onStopServer,
+            Action onEnableProxy,
+            Action onDisableProxy)
         {
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.openServerWindow = openServerWindow;
             this.onRunServer = onRunServer;
+            this.onStopServer = onStopServer;
+            this.onEnableProxy = onEnableProxy;
+            this.onDisableProxy = onDisableProxy;
 
             UpdateUI();
         }
@@ -53,53 +139,16 @@ namespace InvisibleManXRay
 
         private void OnConnectButtonClick(object sender, RoutedEventArgs e)
         {
-            Status configStatus = loadConfig.Invoke();
-
-            if (configStatus.Code == Code.ERROR)
-            {
-                HandleError();
+            if (connectWorker.IsBusy)
                 return;
-            }
 
-            onRunServer.Invoke(configStatus.Content);
+            connectWorker.RunWorkerAsync();
+        }
 
-            void HandleError()
-            {
-                switch (configStatus.SubCode)
-                {
-                    case SubCode.NO_CONFIG:
-                        HandleNoConfigError();
-                        break;
-                    case SubCode.INVALID_CONFIG:
-                        HandleInvalidConfigError();
-                        break;
-                    default:
-                        return;
-                }
-
-                void HandleNoConfigError()
-                {
-                    MessageBoxResult result = MessageBox.Show(
-                        configStatus.Content, 
-                        Caption.WARNING, 
-                        MessageBoxButton.OK, 
-                        MessageBoxImage.Warning
-                    );
-
-                    if (result == MessageBoxResult.OK)
-                        OpenServerWindow();
-                }
-
-                void HandleInvalidConfigError()
-                {
-                    MessageBox.Show(
-                        configStatus.Content, 
-                        Caption.ERROR, 
-                        MessageBoxButton.OK, 
-                        MessageBoxImage.Error
-                    );
-                }
-            }
+        private void OnDisconnectButtonClick(object sender, RoutedEventArgs e)
+        {
+            onStopServer.Invoke();
+            onDisableProxy.Invoke();
         }
 
         private void OpenServerWindow()
@@ -108,6 +157,30 @@ namespace InvisibleManXRay
             serverWindow.Owner = this;
             serverWindow.ShowDialog();
             UpdateUI();
+        }
+
+        private void SetActiveLoadingProgress(bool isActive)
+        {
+            Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
+            progressLoading.Visibility = visibility;
+        }
+
+        private void ShowConnectStatus()
+        {
+            statusConnect.Visibility = Visibility.Visible;
+            statusDisconnect.Visibility = Visibility.Hidden;
+
+            buttonDisconnect.Visibility = Visibility.Visible;
+            buttonConnect.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowDisconnectStatus()
+        {
+            statusDisconnect.Visibility = Visibility.Visible;
+            statusConnect.Visibility = Visibility.Hidden;
+
+            buttonConnect.Visibility = Visibility.Visible;
+            buttonDisconnect.Visibility = Visibility.Hidden;
         }
     }
 }

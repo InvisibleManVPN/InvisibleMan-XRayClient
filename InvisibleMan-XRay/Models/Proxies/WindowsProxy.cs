@@ -4,7 +4,7 @@ namespace InvisibleManXRay.Models.Proxies
 {
     public class WindowsProxy : IProxy
     {
-        private const string INTERNET_SETTINGS = "Software/Microsoft/Windows/CurrentVersion/Internet Settings";
+        private const string INTERNET_SETTINGS = @"Software\Microsoft\Windows\CurrentVersion\Internet Settings";
         private const string PROXY_ENABLE = "ProxyEnable";
         private const string PROXY_SERVER = "ProxyServer";
 
