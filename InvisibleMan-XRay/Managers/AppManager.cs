@@ -70,9 +70,19 @@ namespace InvisibleManXRay.Managers
 
                 void CloseApplication() => Application.Current.Shutdown();
                 
-                void OpenUpdateWindow() => WindowFactory.CreateUpdateWindow().ShowDialog();
+                void OpenUpdateWindow() 
+                {
+                    UpdateWindow updateWindow = WindowFactory.CreateUpdateWindow();
+                    updateWindow.Owner = Application.Current.MainWindow;
+                    updateWindow.ShowDialog();
+                }
 
-                void OpenAboutWindow() => WindowFactory.CreateAboutWindow().ShowDialog();
+                void OpenAboutWindow()
+                {
+                    AboutWindow aboutWindow = WindowFactory.CreateAboutWindow();
+                    aboutWindow.Owner = Application.Current.MainWindow;
+                    aboutWindow.ShowDialog();
+                }
             }
         }
 
