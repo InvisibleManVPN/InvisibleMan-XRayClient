@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="NetCore5.0.Microsoft.Expression.Drawing" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="NotifyIcon" Version="1.23.10209.11223" />
   </ItemGroup>
 
 </Project>

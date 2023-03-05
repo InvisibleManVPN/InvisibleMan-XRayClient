@@ -33,6 +33,18 @@ namespace InvisibleManXRay.Factories
             return mainWindow;
         }
 
+        public UpdateWindow CreateUpdateWindow()
+        {
+            UpdateWindow updateWindow = new UpdateWindow();
+            return updateWindow;
+        }
+
+        public AboutWindow CreateAboutWindow()
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            return aboutWindow;
+        }
+
         private ServerWindow CreateServerWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();

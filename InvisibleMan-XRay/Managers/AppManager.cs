@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace InvisibleManXRay.Managers
 {
     using Core;
@@ -8,7 +10,6 @@ namespace InvisibleManXRay.Managers
     {
         private InvisibleManXRayCore core;
         private HandlersManager handlersManager;
-
         public WindowFactory WindowFactory;
 
         public void Initialize()
@@ -34,6 +35,7 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new SettingsHandler());
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
+            handlersManager.AddHandler(new NotifyHandler());
         }
 
         private void RegisterFactory()
@@ -43,11 +45,35 @@ namespace InvisibleManXRay.Managers
 
         private void SetupHandlers()
         {
-            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+            SetupConfigHandler();
+            SetupNotifyHandler();
 
-            handlersManager.GetHandler<ConfigHandler>().Setup(
-                getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex
-            );
+            void SetupConfigHandler()
+            {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+
+                handlersManager.GetHandler<ConfigHandler>().Setup(
+                    getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex
+                );
+            }
+
+            void SetupNotifyHandler()
+            {
+                handlersManager.GetHandler<NotifyHandler>().Setup(
+                    onOpenClick: OpenApplication,
+                    onUpdateClick: OpenUpdateWindow,
+                    onAboutClick: OpenAboutWindow,
+                    onCloseClick: CloseApplication
+                );
+
+                void OpenApplication() => Application.Current.MainWindow.WindowState = WindowState.Normal;
+
+                void CloseApplication() => Application.Current.Shutdown();
+                
+                void OpenUpdateWindow() => WindowFactory.CreateUpdateWindow().ShowDialog();
+
+                void OpenAboutWindow() => WindowFactory.CreateAboutWindow().ShowDialog();
+            }
         }
 
         private void SetupCore()
