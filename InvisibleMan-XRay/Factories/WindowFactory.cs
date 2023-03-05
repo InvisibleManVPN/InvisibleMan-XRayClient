@@ -24,6 +24,8 @@ namespace InvisibleManXRay.Factories
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 openServerWindow: CreateServerWindow,
+                openUpdateWindow: CreateUpdateWindow,
+                openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
                 onEnableProxy: core.EnableProxy,

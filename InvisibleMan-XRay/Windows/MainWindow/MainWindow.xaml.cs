@@ -12,6 +12,8 @@ namespace InvisibleManXRay
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<ServerWindow> openServerWindow;
+        private Func<UpdateWindow> openUpdateWindow;
+        private Func<AboutWindow> openAboutWindow;
         private Action<string> onRunServer;
         private Action onStopServer;
         private Action onEnableProxy;
@@ -102,6 +104,8 @@ namespace InvisibleManXRay
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<ServerWindow> openServerWindow,
+            Func<UpdateWindow> openUpdateWindow,
+            Func<AboutWindow> openAboutWindow,
             Action<string> onRunServer,
             Action onStopServer,
             Action onEnableProxy,
@@ -110,6 +114,8 @@ namespace InvisibleManXRay
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.openServerWindow = openServerWindow;
+            this.openUpdateWindow = openUpdateWindow;
+            this.openAboutWindow = openAboutWindow;
             this.onRunServer = onRunServer;
             this.onStopServer = onStopServer;
             this.onEnableProxy = onEnableProxy;
@@ -150,12 +156,36 @@ namespace InvisibleManXRay
             onDisableProxy.Invoke();
         }
 
+        private void OnUpdateButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenUpdateWindow();
+        }
+
+        private void OnAboutButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenAboutWindow();
+        }
+
         private void OpenServerWindow()
         {
             ServerWindow serverWindow = openServerWindow.Invoke();
             serverWindow.Owner = this;
             serverWindow.ShowDialog();
             UpdateUI();
+        }
+
+        private void OpenUpdateWindow()
+        {
+            UpdateWindow updateWindow = openUpdateWindow.Invoke();
+            updateWindow.Owner = this;
+            updateWindow.ShowDialog();
+        }
+
+        private void OpenAboutWindow()
+        {
+            AboutWindow aboutWindow = openAboutWindow.Invoke();
+            aboutWindow.Owner = this;
+            aboutWindow.ShowDialog();
         }
 
         private void ShowConnectStatus()
