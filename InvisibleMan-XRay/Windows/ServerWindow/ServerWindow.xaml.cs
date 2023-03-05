@@ -24,6 +24,13 @@ namespace InvisibleManXRay
         public ServerWindow()
         {
             InitializeComponent();
+            InitializeImportingGroups();
+
+            void InitializeImportingGroups()
+            {
+                SetActiveFileImportingGroup(true);
+                SetActiveLinkImportingGroup(false);
+            }
         }
 
         public void Setup(
@@ -57,6 +64,18 @@ namespace InvisibleManXRay
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
             ShowServersPanel();
+        }
+
+        private void OnFileRadioButtonClick(object sender, RoutedEventArgs e)
+        {
+            SetActiveFileImportingGroup(true);
+            SetActiveLinkImportingGroup(false);
+        }
+
+        private void OnLinkRadioButtonClick(object sender, RoutedEventArgs e)
+        {
+            SetActiveFileImportingGroup(false);
+            SetActiveLinkImportingGroup(true);
         }
        
         private void OnChooseFileButtonClick(object sender, RoutedEventArgs e)
@@ -182,6 +201,16 @@ namespace InvisibleManXRay
             panelServers.Visibility = Visibility.Visible;
             LoadConfigsList();
             SelectConfig(getCurrentConfigIndex.Invoke());
+        }
+
+        private void SetActiveFileImportingGroup(bool isActive)
+        {
+            buttonConfigFile.IsEnabled = isActive;
+        }
+
+        private void SetActiveLinkImportingGroup(bool isActive)
+        {
+            textBoxConfigLink.IsEnabled = isActive;
         }
 
         private void LoadConfigsList()
