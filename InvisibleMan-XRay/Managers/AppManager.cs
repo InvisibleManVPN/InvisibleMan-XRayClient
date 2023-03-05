@@ -66,12 +66,38 @@ namespace InvisibleManXRay.Managers
                     onCloseClick: CloseApplication
                 );
 
-                void OpenApplication() => Application.Current.MainWindow.WindowState = WindowState.Normal;
+                bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
 
-                void CloseApplication() => Application.Current.Shutdown();
+                bool IsMainWindow(Window window) => window == Application.Current.MainWindow;
+
+                void ShowMainWindow() => Application.Current.MainWindow.Show();
+
+                void CloseOtherWindows()
+                {
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (!IsMainWindow(window))
+                            window.Close();
+                    }
+                }
+
+                void OpenApplication()
+                {
+                    ShowMainWindow();
+                    Application.Current.MainWindow.WindowState = WindowState.Normal;
+                }
+
+                void CloseApplication()
+                {
+                    Application.Current.Shutdown();
+                }
                 
                 void OpenUpdateWindow() 
                 {
+                    ShowMainWindow();
+                    if(IsAnotherWindowOpened())
+                        CloseOtherWindows();
+
                     UpdateWindow updateWindow = WindowFactory.CreateUpdateWindow();
                     updateWindow.Owner = Application.Current.MainWindow;
                     updateWindow.ShowDialog();
@@ -79,6 +105,10 @@ namespace InvisibleManXRay.Managers
 
                 void OpenAboutWindow()
                 {
+                    ShowMainWindow();
+                    if(IsAnotherWindowOpened())
+                        CloseOtherWindows();
+
                     AboutWindow aboutWindow = WindowFactory.CreateAboutWindow();
                     aboutWindow.Owner = Application.Current.MainWindow;
                     aboutWindow.ShowDialog();
