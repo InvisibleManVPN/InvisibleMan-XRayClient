@@ -30,7 +30,7 @@ namespace InvisibleManXRay
 
                 connectWorker.DoWork += (sender, e) => {
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        SetActiveLoadingProgress(true);
+                        ShowConnectingStatus();
                     }));
 
                     Status configStatus = loadConfig.Invoke();
@@ -39,7 +39,7 @@ namespace InvisibleManXRay
                     {
                         Dispatcher.BeginInvoke(new Action(delegate {
                             HandleError();
-                            SetActiveLoadingProgress(false);
+                            ShowDisconnectStatus();
                         }));
 
                         return;
@@ -48,7 +48,6 @@ namespace InvisibleManXRay
                     onEnableProxy.Invoke();
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        SetActiveLoadingProgress(false);
                         ShowConnectStatus();
                     }));
 
@@ -159,16 +158,11 @@ namespace InvisibleManXRay
             UpdateUI();
         }
 
-        private void SetActiveLoadingProgress(bool isActive)
-        {
-            Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
-            progressLoading.Visibility = visibility;
-        }
-
         private void ShowConnectStatus()
         {
             statusConnect.Visibility = Visibility.Visible;
             statusDisconnect.Visibility = Visibility.Hidden;
+            statusConnecting.Visibility = Visibility.Hidden;
 
             buttonDisconnect.Visibility = Visibility.Visible;
             buttonConnect.Visibility = Visibility.Hidden;
@@ -178,9 +172,17 @@ namespace InvisibleManXRay
         {
             statusDisconnect.Visibility = Visibility.Visible;
             statusConnect.Visibility = Visibility.Hidden;
+            statusConnecting.Visibility = Visibility.Hidden;
 
             buttonConnect.Visibility = Visibility.Visible;
             buttonDisconnect.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowConnectingStatus()
+        {
+            statusConnecting.Visibility = Visibility.Visible;
+            statusDisconnect.Visibility = Visibility.Hidden;
+            statusConnect.Visibility = Visibility.Hidden;
         }
     }
 }
