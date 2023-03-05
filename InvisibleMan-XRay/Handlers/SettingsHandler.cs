@@ -11,12 +11,18 @@ namespace InvisibleManXRay.Handlers
     {
         private UserSettings userSettings;
 
+        public UserSettings UserSettings => userSettings;
+
         public SettingsHandler()
         {
             this.userSettings = LoadUserSettings();
         }
 
-        public int GetConfigIndex() => userSettings.ConfigIndex;
+        public void UpdateCurrentConfigIndex(int index)
+        {
+            userSettings.CurrentConfigIndex = index;
+            SaveUserSettings();
+        }
 
         private UserSettings LoadUserSettings()
         {
@@ -28,6 +34,12 @@ namespace InvisibleManXRay.Handlers
                 return new UserSettings();
 
             return JsonConvert.DeserializeObject<UserSettings>(rawSettings);
+        }
+
+        private void SaveUserSettings()
+        {
+            string rawSettings = JsonConvert.SerializeObject(userSettings);
+            File.WriteAllText(Path.USER_SETTINGS, rawSettings);
         }
     }
 }

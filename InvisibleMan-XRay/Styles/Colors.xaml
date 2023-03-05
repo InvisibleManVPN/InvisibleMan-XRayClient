@@ -5,6 +5,7 @@
     <SolidColorBrush x:Key="Color.LightGray" Color="#2d2d2d"/>
     <SolidColorBrush x:Key="Color.Gray" Color="#252526"/>
     <SolidColorBrush x:Key="Color.DarkGray" Color="#1e1e1e"/>
+    <SolidColorBrush x:Key="Color.DarkGrayOpacity" Color="#1e1e1e" Opacity="0.95"/>
 
     <SolidColorBrush x:Key="Color.Blue" Color="#19b3e4"/>
 

@@ -11,12 +11,15 @@ import (
 	"runtime/debug"
 	"strconv"
 	"syscall"
+	"time"
 
 	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/core"
 
 	_ "github.com/xtls/xray-core/main/distro/all"
 )
+
+var osSignals = make(chan os.Signal, 1)
 
 //export StartServer
 func StartServer(config *C.char, port int) {
@@ -40,10 +43,14 @@ func StartServer(config *C.char, port int) {
 	debug.FreeOSMemory()
 
 	{
-		osSignals := make(chan os.Signal, 1)
 		signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
 		<-osSignals
 	}
+}
+
+//export StopServer
+func StopServer() {
+	osSignals <- syscall.SIGTERM
 }
 
 //export TestConnection
@@ -57,18 +64,24 @@ func TestConnection(config *C.char, port int) bool {
 	}
 
 	if err := server.Start(); err != nil {
+		server.Close()
 		return false
 	}
 
 	proxyUrl, err := url.Parse("http://127.0.0.1:" + strconv.Itoa(port))
 	if err != nil {
+		server.Close()
 		return false
 	}
 
-	http.DefaultTransport = &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
+	http.DefaultTransport = &http.Transport{
+		Proxy:               http.ProxyURL(proxyUrl),
+		TLSHandshakeTimeout: time.Second * 5,
+	}
 	response, err := http.Head("https://www.gstatic.com/generate_204")
 
 	if err != nil {
+		server.Close()
 		return false
 	}
 
