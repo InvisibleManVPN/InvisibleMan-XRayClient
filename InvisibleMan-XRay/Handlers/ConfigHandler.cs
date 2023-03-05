@@ -29,6 +29,9 @@ namespace InvisibleManXRay.Handlers
             configs.Clear();
 
             DirectoryInfo directoryInfo = new DirectoryInfo(Directory.CONFIGS);
+            if (!directoryInfo.Exists)
+                return;
+
             FileInfo[] files = directoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToArray();
             foreach(FileInfo file in files)
             {
