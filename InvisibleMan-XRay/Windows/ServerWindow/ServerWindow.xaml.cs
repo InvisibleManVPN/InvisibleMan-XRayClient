@@ -46,17 +46,17 @@ namespace InvisibleManXRay
 
         protected override void OnContentRendered(EventArgs e)
         {
-            GoToServersPanel();
+            ShowServersPanel();
         }
 
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {
-            GoToAddServerPanel();
+            ShowAddServerPanel();
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            GoToServersPanel();
+            ShowServersPanel();
         }
        
         private void OnChooseFileButtonClick(object sender, RoutedEventArgs e)
@@ -131,7 +131,7 @@ namespace InvisibleManXRay
                 onUpdateConfigIndex.Invoke(GetLastConfigIndex());
                 SetActiveLoadingPanel(false);
                 ClearConfigPath();
-                GoToServersPanel();
+                ShowServersPanel();
 
                 void HandleError()
                 {
@@ -170,13 +170,13 @@ namespace InvisibleManXRay
             }
         }
 
-        private void GoToAddServerPanel()
+        private void ShowAddServerPanel()
         {
             panelServers.Visibility = Visibility.Hidden;
             panelAdd.Visibility = Visibility.Visible;
         }
 
-        private void GoToServersPanel()
+        private void ShowServersPanel()
         {
             panelAdd.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
