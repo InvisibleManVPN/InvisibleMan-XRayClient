@@ -184,5 +184,11 @@ namespace InvisibleManXRay
             statusDisconnect.Visibility = Visibility.Hidden;
             statusConnect.Visibility = Visibility.Hidden;
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
     }
 }
