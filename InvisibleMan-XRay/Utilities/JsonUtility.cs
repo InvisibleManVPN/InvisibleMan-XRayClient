@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Utilities
 {
@@ -14,6 +15,21 @@ namespace InvisibleManXRay.Utilities
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public static T ConvertFromJson<T>(string json)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(json))
+                    return default;
+                    
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch
+            {
+                return default;
             }
         }
     }
