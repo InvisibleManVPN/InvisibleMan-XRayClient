@@ -6,9 +6,32 @@ namespace InvisibleManXRay.Models.Templates
     public abstract class Template
     {
         private V2Ray v2Ray;
-        protected abstract General General { get; }
+        protected abstract Adapter Adapter { get; }
         protected abstract V2Ray.Outbound.Settings OutboundSettings { get; }
 
+        public abstract Status FetchDataFromLink(string link);
+
+        public string GetRemark()
+        {
+            RemoveInvalidPathCharacters();
+            return AllowJustAsciiCharacters();
+
+            void RemoveInvalidPathCharacters()
+            {
+                foreach (char invalidCharacter in System.IO.Path.GetInvalidPathChars())
+                    Adapter.remark.Replace(invalidCharacter, char.MinValue);
+            }
+
+            string AllowJustAsciiCharacters()
+            {
+                return System.Text.RegularExpressions.Regex.Replace(
+                    input: Adapter.remark, 
+                    pattern: @"[^\u0000-\u007F]+", 
+                    replacement: string.Empty
+                ).Trim();
+            }
+        }
+        
         public V2Ray ConvertToV2Ray()
         {
             v2Ray = new V2Ray() {
@@ -39,11 +62,11 @@ namespace InvisibleManXRay.Models.Templates
 
         private V2Ray.Outbound[] Outbounds => new V2Ray.Outbound[] {
             new V2Ray.Outbound() {
-                protocol = General.type,
+                protocol = Adapter.type,
                 settings = OutboundSettings,
                 streamSettings = new V2Ray.StreamSettings() {
-                    network = General.streamNetwork,
-                    security = General.streamSecurity,
+                    network = Adapter.streamNetwork,
+                    security = Adapter.streamSecurity,
                     tlsSettings = TlsSettings,
                     xtlsSettings = XtlsSettings,
                     wsSettings = WsSettings,
@@ -60,18 +83,18 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.TlsSettings tlsSettings = null;
 
-                if (General.streamSecurity == Global.StreamSecurity.TLS)
+                if (Adapter.streamSecurity == Global.StreamSecurity.TLS)
                 {
                     tlsSettings = new V2Ray.StreamSettings.TlsSettings() {
                         allowInsecure = false,
-                        alpn = new[] { General.alpn },
-                        fingerprint = General.fingerprint
+                        alpn = new[] { Adapter.alpn },
+                        fingerprint = Adapter.fingerprint
                     };
 
-                    if (!string.IsNullOrWhiteSpace(General.sni))
-                        tlsSettings.serverName = General.sni;
-                    else if (!string.IsNullOrWhiteSpace(General.requestHost))
-                        tlsSettings.serverName = General.requestHost;
+                    if (!string.IsNullOrWhiteSpace(Adapter.sni))
+                        tlsSettings.serverName = Adapter.sni;
+                    else if (!string.IsNullOrWhiteSpace(Adapter.requestHost))
+                        tlsSettings.serverName = Adapter.requestHost;
                 }
 
                 return tlsSettings;
@@ -84,18 +107,18 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.TlsSettings xtlsSettings = null;
 
-                if (General.streamSecurity == Global.StreamSecurity.XTLS)
+                if (Adapter.streamSecurity == Global.StreamSecurity.XTLS)
                 {
                     xtlsSettings = new V2Ray.StreamSettings.TlsSettings() {
                         allowInsecure = false,
-                        alpn = new[] { General.alpn },
-                        fingerprint = General.fingerprint
+                        alpn = new[] { Adapter.alpn },
+                        fingerprint = Adapter.fingerprint
                     };
 
-                    if (!string.IsNullOrWhiteSpace(General.sni))
-                        xtlsSettings.serverName = General.sni;
-                    else if (!string.IsNullOrWhiteSpace(General.requestHost))
-                        xtlsSettings.serverName = General.requestHost;
+                    if (!string.IsNullOrWhiteSpace(Adapter.sni))
+                        xtlsSettings.serverName = Adapter.sni;
+                    else if (!string.IsNullOrWhiteSpace(Adapter.requestHost))
+                        xtlsSettings.serverName = Adapter.requestHost;
                 }
 
                 return xtlsSettings;
@@ -108,17 +131,17 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.WsSettings wsSettings = null;
 
-                if (General.streamNetwork == Global.StreamNetwork.WS)
+                if (Adapter.streamNetwork == Global.StreamNetwork.WS)
                 {
                     wsSettings = new V2Ray.StreamSettings.WsSettings();
 
-                    if (!string.IsNullOrWhiteSpace(General.requestHost))
+                    if (!string.IsNullOrWhiteSpace(Adapter.requestHost))
                         wsSettings.headers = new V2Ray.StreamSettings.WsSettings.Headers() {
-                            Host = General.requestHost
+                            Host = Adapter.requestHost
                         };
                     
-                    if (!string.IsNullOrWhiteSpace(General.path))
-                        wsSettings.path = General.path;
+                    if (!string.IsNullOrWhiteSpace(Adapter.path))
+                        wsSettings.path = Adapter.path;
                 }
 
                 return wsSettings;
@@ -131,14 +154,14 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.HttpSettings httpSettings = null;
 
-                if (General.streamNetwork == Global.StreamNetwork.H2)
+                if (Adapter.streamNetwork == Global.StreamNetwork.H2)
                 {
                     httpSettings = new V2Ray.StreamSettings.HttpSettings() {
-                        path = General.path
+                        path = Adapter.path
                     };
 
-                    if (!string.IsNullOrWhiteSpace(General.requestHost))
-                        httpSettings.host = new[] { General.requestHost };
+                    if (!string.IsNullOrWhiteSpace(Adapter.requestHost))
+                        httpSettings.host = new[] { Adapter.requestHost };
                 }
 
                 return httpSettings;
@@ -151,13 +174,13 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.QuicSettings quicSettings = null;
 
-                if (General.streamNetwork == Global.StreamNetwork.QUIC)
+                if (Adapter.streamNetwork == Global.StreamNetwork.QUIC)
                 {
                     quicSettings = new V2Ray.StreamSettings.QuicSettings() {
-                        security = General.requestHost,
-                        key = General.path,
+                        security = Adapter.requestHost,
+                        key = Adapter.path,
                         header = new V2Ray.Header() {
-                            type = General.headerType
+                            type = Adapter.headerType
                         }
                     };
                 }
@@ -172,11 +195,11 @@ namespace InvisibleManXRay.Models.Templates
             {
                 V2Ray.StreamSettings.TcpSettings tcpSettings = null;
 
-                if (General.headerType == "http")
+                if (Adapter.headerType == "http")
                 {
                     tcpSettings = new V2Ray.StreamSettings.TcpSettings() {
                         header = new V2Ray.Header() {
-                            type = General.headerType,
+                            type = Adapter.headerType,
                             request = GetRequest()
                         }
                     };
@@ -197,14 +220,14 @@ namespace InvisibleManXRay.Models.Templates
                         'Pragma':'no-cache'}}
                     ";
                     
-                    string[] hostArray = General.requestHost.Split(',');
+                    string[] hostArray = Adapter.requestHost.Split(',');
                     string hostsString = string.Join("','", hostArray);
                     request = request.Replace("$requestHost$", $"'{hostsString}'");
 
                     string httpPath = "/";
-                    if (!string.IsNullOrEmpty(General.path))
+                    if (!string.IsNullOrEmpty(Adapter.path))
                     {
-                        string[] pathArray = General.path.Split(',');
+                        string[] pathArray = Adapter.path.Split(',');
                         httpPath = string.Join("','", pathArray);
                     }
 

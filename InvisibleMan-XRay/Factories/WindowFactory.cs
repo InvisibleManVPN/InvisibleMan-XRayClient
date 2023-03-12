@@ -50,15 +50,18 @@ namespace InvisibleManXRay.Factories
         private ServerWindow CreateServerWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+            TemplateHandler templateHandler = handlersManager.GetHandler<TemplateHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(
                 getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex,
                 getAllConfigs: configHandler.GetAllConfigs,
+                convertConfigLinkToV2Ray: templateHandler.ConverLinkToV2Ray,
                 loadConfig: core.LoadConfig,
                 testConnection: core.Test,
-                onAddConfig: configHandler.AddConfig,
+                onCopyConfig: configHandler.CopyConfig,
+                onCreateConfig: configHandler.CreateConfig,
                 onDeleteConfig: configHandler.LoadConfigFiles,
                 onUpdateConfigIndex: settingsHandler.UpdateCurrentConfigIndex
             );

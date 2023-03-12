@@ -53,7 +53,7 @@ namespace InvisibleManXRay
                         ShowConnectStatus();
                     }));
 
-                    onRunServer.Invoke(configStatus.Content);
+                    onRunServer.Invoke(configStatus.Content.ToString());
 
                     Dispatcher.BeginInvoke(new Action(delegate {
                         ShowDisconnectStatus();
@@ -76,7 +76,7 @@ namespace InvisibleManXRay
                         void HandleNoConfigError()
                         {
                             MessageBoxResult result = MessageBox.Show(
-                                configStatus.Content, 
+                                configStatus.Content.ToString(), 
                                 Caption.WARNING, 
                                 MessageBoxButton.OK, 
                                 MessageBoxImage.Warning
@@ -89,7 +89,7 @@ namespace InvisibleManXRay
                         void HandleInvalidConfigError()
                         {
                             MessageBox.Show(
-                                configStatus.Content, 
+                                configStatus.Content.ToString(), 
                                 Caption.ERROR, 
                                 MessageBoxButton.OK, 
                                 MessageBoxImage.Error

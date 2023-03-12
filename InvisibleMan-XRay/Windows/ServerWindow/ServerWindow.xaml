@@ -54,14 +54,17 @@
             <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
                 <StackPanel Orientation="Vertical">
                     <RadioButton GroupName="GroupImport" Content="Import config file" 
-                    Foreground="White" IsChecked="True"
-                    FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                        Foreground="White" IsChecked="True"
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                        x:Name="radioButtonFile"
+                        Click="OnFileRadioButtonClick"/>
 
                     <StackPanel Orientation="Horizontal" Margin="20">
                         <Button Width="100" Height="30" Content="CHOOSE FILE" 
                             Style="{StaticResource Button.Rectangle.Green}" 
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                             Foreground="{StaticResource Color.Gray}"
+                            x:Name="buttonConfigFile"
                             Click="OnChooseFileButtonClick">
                         </Button>
 
@@ -74,12 +77,15 @@
 
                 </StackPanel>
                 <RadioButton GroupName="GroupImport" Content="Import from link" 
-                Foreground="White" IsChecked="false"
-                FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                    Foreground="White" IsChecked="false"
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                    x:Name="radioButtonLink"
+                    Click="OnLinkRadioButtonClick"/>
 
                 <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
                     Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
-                    FontWeight="Normal" FontSize="14"/>
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxConfigLink"/>
             </StackPanel>
             
             <StackPanel Grid.Row="1" Orientation="Horizontal" 

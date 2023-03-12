@@ -8,63 +8,89 @@ namespace InvisibleManXRay.Models.Templates
 
     public class Vless : Template
     {
-        public string url;
-        private Uri uri => new Uri(url);
-        private NameValueCollection query => HttpUtility.ParseQueryString(uri.Query);
+        public class Data
+        {
+            public Uri uri;
+            public NameValueCollection query;
 
-        protected override General General
+            public Data(string url)
+            {
+                this.uri = new Uri(url);
+                this.query = HttpUtility.ParseQueryString(uri.Query);
+            }
+        }
+
+        private Data data;
+
+        public override Status FetchDataFromLink(string link) 
+        {
+            data = new Data(link);
+
+            if (IsInvalidLink())
+                return new Status(
+                    code: Code.ERROR,
+                    subCode: SubCode.INVALID_CONFIG,
+                    content: Message.INVALID_CONFIG
+                );
+
+            return new Status(Code.SUCCESS, SubCode.SUCCESS, null);
+
+            bool IsInvalidLink() => data.query.Count == 0;
+        }
+
+        protected override Adapter Adapter
         {
             get
             {
-                General general = new General() {
+                Adapter adapter = new Adapter() {
                     type = "vless",
-                    remark = uri.GetComponents(UriComponents.Fragment, UriFormat.Unescaped),
-                    address = uri.IdnHost,
-                    port = uri.Port,
-                    id = uri.UserInfo,
-                    security = query["encryption"] ?? "none",
-                    streamNetwork = query["type"] ?? "tcp",
-                    streamSecurity = query["security"] ?? "",
-                    flow = query["flow"] ?? "",
-                    sni = query["sni"] ?? "",
-                    alpn = HttpUtility.UrlDecode(query["alpn"] ?? ""),
-                    fingerprint = HttpUtility.UrlDecode(query["fp"] ?? ""),
+                    remark = data.uri.GetComponents(UriComponents.Fragment, UriFormat.Unescaped),
+                    address = data.uri.IdnHost,
+                    port = data.uri.Port,
+                    id = data.uri.UserInfo,
+                    security = data.query["encryption"] ?? "none",
+                    streamNetwork = data.query["type"] ?? "tcp",
+                    streamSecurity = data.query["security"] ?? "",
+                    flow = data.query["flow"] ?? "",
+                    sni = data.query["sni"] ?? "",
+                    alpn = HttpUtility.UrlDecode(data.query["alpn"] ?? ""),
+                    fingerprint = HttpUtility.UrlDecode(data.query["fp"] ?? ""),
                 };
 
-                switch (general.streamNetwork)
+                switch (adapter.streamNetwork)
                 {
                     case "tcp":
-                        general.headerType = query["headerType"] ?? "none";
-                        general.requestHost = HttpUtility.UrlDecode(query["host"] ?? "");
+                        adapter.headerType = data.query["headerType"] ?? "none";
+                        adapter.requestHost = HttpUtility.UrlDecode(data.query["host"] ?? "");
                         break;
                     case "kcp":
-                        general.headerType = query["headerType"] ?? "none";
-                        general.path = HttpUtility.UrlDecode(query["seed"] ?? "");
+                        adapter.headerType = data.query["headerType"] ?? "none";
+                        adapter.path = HttpUtility.UrlDecode(data.query["seed"] ?? "");
                         break;
                     case "ws":
-                        general.requestHost = HttpUtility.UrlDecode(query["host"] ?? "");
-                        general.path = HttpUtility.UrlDecode(query["path"] ?? "/");
+                        adapter.requestHost = HttpUtility.UrlDecode(data.query["host"] ?? "");
+                        adapter.path = HttpUtility.UrlDecode(data.query["path"] ?? "/");
                         break;
                     case "http":
                     case "h2":
-                        general.streamNetwork = "h2";
-                        general.requestHost = HttpUtility.UrlDecode(query["host"] ?? "");
-                        general.path = HttpUtility.UrlDecode(query["path"] ?? "/");
+                        adapter.streamNetwork = "h2";
+                        adapter.requestHost = HttpUtility.UrlDecode(data.query["host"] ?? "");
+                        adapter.path = HttpUtility.UrlDecode(data.query["path"] ?? "/");
                         break;
                     case "quic":
-                        general.headerType = query["headerType"] ?? "none";
-                        general.requestHost = query["quicSecurity"] ?? "none";
-                        general.path = HttpUtility.UrlDecode(query["key"] ?? "");
+                        adapter.headerType = data.query["headerType"] ?? "none";
+                        adapter.requestHost = data.query["quicSecurity"] ?? "none";
+                        adapter.path = HttpUtility.UrlDecode(data.query["key"] ?? "");
                         break;
                     case "grpc":
-                        general.path = HttpUtility.UrlDecode(query["serviceName"] ?? "");
-                        general.headerType = HttpUtility.UrlDecode(query["mode"] ?? "gun");
+                        adapter.path = HttpUtility.UrlDecode(data.query["serviceName"] ?? "");
+                        adapter.headerType = HttpUtility.UrlDecode(data.query["mode"] ?? "gun");
                         break;
                     default:
                         break;
                 }
 
-                return general;
+                return adapter;
             }
         }
 
@@ -72,25 +98,25 @@ namespace InvisibleManXRay.Models.Templates
         {
             get
             {
-                if (General.streamSecurity == "xtls")
+                if (Adapter.streamSecurity == "xtls")
                 {
-                    if (string.IsNullOrEmpty(General.flow))
-                        General.flow = "xtls-rprx-origin";
+                    if (string.IsNullOrEmpty(Adapter.flow))
+                        Adapter.flow = "xtls-rprx-origin";
                     else
-                        General.flow = General.flow.Replace("splice", "direct");
+                        Adapter.flow = Adapter.flow.Replace("splice", "direct");
                 }
 
                 return new V2Ray.Outbound.Settings() {
                     vnext = new V2Ray.Outbound.Settings.Vnext[] {
                         new V2Ray.Outbound.Settings.Vnext() {
-                            address = General.address,
-                            port = General.port,
+                            address = Adapter.address,
+                            port = Adapter.port,
                             users = new V2Ray.Outbound.Settings.Vnext.User[] {
                                 new V2Ray.Outbound.Settings.Vnext.User() {
-                                    id = General.id,
-                                    flow = General.flow,
+                                    id = Adapter.id,
+                                    flow = Adapter.flow,
                                     email = Global.DEFAULT_EMAIL,
-                                    encryption = General.security
+                                    encryption = Adapter.security
                                 }
                             }
                         }
