@@ -1,6 +1,6 @@
 namespace InvisibleManXRay.Models.Templates
 {
-    public class General
+    public class Adapter
     {
         public string type;
         public string headerType;
