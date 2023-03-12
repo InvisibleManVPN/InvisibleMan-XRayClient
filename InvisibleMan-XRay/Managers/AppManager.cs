@@ -33,6 +33,7 @@ namespace InvisibleManXRay.Managers
             handlersManager = new HandlersManager();
 
             handlersManager.AddHandler(new SettingsHandler());
+            handlersManager.AddHandler(new TemplateHandler());
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new NotifyHandler());

@@ -9,7 +9,7 @@ namespace InvisibleManXRay.Values
         public const string FILE_DOESNT_EXISTS = "This file doesn't exists.\nMaybe it has been deleted.";
         public const string DELETE_CONFIRMATION = "Are you sure you want to delete {0}?";
         public const string NO_SERVER_CONFIGURATION = "No server configuration";
-        public const string UNSUPPORTED_LINK = "This link isn't supported.\nTry another configuration link.";
-        public const string INVALID_LINK = "The link is not in the correct format.\nTry another link.";
+        public const string UNSUPPORTED_LINK = "This link wasn't supported.\nTry another configuration link.";
+        public const string INVALID_LINK = "The link was not in the correct format.\nTry another link.";
     }
 }
