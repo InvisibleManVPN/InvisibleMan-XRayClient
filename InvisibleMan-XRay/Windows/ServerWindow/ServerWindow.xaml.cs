@@ -10,14 +10,19 @@ namespace InvisibleManXRay
 
     public partial class ServerWindow : Window
     {
+        private enum ImportingType { FILE, LINK };
+
         private string configPath = null;
+        private ImportingType importingType;
         private List<Components.Config> configComponents;
 
         private Func<int> getCurrentConfigIndex;
         private Func<List<Config>> getAllConfigs;
+        private Func<string, Status> convertConfigLinkToV2Ray;
         private Func<string, Status> loadConfig;
         private Func<string, bool> testConnection;
-        private Action<string> onAddConfig;
+        private Action<string> onCopyConfig;
+        private Action<string, string> onCreateConfig;
         private Action onDeleteConfig;
         private Action<int> onUpdateConfigIndex;
 
@@ -30,23 +35,28 @@ namespace InvisibleManXRay
             {
                 SetActiveFileImportingGroup(true);
                 SetActiveLinkImportingGroup(false);
+                SetImportingType(ImportingType.FILE);
             }
         }
 
         public void Setup(
             Func<int> getCurrentConfigIndex,
             Func<List<Config>> getAllConfigs, 
+            Func<string, Status> convertConfigLinkToV2Ray,
             Func<string, Status> loadConfig, 
             Func<string, bool> testConnection,
-            Action<string> onAddConfig,
+            Action<string> onCopyConfig,
+            Action<string, string> onCreateConfig,
             Action onDeleteConfig,
             Action<int> onUpdateConfigIndex)
         {
             this.getCurrentConfigIndex = getCurrentConfigIndex;
             this.getAllConfigs = getAllConfigs;
+            this.convertConfigLinkToV2Ray = convertConfigLinkToV2Ray;
             this.loadConfig = loadConfig;
             this.testConnection = testConnection;
-            this.onAddConfig = onAddConfig;
+            this.onCopyConfig = onCopyConfig;
+            this.onCreateConfig = onCreateConfig;
             this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfigIndex = onUpdateConfigIndex;
         }
@@ -70,12 +80,14 @@ namespace InvisibleManXRay
         {
             SetActiveFileImportingGroup(true);
             SetActiveLinkImportingGroup(false);
+            SetImportingType(ImportingType.FILE);
         }
 
         private void OnLinkRadioButtonClick(object sender, RoutedEventArgs e)
         {
             SetActiveFileImportingGroup(false);
             SetActiveLinkImportingGroup(true);
+            SetImportingType(ImportingType.LINK);
         }
        
         private void OnChooseFileButtonClick(object sender, RoutedEventArgs e)
@@ -107,21 +119,50 @@ namespace InvisibleManXRay
 
         private void OnImportButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!IsFileSelected())
+            if (IsFileImporting())
+                HandleImportingConfigFromFile();
+            else
+                HandleImportingConfigFromLink();
+
+            bool IsFileImporting() => importingType == ImportingType.FILE;
+
+            void HandleImportingConfigFromFile()
             {
-                MessageBox.Show(
-                    Values.Message.NO_FILES_SELECTED, 
-                    Values.Caption.ERROR, 
-                    MessageBoxButton.OK, 
-                    MessageBoxImage.Error
-                );
-                return;
+                if (!IsFileSelected())
+                {
+                    MessageBox.Show(
+                        Values.Message.NO_FILES_SELECTED, 
+                        Values.Caption.WARNING, 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
+
+                SetActiveLoadingPanel(true);
+                TryAddConfig(ConfigType.FILE);
+
+                bool IsFileSelected() => !string.IsNullOrEmpty(configPath);
             }
 
-            SetActiveLoadingPanel(true);
-            TryAddConfig();
+            void HandleImportingConfigFromLink()
+            {
+                if (!IsLinkEntered())
+                {
+                    MessageBox.Show(
+                        Values.Message.NO_LINK_ENTERED, 
+                        Values.Caption.WARNING, 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
 
-            bool IsFileSelected() => !string.IsNullOrEmpty(configPath);
+                SetActiveLoadingPanel(true);
+                TryAddConfig(ConfigType.URL);
+
+                bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxConfigLink.Text);
+            }
 
             void SetActiveLoadingPanel(bool isActive)
             {
@@ -129,24 +170,42 @@ namespace InvisibleManXRay
                 panelLoading.Visibility = visibility;
             }
 
-            void ClearConfigPath()
+            void TryAddConfig(ConfigType type)
             {
-                configPath = null;
-                textBlockFileName.Text = "No file chosen...";
-            }
+                Status configStatus;
 
-            void TryAddConfig()
-            {
-                Status configStatus = loadConfig.Invoke(configPath);
-
-                if (configStatus.Code == Code.ERROR)
+                if (type == ConfigType.FILE)
                 {
-                    HandleError();
-                    SetActiveLoadingPanel(false);
-                    return;
-                }
+                    configStatus = loadConfig.Invoke(configPath);
+                    if (configStatus.Code == Code.ERROR)
+                    {
+                        HandleError();
+                        SetActiveLoadingPanel(false);
+                        return;
+                    }
 
-                onAddConfig.Invoke(configPath);
+                    onCopyConfig.Invoke(configPath);
+                }
+                else
+                {
+                    configStatus = convertConfigLinkToV2Ray.Invoke(textBoxConfigLink.Text);
+                    if (configStatus.Code == Code.ERROR)
+                    {
+                        HandleError();
+                        SetActiveLoadingPanel(false);
+                        return;
+                    }
+
+                    string[] config = GetConfig();
+                    onCreateConfig.Invoke(GetConfigRemark(), GetConfigData());
+
+                    string[] GetConfig() => (string[])configStatus.Content;
+
+                    string GetConfigRemark() => config[0];
+
+                    string GetConfigData() => config[1];
+                }
+                
                 onUpdateConfigIndex.Invoke(GetLastConfigIndex());
                 SetActiveLoadingPanel(false);
                 ClearConfigPath();
@@ -157,29 +216,30 @@ namespace InvisibleManXRay
                     switch (configStatus.SubCode)
                     {
                         case SubCode.NO_CONFIG:
-                            HandleNoConfigError();
+                        case SubCode.UNSUPPORTED_LINK:
+                            HandleWarningMessage();
                             break;
                         case SubCode.INVALID_CONFIG:
-                            HandleInvalidConfigError();
+                            HandleErrorMessage();
                             break;
                         default:
                             return;
                     }
 
-                    void HandleNoConfigError()
+                    void HandleWarningMessage()
                     {
                         MessageBoxResult result = MessageBox.Show(
-                            configStatus.Content, 
+                            configStatus.Content.ToString(), 
                             Caption.WARNING, 
                             MessageBoxButton.OK, 
                             MessageBoxImage.Warning
                         );
                     }
 
-                    void HandleInvalidConfigError()
+                    void HandleErrorMessage()
                     {
                         MessageBox.Show(
-                            configStatus.Content, 
+                            configStatus.Content.ToString(), 
                             Caption.ERROR, 
                             MessageBoxButton.OK, 
                             MessageBoxImage.Error
@@ -205,12 +265,27 @@ namespace InvisibleManXRay
 
         private void SetActiveFileImportingGroup(bool isActive)
         {
+            ClearConfigLink();
             buttonConfigFile.IsEnabled = isActive;
         }
 
         private void SetActiveLinkImportingGroup(bool isActive)
         {
+            ClearConfigPath();
             textBoxConfigLink.IsEnabled = isActive;
+        }
+
+        private void SetImportingType(ImportingType type) => importingType = type;
+
+        private void ClearConfigPath()
+        {
+            configPath = null;
+            textBlockFileName.Text = "No file chosen...";
+        }
+
+        private void ClearConfigLink()
+        {
+            textBoxConfigLink.Text = null;
         }
 
         private void LoadConfigsList()
@@ -260,7 +335,10 @@ namespace InvisibleManXRay
                     },
                     testConnection: (configPath) => {
                         Status configStatus = loadConfig.Invoke(configPath);
-                        return testConnection.Invoke(configStatus.Content);
+                        if (configStatus.Code == Code.ERROR)
+                            return false;
+                            
+                        return testConnection.Invoke(configStatus.Content.ToString());
                     }
                 );
 

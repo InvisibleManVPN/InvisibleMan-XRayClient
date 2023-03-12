@@ -39,12 +39,11 @@ namespace InvisibleManXRay.Handlers
             }
         }
 
-        public void AddConfig(string path)
+        public void CopyConfig(string path)
         {
             string destinationPath = $"{Directory.CONFIGS}/{GetFileName(path)}";
-
             CopyToConfigsDirectory();
-            SetFileTime();
+            SetFileTime(destinationPath);
             AddConfigToList(CreateConfig(destinationPath));
 
             void CopyToConfigsDirectory()
@@ -52,11 +51,19 @@ namespace InvisibleManXRay.Handlers
                 System.IO.Directory.CreateDirectory(Directory.CONFIGS);          
                 File.Copy(path, destinationPath, true);
             }
+        }
 
-            void SetFileTime()
+        public void CreateConfig(string remark, string data)
+        {
+            string destinationPath = $"{Directory.CONFIGS}/{remark}.json";
+            SaveToConfigsDirectory();
+            SetFileTime(destinationPath);
+            AddConfigToList(CreateConfig(destinationPath));
+
+            void SaveToConfigsDirectory()
             {
-                File.SetCreationTime(destinationPath, DateTime.Now);
-                File.SetLastWriteTime(destinationPath, DateTime.Now);
+                System.IO.Directory.CreateDirectory(Directory.CONFIGS);
+                File.WriteAllText(destinationPath, data);
             }
         }
 
@@ -98,6 +105,12 @@ namespace InvisibleManXRay.Handlers
                 type: ConfigType.FILE,
                 updateTime: GetFileUpdateTime(path)
             );
+        }
+
+        private void SetFileTime(string path)
+        {
+            File.SetCreationTime(path, DateTime.Now);
+            File.SetLastWriteTime(path, DateTime.Now);
         }
 
         private string GetFileName(string path) => System.IO.Path.GetFileName(path);
