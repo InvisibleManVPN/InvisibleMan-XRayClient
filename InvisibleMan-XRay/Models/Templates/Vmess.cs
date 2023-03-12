@@ -49,7 +49,7 @@ namespace InvisibleManXRay.Models.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.INVALID_CONFIG,
-                    content: Message.UNSUPPORTED_LINK
+                    content: Message.INVALID_CONFIG
                 );
             }
 
