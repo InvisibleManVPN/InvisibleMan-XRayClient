@@ -29,11 +29,6 @@ namespace InvisibleManXRay.Models.Templates
 
         private Data data;
 
-        public Vmess()
-        {
-            this.data = new Data();
-        }
-
         public override Status FetchDataFromLink(string link)
         {
             try
