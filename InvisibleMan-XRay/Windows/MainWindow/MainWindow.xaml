@@ -160,35 +160,35 @@
                     <StackPanel Orientation="Horizontal" Margin="0"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                        <Button x:Name="ButtonAbout" Width="30" Height="30" Margin="0" 
-                            Style="{StaticResource Button.Circle}" ToolTip="About" 
-                            RenderTransformOrigin="0.5,0.5"
+                        <Button Width="30" Height="30" Margin="0" 
+                            Style="{StaticResource Button.Circle}"
+                            ToolTip="About" RenderTransformOrigin="0.5,0.5"
                             Click="OnAboutButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.About}" Grid.Column="0" 
                                 Width="6" Height="14" Margin="0" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button x:Name="ButtonUpdate" Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}" ToolTip="Check for updates" 
-                            RenderTransformOrigin="0.5,0.5"
+                        <Button Width="30" Height="30" Margin="10 0 0 0" 
+                            Style="{StaticResource Button.Circle}" 
+                            ToolTip="Check for updates" RenderTransformOrigin="0.5,0.5"
                             Click="OnUpdateButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
                                 Width="15" Height="15" Margin="0" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button x:Name="ButtonBugReporting" Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}" ToolTip="Bug reporting" 
-                            RenderTransformOrigin="0.5,0.5">
+                        <Button Width="30" Height="30" Margin="10 0 0 0" 
+                            Style="{StaticResource Button.Circle}"
+                            ToolTip="Bug reporting" RenderTransformOrigin="0.5,0.5">
 
                             <Rectangle Fill="{StaticResource Icon.Bug}" Grid.Column="0" 
                                 Width="12" Height="16" Margin="0" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button x:Name="ButtonGithub" Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}" ToolTip="Source code on GitHub" 
-                            RenderTransformOrigin="0.5,0.5">
+                        <Button Width="30" Height="30" Margin="10 0 0 0"
+                            Style="{StaticResource Button.Circle}"
+                            ToolTip="Source code on GitHub" RenderTransformOrigin="0.5,0.5">
 
                             <Rectangle Fill="{StaticResource Icon.Github}" Grid.Column="0" 
                                 Width="18" Height="16" Margin="0" 

@@ -37,6 +37,7 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new NotifyHandler());
+            handlersManager.AddHandler(new UpdateHandler());
         }
 
         private void RegisterFactory()
