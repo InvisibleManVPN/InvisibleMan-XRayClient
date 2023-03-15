@@ -11,6 +11,7 @@ namespace InvisibleManXRay
     {
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
+        private Func<Status> checkForUpdate;
         private Func<ServerWindow> openServerWindow;
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
@@ -18,13 +19,18 @@ namespace InvisibleManXRay
         private Action onStopServer;
         private Action onEnableProxy;
         private Action onDisableProxy;
+        private Action onGitHubClick;
+        private Action onBugReportingClick;
 
         private BackgroundWorker connectWorker;
+        private BackgroundWorker updateWorker;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeConnectWorker();
+            InitializeUpdateWorker();
+            updateWorker.RunWorkerAsync();
 
             void InitializeConnectWorker()
             {
@@ -98,21 +104,40 @@ namespace InvisibleManXRay
                     }
                 };
             }
+
+            void InitializeUpdateWorker()
+            {
+                updateWorker = new BackgroundWorker();
+
+                updateWorker.DoWork+=(sender, e) => {
+                    Status updateStatus = checkForUpdate.Invoke();
+                    if (IsUpdateAvailable())
+                        Dispatcher.BeginInvoke(new Action(delegate {
+                            notificationUpdate.Visibility = Visibility.Visible;
+                        }));
+
+                    bool IsUpdateAvailable() => updateStatus.SubCode == SubCode.UPDATE_AVAILABLE;
+                };
+            }
         }
 
         public void Setup(
             Func<Config> getConfig,
             Func<Status> loadConfig, 
+            Func<Status> checkForUpdate,
             Func<ServerWindow> openServerWindow,
             Func<UpdateWindow> openUpdateWindow,
             Func<AboutWindow> openAboutWindow,
             Action<string> onRunServer,
             Action onStopServer,
             Action onEnableProxy,
-            Action onDisableProxy)
+            Action onDisableProxy,
+            Action onGitHubClick,
+            Action onBugReportingClick)
         {
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
+            this.checkForUpdate = checkForUpdate;
             this.openServerWindow = openServerWindow;
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
@@ -120,6 +145,8 @@ namespace InvisibleManXRay
             this.onStopServer = onStopServer;
             this.onEnableProxy = onEnableProxy;
             this.onDisableProxy = onDisableProxy;
+            this.onGitHubClick = onGitHubClick;
+            this.onBugReportingClick = onBugReportingClick;
 
             UpdateUI();
         }
@@ -154,6 +181,16 @@ namespace InvisibleManXRay
         {
             onStopServer.Invoke();
             onDisableProxy.Invoke();
+        }
+
+        private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
+        {
+            onGitHubClick.Invoke();
+        }
+
+        private void OnBugReportingButtonClick(object sender, RoutedEventArgs e)
+        {
+            onBugReportingClick.Invoke();
         }
 
         private void OnUpdateButtonClick(object sender, RoutedEventArgs e)

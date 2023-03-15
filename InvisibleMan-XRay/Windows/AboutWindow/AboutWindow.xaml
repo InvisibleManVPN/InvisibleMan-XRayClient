@@ -22,8 +22,67 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
-        </Grid>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <TextBlock Padding="20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">Invisible Man XRay</Span> is an open source and free client that supports xray core.
+                    It provides an easy-to-use interface to configure and manage proxies and allows users to switch between
+                    different server locations.
+                </TextBlock>
+
+                <TextBlock Padding="20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    Please visit the website to download the latest version or to get help and information.
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Text="https://invisiblemanvpn.github.io" 
+                    FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20 10 20 20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    PreviewMouseDown="OnWebsiteClick"/>
+                
+                <TextBlock Padding="20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    If you have any problem or you want to report a bug or suggestion, feel free to submit them in our
+                    <Span TextDecorations="Underline" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" Cursor="Hand"
+                    PreviewMouseDown="OnBugReportingClick">issue tracker</Span>.
+                </TextBlock>
+
+                <TextBlock Padding="20 20 20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    Also, you can contact us by sending an email. We will try to respond to you as soon as possible!
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Text="invisiblemanvpn@gmail.com" 
+                    FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20 10 20 20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    PreviewMouseDown="OnEmailClick"/>
+
+                <TextBlock Padding="20 0 20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    Thanks for using Invisible Man XRay
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    Hope you enjoy it
+                </TextBlock>
+
+            </StackPanel>
+
+        </ScrollViewer>
 
         <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
             <Grid.Effect>
