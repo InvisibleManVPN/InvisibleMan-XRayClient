@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Linq;
-using System.Diagnostics;
 
 namespace InvisibleManXRay.Handlers
 {
@@ -67,13 +66,6 @@ namespace InvisibleManXRay.Handlers
                     }
                 }
             }
-        }
-
-        public void OpenUpdateWebPage()
-        {
-            Process.Start(new ProcessStartInfo(Route.LATEST_RELEASE) {
-                UseShellExecute = true
-            });
         }
 
         private string GetLatestReleaseUrl()

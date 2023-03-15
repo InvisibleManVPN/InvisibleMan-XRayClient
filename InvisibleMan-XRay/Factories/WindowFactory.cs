@@ -38,11 +38,12 @@ namespace InvisibleManXRay.Factories
         public UpdateWindow CreateUpdateWindow()
         {
             UpdateHandler updateHandler = handlersManager.GetHandler<UpdateHandler>();
+            LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             UpdateWindow updateWindow = new UpdateWindow();
             updateWindow.Setup(
                 checkForUpdate: updateHandler.CheckForUpdate,
-                onUpdateClick: updateHandler.OpenUpdateWebPage
+                onUpdateClick: linkHandler.OpenLatestReleaseLink
             );
 
             return updateWindow;
