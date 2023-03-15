@@ -24,7 +24,7 @@ namespace InvisibleManXRay
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
         private Action onDeleteConfig;
-        private Action<int> onUpdateConfigIndex;
+        private Action<int> onUpdateConfig;
 
         public ServerWindow()
         {
@@ -48,7 +48,7 @@ namespace InvisibleManXRay
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
             Action onDeleteConfig,
-            Action<int> onUpdateConfigIndex)
+            Action<int> onUpdateConfig)
         {
             this.getCurrentConfigIndex = getCurrentConfigIndex;
             this.getAllConfigs = getAllConfigs;
@@ -58,7 +58,7 @@ namespace InvisibleManXRay
             this.onCopyConfig = onCopyConfig;
             this.onCreateConfig = onCreateConfig;
             this.onDeleteConfig = onDeleteConfig;
-            this.onUpdateConfigIndex = onUpdateConfigIndex;
+            this.onUpdateConfig = onUpdateConfig;
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -206,9 +206,10 @@ namespace InvisibleManXRay
                     string GetConfigData() => config[1];
                 }
                 
-                onUpdateConfigIndex.Invoke(GetLastConfigIndex());
+                onUpdateConfig.Invoke(GetLastConfigIndex());
                 SetActiveLoadingPanel(false);
                 ClearConfigPath();
+                ClearConfigLink();
                 ShowServersPanel();
 
                 void HandleError()
@@ -311,7 +312,7 @@ namespace InvisibleManXRay
                         int selectedConfigIndex = getAllConfigs.Invoke().FindIndex(
                             item => item == config
                         );
-                        onUpdateConfigIndex.Invoke(selectedConfigIndex);
+                        onUpdateConfig.Invoke(selectedConfigIndex);
                         SelectConfig(selectedConfigIndex);
                     },
                     onDelete: () => {
@@ -328,9 +329,9 @@ namespace InvisibleManXRay
                             );
 
                             if (deletedConfigIndex == -1)
-                                onUpdateConfigIndex.Invoke(GetLastConfigIndex());
+                                onUpdateConfig.Invoke(GetLastConfigIndex());
                             else if (deletedConfigIndex < currentConfigIndex)
-                                onUpdateConfigIndex.Invoke(currentConfigIndex - 1);
+                                onUpdateConfig.Invoke(currentConfigIndex - 1);
                         }
                     },
                     testConnection: (configPath) => {

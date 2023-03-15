@@ -9,6 +9,8 @@ namespace InvisibleManXRay
 
     public partial class MainWindow : Window
     {
+        private bool isReconnectingRequest;
+
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> checkForUpdate;
@@ -35,6 +37,11 @@ namespace InvisibleManXRay
             void InitializeConnectWorker()
             {
                 connectWorker = new BackgroundWorker();
+
+                connectWorker.RunWorkerCompleted += (sender, e) => {
+                    if (isReconnectingRequest)
+                        connectWorker.RunWorkerAsync();
+                };
 
                 connectWorker.DoWork += (sender, e) => {
                     Dispatcher.BeginInvoke(new Action(delegate {
@@ -151,7 +158,7 @@ namespace InvisibleManXRay
             UpdateUI();
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             Config config = getConfig.Invoke();
 
@@ -162,6 +169,15 @@ namespace InvisibleManXRay
             }
             
             textServerConfig.Content = config.Name;
+        }
+
+        public void TryReconnect()
+        {
+            if (!connectWorker.IsBusy)
+                return;
+            
+            onStopServer.Invoke();
+            isReconnectingRequest = true;
         }
 
         private void OnManageServersClick(object sender, RoutedEventArgs e)
@@ -181,6 +197,7 @@ namespace InvisibleManXRay
         {
             onStopServer.Invoke();
             onDisableProxy.Invoke();
+            isReconnectingRequest = false;
         }
 
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
@@ -208,7 +225,6 @@ namespace InvisibleManXRay
             ServerWindow serverWindow = openServerWindow.Invoke();
             serverWindow.Owner = this;
             serverWindow.ShowDialog();
-            UpdateUI();
         }
 
         private void OpenUpdateWindow()

@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace InvisibleManXRay.Factories
 {
     using Core;
@@ -73,6 +75,7 @@ namespace InvisibleManXRay.Factories
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             TemplateHandler templateHandler = handlersManager.GetHandler<TemplateHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(
@@ -84,10 +87,17 @@ namespace InvisibleManXRay.Factories
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
                 onDeleteConfig: configHandler.LoadConfigFiles,
-                onUpdateConfigIndex: settingsHandler.UpdateCurrentConfigIndex
+                onUpdateConfig: UpdateConfig
             );
             
             return serverWindow;
+
+            void UpdateConfig(int index)
+            {
+                settingsHandler.UpdateCurrentConfigIndex(index);
+                mainWindow.UpdateUI();
+                mainWindow.TryReconnect();
+            }
         }
     }
 }
