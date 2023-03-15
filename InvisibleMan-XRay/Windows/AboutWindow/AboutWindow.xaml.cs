@@ -1,28 +1,33 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace InvisibleManXRay
 {
-    /// <summary>
-    /// Interaction logic for AboutWindow.xaml
-    /// </summary>
     public partial class AboutWindow : Window
     {
+        private Action onEmailClick;
+        private Action onWebsiteClick;
+        private Action onBugReportingClick;
+
         public AboutWindow()
         {
             InitializeComponent();
         }
+
+        public void Setup(
+            Action onEmailClick,
+            Action onWebsiteClick,
+            Action onBugReportingClick)
+        {
+            this.onEmailClick = onEmailClick;
+            this.onWebsiteClick = onWebsiteClick;
+            this.onBugReportingClick = onBugReportingClick;
+        }
+
+        private void OnWebsiteClick(object sender, RoutedEventArgs e) => onWebsiteClick.Invoke();
+
+        private void OnBugReportingClick(object sender, RoutedEventArgs e) => onBugReportingClick.Invoke();
+
+        private void OnEmailClick(object sender, RoutedEventArgs e) => onEmailClick.Invoke();
     }
 }

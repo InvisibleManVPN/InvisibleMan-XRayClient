@@ -56,7 +56,15 @@ namespace InvisibleManXRay.Factories
 
         public AboutWindow CreateAboutWindow()
         {
+            LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
+
             AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.Setup(
+                onEmailClick: linkHandler.OpenEmailLink,
+                onWebsiteClick: linkHandler.OpenWebsiteLink,
+                onBugReportingClick: linkHandler.OpenBugReportingLink
+            );
+
             return aboutWindow;
         }
 
