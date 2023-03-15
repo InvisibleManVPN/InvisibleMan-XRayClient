@@ -169,15 +169,21 @@
                                 Width="6" Height="14" Margin="0" 
                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}" 
-                            ToolTip="Check for updates" RenderTransformOrigin="0.5,0.5"
-                            Click="OnUpdateButtonClick">
+                        <Grid Width="30" Height="30" Margin="10 0 0 0">
+                            <Button  Style="{StaticResource Button.Circle}" 
+                                ToolTip="Check for updates" RenderTransformOrigin="0.5,0.5"
+                                Click="OnUpdateButtonClick">
 
-                            <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
-                                Width="15" Height="15" Margin="0" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
+                                <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
+                                    Width="15" Height="15" Margin="0" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                            <Ellipse Width="12" Height="12" Margin="-2" Visibility="Hidden"
+                                Fill="{StaticResource Color.Orange}" 
+                                Stroke="{StaticResource Color.LightGray}" StrokeThickness="2"
+                                VerticalAlignment="Top" HorizontalAlignment="Right"
+                                x:Name="notificationUpdate"/>
+                        </Grid>
                         <Button Width="30" Height="30" Margin="10 0 0 0" 
                             Style="{StaticResource Button.Circle}"
                             ToolTip="Bug reporting" RenderTransformOrigin="0.5,0.5"
