@@ -18,6 +18,8 @@ namespace InvisibleManXRay
         private Action onStopServer;
         private Action onEnableProxy;
         private Action onDisableProxy;
+        private Action onGitHubClick;
+        private Action onBugReportingClick;
 
         private BackgroundWorker connectWorker;
 
@@ -109,7 +111,9 @@ namespace InvisibleManXRay
             Action<string> onRunServer,
             Action onStopServer,
             Action onEnableProxy,
-            Action onDisableProxy)
+            Action onDisableProxy,
+            Action onGitHubClick,
+            Action onBugReportingClick)
         {
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
@@ -120,6 +124,8 @@ namespace InvisibleManXRay
             this.onStopServer = onStopServer;
             this.onEnableProxy = onEnableProxy;
             this.onDisableProxy = onDisableProxy;
+            this.onGitHubClick = onGitHubClick;
+            this.onBugReportingClick = onBugReportingClick;
 
             UpdateUI();
         }
@@ -154,6 +160,16 @@ namespace InvisibleManXRay
         {
             onStopServer.Invoke();
             onDisableProxy.Invoke();
+        }
+
+        private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
+        {
+            onGitHubClick.Invoke();
+        }
+
+        private void OnBugReportingButtonClick(object sender, RoutedEventArgs e)
+        {
+            onBugReportingClick.Invoke();
         }
 
         private void OnUpdateButtonClick(object sender, RoutedEventArgs e)

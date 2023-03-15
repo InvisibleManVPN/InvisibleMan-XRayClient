@@ -18,6 +18,7 @@ namespace InvisibleManXRay.Factories
         public MainWindow CreateMainWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+            LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Setup(
@@ -29,7 +30,9 @@ namespace InvisibleManXRay.Factories
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
                 onEnableProxy: core.EnableProxy,
-                onDisableProxy: core.DisableProxy
+                onDisableProxy: core.DisableProxy,
+                onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
+                onBugReportingClick: linkHandler.OpenBugReportingLink
             );
             
             return mainWindow;

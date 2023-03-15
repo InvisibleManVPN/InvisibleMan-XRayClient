@@ -180,7 +180,8 @@
                         </Button>
                         <Button Width="30" Height="30" Margin="10 0 0 0" 
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="Bug reporting" RenderTransformOrigin="0.5,0.5">
+                            ToolTip="Bug reporting" RenderTransformOrigin="0.5,0.5"
+                            Click="OnBugReportingButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Bug}" Grid.Column="0" 
                                 Width="12" Height="16" Margin="0" 
@@ -188,7 +189,8 @@
                         </Button>
                         <Button Width="30" Height="30" Margin="10 0 0 0"
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="Source code on GitHub" RenderTransformOrigin="0.5,0.5">
+                            ToolTip="Source code on GitHub" RenderTransformOrigin="0.5,0.5"
+                            Click="OnGitHubButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Github}" Grid.Column="0" 
                                 Width="18" Height="16" Margin="0" 
