@@ -1,0 +1,145 @@
+<Window x:Class="InvisibleManXRay.ServerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InvisibleManXRay"
+        xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
+        mc:Ignorable="d"
+        Title="Invisible Man XRay - Server config"
+        Height="450" 
+        Width="350" 
+        WindowStartupLocation="CenterOwner"  
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.DarkGray"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Visibility="Visible" x:Name="panelServers">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
+            </ScrollViewer>
+
+            <TextBlock Text="There is no server configuration" x:Name="textNoServer"
+                FontFamily="{StaticResource SegoeUI}"
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0 20" Foreground="Gray" 
+                FontWeight="Normal" FontSize="14"/>
+
+            <Button Width="40" Height="40" Margin="0 0 15 15" 
+                Style="{StaticResource Button.Circle}" ToolTip="Add new server configuration" 
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Click="OnAddButtonClick">
+
+                <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
+                    Width="15" Height="15" Margin="0" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAdd">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton GroupName="GroupImport" Content="Import config file" 
+                        Foreground="White" IsChecked="True"
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                        x:Name="radioButtonFile"
+                        Click="OnFileRadioButtonClick"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="20">
+                        <Button Width="100" Height="30" Content="CHOOSE FILE" 
+                            Style="{StaticResource Button.Rectangle.Green}" 
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                            Foreground="{StaticResource Color.Gray}"
+                            x:Name="buttonConfigFile"
+                            Click="OnChooseFileButtonClick">
+                        </Button>
+
+                        <TextBlock Grid.Row="2" Text="No file chosen..." 
+                            Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                            FontFamily="{StaticResource SegoeUI}" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBlockFileName"/>
+                    </StackPanel>
+
+                </StackPanel>
+                <RadioButton GroupName="GroupImport" Content="Import from link" 
+                    Foreground="White" IsChecked="false"
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                    x:Name="radioButtonLink"
+                    Click="OnLinkRadioButtonClick"/>
+
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxConfigLink"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30" Content="IMPORT" 
+                    Style="{StaticResource Button.Rectangle.Green}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnImportButtonClick">
+                </Button>
+
+                <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                    Style="{StaticResource Button.Rectangle.Red}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick">
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
+            Visibility="Hidden" x:Name="panelLoading">
+            
+            <TextBlock Grid.Row="2" Text="PLEASE WAIT..." 
+                Margin="10 0" Foreground="White" 
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                FontFamily="{StaticResource SegoeUI}" 
+                FontWeight="Normal" FontSize="14"/>
+                
+        </Grid>
+
+        <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
+            </Grid.Effect>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource Icon.Server.MintyGreen}" Grid.Column="0" 
+                Width="35" Height="35" Margin="0" 
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
+                        Content="SERVER CONFIG" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
+                        Content="Manage server configuration" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

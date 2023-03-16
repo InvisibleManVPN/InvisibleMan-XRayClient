@@ -1,17 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
-namespace InvisibleMan_XRay
+namespace InvisibleManXRay
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    using Managers;
+    using Factories;
+
     public partial class App : Application
     {
+        private AppManager appManager;
+        private WindowFactory windowFactory;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            InitializeAppManager();
+            InitializeWindowFactory();
+            InitializeMainWindow();
+
+            void InitializeAppManager()
+            {
+                appManager = new AppManager();
+                appManager.Initialize();
+            }
+
+            void InitializeWindowFactory()
+            {
+                windowFactory = appManager.WindowFactory;
+            }
+
+            void InitializeMainWindow()
+            {
+                MainWindow mainWindow = windowFactory.CreateMainWindow();
+                mainWindow.Show();
+            }
+        }
     }
 }

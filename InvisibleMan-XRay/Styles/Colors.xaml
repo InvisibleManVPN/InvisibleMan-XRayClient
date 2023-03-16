@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="Color.BrightGray" Color="#3f3f3f"/>
+    <SolidColorBrush x:Key="Color.LightGray" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.Gray" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.DarkGray" Color="#1e1e1e"/>
+    <SolidColorBrush x:Key="Color.DarkGrayOpacity" Color="#1e1e1e" Opacity="0.95"/>
+
+    <SolidColorBrush x:Key="Color.Blue" Color="#19b3e4"/>
+    <SolidColorBrush x:Key="Color.Orange" Color="#fcb448"/>
+
+    <SolidColorBrush x:Key="Color.BrightGreen" Color="#81eca6"/>
+    <SolidColorBrush x:Key="Color.LightGreen" Color="#74da98"/>
+    <SolidColorBrush x:Key="Color.Green" Color="#43b156"/>
+    <SolidColorBrush x:Key="Color.MintyGreen" Color="#6dcc8e"/>
+    <SolidColorBrush x:Key="Color.DarkGreen" Color="#63bb82"/>
+    <SolidColorBrush x:Key="Color.InkyGreen" Color="#549f6e"/>
+
+    <SolidColorBrush x:Key="Color.LightRed" Color="#e96666"/>
+    <SolidColorBrush x:Key="Color.Red" Color="#d95f5f"/>
+    <SolidColorBrush x:Key="Color.DarkRed" Color="#cb5a5a"/>
+</ResourceDictionary>
