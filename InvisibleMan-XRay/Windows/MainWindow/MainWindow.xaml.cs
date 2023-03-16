@@ -40,7 +40,10 @@ namespace InvisibleManXRay
 
                 connectWorker.RunWorkerCompleted += (sender, e) => {
                     if (isReconnectingRequest)
+                    {
                         connectWorker.RunWorkerAsync();
+                        isReconnectingRequest = false;
+                    }
                 };
 
                 connectWorker.DoWork += (sender, e) => {
@@ -74,6 +77,9 @@ namespace InvisibleManXRay
 
                     void HandleError()
                     {
+                        if (IsAnotherWindowOpened())
+                            return;
+
                         switch (configStatus.SubCode)
                         {
                             case SubCode.NO_CONFIG:
@@ -85,6 +91,8 @@ namespace InvisibleManXRay
                             default:
                                 return;
                         }
+
+                        bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
 
                         void HandleNoConfigError()
                         {
