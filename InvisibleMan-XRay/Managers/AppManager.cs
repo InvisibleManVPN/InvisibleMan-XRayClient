@@ -1,10 +1,12 @@
 using System.Windows;
+using System.Threading;
 
 namespace InvisibleManXRay.Managers
 {
     using Core;
     using Handlers;
     using Factories;
+    using Values;
 
     public class AppManager
     {
@@ -12,8 +14,13 @@ namespace InvisibleManXRay.Managers
         private HandlersManager handlersManager;
         public WindowFactory WindowFactory;
 
+        private static Mutex mutex;
+        private const string APP_GUID = "{7I6N0VI4-S9I1-43bl-A0eM-72A47N6EDH8M}";
+
         public void Initialize()
         {
+            AvoidRunningMultipleInstances();
+
             RegisterCore();
             RegisterHandlers();
             RegisterFactory();
@@ -21,6 +28,16 @@ namespace InvisibleManXRay.Managers
             SetupHandlers();
             SetupCore();
             SetupFactory();
+        }
+
+        private void AvoidRunningMultipleInstances()
+        {
+            mutex = new Mutex(true, APP_GUID, out bool isCreatedNew);
+            if(!isCreatedNew)
+            {
+                MessageBox.Show(Message.APP_ALREADY_RUNNING);
+                Application.Current.Shutdown();
+            }
         }
 
         private void RegisterCore()

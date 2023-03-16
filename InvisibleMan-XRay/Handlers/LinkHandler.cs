@@ -6,37 +6,19 @@ namespace InvisibleManXRay.Handlers
 
     public class LinkHandler : Handler
     {
-        public void OpenWebsiteLink()
-        {
-            Process.Start(new ProcessStartInfo(Route.WEBSITE) {
-                UseShellExecute = true
-            });
-        }
+        public void OpenWebsiteLink() => OpenLink(Route.WEBSITE);
 
-        public void OpenEmailLink()
-        {
-            Process.Start(new ProcessStartInfo(Route.EMAIL) {
-                UseShellExecute = true 
-            });
-        }
+        public void OpenEmailLink() => OpenLink(Route.EMAIL);
 
-        public void OpenGitHubRepositoryLink()
-        {
-            Process.Start(new ProcessStartInfo(Route.REPOSITORY) {
-                UseShellExecute = true
-            });
-        }
+        public void OpenGitHubRepositoryLink() => OpenLink(Route.REPOSITORY);
 
-        public void OpenBugReportingLink()
-        {
-            Process.Start(new ProcessStartInfo(Route.ISSUES) {
-                UseShellExecute = true
-            });
-        }
+        public void OpenBugReportingLink() => OpenLink(Route.ISSUES);
 
-        public void OpenLatestReleaseLink()
+        public void OpenLatestReleaseLink() => OpenLink(Route.LATEST_RELEASE);
+
+        private void OpenLink(string link)
         {
-            Process.Start(new ProcessStartInfo(Route.LATEST_RELEASE) {
+            Process.Start(new ProcessStartInfo(link) {
                 UseShellExecute = true
             });
         }

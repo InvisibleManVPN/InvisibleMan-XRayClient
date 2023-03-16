@@ -15,5 +15,6 @@ namespace InvisibleManXRay.Values
         public const string UPDATE_AVAILABLE = "A new version is available!";
         public const string YOU_HAVE_LATEST_VERSION = "You already have the latest version";
         public const string CANT_CONNECT_TO_SERVER = "Can't connect to the server";
+        public const string APP_ALREADY_RUNNING = "The Application is already running";
     }
 }

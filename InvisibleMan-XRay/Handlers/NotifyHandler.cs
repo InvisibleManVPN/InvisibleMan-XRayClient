@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Drawing;
 using System.Windows;
 
 namespace InvisibleManXRay.Handlers
@@ -38,7 +40,14 @@ namespace InvisibleManXRay.Handlers
         private void InitializeNotifyIcon()
         {
             notifyIcon = NotifyIcon.Create();
-            notifyIcon.Icon = Path.ICON;
+            notifyIcon.Icon = GetNotifyIcon();
+
+            Icon GetNotifyIcon()
+            {
+                return Icon.ExtractAssociatedIcon(
+                    System.Environment.GetCommandLineArgs().First()
+                );
+            }
         }
 
         private void HandleNotifyIconClick()

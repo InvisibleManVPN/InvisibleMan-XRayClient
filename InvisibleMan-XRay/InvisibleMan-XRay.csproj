@@ -4,10 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>InvisibleManXRay</RootNamespace>
+    <Product>InvisibleMan XRay</Product>
+    <PackageId>InvisibleMan XRay</PackageId>
+    <Company>InvisibleMan</Company>
+    <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
+    <Version>0.1.0.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <Nullable>enable</Nullable>
     <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8762</NoWarn>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets/Icon.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <_SuppressWpfTrimError>true</_SuppressWpfTrimError>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>Link</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +26,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NotifyIcon" Version="1.23.10209.11223" />
   </ItemGroup>
+
+  <ItemGroup>
+   <Content Include="Libraries/*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </Content>
+</ItemGroup>  
 
 </Project>

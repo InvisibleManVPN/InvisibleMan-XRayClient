@@ -13,19 +13,19 @@ namespace InvisibleManXRay.Models.Templates
 
         public string GetRemark()
         {
-            RemoveInvalidPathCharacters();
-            return AllowJustAsciiCharacters();
+            return AllowJustAsciiCharacters(RemoveInvalidFileCharacters());
 
-            void RemoveInvalidPathCharacters()
+            string RemoveInvalidFileCharacters()
             {
-                foreach (char invalidCharacter in System.IO.Path.GetInvalidPathChars())
-                    Adapter.remark.Replace(invalidCharacter, char.MinValue);
+                return string.Concat(Adapter.remark.Split(
+                    System.IO.Path.GetInvalidFileNameChars()
+                ));
             }
 
-            string AllowJustAsciiCharacters()
+            string AllowJustAsciiCharacters(string remark)
             {
                 return System.Text.RegularExpressions.Regex.Replace(
-                    input: Adapter.remark, 
+                    input: remark, 
                     pattern: @"[^\u0000-\u007F]+", 
                     replacement: string.Empty
                 ).Trim();
