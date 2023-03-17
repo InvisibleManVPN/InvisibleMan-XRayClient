@@ -87,7 +87,7 @@ namespace InvisibleManXRay.Handlers
 
         private string GetLatestReleaseVersion(string latestReleaseUrl)
         {
-            return latestReleaseUrl == null ? null : latestReleaseUrl.Split("/").Last();
+            return latestReleaseUrl == null ? null : latestReleaseUrl.Split("/").Last().Replace("v", "");
         }
 
         private string GetCurrentReleaseVersion() 
