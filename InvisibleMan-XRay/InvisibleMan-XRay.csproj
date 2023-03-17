@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>InvisibleManXRay</RootNamespace>
+    <AssemblyName>InvisibleMan XRay</AssemblyName>
     <Product>InvisibleMan XRay</Product>
     <PackageId>InvisibleMan XRay</PackageId>
     <Company>InvisibleMan</Company>
