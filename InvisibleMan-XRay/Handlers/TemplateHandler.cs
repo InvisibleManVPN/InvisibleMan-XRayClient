@@ -22,6 +22,7 @@ namespace InvisibleManXRay.Handlers
             {
                 templates.Add("vmess", typeof(Vmess));
                 templates.Add("vless", typeof(Vless));
+                templates.Add("trojan", typeof(Trojan));
             }
         }
 
