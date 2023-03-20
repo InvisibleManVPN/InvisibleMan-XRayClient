@@ -72,7 +72,8 @@ namespace InvisibleManXRay.Models.Templates
                     wsSettings = WsSettings,
                     httpSettings = HttpSettings,
                     quicSettings = QuicSettings,
-                    tcpSettings = TcpSettings
+                    tcpSettings = TcpSettings,
+                    realitySettings = RealitySettings
                 }
             }
         };
@@ -234,6 +235,28 @@ namespace InvisibleManXRay.Models.Templates
                     request = request.Replace("$requestPath$", $"\"{httpPath}\"");
                     return JsonUtility.ConvertFromJson<object>(request);
                 }
+            }
+        }
+
+        private V2Ray.StreamSettings.RealitySettings RealitySettings
+        {
+            get
+            {
+                V2Ray.StreamSettings.RealitySettings realitySettings = null;
+
+                if (Adapter.streamSecurity == "reality")
+                {
+                    realitySettings = new V2Ray.StreamSettings.RealitySettings()
+                    {
+                        fingerprint = Adapter.fingerprint,
+                        serverName = Adapter.sni,
+                        publicKey = Adapter.publicKey,
+                        shortId = Adapter.shortId,
+                        spiderX = Adapter.spiderX
+                    };
+                }
+
+                return realitySettings;
             }
         }
     }

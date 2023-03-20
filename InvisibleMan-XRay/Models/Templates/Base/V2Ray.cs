@@ -143,6 +143,7 @@ namespace InvisibleManXRay.Models.Templates
             public QuicSettings quicSettings;
             public TlsSettings xtlsSettings;
             public GrpcSettings grpcSettings;
+            public RealitySettings realitySettings;
 
             public class TlsSettings
             {
@@ -205,6 +206,16 @@ namespace InvisibleManXRay.Models.Templates
                 public int health_check_timeout;
                 public bool permit_without_stream;
                 public int initial_windows_size;
+            }
+
+            public class RealitySettings
+            {
+                public bool show;
+                public string fingerprint;
+                public string serverName;
+                public string publicKey;
+                public string shortId;
+                public string spiderX;
             }
         }
 
