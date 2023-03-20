@@ -98,7 +98,12 @@ namespace InvisibleManXRay.Models.Templates
         {
             get
             {
-                if (Adapter.streamSecurity == "xtls")
+                if (Adapter.streamSecurity == "reality")
+                {
+                    if (string.IsNullOrEmpty(Adapter.flow))
+                        Adapter.flow = "xtls-rprx-vision";
+                }
+                else if (Adapter.streamSecurity == "xtls")
                 {
                     if (string.IsNullOrEmpty(Adapter.flow))
                         Adapter.flow = "xtls-rprx-origin";
