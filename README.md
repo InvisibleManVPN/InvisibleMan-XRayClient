@@ -55,6 +55,14 @@ Go to our [Issue tracker](https://github.com/InvisibleManVPN/InvisibleMan-XRayCl
 
 If you know how to code, we welcome you to send fixes and new features!
 
+## Donation
+
+Please consider donating to support and sustain our activities.
+
+![Bitcoin Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/bitcoin-wallet.png)
+
+**BITCOIN:** bc1qy6a47vrygqf4x5dwpcm7wnamgn2gxxwn32w807
+
 ## Contacts
 
 - Web [invisiblemanvpn.github.io](https://invisiblemanvpn.github.io)
