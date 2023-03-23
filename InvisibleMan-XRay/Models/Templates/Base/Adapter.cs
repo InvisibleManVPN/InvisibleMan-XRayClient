@@ -19,5 +19,8 @@ namespace InvisibleManXRay.Models.Templates
         public string sni;
         public string alpn;
         public string fingerprint;
+        public string publicKey;
+        public string shortId;
+        public string spiderX;
     }
 }
