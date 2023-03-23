@@ -59,7 +59,7 @@ namespace InvisibleManXRay.Handlers
 
         private void AddMenuStrip()
         {
-            AddMenuItem("Open InvisibleMan XRay", onOpenClick);
+            AddMenuItem("Open Invisible Man XRay", onOpenClick);
             AddMenuItem("Check for updates", onUpdateClick);
             AddMenuItem("About", onAboutClick);
             AddMenuItem("Close", onCloseClick);

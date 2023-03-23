@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <RootNamespace>InvisibleManXRay</RootNamespace>
-    <AssemblyName>InvisibleMan XRay</AssemblyName>
-    <Product>InvisibleMan XRay</Product>
-    <PackageId>InvisibleMan XRay</PackageId>
-    <Company>InvisibleMan</Company>
+    <AssemblyName>Invisible Man XRay</AssemblyName>
+    <Product>Invisible Man XRay</Product>
+    <PackageId>Invisible Man XRay</PackageId>
+    <Company>Invisible Man</Company>
     <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
-    <Version>0.3.0.0</Version>
-    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <Version>0.4.1.0</Version>
+    <AssemblyVersion>0.4.1.0</AssemblyVersion>
     <Nullable>enable</Nullable>
     <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8762</NoWarn>
     <UseWPF>true</UseWPF>
@@ -19,7 +19,7 @@
     <_SuppressWpfTrimError>true</_SuppressWpfTrimError>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>Link</TrimMode>
+    <TrimMode>partial</TrimMode>
   </PropertyGroup>
 
   <ItemGroup>
