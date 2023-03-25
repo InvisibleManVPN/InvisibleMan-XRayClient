@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -28,6 +29,13 @@ namespace InvisibleManXRay.Models.Templates
         }
 
         private Data data;
+        private readonly string[] validSecurity = new[] { 
+            "aes-128-gcm", 
+            "chacha20-poly1305", 
+            "auto", 
+            "none", 
+            "zero" 
+        };
 
         public override Status FetchDataFromLink(string link)
         {
@@ -70,10 +78,10 @@ namespace InvisibleManXRay.Models.Templates
             version = !string.IsNullOrEmpty(data.v) ? int.Parse(data.v) : 0,
             remark = data.ps,
             address = data.add,
-            port = !string.IsNullOrEmpty(data.v)? int.Parse(data.port) : 0,
+            port = !string.IsNullOrEmpty(data.port)? int.Parse(data.port) : 0,
             id = data.id,
-            alterId = !string.IsNullOrEmpty(data.v) ? int.Parse(data.aid) : 0,
-            security = data.scy,
+            alterId = !string.IsNullOrEmpty(data.aid) ? int.Parse(data.aid) : 0,
+            security = validSecurity.Contains(data.scy) ? data.scy : Global.DEFAULT_SECURITY,
             requestHost = data.host,
             path = data.path,
             streamNetwork = data.net,
