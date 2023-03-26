@@ -95,6 +95,9 @@
                     </StackPanel>
                 </StackPanel>
 
+                <Controls:Broadcast Grid.Row="0" VerticalAlignment="Top" 
+                    Visibility="Hidden" x:Name="barBroadcast"/>
+
                 <Label Grid.Row="2" Content="No server configuration" FontFamily="{StaticResource SegoeUI}" 
                     HorizontalAlignment="Center"
                     Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
