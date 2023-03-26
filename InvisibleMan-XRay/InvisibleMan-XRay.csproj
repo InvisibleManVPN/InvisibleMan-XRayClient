@@ -29,9 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
-   <Content Include="Libraries/*.*">
+    <Content Include="Libraries/*.*">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="*.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-   </Content>
-</ItemGroup>  
+    </Content>
+  </ItemGroup>
 
 </Project>
