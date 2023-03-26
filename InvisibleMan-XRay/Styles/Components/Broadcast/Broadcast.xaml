@@ -63,9 +63,10 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="Broadcast... (Click here)" FontFamily="{StaticResource SegoeUI}" 
-            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"
+			HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10 0 0 0"
             Padding="0" Foreground="White" FontWeight="Normal" FontSize="13"
-            x:Name="textBroadcast"/>
+            x:Name="textBroadcast" PreviewMouseDown="OnBroadcastBarClick"/>
 
         <Rectangle Fill="{StaticResource Icon.Close}" Grid.Column="1" 
             HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0"

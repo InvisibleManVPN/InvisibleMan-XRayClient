@@ -55,6 +55,7 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new NotifyHandler());
             handlersManager.AddHandler(new UpdateHandler());
+            handlersManager.AddHandler(new BroadcastHandler());
             handlersManager.AddHandler(new LinkHandler());
         }
 
