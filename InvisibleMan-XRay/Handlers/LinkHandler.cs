@@ -16,6 +16,8 @@ namespace InvisibleManXRay.Handlers
 
         public void OpenLatestReleaseLink() => OpenLink(Route.LATEST_RELEASE);
 
+        public void OpenCustomLink(string link) => OpenLink(link);
+
         private void OpenLink(string link)
         {
             Process.Start(new ProcessStartInfo(link) {

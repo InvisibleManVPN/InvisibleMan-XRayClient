@@ -21,6 +21,7 @@ namespace InvisibleManXRay.Factories
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             UpdateHandler updateHandler = handlersManager.GetHandler<UpdateHandler>();
+            BroadcastHandler broadcastHandler = handlersManager.GetHandler<BroadcastHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             MainWindow mainWindow = new MainWindow();
@@ -28,6 +29,7 @@ namespace InvisibleManXRay.Factories
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 checkForUpdate: updateHandler.CheckForUpdate,
+                checkForBroadcast: broadcastHandler.CheckForBroadcast,
                 openServerWindow: CreateServerWindow,
                 openUpdateWindow: CreateUpdateWindow,
                 openAboutWindow: CreateAboutWindow,
@@ -36,7 +38,8 @@ namespace InvisibleManXRay.Factories
                 onEnableProxy: core.EnableProxy,
                 onDisableProxy: core.DisableProxy,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
-                onBugReportingClick: linkHandler.OpenBugReportingLink
+                onBugReportingClick: linkHandler.OpenBugReportingLink,
+                onCustomLinkClick: linkHandler.OpenCustomLink
             );
             
             return mainWindow;

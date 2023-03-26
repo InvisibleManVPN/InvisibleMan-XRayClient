@@ -14,6 +14,7 @@ namespace InvisibleManXRay
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> checkForUpdate;
+        private Func<Status> checkForBroadcast;
         private Func<ServerWindow> openServerWindow;
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
@@ -23,16 +24,21 @@ namespace InvisibleManXRay
         private Action onDisableProxy;
         private Action onGitHubClick;
         private Action onBugReportingClick;
+        private Action<string> onCustomLinkClick;
 
         private BackgroundWorker connectWorker;
         private BackgroundWorker updateWorker;
+        private BackgroundWorker broadcastWorker;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeConnectWorker();
             InitializeUpdateWorker();
+            InitializeBroadcastWorker();
+
             updateWorker.RunWorkerAsync();
+            broadcastWorker.RunWorkerAsync();
 
             void InitializeConnectWorker()
             {
@@ -124,7 +130,7 @@ namespace InvisibleManXRay
             {
                 updateWorker = new BackgroundWorker();
 
-                updateWorker.DoWork+=(sender, e) => {
+                updateWorker.DoWork += (sender, e) => {
                     Status updateStatus = checkForUpdate.Invoke();
                     if (IsUpdateAvailable())
                         Dispatcher.BeginInvoke(new Action(delegate {
@@ -134,12 +140,29 @@ namespace InvisibleManXRay
                     bool IsUpdateAvailable() => updateStatus.SubCode == SubCode.UPDATE_AVAILABLE;
                 };
             }
+
+            void InitializeBroadcastWorker()
+            {
+                broadcastWorker = new BackgroundWorker();
+
+                broadcastWorker.DoWork += (sender, e) => {
+                    Status broadcastStatus = checkForBroadcast.Invoke();
+                    if (IsBroadcastAvailable())
+                        Dispatcher.BeginInvoke(new Action(delegate {
+                            barBroadcast.Setup(broadcastStatus.Content as Broadcast, onCustomLinkClick);
+                            barBroadcast.Appear();
+                        }));
+
+                    bool IsBroadcastAvailable() => broadcastStatus.Code == Code.SUCCESS;
+                };
+            }
         }
 
         public void Setup(
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> checkForUpdate,
+            Func<Status> checkForBroadcast,
             Func<ServerWindow> openServerWindow,
             Func<UpdateWindow> openUpdateWindow,
             Func<AboutWindow> openAboutWindow,
@@ -148,11 +171,13 @@ namespace InvisibleManXRay
             Action onEnableProxy,
             Action onDisableProxy,
             Action onGitHubClick,
-            Action onBugReportingClick)
+            Action onBugReportingClick,
+            Action<string> onCustomLinkClick)
         {
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
+            this.checkForBroadcast = checkForBroadcast;
             this.openServerWindow = openServerWindow;
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
@@ -162,6 +187,7 @@ namespace InvisibleManXRay
             this.onDisableProxy = onDisableProxy;
             this.onGitHubClick = onGitHubClick;
             this.onBugReportingClick = onBugReportingClick;
+            this.onCustomLinkClick = onCustomLinkClick;
 
             UpdateUI();
         }
