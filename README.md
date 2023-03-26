@@ -32,6 +32,12 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
     md ..\InvisileMan-XRay\Libraries
     copy XRayCore.dll ..\InvisibleMan-XRay\Libraries   
     ```
+  - Download `geoip.dat` and `geosite.dat` files:
+    ```
+    cd ..\InvisibleMan-XRay
+    curl https://github.com/v2fly/geoip/releases/latest/download/geoip.dat -o geoip.dat -L
+    curl https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat -o geosite.dat -L
+    ```
   - Run the project:
     ```
     cd ..\InvisibleMan-XRay
@@ -42,6 +48,7 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
 
 - Go https://go.dev/dl/
 - .Net https://dotnet.microsoft.com/download
+- Curl https://curl.se/download.html
 
 ## Contributing
 
