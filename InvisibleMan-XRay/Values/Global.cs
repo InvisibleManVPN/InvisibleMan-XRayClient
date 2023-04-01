@@ -7,6 +7,7 @@ namespace InvisibleManXRay.Values
             public const string WS = "ws";
             public const string H2 = "h2";
             public const string QUIC = "quic";
+            public const string GRPC = "grpc";
         }
 
         public static class StreamSecurity

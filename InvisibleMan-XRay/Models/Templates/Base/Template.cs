@@ -72,8 +72,9 @@ namespace InvisibleManXRay.Models.Templates
                     wsSettings = WsSettings,
                     httpSettings = HttpSettings,
                     quicSettings = QuicSettings,
+                    grpcSettings = GrpcSettings,
                     tcpSettings = TcpSettings,
-                    realitySettings = RealitySettings
+                    realitySettings = RealitySettings,
                 }
             }
         };
@@ -88,9 +89,13 @@ namespace InvisibleManXRay.Models.Templates
                 {
                     tlsSettings = new V2Ray.StreamSettings.TlsSettings() {
                         allowInsecure = false,
-                        alpn = new[] { Adapter.alpn },
                         fingerprint = Adapter.fingerprint
                     };
+
+                    if (!string.IsNullOrWhiteSpace(Adapter.alpn))
+                        tlsSettings.alpn = new[] { Adapter.alpn };
+                    else
+                        tlsSettings.alpn = null;
 
                     if (!string.IsNullOrWhiteSpace(Adapter.sni))
                         tlsSettings.serverName = Adapter.sni;
@@ -187,6 +192,24 @@ namespace InvisibleManXRay.Models.Templates
                 }
 
                 return quicSettings;
+            }
+        }
+
+        private V2Ray.StreamSettings.GrpcSettings GrpcSettings
+        {
+            get
+            {
+                V2Ray.StreamSettings.GrpcSettings grpcSettings = null;
+
+                if (Adapter.streamNetwork == Global.StreamNetwork.GRPC)
+                {
+                    grpcSettings = new V2Ray.StreamSettings.GrpcSettings() {
+                        serviceName = Adapter.path,
+                        multiMode = (Adapter.headerType == "multi")
+                    };
+                }
+
+                return grpcSettings;
             }
         }
 
