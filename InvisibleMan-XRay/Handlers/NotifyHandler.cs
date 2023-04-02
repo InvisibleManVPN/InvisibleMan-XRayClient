@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using System.Drawing;
-using System.Windows;
+using System.Windows.Forms;
 
 namespace InvisibleManXRay.Handlers
 {
-    using Values;
-
     public class NotifyHandler : Handler
     {
         private NotifyIcon notifyIcon;
@@ -39,8 +37,9 @@ namespace InvisibleManXRay.Handlers
 
         private void InitializeNotifyIcon()
         {
-            notifyIcon = NotifyIcon.Create();
+            notifyIcon = new NotifyIcon();
             notifyIcon.Icon = GetNotifyIcon();
+            notifyIcon.Visible = true;
 
             Icon GetNotifyIcon()
             {
@@ -52,23 +51,28 @@ namespace InvisibleManXRay.Handlers
 
         private void HandleNotifyIconClick()
         {
-            notifyIcon.Click += (sender, e) => {
-                onOpenClick.Invoke();
+            notifyIcon.MouseClick += (sender, e) => {
+                if (e.Button == MouseButtons.Left)
+                    onOpenClick.Invoke();
             };
         }
 
         private void AddMenuStrip()
         {
+            ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+            
             AddMenuItem("Open Invisible Man XRay", onOpenClick);
             AddMenuItem("Check for updates", onUpdateClick);
             AddMenuItem("About", onAboutClick);
             AddMenuItem("Close", onCloseClick);
 
+            notifyIcon.ContextMenuStrip = contextMenuStrip;
+
             void AddMenuItem(string text, Action onClick)
             {
-                ContextMenuStrip.MenuItem item = new ContextMenuStrip.MenuItem() { Text = text };
+                ToolStripMenuItem item = new ToolStripMenuItem() { Text = text };
                 item.Click += (sender, e) => { onClick.Invoke(); };
-                notifyIcon.ContextMenuStrip.Items.Add(item);
+                contextMenuStrip.Items.Add(item);
             }
         }
     }
