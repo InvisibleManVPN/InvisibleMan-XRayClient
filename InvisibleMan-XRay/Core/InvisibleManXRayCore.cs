@@ -3,7 +3,7 @@ using System;
 namespace InvisibleManXRay.Core
 {
     using Models;
-    using Models.Proxies;
+    using Handlers.Proxies;
     using Values;
     using Utilities;
 

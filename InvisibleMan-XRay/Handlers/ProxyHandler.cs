@@ -1,6 +1,6 @@
 namespace InvisibleManXRay.Handlers
 {
-    using Models.Proxies;
+    using Proxies;
 
     public class ProxyHandler : Handler
     {

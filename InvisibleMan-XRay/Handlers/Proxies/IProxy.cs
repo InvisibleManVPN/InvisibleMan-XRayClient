@@ -1,4 +1,4 @@
-namespace InvisibleManXRay.Models.Proxies
+namespace InvisibleManXRay.Handlers.Proxies
 {
     public interface IProxy
     {

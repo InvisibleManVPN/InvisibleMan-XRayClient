@@ -1,6 +1,6 @@
 using Microsoft.Win32;
 
-namespace InvisibleManXRay.Models.Proxies
+namespace InvisibleManXRay.Handlers.Proxies
 {
     public class WindowsProxy : IProxy
     {
