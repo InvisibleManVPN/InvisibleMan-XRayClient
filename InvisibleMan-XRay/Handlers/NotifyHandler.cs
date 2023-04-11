@@ -13,6 +13,8 @@ namespace InvisibleManXRay.Handlers
         private Action onUpdateClick;
         private Action onAboutClick;
         private Action onCloseClick;
+        private Action onProxyModeClick;
+        private Action onTunnelModeClick;
 
         public NotifyHandler()
         {
@@ -23,13 +25,17 @@ namespace InvisibleManXRay.Handlers
             Action onOpenClick,
             Action onUpdateClick,
             Action onAboutClick,
-            Action onCloseClick
+            Action onCloseClick,
+            Action onProxyModeClick,
+            Action onTunnelModeClick
         )
         {
             this.onOpenClick = onOpenClick;
             this.onUpdateClick = onUpdateClick;
             this.onAboutClick = onAboutClick;
             this.onCloseClick = onCloseClick;
+            this.onProxyModeClick = onProxyModeClick;
+            this.onTunnelModeClick = onTunnelModeClick;
 
             HandleNotifyIconClick();
             AddMenuStrip();
@@ -63,8 +69,8 @@ namespace InvisibleManXRay.Handlers
             
             AddMenuItem("Open Invisible Man XRay", onOpenClick);
             AddMenuItem("Mode", delegate { }, new ToolStripMenuItem[] {
-                CreateItem("Proxy", delegate { }, true, true),
-                CreateItem("TUN", delegate { }, true, false)
+                CreateItem("Proxy", onProxyModeClick, true, true),
+                CreateItem("TUN", onTunnelModeClick, true, false)
             });
             AddMenuItem("Check for updates", onUpdateClick);
             AddMenuItem("About", onAboutClick);

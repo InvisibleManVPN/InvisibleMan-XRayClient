@@ -1,8 +1,10 @@
 namespace InvisibleManXRay.Handlers.Proxies
 {
+    using Models;
+
     public interface IProxy
     {
-        void Enable(string ip, int port);
+        Status Enable(string ip, int port);
         void Disable();
     }
 }
