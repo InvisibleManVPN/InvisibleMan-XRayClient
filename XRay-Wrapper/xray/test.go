@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func RunTest(path string, port int) {
+func RunTest(path string, port int, isSocks bool) {
 	fmt.Println("start testing...")
 	cpath := C.CString(path)
 
@@ -23,6 +23,6 @@ func RunTest(path string, port int) {
 	config := LoadConfig(format, file)
 	fmt.Println("config:", C.GoString(config))
 
-	StartServer(config, port)
+	StartServer(config, port, isSocks)
 	fmt.Println("end of test.")
 }

@@ -1,6 +1,6 @@
 namespace InvisibleManXRay.Handlers
 {
-    using Models.Proxies;
+    using Proxies;
 
     public class ProxyHandler : Handler
     {
@@ -15,10 +15,8 @@ namespace InvisibleManXRay.Handlers
 
         private IProxy LoadProxy()
         {
-            #if WINDOWS
-                WindowsProxy windowsProxy = new WindowsProxy();
-                return windowsProxy;
-            #endif
+            WindowsProxy windowsProxy = new WindowsProxy();
+            return windowsProxy;
         }
     }
 }

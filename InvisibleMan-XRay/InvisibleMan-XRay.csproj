@@ -9,8 +9,8 @@
     <PackageId>Invisible Man XRay</PackageId>
     <Company>Invisible Man</Company>
     <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
-    <Version>0.5.4.0</Version>
-    <AssemblyVersion>0.5.4.0</AssemblyVersion>
+    <Version>0.6.4.0</Version>
+    <AssemblyVersion>0.6.4.0</AssemblyVersion>
     <Nullable>enable</Nullable>
     <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8762</NoWarn>
     <UseWPF>true</UseWPF>
@@ -25,7 +25,9 @@
   <ItemGroup>
     <PackageReference Include="NetCore5.0.Microsoft.Expression.Drawing" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="NotifyIcon" Version="1.23.10209.11223" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.0" />
+    <PackageReference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>

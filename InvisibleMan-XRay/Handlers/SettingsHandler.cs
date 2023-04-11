@@ -24,6 +24,12 @@ namespace InvisibleManXRay.Handlers
             SaveUserSettings();
         }
 
+        public void UpdateMode(Mode mode)
+        {
+            userSettings.Mode = mode;
+            SaveUserSettings();
+        }
+
         private UserSettings LoadUserSettings()
         {
             if (!File.Exists(Path.USER_SETTINGS))

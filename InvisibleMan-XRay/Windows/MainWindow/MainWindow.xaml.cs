@@ -13,6 +13,7 @@ namespace InvisibleManXRay
 
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
+        private Func<Status> enableMode;
         private Func<Status> checkForUpdate;
         private Func<Status> checkForBroadcast;
         private Func<ServerWindow> openServerWindow;
@@ -20,8 +21,7 @@ namespace InvisibleManXRay
         private Func<AboutWindow> openAboutWindow;
         private Action<string> onRunServer;
         private Action onStopServer;
-        private Action onEnableProxy;
-        private Action onDisableProxy;
+        private Action onDisableMode;
         private Action onGitHubClick;
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
@@ -69,7 +69,22 @@ namespace InvisibleManXRay
                         return;
                     }
 
-                    onEnableProxy.Invoke();
+                    Status modeStatus = enableMode.Invoke();
+
+                    if (modeStatus.Code == Code.ERROR)
+                    {
+                        Dispatcher.BeginInvoke(new Action(delegate {
+                            MessageBox.Show(
+                                modeStatus.Content.ToString(), 
+                                Caption.ERROR, 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Error
+                            );
+                            ShowDisconnectStatus();
+                        }));
+                        
+                        return;
+                    }
 
                     Dispatcher.BeginInvoke(new Action(delegate {
                         ShowConnectStatus();
@@ -161,6 +176,7 @@ namespace InvisibleManXRay
         public void Setup(
             Func<Config> getConfig,
             Func<Status> loadConfig, 
+            Func<Status> enableMode,
             Func<Status> checkForUpdate,
             Func<Status> checkForBroadcast,
             Func<ServerWindow> openServerWindow,
@@ -168,8 +184,7 @@ namespace InvisibleManXRay
             Func<AboutWindow> openAboutWindow,
             Action<string> onRunServer,
             Action onStopServer,
-            Action onEnableProxy,
-            Action onDisableProxy,
+            Action onDisableMode,
             Action onGitHubClick,
             Action onBugReportingClick,
             Action<string> onCustomLinkClick)
@@ -183,8 +198,8 @@ namespace InvisibleManXRay
             this.openAboutWindow = openAboutWindow;
             this.onRunServer = onRunServer;
             this.onStopServer = onStopServer;
-            this.onEnableProxy = onEnableProxy;
-            this.onDisableProxy = onDisableProxy;
+            this.enableMode = enableMode;
+            this.onDisableMode = onDisableMode;
             this.onGitHubClick = onGitHubClick;
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
@@ -230,7 +245,7 @@ namespace InvisibleManXRay
         private void OnDisconnectButtonClick(object sender, RoutedEventArgs e)
         {
             onStopServer.Invoke();
-            onDisableProxy.Invoke();
+            onDisableMode.Invoke();
             isReconnectingRequest = false;
         }
 

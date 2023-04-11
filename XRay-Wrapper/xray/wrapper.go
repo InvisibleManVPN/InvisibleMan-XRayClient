@@ -22,9 +22,9 @@ import (
 var osSignals = make(chan os.Signal, 1)
 
 //export StartServer
-func StartServer(config *C.char, port int) {
+func StartServer(config *C.char, port int, isSocks bool) {
 	configObj := convertJsonToObject(config)
-	configObj.Inbound = overrideInbound(net.Port(port))
+	configObj.Inbound = overrideInbound(net.Port(port), isSocks)
 
 	server, err := core.New(configObj)
 	if err != nil {
@@ -56,7 +56,7 @@ func StopServer() {
 //export TestConnection
 func TestConnection(config *C.char, port int) bool {
 	configObj := convertJsonToObject(config)
-	configObj.Inbound = overrideInbound(net.Port(port))
+	configObj.Inbound = overrideInbound(net.Port(port), false)
 
 	server, err := core.New(configObj)
 	if err != nil {

@@ -3,7 +3,8 @@ using System;
 namespace InvisibleManXRay.Core
 {
     using Models;
-    using Models.Proxies;
+    using Handlers.Proxies;
+    using Handlers.Tunnels;
     using Values;
     using Utilities;
 
@@ -14,16 +15,28 @@ namespace InvisibleManXRay.Core
         private const int TEST_PORT = 10802;
 
         private Func<Config> getConfig;
+        private Func<Mode> getMode;
+        private Func<string> getTunIp;
+        private Func<string> getDns;
         private Func<IProxy> getProxy;
+        private Func<ITunnel> getTunnel;
         private Action<string> onFailLoadingConfig;
 
         public void Setup(
             Func<Config> getConfig, 
+            Func<Mode> getMode,
+            Func<string> getTunIp,
+            Func<string> getDns,
             Func<IProxy> getProxy, 
+            Func<ITunnel> getTunnel,
             Action<string> onFailLoadingConfig)
         {
             this.getConfig = getConfig;
+            this.getMode = getMode;
+            this.getTunIp = getTunIp;
+            this.getDns = getDns;
             this.getProxy = getProxy;
+            this.getTunnel = getTunnel;
             this.onFailLoadingConfig = onFailLoadingConfig;
         }
         
@@ -54,21 +67,83 @@ namespace InvisibleManXRay.Core
             return new Status(Code.SUCCESS, SubCode.SUCCESS, file);
         }
 
-        public void EnableProxy()
+        public Status EnableMode()
         {
-            IProxy proxy = getProxy.Invoke();
-            proxy.Enable(LOCAL_HOST, DEFAULT_PORT);
+            Mode mode = getMode.Invoke();
+            
+            if (mode == Mode.PROXY)
+                return EnableProxy();
+            else
+                return EnableTunnel();
         }
 
-        public void DisableProxy()
+        public void DisableMode()
+        {
+            DisableProxy();
+            DisableTunnel();
+        }
+
+        private Status EnableProxy()
+        {
+            IProxy proxy = getProxy.Invoke();
+
+            return proxy.Enable(
+                ip: LOCAL_HOST,
+                port: DEFAULT_PORT
+            );
+        }
+
+        private void DisableProxy()
         {
             IProxy proxy = getProxy.Invoke();
             proxy.Disable();
         }
 
+        private Status EnableTunnel()
+        {
+            Status configStatus = LoadConfigFile();
+            if (configStatus.Code == Code.ERROR)
+                return configStatus;
+
+            string server = JsonUtility.Find(
+                key: "address",
+                parent: "outbounds",
+                jsonString: configStatus.Content.ToString()
+            );
+            string address = getTunIp.Invoke();
+            string dns = getDns.Invoke();
+            
+            ITunnel tunnel = getTunnel.Invoke();
+
+            return tunnel.Enable(
+                ip: LOCAL_HOST,
+                port: DEFAULT_PORT,
+                address: address,
+                server: server,
+                dns: dns
+            );
+
+            Status LoadConfigFile()
+            {
+                Config config = getConfig.Invoke();
+
+                if (config == null)
+                    return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+                
+                return new Status(Code.SUCCESS, SubCode.SUCCESS, System.IO.File.ReadAllText(config.Path).ToLower());
+            }
+        }
+
+        private void DisableTunnel()
+        {
+            ITunnel tunnel = getTunnel.Invoke();
+            tunnel.Disable();
+        }
+
         public void Run(string config)
         {
-            XRayCoreWrapper.StartServer(config, DEFAULT_PORT);
+            Mode mode = getMode.Invoke();
+            XRayCoreWrapper.StartServer(config, DEFAULT_PORT, mode == Mode.TUN);
         }
 
         public void Stop()

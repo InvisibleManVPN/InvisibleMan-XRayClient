@@ -28,6 +28,7 @@ namespace InvisibleManXRay.Factories
             mainWindow.Setup(
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
+                enableMode: core.EnableMode,
                 checkForUpdate: updateHandler.CheckForUpdate,
                 checkForBroadcast: broadcastHandler.CheckForBroadcast,
                 openServerWindow: CreateServerWindow,
@@ -35,8 +36,7 @@ namespace InvisibleManXRay.Factories
                 openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
-                onEnableProxy: core.EnableProxy,
-                onDisableProxy: core.DisableProxy,
+                onDisableMode: core.DisableMode,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,
                 onCustomLinkClick: linkHandler.OpenCustomLink
