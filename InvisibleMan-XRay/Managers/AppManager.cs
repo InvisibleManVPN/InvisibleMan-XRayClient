@@ -85,6 +85,7 @@ namespace InvisibleManXRay.Managers
                 SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
 
                 handlersManager.GetHandler<NotifyHandler>().Setup(
+                    getMode: settingsHandler.UserSettings.GetMode,
                     onOpenClick: OpenApplication,
                     onUpdateClick: OpenUpdateWindow,
                     onAboutClick: OpenAboutWindow,

@@ -5,10 +5,13 @@ using System.Windows.Forms;
 
 namespace InvisibleManXRay.Handlers
 {
+    using Models;
+
     public class NotifyHandler : Handler
     {
         private NotifyIcon notifyIcon;
 
+        private Func<Mode> getMode;
         private Action onOpenClick;
         private Action onUpdateClick;
         private Action onAboutClick;
@@ -22,6 +25,7 @@ namespace InvisibleManXRay.Handlers
         }
 
         public void Setup(
+            Func<Mode> getMode,
             Action onOpenClick,
             Action onUpdateClick,
             Action onAboutClick,
@@ -30,6 +34,7 @@ namespace InvisibleManXRay.Handlers
             Action onTunnelModeClick
         )
         {
+            this.getMode = getMode;
             this.onOpenClick = onOpenClick;
             this.onUpdateClick = onUpdateClick;
             this.onAboutClick = onAboutClick;
@@ -69,8 +74,8 @@ namespace InvisibleManXRay.Handlers
             
             AddMenuItem("Open Invisible Man XRay", onOpenClick);
             AddMenuItem("Mode", delegate { }, new ToolStripMenuItem[] {
-                CreateItem("Proxy", onProxyModeClick, true, true),
-                CreateItem("TUN", onTunnelModeClick, true, false)
+                CreateItem("Proxy", onProxyModeClick, true, getMode.Invoke() == Mode.PROXY),
+                CreateItem("TUN", onTunnelModeClick, true, getMode.Invoke() == Mode.TUN)
             });
             AddMenuItem("Check for updates", onUpdateClick);
             AddMenuItem("About", onAboutClick);
