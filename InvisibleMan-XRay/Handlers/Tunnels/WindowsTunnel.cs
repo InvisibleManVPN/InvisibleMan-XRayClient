@@ -1,7 +1,5 @@
 using System;
 using System.Net;
-using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace InvisibleManXRay.Handlers.Tunnels
 {
@@ -11,16 +9,34 @@ namespace InvisibleManXRay.Handlers.Tunnels
 
     public class WindowsTunnel : ITunnel
     {
-        private Processor processor;
         private Scheduler scheduler;
 
-        private const string TUNNELING_PROCESS_NAME = "tunneling_process";
+        private Action onStartTunnelingService;
+        private Func<bool> isServiceRunning;
+        private Func<bool> isServicePortActive;
+        private Func<Status> connectTunnelingService;
+        private Func<string, Status> executeCommand;
+
         private const string NETWORK_INTERFACE_NAME = "InvisibleMan-XRay";
 
         public WindowsTunnel()
         {
-            this.processor = new Processor();
             this.scheduler = new Scheduler();
+        }
+
+        public void Setup(
+            Action onStartTunnelingService,
+            Func<bool> isServiceRunning,
+            Func<bool> isServicePortActive,
+            Func<Status> connectTunnelingService,
+            Func<string, Status> executeCommand
+        )
+        {
+            this.onStartTunnelingService = onStartTunnelingService;
+            this.isServiceRunning = isServiceRunning;
+            this.isServicePortActive = isServicePortActive;
+            this.connectTunnelingService = connectTunnelingService;
+            this.executeCommand = executeCommand;
         }
 
         public Status Enable(string ip, int port, string address, string server, string dns)
@@ -28,11 +44,32 @@ namespace InvisibleManXRay.Handlers.Tunnels
             try
             {
                 FetchServerIP();
-                StartTunnelingProcess();
-                WaitUntilNetworkInterfaceCreated(out bool isConditionSatisfied);
+                StartTunnelingService();
 
-                if (!isConditionSatisfied)
+                WaitUntilServiceWasRun(out bool isServiceRunConditionSatisfied);
+                if (!isServiceRunConditionSatisfied)
                     throw new Exception();
+                
+                WaitUntilServicePortWasActive(out bool isServicePortConditionSatisfied);
+                if (!isServicePortConditionSatisfied)
+                    throw new Exception();
+                
+                Status connectingStatus = ConnectToTunnelingService();
+                if (connectingStatus.Code == Code.ERROR)
+                    return connectingStatus;
+
+                Status enablingCommandStatus = ExecuteCommand(
+                    command:
+                        $"-command=enable " +
+                        $"-device={NETWORK_INTERFACE_NAME} " +
+                        $"-proxy={ip}:{port} " +
+                        $"-address={address} " +
+                        $"-server={server} " + 
+                        $"-dns={dns}"
+                );
+                
+                if(enablingCommandStatus.Code == Code.ERROR)
+                    return enablingCommandStatus;
 
                 return new Status(
                     code: Code.SUCCESS,
@@ -42,8 +79,6 @@ namespace InvisibleManXRay.Handlers.Tunnels
             }
             catch
             {
-                processor.StopProcessAndChildren(TUNNELING_PROCESS_NAME);
-
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.CANT_TUNNEL,
@@ -57,47 +92,36 @@ namespace InvisibleManXRay.Handlers.Tunnels
                 server = Dns.GetHostAddresses(serverUri.Host)[0].ToString();
             }
 
-            void StartTunnelingProcess()
-            {
-                processor.StartProcessAsThread(
-                    processName: TUNNELING_PROCESS_NAME,
-                    fileName: System.IO.Path.GetFullPath(Path.INVISIBLEMAN_TUN_EXE),
-                    command: 
-                        $"-device={NETWORK_INTERFACE_NAME} " +
-                        $"-proxy={ip}:{port} " +
-                        $"-address={address} " +
-                        $"-server={server} " + 
-                        $"-dns={dns}",
-                    runAsAdmin: true
-                );
-            }
+            void StartTunnelingService() => onStartTunnelingService.Invoke();
 
-            void WaitUntilNetworkInterfaceCreated(out bool isConditionSatisfied)
+            void WaitUntilServiceWasRun(out bool isConditionSatisfied)
             {
                 scheduler.WaitUntil(
-                    condition: IsInterfaceExists,
-                    millisecondsTimeout: 6000,
-                    isConditionSatisfied: out isConditionSatisfied
+                    condition: IsServiceRunning,
+                    out isConditionSatisfied
                 );
             }
 
-            bool IsInterfaceExists()
+            void WaitUntilServicePortWasActive(out bool isConditionSatisfied)
             {
-                NetworkInterface networkInterface = FindNetworkInterface(NETWORK_INTERFACE_NAME);
-                return networkInterface != null;
-            }
-
-            NetworkInterface FindNetworkInterface(string interfaceName)
-            {
-                return NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(
-                    ni => ni.Name.StartsWith(interfaceName) 
+                scheduler.WaitUntil(
+                    condition: IsServicePortActive,
+                    out isConditionSatisfied
                 );
             }
+
+            bool IsServiceRunning() => isServiceRunning.Invoke();
+
+            bool IsServicePortActive() => isServicePortActive.Invoke();
+
+            Status ConnectToTunnelingService() => connectTunnelingService.Invoke();
         }
 
         public void Disable()
         {
-            processor.StopProcessAndChildren(TUNNELING_PROCESS_NAME);
+            ExecuteCommand(command: $"-command=disable");
         }
+
+        private Status ExecuteCommand(string command) => executeCommand.Invoke(command);
     }
 }

@@ -9,8 +9,8 @@
     <PackageId>Invisible Man XRay</PackageId>
     <Company>Invisible Man</Company>
     <Copyright>Copyright (C) 2023 Invisible Man</Copyright>
-    <Version>0.6.4.0</Version>
-    <AssemblyVersion>0.6.4.0</AssemblyVersion>
+    <Version>0.7.4.0</Version>
+    <AssemblyVersion>0.7.4.0</AssemblyVersion>
     <Nullable>enable</Nullable>
     <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8762</NoWarn>
     <UseWPF>true</UseWPF>

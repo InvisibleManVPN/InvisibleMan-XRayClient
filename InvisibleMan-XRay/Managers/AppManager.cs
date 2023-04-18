@@ -52,6 +52,7 @@ namespace InvisibleManXRay.Managers
 
             handlersManager.AddHandler(new SettingsHandler());
             handlersManager.AddHandler(new TemplateHandler());
+            handlersManager.AddHandler(new ServiceHandler());
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new TunnelHandler());
@@ -68,8 +69,31 @@ namespace InvisibleManXRay.Managers
 
         private void SetupHandlers()
         {
+            SetupServiceHandler();
+            SetupTunnelHandler();
             SetupConfigHandler();
             SetupNotifyHandler();
+
+            void SetupServiceHandler()
+            {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+                handlersManager.GetHandler<ServiceHandler>().Setup(
+                    getTunnelPort: settingsHandler.UserSettings.GetTunPort
+                );
+            }
+
+            void SetupTunnelHandler()
+            {
+                ServiceHandler serviceHandler = handlersManager.GetHandler<ServiceHandler>();
+
+                handlersManager.GetHandler<TunnelHandler>().Setup(
+                    onStartTunnelingService: serviceHandler.TunnelService.Start,
+                    isServiceRunning: serviceHandler.TunnelService.IsServiceRunning,
+                    isServicePortActive: serviceHandler.TunnelService.IsServicePortActive,
+                    connectTunnelingService: serviceHandler.TunnelService.Connect,
+                    executeCommand: serviceHandler.TunnelService.Execute
+                );
+            }
 
             void SetupConfigHandler()
             {
@@ -117,6 +141,7 @@ namespace InvisibleManXRay.Managers
 
                 void CloseApplication()
                 {
+                    core.DisableMode();
                     Application.Current.Shutdown();
                 }
                 
