@@ -112,7 +112,7 @@ func overrideInboundToSocks(port net.Port) []*core.InboundHandlerConfig {
 					},
 				},
 			}),
-			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{}),
+			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{UdpEnabled: true}),
 		},
 	}
 }
