@@ -5,14 +5,13 @@ namespace InvisibleManXRay.Foundation
 {
     public class Scheduler
     {
-        public void WaitUntil(Func<bool> condition, int millisecondsTimeout, out bool isConditionSatisfied)
+        public void WaitUntil(Func<bool> condition, out bool isConditionSatisfied)
         {
             isConditionSatisfied = false;
-            int timeRate = millisecondsTimeout / 20;
 
-            for (int i = 0; i < 20; i++)
+            while(true)
             {
-                Thread.Sleep(timeRate);
+                Thread.Sleep(100);
 
                 if (condition.Invoke())
                 {

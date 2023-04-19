@@ -16,6 +16,9 @@ namespace InvisibleManXRay.Models
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("10.0.236.10")]
         public string TunIp;
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(10803)]
+        public int TunPort;
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("8.8.8.8")]
         public string Dns;
 
@@ -24,6 +27,7 @@ namespace InvisibleManXRay.Models
             this.CurrentConfigIndex = 0;
             this.Mode = Mode.PROXY;
             this.TunIp = "10.0.236.10";
+            this.TunPort = 10803;
             this.Dns = "8.8.8.8";
         }
 
@@ -32,6 +36,8 @@ namespace InvisibleManXRay.Models
         public Mode GetMode() => Mode;
 
         public string GetTunIp() => TunIp;
+
+        public int GetTunPort() => TunPort;
 
         public string GetDns() => Dns;
     }

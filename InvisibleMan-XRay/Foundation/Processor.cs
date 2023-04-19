@@ -1,12 +1,10 @@
-using System;
-using System.Linq;
-using System.Management;
 using System.Diagnostics;
-using System.Threading;
 using System.Collections.Generic;
 
 namespace InvisibleManXRay.Foundation
 {
+    using Values;
+
     public class Processor
     {
         private Dictionary<string, Process> processes;
@@ -24,28 +22,20 @@ namespace InvisibleManXRay.Foundation
                 process.StartInfo.FileName = fileName;
                 process.StartInfo.Arguments = command;
                 process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.WorkingDirectory = Directory.SERVICES;
 
                 if (runAsAdmin)
                     process.StartInfo.Verb = "runas";
                 
                 process.Start();
                 AddProcess(process, processName);
-
-                process.WaitForExit();
-                RemoveProcess(processName);
             }
             catch
             {
                 StopProcess(processName);
             }
-        }
-
-        public void StartProcessAsThread(string processName, string fileName, string command, bool runAsAdmin)
-        {
-            new Thread(() => {
-                StartProcess(processName, fileName, command, runAsAdmin);
-            }).Start();
         }
 
         public void StopProcess(string processName)
@@ -55,9 +45,6 @@ namespace InvisibleManXRay.Foundation
                 Process process = processes[processName];
                 RemoveProcess(processName);
                 process.Kill(true);
-
-                Process tun2SocksProcess = Process.GetProcessesByName("tun2socks").FirstOrDefault();
-                tun2SocksProcess.Kill();
             }
             catch
             {
@@ -65,38 +52,13 @@ namespace InvisibleManXRay.Foundation
             }
         }
 
-        public void StopProcessAndChildren(string processName)
+        public void StopSystemProcesses(string processName)
         {
-            try
+            Process[] runningProcesses = Process.GetProcessesByName(processName);
+
+            foreach(Process process in runningProcesses)
             {
-                int processId = processes[processName].Id;
-                StopProcess(processName);
-                KillProcessAndChildren(processId);
-            }
-            catch
-            {
-
-            }
-
-            void KillProcessAndChildren(int processId)
-            {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(
-                    queryString: $"select * from Win32_Process where ParentProcessID={processId}"
-                );
-
-                foreach(ManagementObject managementObject in searcher.Get())
-                {
-                    KillProcessAndChildren(Convert.ToInt32(managementObject["ProcessID"]));
-                }
-
-                try
-                {
-                    Process.GetProcessById(processId).Kill();
-                }
-                catch
-                {
-
-                }
+                process.Kill();
             }
         }
 
@@ -111,6 +73,20 @@ namespace InvisibleManXRay.Foundation
                 return;
             
             processes.Remove(processName);
+        }
+
+        public bool IsProcessRunning(string processName) 
+        {
+            if (!IsProcessExists(processName))
+                return false;
+            
+            if (processes[processName].HasExited)
+            {
+                RemoveProcess(processName);
+                return false;
+            }
+            
+            return Process.GetProcessById(processes[processName].Id) != null;
         }
 
         private bool IsProcessExists(string processName) => processes.ContainsKey(processName);
