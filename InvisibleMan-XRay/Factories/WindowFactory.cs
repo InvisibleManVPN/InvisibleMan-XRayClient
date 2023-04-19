@@ -17,6 +17,8 @@ namespace InvisibleManXRay.Factories
             this.handlersManager = handlersManager;
         }
 
+        public MainWindow GetMainWindow() => Application.Current.MainWindow as MainWindow;
+
         public MainWindow CreateMainWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
@@ -78,7 +80,7 @@ namespace InvisibleManXRay.Factories
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             TemplateHandler templateHandler = handlersManager.GetHandler<TemplateHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            MainWindow mainWindow = GetMainWindow();
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(

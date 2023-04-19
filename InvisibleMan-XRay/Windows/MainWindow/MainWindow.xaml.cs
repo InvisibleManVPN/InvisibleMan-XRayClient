@@ -229,6 +229,16 @@ namespace InvisibleManXRay
             isReconnectingRequest = true;
         }
 
+        public void TryDisableModeAndReconnect()
+        {
+            if (!connectWorker.IsBusy)
+                return;
+            
+            onDisableMode.Invoke();
+            onStopServer.Invoke();
+            isReconnectingRequest = true;
+        }
+
         private void OnManageServersClick(object sender, RoutedEventArgs e)
         {
             OpenServerWindow();

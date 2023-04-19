@@ -167,7 +167,15 @@ namespace InvisibleManXRay.Managers
                     aboutWindow.ShowDialog();
                 }
 
-                void OnModeClick(Mode mode) => settingsHandler.UpdateMode(mode);
+                void OnModeClick(Mode mode) 
+                {
+                    if (mode == settingsHandler.UserSettings.GetMode())
+                        return;
+
+                    MainWindow mainWindow = WindowFactory.GetMainWindow();
+                    settingsHandler.UpdateMode(mode);
+                    mainWindow.TryDisableModeAndReconnect();
+                }
             }
         }
 
