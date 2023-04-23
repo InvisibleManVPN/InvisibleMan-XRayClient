@@ -15,6 +15,7 @@ namespace InvisibleManXRay.Components
         
         private Action onSelect;
         private Action onDelete;
+        private Func<Window> getServerWindow;
         private Func<string, bool> testConnection;
 
         private BackgroundWorker checkConnectionWorker;
@@ -47,11 +48,13 @@ namespace InvisibleManXRay.Components
             Models.Config config, 
             Action onSelect, 
             Action onDelete, 
+            Func<Window> getServerWindow,
             Func<string, bool> testConnection)
         {
             this.config = config;
             this.onSelect = onSelect;
             this.onDelete = onDelete;
+            this.getServerWindow = getServerWindow;
             this.testConnection = testConnection;
 
             UpdateUI();
@@ -81,6 +84,7 @@ namespace InvisibleManXRay.Components
             if (!File.Exists(config.Path))
             {
                 MessageBox.Show(
+                    getServerWindow.Invoke(),
                     Message.FILE_DOESNT_EXISTS,
                     Caption.ERROR,
                     MessageBoxButton.OK,
@@ -103,6 +107,7 @@ namespace InvisibleManXRay.Components
         private void OnDeleteButtonClick(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
+                getServerWindow.Invoke(),
                 string.Format(Message.DELETE_CONFIRMATION, config.Name),
                 Caption.INFO,
                 MessageBoxButton.YesNo,
@@ -120,7 +125,7 @@ namespace InvisibleManXRay.Components
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(getServerWindow.Invoke(), ex.Message);
                 }
                 finally
                 {

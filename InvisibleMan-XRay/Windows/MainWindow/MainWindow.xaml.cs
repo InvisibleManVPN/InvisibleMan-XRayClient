@@ -75,6 +75,7 @@ namespace InvisibleManXRay
                     {
                         Dispatcher.BeginInvoke(new Action(delegate {
                             MessageBox.Show(
+                                this,
                                 modeStatus.Content.ToString(), 
                                 Caption.ERROR, 
                                 MessageBoxButton.OK, 
@@ -118,6 +119,7 @@ namespace InvisibleManXRay
                         void HandleNoConfigError()
                         {
                             MessageBoxResult result = MessageBox.Show(
+                                this,
                                 configStatus.Content.ToString(), 
                                 Caption.WARNING, 
                                 MessageBoxButton.OK, 
@@ -131,6 +133,7 @@ namespace InvisibleManXRay
                         void HandleInvalidConfigError()
                         {
                             MessageBox.Show(
+                                this,
                                 configStatus.Content.ToString(), 
                                 Caption.ERROR, 
                                 MessageBoxButton.OK, 
