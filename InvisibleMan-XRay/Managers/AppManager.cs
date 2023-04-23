@@ -174,7 +174,7 @@ namespace InvisibleManXRay.Managers
 
                     MainWindow mainWindow = WindowFactory.GetMainWindow();
                     settingsHandler.UpdateMode(mode);
-                    mainWindow.TryDisableModeAndReconnect();
+                    mainWindow.TryDisableModeAndRerun();
                 }
             }
         }
