@@ -101,7 +101,7 @@ namespace InvisibleManXRay.Factories
             {
                 settingsHandler.UpdateCurrentConfigIndex(index);
                 mainWindow.UpdateUI();
-                mainWindow.TryReconnect();
+                mainWindow.TryRerun();
             }
         }
     }

@@ -9,7 +9,7 @@ namespace InvisibleManXRay
 
     public partial class MainWindow : Window
     {
-        private bool isReconnectingRequest;
+        private bool isRerunRequest;
 
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
@@ -26,35 +26,35 @@ namespace InvisibleManXRay
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
 
-        private BackgroundWorker connectWorker;
+        private BackgroundWorker runWorker;
         private BackgroundWorker updateWorker;
         private BackgroundWorker broadcastWorker;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeConnectWorker();
+            InitializeRunWorker();
             InitializeUpdateWorker();
             InitializeBroadcastWorker();
 
             updateWorker.RunWorkerAsync();
             broadcastWorker.RunWorkerAsync();
 
-            void InitializeConnectWorker()
+            void InitializeRunWorker()
             {
-                connectWorker = new BackgroundWorker();
+                runWorker = new BackgroundWorker();
 
-                connectWorker.RunWorkerCompleted += (sender, e) => {
-                    if (isReconnectingRequest)
+                runWorker.RunWorkerCompleted += (sender, e) => {
+                    if (isRerunRequest)
                     {
-                        connectWorker.RunWorkerAsync();
-                        isReconnectingRequest = false;
+                        runWorker.RunWorkerAsync();
+                        isRerunRequest = false;
                     }
                 };
 
-                connectWorker.DoWork += (sender, e) => {
+                runWorker.DoWork += (sender, e) => {
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowConnectingStatus();
+                        ShowWaitForRunStatus();
                     }));
 
                     Status configStatus = loadConfig.Invoke();
@@ -63,7 +63,7 @@ namespace InvisibleManXRay
                     {
                         Dispatcher.BeginInvoke(new Action(delegate {
                             HandleError();
-                            ShowDisconnectStatus();
+                            ShowStopStatus();
                         }));
 
                         return;
@@ -81,20 +81,20 @@ namespace InvisibleManXRay
                                 MessageBoxButton.OK, 
                                 MessageBoxImage.Error
                             );
-                            ShowDisconnectStatus();
+                            ShowStopStatus();
                         }));
                         
                         return;
                     }
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowConnectStatus();
+                        ShowRunStatus();
                     }));
 
                     onRunServer.Invoke(configStatus.Content.ToString());
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowDisconnectStatus();
+                        ShowStopStatus();
                     }));
 
                     void HandleError()
@@ -223,23 +223,23 @@ namespace InvisibleManXRay
             textServerConfig.Content = config.Name;
         }
 
-        public void TryReconnect()
+        public void TryRerun()
         {
-            if (!connectWorker.IsBusy)
+            if (!runWorker.IsBusy)
                 return;
             
             onStopServer.Invoke();
-            isReconnectingRequest = true;
+            isRerunRequest = true;
         }
 
-        public void TryDisableModeAndReconnect()
+        public void TryDisableModeAndRerun()
         {
-            if (!connectWorker.IsBusy)
+            if (!runWorker.IsBusy)
                 return;
             
             onDisableMode.Invoke();
             onStopServer.Invoke();
-            isReconnectingRequest = true;
+            isRerunRequest = true;
         }
 
         private void OnManageServersClick(object sender, RoutedEventArgs e)
@@ -247,19 +247,19 @@ namespace InvisibleManXRay
             OpenServerWindow();
         }
 
-        private void OnConnectButtonClick(object sender, RoutedEventArgs e)
+        private void OnRunButtonClick(object sender, RoutedEventArgs e)
         {
-            if (connectWorker.IsBusy)
+            if (runWorker.IsBusy)
                 return;
 
-            connectWorker.RunWorkerAsync();
+            runWorker.RunWorkerAsync();
         }
 
-        private void OnDisconnectButtonClick(object sender, RoutedEventArgs e)
+        private void OnStopButtonClick(object sender, RoutedEventArgs e)
         {
             onStopServer.Invoke();
             onDisableMode.Invoke();
-            isReconnectingRequest = false;
+            isRerunRequest = false;
         }
 
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
@@ -303,31 +303,31 @@ namespace InvisibleManXRay
             aboutWindow.ShowDialog();
         }
 
-        private void ShowConnectStatus()
+        private void ShowRunStatus()
         {
-            statusConnect.Visibility = Visibility.Visible;
-            statusDisconnect.Visibility = Visibility.Hidden;
-            statusConnecting.Visibility = Visibility.Hidden;
+            statusRun.Visibility = Visibility.Visible;
+            statusStop.Visibility = Visibility.Hidden;
+            statusWaitForRun.Visibility = Visibility.Hidden;
 
-            buttonDisconnect.Visibility = Visibility.Visible;
-            buttonConnect.Visibility = Visibility.Hidden;
+            buttonStop.Visibility = Visibility.Visible;
+            buttonRun.Visibility = Visibility.Hidden;
         }
 
-        private void ShowDisconnectStatus()
+        private void ShowStopStatus()
         {
-            statusDisconnect.Visibility = Visibility.Visible;
-            statusConnect.Visibility = Visibility.Hidden;
-            statusConnecting.Visibility = Visibility.Hidden;
+            statusStop.Visibility = Visibility.Visible;
+            statusRun.Visibility = Visibility.Hidden;
+            statusWaitForRun.Visibility = Visibility.Hidden;
 
-            buttonConnect.Visibility = Visibility.Visible;
-            buttonDisconnect.Visibility = Visibility.Hidden;
+            buttonRun.Visibility = Visibility.Visible;
+            buttonStop.Visibility = Visibility.Hidden;
         }
 
-        private void ShowConnectingStatus()
+        private void ShowWaitForRunStatus()
         {
-            statusConnecting.Visibility = Visibility.Visible;
-            statusDisconnect.Visibility = Visibility.Hidden;
-            statusConnect.Visibility = Visibility.Hidden;
+            statusWaitForRun.Visibility = Visibility.Visible;
+            statusStop.Visibility = Visibility.Hidden;
+            statusRun.Visibility = Visibility.Hidden;
         }
 
         protected override void OnClosing(CancelEventArgs e)
