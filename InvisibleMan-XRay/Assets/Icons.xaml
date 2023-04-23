@@ -9,7 +9,7 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
-    <VisualBrush x:Key="Icon.Disconnect">
+    <VisualBrush x:Key="Icon.Stop">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z" Fill="#2d2d2d"/>
@@ -19,7 +19,7 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
-    <VisualBrush x:Key="Icon.Connect">
+    <VisualBrush x:Key="Icon.Run">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z" Fill="#2d2d2d"/>
