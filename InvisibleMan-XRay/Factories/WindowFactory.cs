@@ -38,6 +38,7 @@ namespace InvisibleManXRay.Factories
                 openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
+                onCancelServer: core.Cancel,
                 onDisableMode: core.DisableMode,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,

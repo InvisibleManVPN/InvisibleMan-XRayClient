@@ -9,6 +9,7 @@ namespace InvisibleManXRay.Handlers.Tunnels
 
     public class WindowsTunnel : ITunnel
     {
+        private bool isCanceled;
         private Scheduler scheduler;
 
         private Action onStartTunnelingService;
@@ -48,11 +49,11 @@ namespace InvisibleManXRay.Handlers.Tunnels
 
                 WaitUntilServiceWasRun(out bool isServiceRunConditionSatisfied);
                 if (!isServiceRunConditionSatisfied)
-                    throw new Exception();
+                    return CancelStatus();
                 
                 WaitUntilServicePortWasActive(out bool isServicePortConditionSatisfied);
                 if (!isServicePortConditionSatisfied)
-                    throw new Exception();
+                    return CancelStatus();
                 
                 Status connectingStatus = ConnectToTunnelingService();
                 if (connectingStatus.Code == Code.ERROR)
@@ -70,6 +71,9 @@ namespace InvisibleManXRay.Handlers.Tunnels
                 
                 if(enablingCommandStatus.Code == Code.ERROR)
                     return enablingCommandStatus;
+                
+                if (isCanceled)
+                    return CancelStatus();
 
                 return new Status(
                     code: Code.SUCCESS,
@@ -98,7 +102,8 @@ namespace InvisibleManXRay.Handlers.Tunnels
             {
                 scheduler.WaitUntil(
                     condition: IsServiceRunning,
-                    out isConditionSatisfied
+                    cancellation: IsServiceCanceled,
+                    isConditionSatisfied: out isConditionSatisfied
                 );
             }
 
@@ -106,7 +111,8 @@ namespace InvisibleManXRay.Handlers.Tunnels
             {
                 scheduler.WaitUntil(
                     condition: IsServicePortActive,
-                    out isConditionSatisfied
+                    cancellation: IsServiceCanceled,
+                    isConditionSatisfied: out isConditionSatisfied
                 );
             }
 
@@ -114,12 +120,31 @@ namespace InvisibleManXRay.Handlers.Tunnels
 
             bool IsServicePortActive() => isServicePortActive.Invoke();
 
+            bool IsServiceCanceled() => isCanceled;
+
             Status ConnectToTunnelingService() => connectTunnelingService.Invoke();
         }
 
         public void Disable()
         {
+            isCanceled = false;
             ExecuteCommand(command: $"-command=disable");
+        }
+
+        public void Cancel()
+        {
+            isCanceled = true;
+        }
+
+        private Status CancelStatus()
+        {
+            isCanceled = false;
+
+            return new Status(
+                code: Code.INFO,
+                subCode: SubCode.CANCELED,
+                content: null
+            );
         }
 
         private Status ExecuteCommand(string command) => executeCommand.Invoke(command);

@@ -6,5 +6,6 @@ namespace InvisibleManXRay.Handlers.Tunnels
     {
         Status Enable(string ip, int port, string address, string server, string dns);
         void Disable();
+        void Cancel();
     }
 }

@@ -7,6 +7,8 @@ namespace InvisibleManXRay.Handlers.Proxies
 
     public class WindowsProxy : IProxy
     {
+        private bool isCanceled;
+
         private const string INTERNET_SETTINGS = @"Software\Microsoft\Windows\CurrentVersion\Internet Settings";
         private const string PROXY_ENABLE = "ProxyEnable";
         private const string PROXY_SERVER = "ProxyServer";
@@ -19,6 +21,9 @@ namespace InvisibleManXRay.Handlers.Proxies
             {
                 registry.SetValue(PROXY_ENABLE, 1);
                 registry.SetValue(PROXY_SERVER, $"{ip}:{port}");
+
+                if (isCanceled)
+                    return CancelStatus();
                 
                 return new Status(
                     code: Code.SUCCESS,
@@ -38,8 +43,14 @@ namespace InvisibleManXRay.Handlers.Proxies
 
         public void Disable()
         {
+            isCanceled = false;
             RegistryKey registry = GetInternetSettingsRegistry();
             registry.SetValue(PROXY_ENABLE, 0);
+        }
+
+        public void Cancel()
+        {
+            isCanceled = true;
         }
 
         private RegistryKey GetInternetSettingsRegistry()
@@ -49,6 +60,17 @@ namespace InvisibleManXRay.Handlers.Proxies
                 registry = Registry.CurrentUser.CreateSubKey(INTERNET_SETTINGS);
             
             return registry;
+        }
+
+        private Status CancelStatus()
+        {
+            isCanceled = false;
+
+            return new Status(
+                code: Code.INFO,
+                subCode: SubCode.CANCELED,
+                content: null
+            );
         }
     }
 }

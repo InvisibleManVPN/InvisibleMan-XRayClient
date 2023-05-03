@@ -124,6 +124,14 @@
                 </Button>
 
                 <Button Grid.Row="4" Width="200" Height="40" 
+                    Content="CANCEL" Style="{StaticResource Button.Rectangle.Red}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
+                    Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
+                    Click="OnCancelButtonClick" x:Name="buttonCancel">
+
+                </Button>
+
+                <Button Grid.Row="4" Width="200" Height="40" 
                     Content="STOP" Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                     Foreground="{StaticResource Color.Gray}" Visibility="Hidden"

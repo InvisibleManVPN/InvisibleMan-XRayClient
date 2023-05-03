@@ -6,5 +6,6 @@ namespace InvisibleManXRay.Handlers.Proxies
     {
         Status Enable(string ip, int port);
         void Disable();
+        void Cancel();
     }
 }
