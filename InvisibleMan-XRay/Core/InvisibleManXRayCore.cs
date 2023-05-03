@@ -83,6 +83,28 @@ namespace InvisibleManXRay.Core
             DisableTunnel();
         }
 
+        public void Run(string config)
+        {
+            Mode mode = getMode.Invoke();
+            XRayCoreWrapper.StartServer(config, DEFAULT_PORT, mode == Mode.TUN);
+        }
+
+        public void Stop()
+        {
+            XRayCoreWrapper.StopServer();
+        }
+
+        public void Cancel()
+        {
+            CancelProxy();
+            CancelTunnel();
+        }
+
+        public bool Test(string config)
+        {
+            return XRayCoreWrapper.TestConnection(config, TEST_PORT);
+        }
+
         private Status EnableProxy()
         {
             IProxy proxy = getProxy.Invoke();
@@ -140,20 +162,16 @@ namespace InvisibleManXRay.Core
             tunnel.Disable();
         }
 
-        public void Run(string config)
+        private void CancelProxy()
         {
-            Mode mode = getMode.Invoke();
-            XRayCoreWrapper.StartServer(config, DEFAULT_PORT, mode == Mode.TUN);
+            IProxy proxy = getProxy.Invoke();
+            proxy.Cancel();
         }
 
-        public void Stop()
+        private void CancelTunnel()
         {
-            XRayCoreWrapper.StopServer();
-        }
-
-        public bool Test(string config)
-        {
-            return XRayCoreWrapper.TestConnection(config, TEST_PORT);
+            ITunnel tunnel = getTunnel.Invoke();
+            tunnel.Cancel();
         }
     }
 }

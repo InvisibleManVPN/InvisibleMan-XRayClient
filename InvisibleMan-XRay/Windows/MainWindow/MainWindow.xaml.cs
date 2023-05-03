@@ -20,6 +20,7 @@ namespace InvisibleManXRay
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
         private Action<string> onRunServer;
+        private Action onCancelServer;
         private Action onStopServer;
         private Action onDisableMode;
         private Action onGitHubClick;
@@ -85,6 +86,17 @@ namespace InvisibleManXRay
                         }));
                         
                         return;
+                    }
+                    else if (modeStatus.Code == Code.INFO)
+                    {
+                        if (modeStatus.SubCode == SubCode.CANCELED)
+                        {
+                            Dispatcher.BeginInvoke(new Action(delegate {
+                                ShowStopStatus();
+                            }));
+
+                            return;
+                        }
                     }
 
                     Dispatcher.BeginInvoke(new Action(delegate {
@@ -187,6 +199,7 @@ namespace InvisibleManXRay
             Func<AboutWindow> openAboutWindow,
             Action<string> onRunServer,
             Action onStopServer,
+            Action onCancelServer,
             Action onDisableMode,
             Action onGitHubClick,
             Action onBugReportingClick,
@@ -200,6 +213,7 @@ namespace InvisibleManXRay
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
             this.onRunServer = onRunServer;
+            this.onCancelServer = onCancelServer;
             this.onStopServer = onStopServer;
             this.enableMode = enableMode;
             this.onDisableMode = onDisableMode;
@@ -262,6 +276,14 @@ namespace InvisibleManXRay
             isRerunRequest = false;
         }
 
+        private void OnCancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!runWorker.IsBusy)
+                return;
+
+            onCancelServer.Invoke();
+        }
+
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
         {
             onGitHubClick.Invoke();
@@ -310,6 +332,7 @@ namespace InvisibleManXRay
             statusWaitForRun.Visibility = Visibility.Hidden;
 
             buttonStop.Visibility = Visibility.Visible;
+            buttonCancel.Visibility = Visibility.Hidden;
             buttonRun.Visibility = Visibility.Hidden;
         }
 
@@ -320,6 +343,7 @@ namespace InvisibleManXRay
             statusWaitForRun.Visibility = Visibility.Hidden;
 
             buttonRun.Visibility = Visibility.Visible;
+            buttonCancel.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
         }
 
@@ -328,6 +352,10 @@ namespace InvisibleManXRay
             statusWaitForRun.Visibility = Visibility.Visible;
             statusStop.Visibility = Visibility.Hidden;
             statusRun.Visibility = Visibility.Hidden;
+
+            buttonCancel.Visibility = Visibility.Visible;
+            buttonRun.Visibility = Visibility.Hidden;
+            buttonStop.Visibility = Visibility.Hidden;
         }
 
         protected override void OnClosing(CancelEventArgs e)
