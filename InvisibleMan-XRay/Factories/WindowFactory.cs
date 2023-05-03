@@ -17,26 +17,32 @@ namespace InvisibleManXRay.Factories
             this.handlersManager = handlersManager;
         }
 
+        public MainWindow GetMainWindow() => Application.Current.MainWindow as MainWindow;
+
         public MainWindow CreateMainWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             UpdateHandler updateHandler = handlersManager.GetHandler<UpdateHandler>();
+            BroadcastHandler broadcastHandler = handlersManager.GetHandler<BroadcastHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Setup(
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
+                enableMode: core.EnableMode,
                 checkForUpdate: updateHandler.CheckForUpdate,
+                checkForBroadcast: broadcastHandler.CheckForBroadcast,
                 openServerWindow: CreateServerWindow,
                 openUpdateWindow: CreateUpdateWindow,
                 openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
-                onEnableProxy: core.EnableProxy,
-                onDisableProxy: core.DisableProxy,
+                onCancelServer: core.Cancel,
+                onDisableMode: core.DisableMode,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
-                onBugReportingClick: linkHandler.OpenBugReportingLink
+                onBugReportingClick: linkHandler.OpenBugReportingLink,
+                onCustomLinkClick: linkHandler.OpenCustomLink
             );
             
             return mainWindow;
@@ -75,7 +81,7 @@ namespace InvisibleManXRay.Factories
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             TemplateHandler templateHandler = handlersManager.GetHandler<TemplateHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
-            MainWindow mainWindow = Application.Current.MainWindow as MainWindow;
+            MainWindow mainWindow = GetMainWindow();
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(
@@ -96,7 +102,7 @@ namespace InvisibleManXRay.Factories
             {
                 settingsHandler.UpdateCurrentConfigIndex(index);
                 mainWindow.UpdateUI();
-                mainWindow.TryReconnect();
+                mainWindow.TryRerun();
             }
         }
     }

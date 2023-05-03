@@ -131,6 +131,7 @@ namespace InvisibleManXRay
                 if (!IsFileSelected())
                 {
                     MessageBox.Show(
+                        this,
                         Values.Message.NO_FILES_SELECTED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
@@ -150,6 +151,7 @@ namespace InvisibleManXRay
                 if (!IsLinkEntered())
                 {
                     MessageBox.Show(
+                        this,
                         Values.Message.NO_LINK_ENTERED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
@@ -230,6 +232,7 @@ namespace InvisibleManXRay
                     void HandleWarningMessage()
                     {
                         MessageBoxResult result = MessageBox.Show(
+                            this,
                             configStatus.Content.ToString(), 
                             Caption.WARNING, 
                             MessageBoxButton.OK, 
@@ -240,6 +243,7 @@ namespace InvisibleManXRay
                     void HandleErrorMessage()
                     {
                         MessageBox.Show(
+                            this,
                             configStatus.Content.ToString(), 
                             Caption.ERROR, 
                             MessageBoxButton.OK, 
@@ -334,6 +338,7 @@ namespace InvisibleManXRay
                                 onUpdateConfig.Invoke(currentConfigIndex - 1);
                         }
                     },
+                    getServerWindow: () => this,
                     testConnection: (configPath) => {
                         Status configStatus = loadConfig.Invoke(configPath);
                         if (configStatus.Code == Code.ERROR)

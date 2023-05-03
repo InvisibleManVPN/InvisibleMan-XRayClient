@@ -3,6 +3,7 @@
 > A client for xray core
 
 [![Downloads](https://img.shields.io/github/downloads/invisiblemanvpn/InvisibleMan-XRayClient/total.svg?label=downloads%20%28total%29)](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/releases)
+[![DownloadsLatest](https://img.shields.io/github/downloads/InvisibleManVPN/InvisibleMan-XRayClient/latest/total?label=downloads%20%28latest%29)](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/releases/latest)
 [![LatestVersion](https://img.shields.io/github/v/release/invisiblemanvpn/InvisibleMan-XRayClient?label=latest%20version)](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/releases/latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/invisiblemanvpn/InvisibleMan-XRayClient/badge)](https://www.codefactor.io/repository/github/invisiblemanvpn/InvisibleMan-XRayClient)
 
@@ -23,7 +24,7 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
     ```
   - Change to the directory:
     ```
-    cd InvisibleMan-XRay
+    cd InvisibleMan-XRayClient
     ```
   - Make `XRayCore.dll` file and copy to the `/InvisibleMan-XRay/Libraries` directory:
     ```
@@ -32,9 +33,16 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
     md ..\InvisileMan-XRay\Libraries
     copy XRayCore.dll ..\InvisibleMan-XRay\Libraries   
     ```
-  - Run the project:
+  - Download `InvisibleMan-TUN` service (based on your OS) from [this](https://github.com/InvisibleManVPN/InvisibleMan-TUN/releases/latest) link, extract and copy to the `/InvisibleMan-XRay/Services` directory.
+  
+  - Download `geoip.dat` and `geosite.dat` files and copy to the `/InvisibleMan-XRay` directory:
     ```
     cd ..\InvisibleMan-XRay
+    curl https://github.com/v2fly/geoip/releases/latest/download/geoip.dat -o geoip.dat -L
+    curl https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat -o geosite.dat -L
+    ```
+  - Run the project:
+    ```
     dotnet run
     ```
 
@@ -42,6 +50,7 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
 
 - Go https://go.dev/dl/
 - .Net https://dotnet.microsoft.com/download
+- Curl https://curl.se/download.html
 
 ## Contributing
 

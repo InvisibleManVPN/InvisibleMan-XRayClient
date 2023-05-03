@@ -9,7 +9,7 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
-    <VisualBrush x:Key="Icon.Disconnect">
+    <VisualBrush x:Key="Icon.Stop">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z" Fill="#2d2d2d"/>
@@ -19,7 +19,7 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
-    <VisualBrush x:Key="Icon.Connect">
+    <VisualBrush x:Key="Icon.Run">
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z" Fill="#2d2d2d"/>
@@ -73,6 +73,14 @@
         <VisualBrush.Visual>
             <Canvas>
                 <Path Data="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" Fill="#2d2d2d"/>
+            </Canvas>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
+    <VisualBrush x:Key="Icon.Close">
+        <VisualBrush.Visual>
+            <Canvas>
+                <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="White"/>
             </Canvas>
         </VisualBrush.Visual>
     </VisualBrush>

@@ -14,6 +14,7 @@ import (
 	"github.com/xtls/xray-core/common/serial"
 	"github.com/xtls/xray-core/core"
 	"github.com/xtls/xray-core/proxy/http"
+	"github.com/xtls/xray-core/proxy/socks"
 )
 
 //export GetConfigFormat
@@ -68,7 +69,15 @@ func convertJsonToObject(config *C.char) *core.Config {
 	return configObj
 }
 
-func overrideInbound(port net.Port) []*core.InboundHandlerConfig {
+func overrideInbound(port net.Port, isSocks bool) []*core.InboundHandlerConfig {
+	if isSocks == false {
+		return overrideInboundToHttp(port)
+	} else {
+		return overrideInboundToSocks(port)
+	}
+}
+
+func overrideInboundToHttp(port net.Port) []*core.InboundHandlerConfig {
 	return []*core.InboundHandlerConfig{
 		{
 			ReceiverSettings: serial.ToTypedMessage(&proxyman.ReceiverConfig{
@@ -84,6 +93,26 @@ func overrideInbound(port net.Port) []*core.InboundHandlerConfig {
 				},
 			}),
 			ProxySettings: serial.ToTypedMessage(&http.ServerConfig{}),
+		},
+	}
+}
+
+func overrideInboundToSocks(port net.Port) []*core.InboundHandlerConfig {
+	return []*core.InboundHandlerConfig{
+		{
+			ReceiverSettings: serial.ToTypedMessage(&proxyman.ReceiverConfig{
+				PortList: &net.PortList{
+					Range: []*net.PortRange{
+						net.SinglePortRange(port),
+					},
+				},
+				Listen: &net.IPOrDomain{
+					Address: &net.IPOrDomain_Ip{
+						Ip: []byte{127, 0, 0, 1},
+					},
+				},
+			}),
+			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{UdpEnabled: true}),
 		},
 	}
 }

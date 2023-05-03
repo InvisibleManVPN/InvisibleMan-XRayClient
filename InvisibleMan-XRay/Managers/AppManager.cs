@@ -3,6 +3,7 @@ using System.Threading;
 
 namespace InvisibleManXRay.Managers
 {
+    using Models;
     using Core;
     using Handlers;
     using Factories;
@@ -51,10 +52,13 @@ namespace InvisibleManXRay.Managers
 
             handlersManager.AddHandler(new SettingsHandler());
             handlersManager.AddHandler(new TemplateHandler());
+            handlersManager.AddHandler(new ServiceHandler());
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
+            handlersManager.AddHandler(new TunnelHandler());
             handlersManager.AddHandler(new NotifyHandler());
             handlersManager.AddHandler(new UpdateHandler());
+            handlersManager.AddHandler(new BroadcastHandler());
             handlersManager.AddHandler(new LinkHandler());
         }
 
@@ -65,8 +69,31 @@ namespace InvisibleManXRay.Managers
 
         private void SetupHandlers()
         {
+            SetupServiceHandler();
+            SetupTunnelHandler();
             SetupConfigHandler();
             SetupNotifyHandler();
+
+            void SetupServiceHandler()
+            {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+                handlersManager.GetHandler<ServiceHandler>().Setup(
+                    getTunnelPort: settingsHandler.UserSettings.GetTunPort
+                );
+            }
+
+            void SetupTunnelHandler()
+            {
+                ServiceHandler serviceHandler = handlersManager.GetHandler<ServiceHandler>();
+
+                handlersManager.GetHandler<TunnelHandler>().Setup(
+                    onStartTunnelingService: serviceHandler.TunnelService.Start,
+                    isServiceRunning: serviceHandler.TunnelService.IsServiceRunning,
+                    isServicePortActive: serviceHandler.TunnelService.IsServicePortActive,
+                    connectTunnelingService: serviceHandler.TunnelService.Connect,
+                    executeCommand: serviceHandler.TunnelService.Execute
+                );
+            }
 
             void SetupConfigHandler()
             {
@@ -79,11 +106,16 @@ namespace InvisibleManXRay.Managers
 
             void SetupNotifyHandler()
             {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+
                 handlersManager.GetHandler<NotifyHandler>().Setup(
+                    getMode: settingsHandler.UserSettings.GetMode,
                     onOpenClick: OpenApplication,
                     onUpdateClick: OpenUpdateWindow,
                     onAboutClick: OpenAboutWindow,
-                    onCloseClick: CloseApplication
+                    onCloseClick: CloseApplication,
+                    onProxyModeClick: () => { OnModeClick(Mode.PROXY); },
+                    onTunnelModeClick: () => { OnModeClick(Mode.TUN); }
                 );
 
                 bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
@@ -109,6 +141,7 @@ namespace InvisibleManXRay.Managers
 
                 void CloseApplication()
                 {
+                    core.DisableMode();
                     Application.Current.Shutdown();
                 }
                 
@@ -133,17 +166,33 @@ namespace InvisibleManXRay.Managers
                     aboutWindow.Owner = Application.Current.MainWindow;
                     aboutWindow.ShowDialog();
                 }
+
+                void OnModeClick(Mode mode) 
+                {
+                    if (mode == settingsHandler.UserSettings.GetMode())
+                        return;
+
+                    MainWindow mainWindow = WindowFactory.GetMainWindow();
+                    settingsHandler.UpdateMode(mode);
+                    mainWindow.TryDisableModeAndRerun();
+                }
             }
         }
 
         private void SetupCore()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
             ProxyHandler proxyHandler = handlersManager.GetHandler<ProxyHandler>();
+            TunnelHandler tunnelHandler = handlersManager.GetHandler<TunnelHandler>();
 
             core.Setup(
                 getConfig: configHandler.GetCurrentConfig,
+                getMode: settingsHandler.UserSettings.GetMode,
+                getTunIp: settingsHandler.UserSettings.GetTunIp,
+                getDns: settingsHandler.UserSettings.GetDns,
                 getProxy: proxyHandler.GetProxy,
+                getTunnel: tunnelHandler.GetTunnel,
                 onFailLoadingConfig: configHandler.RemoveConfigFromList
             );
         }
