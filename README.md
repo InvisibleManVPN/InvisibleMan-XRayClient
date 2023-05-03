@@ -68,9 +68,21 @@ If you know how to code, we welcome you to send fixes and new features!
 
 Please consider donating to support and sustain our activities.
 
-![Bitcoin Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/bitcoin-wallet.png)
+- **BITCOIN:** 
 
-**BITCOIN:** bc1qy6a47vrygqf4x5dwpcm7wnamgn2gxxwn32w807
+   ![Bitcoin Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/bitcoin-wallet.png)
+
+   ```
+   bc1qy6a47vrygqf4x5dwpcm7wnamgn2gxxwn32w807
+   ```
+
+- **ETHEREUM:**
+
+   ![Ethereum Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/ethereum-wallet.png)
+
+   ```
+   0x8cad02de7dd61237Fdf6B98589e15e1a59C54849
+   ```
 
 ## Contacts
 
