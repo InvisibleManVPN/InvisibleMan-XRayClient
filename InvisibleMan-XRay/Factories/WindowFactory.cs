@@ -34,6 +34,7 @@ namespace InvisibleManXRay.Factories
                 checkForUpdate: updateHandler.CheckForUpdate,
                 checkForBroadcast: broadcastHandler.CheckForBroadcast,
                 openServerWindow: CreateServerWindow,
+                openSettingsWindow: CreateSettingsWindow,
                 openUpdateWindow: CreateUpdateWindow,
                 openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
@@ -46,6 +47,12 @@ namespace InvisibleManXRay.Factories
             );
             
             return mainWindow;
+        }
+
+        public SettingsWindow CreateSettingsWindow()
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            return settingsWindow;
         }
 
         public UpdateWindow CreateUpdateWindow()
