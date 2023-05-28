@@ -92,7 +92,7 @@
                             <Setter TargetName="border" Property="Background" Value="{StaticResource Color.Gray}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Color.DarkGray}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

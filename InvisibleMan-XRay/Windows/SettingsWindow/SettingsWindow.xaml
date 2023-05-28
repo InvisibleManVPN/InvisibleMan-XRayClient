@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InvisibleManXRay"
+        xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
         mc:Ignorable="d"
         Title="Invisible Man XRay - Settings"
         Height="450" 
@@ -23,7 +24,122 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0" Margin="0 0 0 2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"/>
+                    <Label Grid.Row="0" Content="Basic"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Label Grid.Row="0" Content="Port"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="4">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Label Grid.Row="0" Content="TUN"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="6">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Label Grid.Row="0" Content="Log"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+
+            <Grid Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel x:Name="panelBasic" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Foreground="White" Content="Mode"
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                        <ComboBox Grid.Column="1" 
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="13">
+
+                            <ComboBoxItem Content="Proxy"></ComboBoxItem>  
+                            <ComboBoxItem Content="TUN"></ComboBoxItem> 
+                        </ComboBox>
+                    </Grid>
+
+                    <Grid Margin="0 5 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Foreground="White" Content="Protocol"
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                        <ComboBox Grid.Column="1" 
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="13">
+
+                            <ComboBoxItem Content="http"></ComboBoxItem>  
+                            <ComboBoxItem Content="socks"></ComboBoxItem> 
+                        </ComboBox>
+                    </Grid>
+
+                    <CheckBox Margin="5 25 0 0" Foreground="White" Content="Enable UDP"
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                        <!-- Checked="HandleCheck" Unchecked="HandleUnchecked"  -->
+                        
+                    <CheckBox Margin="5 15 0 0" Foreground="White" Content="Run automatically at startup"
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                        <!-- Checked="HandleCheck" Unchecked="HandleUnchecked"  -->
+                        
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="15 0">
+
+                    <Button Width="100" Height="30" Content="CONFIRM" 
+                        Style="{StaticResource Button.Rectangle.Green}" 
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                        Foreground="{StaticResource Color.Gray}">
+                    </Button>
+
+                    <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                        Style="{StaticResource Button.Rectangle.Red}" 
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                        Foreground="{StaticResource Color.Gray}">
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
