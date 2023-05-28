@@ -89,7 +89,7 @@
                         <Label Grid.Column="0" Foreground="White" Content="Mode"
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                        <ComboBox Grid.Column="1" 
+                        <ComboBox Grid.Column="1" Height="26"
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="13">
 
                             <ComboBoxItem Content="Proxy"></ComboBoxItem>  
@@ -106,7 +106,7 @@
                         <Label Grid.Column="0" Foreground="White" Content="Protocol"
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                        <ComboBox Grid.Column="1" 
+                        <ComboBox Grid.Column="1" Height="26"
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="13">
 
                             <ComboBoxItem Content="http"></ComboBoxItem>  
