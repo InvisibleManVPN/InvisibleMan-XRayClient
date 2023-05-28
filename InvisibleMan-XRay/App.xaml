@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Styles/Components/TextBoxes.xaml"/>
                 <ResourceDictionary Source="Styles/Components/ScrollViews.xaml"/>
                 <ResourceDictionary Source="Styles/Components/ComboBoxes.xaml"/>
+                <ResourceDictionary Source="Styles/Components/CheckBoxes.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="SegoeUI">pack://application:,,,/Assets/Fonts/#SegoeUI</FontFamily>
