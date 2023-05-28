@@ -41,7 +41,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
-                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"/>
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
+                        x:Name="buttonBasicTab" Click="OnBasicTabClick"/>
+
                     <Label Grid.Row="0" Content="Basic"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
@@ -49,7 +51,9 @@
                 </Grid>
 
                 <Grid Grid.Column="2">
-                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonPortTab" Click="OnPortTabClick"/>
+
                     <Label Grid.Row="0" Content="Port"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
@@ -57,7 +61,9 @@
                 </Grid>
 
                 <Grid Grid.Column="4">
-                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonTunTab" Click="OnTunTabClick"/>
+
                     <Label Grid.Row="0" Content="TUN"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
@@ -65,7 +71,9 @@
                 </Grid>
 
                 <Grid Grid.Column="6">
-                    <Button Style="{StaticResource Button.Rectangle.Gray}"/>
+                    <Button Style="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonLogTab" Click="OnLogTabClick"/>
+
                     <Label Grid.Row="0" Content="Log"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
