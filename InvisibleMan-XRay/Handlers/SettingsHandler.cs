@@ -18,6 +18,23 @@ namespace InvisibleManXRay.Handlers
             this.userSettings = LoadUserSettings();
         }
 
+        public void UpdateUserSettings(UserSettings userSettings)
+        {
+            this.userSettings.Mode = userSettings.Mode;
+            this.userSettings.Protocol = userSettings.Protocol;
+            this.userSettings.LogLevel = userSettings.LogLevel;
+            this.userSettings.IsUdpEnable = userSettings.IsUdpEnable;
+            this.userSettings.IsRunAtStartup = userSettings.IsRunAtStartup;
+            this.userSettings.ProxyPort = userSettings.ProxyPort;
+            this.userSettings.TunPort = userSettings.TunPort;
+            this.userSettings.TestPort = userSettings.TestPort;
+            this.userSettings.TunIp = userSettings.TunIp;
+            this.userSettings.Dns = userSettings.Dns;
+            this.userSettings.LogPath = userSettings.LogPath;
+
+            SaveUserSettings();
+        }
+
         public void UpdateCurrentConfigIndex(int index)
         {
             userSettings.CurrentConfigIndex = index;

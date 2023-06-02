@@ -40,6 +40,8 @@ namespace InvisibleManXRay
         private Func<LogLevel> getLogLevel;
         private Func<string> getLogPath;
 
+        private Action<UserSettings> onUpdateUserSettings;
+
         public SettingsWindow()
         {
             InitializeComponent();
@@ -70,7 +72,8 @@ namespace InvisibleManXRay
             Func<string> getDeviceIp,
             Func<string> getDns,
             Func<LogLevel> getLogLevel,
-            Func<string> getLogPath
+            Func<string> getLogPath,
+            Action<UserSettings> onUpdateUserSettings
         )
         {
             this.getMode = getMode;
@@ -84,6 +87,7 @@ namespace InvisibleManXRay
             this.getDns = getDns;
             this.getLogLevel = getLogLevel;
             this.getLogPath = getLogPath;
+            this.onUpdateUserSettings = onUpdateUserSettings;
 
             UpdateUI();
         }
@@ -157,6 +161,31 @@ namespace InvisibleManXRay
 
             SetEnableLogTabButton(false);
             SetActiveLogPanel(true);
+        }
+
+        private void OnConfirmButtonClick(object sender, RoutedEventArgs e)
+        {
+            UserSettings userSettings = new UserSettings(
+                mode: (Mode)comboBoxMode.SelectedValue,
+                protocol: (Protocol)comboBoxProtocol.SelectedValue,
+                logLevel: (LogLevel)comboBoxLogLevel.SelectedValue,
+                isUdpEnable: checkBoxEnableUdp.IsChecked.Value,
+                isRunAtStartup: checkBoxRunAtStartup.IsChecked.Value,
+                proxyPort: int.Parse(textBoxProxyPort.Text),
+                tunPort: int.Parse(textBoxTunPort.Text),
+                testPort: int.Parse(textBoxTestPort.Text),
+                tunIp: textBoxTunDeviceIp.Text,
+                dns: textBoxTunDns.Text,
+                logPath: textBoxLogPath.Text
+            );
+            
+            onUpdateUserSettings.Invoke(userSettings);
+            Close();
+        }
+
+        private void OnCancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private void SetActiveBasicPanel(bool isActive) => SetActivePanel(panelBasic, isActive);

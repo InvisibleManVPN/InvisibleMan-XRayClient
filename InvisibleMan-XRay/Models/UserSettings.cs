@@ -55,10 +55,39 @@ namespace InvisibleManXRay.Models
             this.IsUdpEnable = false;
             this.IsRunAtStartup = false;
             this.TunIp = "10.0.236.10";
-            this.TunPort = 10803;
+            this.ProxyPort = 10801;
+            this.TunPort = 10802;
+            this.TestPort = 10803;
             this.Dns = "8.8.8.8";
             this.LogLevel = LogLevel.NONE;
             this.LogPath = "./Logs";
+        }
+
+        public UserSettings(
+            Mode mode,
+            Protocol protocol,
+            LogLevel logLevel,
+            bool isUdpEnable,
+            bool isRunAtStartup,
+            int proxyPort,
+            int tunPort,
+            int testPort,
+            string tunIp,
+            string dns,
+            string logPath
+        )
+        {
+            this.Mode = mode;
+            this.Protocol = protocol;
+            this.LogLevel = logLevel;
+            this.IsUdpEnable = isUdpEnable;
+            this.IsRunAtStartup = isRunAtStartup;
+            this.ProxyPort = proxyPort;
+            this.TunPort = tunPort;
+            this.TestPort = testPort;
+            this.TunIp = tunIp;
+            this.Dns = dns;
+            this.LogPath = logPath;
         }
 
         public int GetCurrentConfigIndex() => CurrentConfigIndex;

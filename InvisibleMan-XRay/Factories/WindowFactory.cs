@@ -65,7 +65,8 @@ namespace InvisibleManXRay.Factories
                 getDeviceIp: settingsHandler.UserSettings.GetTunIp,
                 getDns: settingsHandler.UserSettings.GetDns,
                 getLogLevel: settingsHandler.UserSettings.GetLogLevel,
-                getLogPath: settingsHandler.UserSettings.GetLogPath
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
+                onUpdateUserSettings: settingsHandler.UpdateUserSettings
             );
 
             return settingsWindow;
