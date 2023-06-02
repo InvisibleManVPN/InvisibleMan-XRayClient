@@ -51,7 +51,23 @@ namespace InvisibleManXRay.Factories
 
         public SettingsWindow CreateSettingsWindow()
         {
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+
             SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Setup(
+                getMode: settingsHandler.UserSettings.GetMode,
+                getProtocol: settingsHandler.UserSettings.GetProtocol,
+                getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
+                getRunAtStartupEnabled: settingsHandler.UserSettings.GetRunAtStartupEnabled,
+                getProxyPort: settingsHandler.UserSettings.GetProxyPort,
+                getTunPort: settingsHandler.UserSettings.GetTunPort,
+                getTestPort: settingsHandler.UserSettings.GetTestPort,
+                getDeviceIp: settingsHandler.UserSettings.GetTunIp,
+                getDns: settingsHandler.UserSettings.GetDns,
+                getLogLevel: settingsHandler.UserSettings.GetLogLevel,
+                getLogPath: settingsHandler.UserSettings.GetLogPath
+            );
+
             return settingsWindow;
         }
 
