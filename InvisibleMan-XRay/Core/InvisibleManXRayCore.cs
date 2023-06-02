@@ -10,12 +10,13 @@ namespace InvisibleManXRay.Core
 
     public class InvisibleManXRayCore
     {
-        private const string LOCAL_HOST = "127.0.0.1";
-        private const int DEFAULT_PORT = 10801;
-        private const int TEST_PORT = 10802;
-
         private Func<Config> getConfig;
         private Func<Mode> getMode;
+        private Func<Protocol> getProtocol;
+        private Func<LogLevel> getLogLevel;
+        private Func<int> getProxyPort;
+        private Func<int> getTunPort;
+        private Func<int> getTestPort;
         private Func<string> getTunIp;
         private Func<string> getDns;
         private Func<IProxy> getProxy;
@@ -25,6 +26,11 @@ namespace InvisibleManXRay.Core
         public void Setup(
             Func<Config> getConfig, 
             Func<Mode> getMode,
+            Func<Protocol> getProtocol,
+            Func<LogLevel> getLogLevel,
+            Func<int> getProxyPort,
+            Func<int> getTunPort,
+            Func<int> getTestPort,
             Func<string> getTunIp,
             Func<string> getDns,
             Func<IProxy> getProxy, 
@@ -33,6 +39,11 @@ namespace InvisibleManXRay.Core
         {
             this.getConfig = getConfig;
             this.getMode = getMode;
+            this.getProtocol = getProtocol;
+            this.getLogLevel = getLogLevel;
+            this.getProxyPort = getProxyPort;
+            this.getTunPort = getTunPort;
+            this.getTestPort = getTestPort;
             this.getTunIp = getTunIp;
             this.getDns = getDns;
             this.getProxy = getProxy;
@@ -86,7 +97,10 @@ namespace InvisibleManXRay.Core
         public void Run(string config)
         {
             Mode mode = getMode.Invoke();
-            XRayCoreWrapper.StartServer(config, DEFAULT_PORT, mode == Mode.TUN);
+            int port = mode == Mode.PROXY ? getProxyPort.Invoke() : getTunPort.Invoke();
+            bool isSocks = mode == Mode.TUN;
+
+            XRayCoreWrapper.StartServer(config, port, isSocks);
         }
 
         public void Stop()
@@ -102,7 +116,7 @@ namespace InvisibleManXRay.Core
 
         public bool Test(string config)
         {
-            return XRayCoreWrapper.TestConnection(config, TEST_PORT);
+            return XRayCoreWrapper.TestConnection(config, getTestPort.Invoke());
         }
 
         private Status EnableProxy()
@@ -110,8 +124,8 @@ namespace InvisibleManXRay.Core
             IProxy proxy = getProxy.Invoke();
 
             return proxy.Enable(
-                ip: LOCAL_HOST,
-                port: DEFAULT_PORT
+                ip: Global.LOCAL_HOST,
+                port: getProxyPort.Invoke()
             );
         }
 
@@ -138,8 +152,8 @@ namespace InvisibleManXRay.Core
             ITunnel tunnel = getTunnel.Invoke();
 
             return tunnel.Enable(
-                ip: LOCAL_HOST,
-                port: DEFAULT_PORT,
+                ip: Global.LOCAL_HOST,
+                port: getTunPort.Invoke(),
                 address: address,
                 server: server,
                 dns: dns

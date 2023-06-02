@@ -189,6 +189,11 @@ namespace InvisibleManXRay.Managers
             core.Setup(
                 getConfig: configHandler.GetCurrentConfig,
                 getMode: settingsHandler.UserSettings.GetMode,
+                getProtocol: settingsHandler.UserSettings.GetProtocol,
+                getLogLevel: settingsHandler.UserSettings.GetLogLevel,
+                getProxyPort: settingsHandler.UserSettings.GetProxyPort,
+                getTunPort: settingsHandler.UserSettings.GetTunPort,
+                getTestPort: settingsHandler.UserSettings.GetTestPort,
                 getTunIp: settingsHandler.UserSettings.GetTunIp,
                 getDns: settingsHandler.UserSettings.GetDns,
                 getProxy: proxyHandler.GetProxy,

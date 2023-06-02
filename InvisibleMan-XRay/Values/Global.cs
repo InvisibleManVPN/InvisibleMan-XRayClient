@@ -16,6 +16,7 @@ namespace InvisibleManXRay.Values
             public const string XTLS = "xtls";
         }
 
+        public const string LOCAL_HOST = "127.0.0.1";
         public const string DEFAULT_EMAIL = "t@t.tt";
         public const string DEFAULT_LOG_LEVEL = "warning";
         public const string DEFAULT_SECURITY = "auto";
