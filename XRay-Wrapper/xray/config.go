@@ -69,11 +69,11 @@ func convertJsonToObject(config *C.char) *core.Config {
 	return configObj
 }
 
-func overrideInbound(port net.Port, isSocks bool) []*core.InboundHandlerConfig {
+func overrideInbound(port net.Port, isSocks bool, isUdpEnabled bool) []*core.InboundHandlerConfig {
 	if isSocks == false {
 		return overrideInboundToHttp(port)
 	} else {
-		return overrideInboundToSocks(port)
+		return overrideInboundToSocks(port, isUdpEnabled)
 	}
 }
 
@@ -97,7 +97,7 @@ func overrideInboundToHttp(port net.Port) []*core.InboundHandlerConfig {
 	}
 }
 
-func overrideInboundToSocks(port net.Port) []*core.InboundHandlerConfig {
+func overrideInboundToSocks(port net.Port, isUdpEnabled bool) []*core.InboundHandlerConfig {
 	return []*core.InboundHandlerConfig{
 		{
 			ReceiverSettings: serial.ToTypedMessage(&proxyman.ReceiverConfig{
@@ -112,7 +112,7 @@ func overrideInboundToSocks(port net.Port) []*core.InboundHandlerConfig {
 					},
 				},
 			}),
-			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{UdpEnabled: true}),
+			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{UdpEnabled: isUdpEnabled}),
 		},
 	}
 }
