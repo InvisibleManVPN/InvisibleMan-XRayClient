@@ -17,6 +17,7 @@ namespace InvisibleManXRay.Core
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
         private Func<int> getTestPort;
+        private Func<bool> getUdpEnabled;
         private Func<string> getTunIp;
         private Func<string> getDns;
         private Func<IProxy> getProxy;
@@ -31,6 +32,7 @@ namespace InvisibleManXRay.Core
             Func<int> getProxyPort,
             Func<int> getTunPort,
             Func<int> getTestPort,
+            Func<bool> getUdpEnabled,
             Func<string> getTunIp,
             Func<string> getDns,
             Func<IProxy> getProxy, 
@@ -44,6 +46,7 @@ namespace InvisibleManXRay.Core
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
             this.getTestPort = getTestPort;
+            this.getUdpEnabled = getUdpEnabled;
             this.getTunIp = getTunIp;
             this.getDns = getDns;
             this.getProxy = getProxy;
@@ -99,8 +102,9 @@ namespace InvisibleManXRay.Core
             Mode mode = getMode.Invoke();
             int port = mode == Mode.PROXY ? getProxyPort.Invoke() : getTunPort.Invoke();
             bool isSocks = mode == Mode.TUN;
+            bool isUdpEnabled = getUdpEnabled.Invoke();
 
-            XRayCoreWrapper.StartServer(config, port, isSocks);
+            XRayCoreWrapper.StartServer(config, port, isSocks, isUdpEnabled);
         }
 
         public void Stop()
@@ -146,6 +150,7 @@ namespace InvisibleManXRay.Core
                 parent: "outbounds",
                 jsonString: configStatus.Content.ToString()
             );
+            int port = getTunPort.Invoke();
             string address = getTunIp.Invoke();
             string dns = getDns.Invoke();
             
@@ -153,7 +158,7 @@ namespace InvisibleManXRay.Core
 
             return tunnel.Enable(
                 ip: Global.LOCAL_HOST,
-                port: getTunPort.Invoke(),
+                port: port,
                 address: address,
                 server: server,
                 dns: dns
