@@ -20,7 +20,7 @@ namespace InvisibleManXRay.Models
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(Protocol.HTTP)]
         public Protocol Protocol;
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(false)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(true)]
         public bool IsUdpEnable;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(false)]
@@ -52,7 +52,7 @@ namespace InvisibleManXRay.Models
             this.CurrentConfigIndex = 0;
             this.Mode = Mode.PROXY;
             this.Protocol = Protocol.HTTP;
-            this.IsUdpEnable = false;
+            this.IsUdpEnable = true;
             this.IsRunAtStartup = false;
             this.TunIp = "10.0.236.10";
             this.ProxyPort = 10801;
