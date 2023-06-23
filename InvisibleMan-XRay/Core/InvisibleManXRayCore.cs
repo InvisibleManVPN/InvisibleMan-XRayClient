@@ -14,6 +14,7 @@ namespace InvisibleManXRay.Core
         private Func<Mode> getMode;
         private Func<Protocol> getProtocol;
         private Func<LogLevel> getLogLevel;
+        private Func<string> getLogPath;
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
         private Func<int> getTestPort;
@@ -29,6 +30,7 @@ namespace InvisibleManXRay.Core
             Func<Mode> getMode,
             Func<Protocol> getProtocol,
             Func<LogLevel> getLogLevel,
+            Func<string> getLogPath,
             Func<int> getProxyPort,
             Func<int> getTunPort,
             Func<int> getTestPort,
@@ -43,6 +45,7 @@ namespace InvisibleManXRay.Core
             this.getMode = getMode;
             this.getProtocol = getProtocol;
             this.getLogLevel = getLogLevel;
+            this.getLogPath = getLogPath;
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
             this.getTestPort = getTestPort;
@@ -101,10 +104,12 @@ namespace InvisibleManXRay.Core
         {
             Mode mode = getMode.Invoke();
             int port = mode == Mode.PROXY ? getProxyPort.Invoke() : getTunPort.Invoke();
-            bool isSocks = mode == Mode.TUN;
+            LogLevel logLevel = getLogLevel.Invoke();
+            string logPath = $"{getLogPath.Invoke()}/{getConfig.Invoke().Name}";
+            bool isSocks = getProtocol.Invoke() == Protocol.SOCKS || mode == Mode.TUN;
             bool isUdpEnabled = getUdpEnabled.Invoke();
 
-            XRayCoreWrapper.StartServer(config, port, isSocks, isUdpEnabled);
+            XRayCoreWrapper.StartServer(config, port, logLevel, logPath, isSocks, isUdpEnabled);
         }
 
         public void Stop()

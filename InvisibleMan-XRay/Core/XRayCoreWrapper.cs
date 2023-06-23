@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace InvisibleManXRay.Core
 {
+    using Models;
     using Values;
 
     internal class XRayCoreWrapper
@@ -31,12 +32,12 @@ namespace InvisibleManXRay.Core
             static extern IntPtr LoadConfig(string format, string file);
         }
 
-        public static void StartServer(string config, int port, bool isSocks, bool isUdpEnabled)
+        public static void StartServer(string config, int port, LogLevel logLevel, string logPath, bool isSocks, bool isUdpEnabled)
         {
-            StartServer(config, port, isSocks, isUdpEnabled);
+            StartServer(config, port, logLevel.ToString(), logPath, isSocks, isUdpEnabled);
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "StartServer")]
-            static extern void StartServer(string config, int port, bool isSocks, bool isUdpEnabled);
+            static extern void StartServer(string config, int port, string logLevel, string logPath, bool isSocks, bool isUdpEnabled);
         }
 
         public static void StopServer()

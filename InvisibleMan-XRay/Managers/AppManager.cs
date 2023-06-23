@@ -191,6 +191,7 @@ namespace InvisibleManXRay.Managers
                 getMode: settingsHandler.UserSettings.GetMode,
                 getProtocol: settingsHandler.UserSettings.GetProtocol,
                 getLogLevel: settingsHandler.UserSettings.GetLogLevel,
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
                 getProxyPort: settingsHandler.UserSettings.GetProxyPort,
                 getTunPort: settingsHandler.UserSettings.GetTunPort,
                 getTestPort: settingsHandler.UserSettings.GetTestPort,
