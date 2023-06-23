@@ -22,9 +22,12 @@ import (
 var osSignals = make(chan os.Signal, 1)
 
 //export StartServer
-func StartServer(config *C.char, port int, isSocks bool, isUdpEnabled bool) {
+func StartServer(config *C.char, port int, logLevel *C.char, logPath *C.char, isSocks bool, isUdpEnabled bool) {
 	configObj := convertJsonToObject(config)
 	configObj.Inbound = overrideInbound(net.Port(port), isSocks, isUdpEnabled)
+	log := overrideLog(convertLogLevelToSeverity(logLevel), logPath)
+	insertElementToConfigApp(log, configObj.App)
+	tryMakingDirectory(logPath)
 
 	server, err := core.New(configObj)
 	if err != nil {

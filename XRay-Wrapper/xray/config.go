@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/xtls/xray-core/app/log"
 	"github.com/xtls/xray-core/app/proxyman"
 	"github.com/xtls/xray-core/common/cmdarg"
 	"github.com/xtls/xray-core/common/net"
@@ -15,6 +16,8 @@ import (
 	"github.com/xtls/xray-core/core"
 	"github.com/xtls/xray-core/proxy/http"
 	"github.com/xtls/xray-core/proxy/socks"
+
+	clog "github.com/xtls/xray-core/common/log"
 )
 
 //export GetConfigFormat
@@ -67,6 +70,44 @@ func convertJsonToObject(config *C.char) *core.Config {
 
 	json.Unmarshal([]byte(configJson), configObj)
 	return configObj
+}
+
+func convertLogLevelToSeverity(logLevel *C.char) clog.Severity {
+	switch level := strings.ToLower(C.GoString(logLevel)); level {
+	case "debug":
+		return clog.Severity_Debug
+	case "info":
+		return clog.Severity_Info
+	case "warning":
+		return clog.Severity_Warning
+	case "error":
+		return clog.Severity_Error
+	default:
+		return clog.Severity_Unknown
+	}
+}
+
+func insertElementToConfigApp(element *serial.TypedMessage, configApp []*serial.TypedMessage) {
+	for i := 0; i < len(configApp); i++ {
+		if configApp[i].Type == element.Type {
+			configApp[i] = element
+			return
+		}
+	}
+
+	configApp = append(configApp, element)
+}
+
+func overrideLog(logLevel clog.Severity, logPath *C.char) *serial.TypedMessage {
+	path := C.GoString(logPath)
+
+	return serial.ToTypedMessage(&log.Config{
+		ErrorLogType:  log.LogType_File,
+		ErrorLogPath:  path + "/error.log",
+		ErrorLogLevel: logLevel,
+		AccessLogType: log.LogType_File,
+		AccessLogPath: path + "/access.log",
+	})
 }
 
 func overrideInbound(port net.Port, isSocks bool, isUdpEnabled bool) []*core.InboundHandlerConfig {

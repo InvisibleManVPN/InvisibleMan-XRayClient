@@ -5,24 +5,26 @@ import (
 	"fmt"
 )
 
-func RunTest(path string, port int, isSocks bool, isUdpEnabled bool) {
+func RunTest(path string, port int, logLevel string, logPath string, isSocks bool, isUdpEnabled bool) {
 	fmt.Println("start testing...")
-	cpath := C.CString(path)
+	cPath := C.CString(path)
+	cLogLevel := C.CString(logLevel)
+	cLogPath := C.CString(logPath)
 
-	format := GetConfigFormat(cpath)
+	format := GetConfigFormat(cPath)
 	fmt.Println("format:", C.GoString(format))
 
-	if !IsFileExists(cpath) {
+	if !IsFileExists(cPath) {
 		fmt.Println("error | file doesn't exist.")
 		return
 	}
 
-	file := cpath
+	file := cPath
 	fmt.Println("file:", C.GoString(file))
 
 	config := LoadConfig(format, file)
 	fmt.Println("config:", C.GoString(config))
 
-	StartServer(config, port, isSocks, isUdpEnabled)
+	StartServer(config, port, cLogLevel, cLogPath, isSocks, isUdpEnabled)
 	fmt.Println("end of test.")
 }
