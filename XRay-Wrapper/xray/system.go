@@ -9,6 +9,6 @@ func tryMakingDirectory(directory *C.char) {
 	dir := C.GoString(directory)
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		_ = os.Mkdir(dir, os.ModePerm)
+		_ = os.MkdirAll(dir, os.ModePerm)
 	}
 }
