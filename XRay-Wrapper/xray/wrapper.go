@@ -97,3 +97,8 @@ func TestConnection(config *C.char, port int) bool {
 
 	return false
 }
+
+//export GetXrayCoreVersion
+func GetXrayCoreVersion() *C.char {
+	return C.CString(core.Version())
+}

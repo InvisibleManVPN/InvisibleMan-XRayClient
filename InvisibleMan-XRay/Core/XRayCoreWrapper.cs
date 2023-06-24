@@ -55,5 +55,13 @@ namespace InvisibleManXRay.Core
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "TestConnection")]
             static extern bool TestConnection(string config, int port);
         }
+
+        public static string GetVersion()
+        {
+            return Marshal.PtrToStringAnsi(GetXRayCoreVersion());
+
+            [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "GetXrayCoreVersion")]
+            static extern IntPtr GetXRayCoreVersion();
+        }
     }
 }
