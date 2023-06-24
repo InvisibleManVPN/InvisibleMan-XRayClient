@@ -114,6 +114,7 @@ namespace InvisibleManXRay.Factories
                 convertConfigLinkToV2Ray: templateHandler.ConverLinkToV2Ray,
                 loadConfig: core.LoadConfig,
                 testConnection: core.Test,
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
                 onDeleteConfig: configHandler.LoadConfigFiles,
