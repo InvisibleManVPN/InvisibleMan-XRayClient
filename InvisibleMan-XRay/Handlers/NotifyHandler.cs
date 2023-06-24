@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace InvisibleManXRay.Handlers
 {
@@ -18,6 +19,8 @@ namespace InvisibleManXRay.Handlers
         private Action onCloseClick;
         private Action onProxyModeClick;
         private Action onTunnelModeClick;
+
+        private Dictionary<Mode, ToolStripMenuItem> modeItems;
 
         public NotifyHandler()
         {
@@ -46,6 +49,13 @@ namespace InvisibleManXRay.Handlers
             AddMenuStrip();
         }
 
+        public void CheckModeItem(Mode mode)
+        {
+            ToolStripMenuItem modeItem = modeItems[mode];
+            UncheckAllItems();
+            CheckItem(modeItem);
+        }
+
         private void InitializeNotifyIcon()
         {
             notifyIcon = new NotifyIcon();
@@ -71,12 +81,13 @@ namespace InvisibleManXRay.Handlers
         private void AddMenuStrip()
         {
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+            modeItems = new Dictionary<Mode, ToolStripMenuItem>() {
+                { Mode.PROXY, CreateItem("Proxy", onProxyModeClick, true, getMode.Invoke() == Mode.PROXY) },
+                { Mode.TUN, CreateItem("TUN (Experimental)", onTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
+            };
             
             AddMenuItem("Open Invisible Man XRay", onOpenClick);
-            AddMenuItem("Mode", delegate { }, new ToolStripMenuItem[] {
-                CreateItem("Proxy", onProxyModeClick, true, getMode.Invoke() == Mode.PROXY),
-                CreateItem("TUN (Experimental)", onTunnelModeClick, true, getMode.Invoke() == Mode.TUN)
-            });
+            AddMenuItem("Mode", delegate { }, modeItems.Values.ToArray());
             AddMenuItem("Check for updates", onUpdateClick);
             AddMenuItem("About", onAboutClick);
             AddMenuItem("Close", onCloseClick);
@@ -117,18 +128,18 @@ namespace InvisibleManXRay.Handlers
                     UncheckAllItems();
                     CheckItem(item);
                 }
-
-                void UncheckAllItems()
-                {
-                    foreach(ToolStripMenuItem item in item.GetCurrentParent().Items)
-                        item.Checked = false;
-                }
-
-                void CheckItem(ToolStripMenuItem item)
-                {
-                    item.Checked = true;
-                }
             }
+        }
+
+        private void UncheckAllItems()
+        {
+            foreach(ToolStripMenuItem itemElement in modeItems.Values)
+                itemElement.Checked = false;
+        }
+
+        private void CheckItem(ToolStripMenuItem item)
+        {
+            item.Checked = true;
         }
     }
 }

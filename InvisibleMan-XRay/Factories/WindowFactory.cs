@@ -53,6 +53,7 @@ namespace InvisibleManXRay.Factories
         public SettingsWindow CreateSettingsWindow()
         {
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+            NotifyHandler notifyHandler = handlersManager.GetHandler<NotifyHandler>();
 
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.Setup(
@@ -75,6 +76,7 @@ namespace InvisibleManXRay.Factories
             void UpdateUserSettings(UserSettings userSettings)
             {
                 settingsHandler.UpdateUserSettings(userSettings);
+                notifyHandler.CheckModeItem(userSettings.GetMode());
                 GetMainWindow().TryDisableModeAndRerun();
             }
         }
