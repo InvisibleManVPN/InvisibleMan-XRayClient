@@ -6,6 +6,7 @@ namespace InvisibleManXRay.Handlers
     using Models;
     using Values;
     using Utilities;
+    using Settings.Startup;
 
     public class SettingsHandler : Handler
     {
@@ -32,6 +33,7 @@ namespace InvisibleManXRay.Handlers
             this.userSettings.Dns = userSettings.Dns;
             this.userSettings.LogPath = userSettings.LogPath;
 
+            UpdateStartupSetting();
             SaveUserSettings();
         }
 
@@ -45,6 +47,16 @@ namespace InvisibleManXRay.Handlers
         {
             userSettings.Mode = mode;
             SaveUserSettings();
+        }
+
+        private void UpdateStartupSetting()
+        {
+            IStartupSetting startupSetting = new WindowsStartupSetting();
+
+            if (userSettings.IsRunAtStartup)
+                startupSetting.EnableRunAtStartup();
+            else
+                startupSetting.DisableRunAtStartup();
         }
 
         private UserSettings LoadUserSettings()
