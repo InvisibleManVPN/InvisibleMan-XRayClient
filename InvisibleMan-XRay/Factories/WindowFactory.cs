@@ -3,6 +3,7 @@ using System.Windows;
 namespace InvisibleManXRay.Factories
 {
     using Core;
+    using Models;
     using Managers;
     using Handlers;
 
@@ -34,6 +35,7 @@ namespace InvisibleManXRay.Factories
                 checkForUpdate: updateHandler.CheckForUpdate,
                 checkForBroadcast: broadcastHandler.CheckForBroadcast,
                 openServerWindow: CreateServerWindow,
+                openSettingsWindow: CreateSettingsWindow,
                 openUpdateWindow: CreateUpdateWindow,
                 openAboutWindow: CreateAboutWindow,
                 onRunServer: core.Run,
@@ -46,6 +48,37 @@ namespace InvisibleManXRay.Factories
             );
             
             return mainWindow;
+        }
+
+        public SettingsWindow CreateSettingsWindow()
+        {
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+            NotifyHandler notifyHandler = handlersManager.GetHandler<NotifyHandler>();
+
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Setup(
+                getMode: settingsHandler.UserSettings.GetMode,
+                getProtocol: settingsHandler.UserSettings.GetProtocol,
+                getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
+                getRunAtStartupEnabled: settingsHandler.UserSettings.GetRunAtStartupEnabled,
+                getProxyPort: settingsHandler.UserSettings.GetProxyPort,
+                getTunPort: settingsHandler.UserSettings.GetTunPort,
+                getTestPort: settingsHandler.UserSettings.GetTestPort,
+                getDeviceIp: settingsHandler.UserSettings.GetTunIp,
+                getDns: settingsHandler.UserSettings.GetDns,
+                getLogLevel: settingsHandler.UserSettings.GetLogLevel,
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
+                onUpdateUserSettings: UpdateUserSettings
+            );
+
+            return settingsWindow;
+
+            void UpdateUserSettings(UserSettings userSettings)
+            {
+                settingsHandler.UpdateUserSettings(userSettings);
+                notifyHandler.CheckModeItem(userSettings.GetMode());
+                GetMainWindow().TryDisableModeAndRerun();
+            }
         }
 
         public UpdateWindow CreateUpdateWindow()
@@ -64,16 +97,30 @@ namespace InvisibleManXRay.Factories
 
         public AboutWindow CreateAboutWindow()
         {
+            VersionHandler versionHandler = handlersManager.GetHandler<VersionHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.Setup(
+                getApplicationVersion: GetApplicationVersion,
+                getXRayCoreVersion: GetXRayCoreVersion,
                 onEmailClick: linkHandler.OpenEmailLink,
                 onWebsiteClick: linkHandler.OpenWebsiteLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink
             );
 
             return aboutWindow;
+
+            string GetApplicationVersion()
+            {
+                AppVersion appVersion = versionHandler.GetApplicationVersion();
+                return $"{appVersion.Major}.{appVersion.Feature}.{appVersion.BugFix}";
+            }
+
+            string GetXRayCoreVersion()
+            {
+                return core.GetVersion();
+            }
         }
 
         private ServerWindow CreateServerWindow()
@@ -90,6 +137,7 @@ namespace InvisibleManXRay.Factories
                 convertConfigLinkToV2Ray: templateHandler.ConverLinkToV2Ray,
                 loadConfig: core.LoadConfig,
                 testConnection: core.Test,
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
                 onDeleteConfig: configHandler.LoadConfigFiles,

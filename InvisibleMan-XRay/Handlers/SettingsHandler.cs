@@ -6,6 +6,7 @@ namespace InvisibleManXRay.Handlers
     using Models;
     using Values;
     using Utilities;
+    using Settings.Startup;
 
     public class SettingsHandler : Handler
     {
@@ -18,6 +19,24 @@ namespace InvisibleManXRay.Handlers
             this.userSettings = LoadUserSettings();
         }
 
+        public void UpdateUserSettings(UserSettings userSettings)
+        {
+            this.userSettings.Mode = userSettings.Mode;
+            this.userSettings.Protocol = userSettings.Protocol;
+            this.userSettings.LogLevel = userSettings.LogLevel;
+            this.userSettings.IsUdpEnable = userSettings.IsUdpEnable;
+            this.userSettings.IsRunAtStartup = userSettings.IsRunAtStartup;
+            this.userSettings.ProxyPort = userSettings.ProxyPort;
+            this.userSettings.TunPort = userSettings.TunPort;
+            this.userSettings.TestPort = userSettings.TestPort;
+            this.userSettings.TunIp = userSettings.TunIp;
+            this.userSettings.Dns = userSettings.Dns;
+            this.userSettings.LogPath = userSettings.LogPath;
+
+            UpdateStartupSetting();
+            SaveUserSettings();
+        }
+
         public void UpdateCurrentConfigIndex(int index)
         {
             userSettings.CurrentConfigIndex = index;
@@ -28,6 +47,16 @@ namespace InvisibleManXRay.Handlers
         {
             userSettings.Mode = mode;
             SaveUserSettings();
+        }
+
+        private void UpdateStartupSetting()
+        {
+            IStartupSetting startupSetting = new WindowsStartupSetting();
+
+            if (userSettings.IsRunAtStartup)
+                startupSetting.EnableRunAtStartup();
+            else
+                startupSetting.DisableRunAtStartup();
         }
 
         private UserSettings LoadUserSettings()
