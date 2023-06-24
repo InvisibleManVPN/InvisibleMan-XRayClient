@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Threading;
 
@@ -21,6 +22,7 @@ namespace InvisibleManXRay.Managers
         public void Initialize()
         {
             AvoidRunningMultipleInstances();
+            SetApplicationCurrentDirectory();
 
             RegisterCore();
             RegisterHandlers();
@@ -39,6 +41,13 @@ namespace InvisibleManXRay.Managers
                 MessageBox.Show(Message.APP_ALREADY_RUNNING);
                 Application.Current.Shutdown();
             }
+        }
+
+        private void SetApplicationCurrentDirectory()
+        {
+            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(
+                path: Environment.ProcessPath
+            );
         }
 
         private void RegisterCore()
@@ -189,6 +198,13 @@ namespace InvisibleManXRay.Managers
             core.Setup(
                 getConfig: configHandler.GetCurrentConfig,
                 getMode: settingsHandler.UserSettings.GetMode,
+                getProtocol: settingsHandler.UserSettings.GetProtocol,
+                getLogLevel: settingsHandler.UserSettings.GetLogLevel,
+                getLogPath: settingsHandler.UserSettings.GetLogPath,
+                getProxyPort: settingsHandler.UserSettings.GetProxyPort,
+                getTunPort: settingsHandler.UserSettings.GetTunPort,
+                getTestPort: settingsHandler.UserSettings.GetTestPort,
+                getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
                 getTunIp: settingsHandler.UserSettings.GetTunIp,
                 getDns: settingsHandler.UserSettings.GetDns,
                 getProxy: proxyHandler.GetProxy,

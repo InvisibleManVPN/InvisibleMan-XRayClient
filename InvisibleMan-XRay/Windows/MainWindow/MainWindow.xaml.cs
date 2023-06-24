@@ -17,6 +17,7 @@ namespace InvisibleManXRay
         private Func<Status> checkForUpdate;
         private Func<Status> checkForBroadcast;
         private Func<ServerWindow> openServerWindow;
+        private Func<SettingsWindow> openSettingsWindow;
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
         private Action<string> onRunServer;
@@ -195,6 +196,7 @@ namespace InvisibleManXRay
             Func<Status> checkForUpdate,
             Func<Status> checkForBroadcast,
             Func<ServerWindow> openServerWindow,
+            Func<SettingsWindow> openSettingsWindow,
             Func<UpdateWindow> openUpdateWindow,
             Func<AboutWindow> openAboutWindow,
             Action<string> onRunServer,
@@ -210,6 +212,7 @@ namespace InvisibleManXRay
             this.checkForUpdate = checkForUpdate;
             this.checkForBroadcast = checkForBroadcast;
             this.openServerWindow = openServerWindow;
+            this.openSettingsWindow = openSettingsWindow;
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
             this.onRunServer = onRunServer;
@@ -294,6 +297,11 @@ namespace InvisibleManXRay
             onBugReportingClick.Invoke();
         }
 
+        private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenSettingsWindow();
+        }
+
         private void OnUpdateButtonClick(object sender, RoutedEventArgs e)
         {
             OpenUpdateWindow();
@@ -309,6 +317,13 @@ namespace InvisibleManXRay
             ServerWindow serverWindow = openServerWindow.Invoke();
             serverWindow.Owner = this;
             serverWindow.ShowDialog();
+        }
+
+        private void OpenSettingsWindow()
+        {
+            SettingsWindow settingsWindow = openSettingsWindow.Invoke();
+            settingsWindow.Owner = this;
+            settingsWindow.ShowDialog();
         }
 
         private void OpenUpdateWindow()

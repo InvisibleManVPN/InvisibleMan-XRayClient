@@ -21,6 +21,7 @@ namespace InvisibleManXRay
         private Func<string, Status> convertConfigLinkToV2Ray;
         private Func<string, Status> loadConfig;
         private Func<string, bool> testConnection;
+        private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
         private Action onDeleteConfig;
@@ -45,6 +46,7 @@ namespace InvisibleManXRay
             Func<string, Status> convertConfigLinkToV2Ray,
             Func<string, Status> loadConfig, 
             Func<string, bool> testConnection,
+            Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
             Action onDeleteConfig,
@@ -55,6 +57,7 @@ namespace InvisibleManXRay
             this.convertConfigLinkToV2Ray = convertConfigLinkToV2Ray;
             this.loadConfig = loadConfig;
             this.testConnection = testConnection;
+            this.getLogPath = getLogPath;
             this.onCopyConfig = onCopyConfig;
             this.onCreateConfig = onCreateConfig;
             this.onDeleteConfig = onDeleteConfig;
@@ -345,7 +348,8 @@ namespace InvisibleManXRay
                             return false;
                             
                         return testConnection.Invoke(configStatus.Content.ToString());
-                    }
+                    },
+                    getLogPath: getLogPath
                 );
 
                 return configComponent;

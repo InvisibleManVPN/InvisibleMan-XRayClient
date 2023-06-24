@@ -17,6 +17,7 @@ namespace InvisibleManXRay.Components
         private Action onDelete;
         private Func<Window> getServerWindow;
         private Func<string, bool> testConnection;
+        private Func<string> getLogPath;
 
         private BackgroundWorker checkConnectionWorker;
 
@@ -49,13 +50,15 @@ namespace InvisibleManXRay.Components
             Action onSelect, 
             Action onDelete, 
             Func<Window> getServerWindow,
-            Func<string, bool> testConnection)
+            Func<string, bool> testConnection,
+            Func<string> getLogPath)
         {
             this.config = config;
             this.onSelect = onSelect;
             this.onDelete = onDelete;
             this.getServerWindow = getServerWindow;
             this.testConnection = testConnection;
+            this.getLogPath = getLogPath;
 
             UpdateUI();
         }
@@ -137,6 +140,42 @@ namespace InvisibleManXRay.Components
         private void OnCheckButtonClick(object sender, RoutedEventArgs e)
         {
             checkConnectionWorker.RunWorkerAsync();
+        }
+
+        private void OnLogButtonClick(object sender, RoutedEventArgs e)
+        {
+            string path = $"{getLogPath.Invoke()}/{config.Name}";
+            
+            if (!IsLogDirectoryExists())
+            {
+                HandleNoLogMessage();
+                return;
+            }
+
+            OpenLogDirectory();
+            
+
+            bool IsLogDirectoryExists() => System.IO.Path.Exists(path);
+
+            void HandleNoLogMessage()
+            {
+                MessageBox.Show(
+                    getServerWindow.Invoke(),
+                    Message.NO_LOG_FILE,
+                    Caption.INFO,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+            }
+
+            void OpenLogDirectory()
+            {
+                Process.Start(new ProcessStartInfo() {
+                    FileName = path,
+                    UseShellExecute = true,
+                    Verb = "open"
+                });
+            }
         }
 
         private void HandleConfigStatus(Models.Availability availability)

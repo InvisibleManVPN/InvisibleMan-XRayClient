@@ -1,0 +1,71 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="CheckBoxFocusVisual">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border>
+            <Rectangle 
+              Margin="0"
+              StrokeThickness="1.5"
+              Stroke="{StaticResource Color.BrightGray}"/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+    <Setter Property="SnapsToDevicePixels" Value="true"/>
+    <Setter Property="OverridesDefaultStyle" Value="true"/>
+    <Setter Property="FocusVisualStyle"	Value="{StaticResource CheckBoxFocusVisual}"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="CheckBox">
+          <BulletDecorator Background="Transparent">
+            <BulletDecorator.Bullet>
+              <Border x:Name="Border" Width="16" Height="16" CornerRadius="0" 
+                Background="{StaticResource Color.LightGray}" 
+                BorderBrush="{StaticResource Color.BrightGray}"
+                BorderThickness="1.5">
+
+                <Path 
+                  Width="7.85446" Height="8.57578" Canvas.Left="-0.0522281" Canvas.Top="-0.100391"
+                  x:Name="CheckMark" SnapsToDevicePixels="False" 
+                  Stroke="White" StrokeThickness="2"
+                  Data="F1 M 0.468732,4.66838L 3.03345,7.95443L 7.28127,0.420569" />
+              </Border>
+            </BulletDecorator.Bullet>
+            <ContentPresenter Margin="10 0"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Left"
+              RecognizesAccessKey="True"/>
+          </BulletDecorator>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.Blue}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="False">
+              <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="{x:Null}">
+              <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource Color.BrightGray}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.Blue}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="Border" Property="Opacity" Value="0.3"/>
+              <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.BrightGray}" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource Color.LightGray}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style> 
+</ResourceDictionary>
