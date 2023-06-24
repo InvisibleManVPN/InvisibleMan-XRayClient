@@ -97,16 +97,30 @@ namespace InvisibleManXRay.Factories
 
         public AboutWindow CreateAboutWindow()
         {
+            VersionHandler versionHandler = handlersManager.GetHandler<VersionHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.Setup(
+                getApplicationVersion: GetApplicationVersion,
+                getXRayCoreVersion: GetXRayCoreVersion,
                 onEmailClick: linkHandler.OpenEmailLink,
                 onWebsiteClick: linkHandler.OpenWebsiteLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink
             );
 
             return aboutWindow;
+
+            string GetApplicationVersion()
+            {
+                AppVersion appVersion = versionHandler.GetApplicationVersion();
+                return $"{appVersion.Major}.{appVersion.Feature}.{appVersion.BugFix}";
+            }
+
+            string GetXRayCoreVersion()
+            {
+                return core.GetVersion();
+            }
         }
 
         private ServerWindow CreateServerWindow()

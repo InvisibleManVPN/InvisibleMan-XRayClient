@@ -128,6 +128,11 @@ namespace InvisibleManXRay.Core
             return XRayCoreWrapper.TestConnection(config, getTestPort.Invoke());
         }
 
+        public string GetVersion()
+        {
+            return XRayCoreWrapper.GetVersion();
+        }
+
         private Status EnableProxy()
         {
             IProxy proxy = getProxy.Invoke();
