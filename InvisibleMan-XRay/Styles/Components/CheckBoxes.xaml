@@ -43,7 +43,7 @@
               RecognizesAccessKey="True"/>
           </BulletDecorator>
           <ControlTemplate.Triggers>
-          <Trigger Property="IsChecked" Value="True">
+            <Trigger Property="IsChecked" Value="True">
               <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.Blue}" />
             </Trigger>
             <Trigger Property="IsChecked" Value="False">
@@ -57,6 +57,11 @@
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.Blue}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="Border" Property="Opacity" Value="0.3"/>
+              <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Color.BrightGray}" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource Color.LightGray}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>

@@ -99,7 +99,8 @@
 
                         <ComboBox x:Name="comboBoxMode" Grid.Column="1" Height="26"
                             SelectedValuePath="Key" DisplayMemberPath="Value"
-                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                            SelectionChanged="OnModeComboBoxSelectionChanged">
                         </ComboBox>
                     </Grid>
 

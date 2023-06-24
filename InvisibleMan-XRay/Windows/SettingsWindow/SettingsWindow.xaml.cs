@@ -163,6 +163,19 @@ namespace InvisibleManXRay
             SetActiveLogPanel(true);
         }
 
+        private void OnModeComboBoxSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateUIBasedOnMode();
+
+            void UpdateUIBasedOnMode()
+            {
+                Mode mode = (Mode)comboBoxMode.SelectedValue;
+                
+                comboBoxProtocol.IsEnabled = mode != Mode.TUN;
+                checkBoxEnableUdp.IsEnabled = mode == Mode.TUN;
+            }
+        }
+
         private void OnConfirmButtonClick(object sender, RoutedEventArgs e)
         {
             UserSettings userSettings = new UserSettings(
