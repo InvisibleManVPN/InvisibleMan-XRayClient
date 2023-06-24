@@ -3,6 +3,7 @@ using System.Windows;
 namespace InvisibleManXRay.Factories
 {
     using Core;
+    using Models;
     using Managers;
     using Handlers;
 
@@ -66,10 +67,16 @@ namespace InvisibleManXRay.Factories
                 getDns: settingsHandler.UserSettings.GetDns,
                 getLogLevel: settingsHandler.UserSettings.GetLogLevel,
                 getLogPath: settingsHandler.UserSettings.GetLogPath,
-                onUpdateUserSettings: settingsHandler.UpdateUserSettings
+                onUpdateUserSettings: UpdateUserSettings
             );
 
             return settingsWindow;
+
+            void UpdateUserSettings(UserSettings userSettings)
+            {
+                settingsHandler.UpdateUserSettings(userSettings);
+                GetMainWindow().TryDisableModeAndRerun();
+            }
         }
 
         public UpdateWindow CreateUpdateWindow()
