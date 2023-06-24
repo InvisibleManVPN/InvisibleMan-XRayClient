@@ -105,7 +105,7 @@ namespace InvisibleManXRay.Core
             Mode mode = getMode.Invoke();
             int port = mode == Mode.PROXY ? getProxyPort.Invoke() : getTunPort.Invoke();
             LogLevel logLevel = getLogLevel.Invoke();
-            string logPath = $"{getLogPath.Invoke()}/{getConfig.Invoke().Name}";
+            string logPath = System.IO.Path.GetFullPath($"{getLogPath.Invoke()}/{getConfig.Invoke().Name}");
             bool isSocks = getProtocol.Invoke() == Protocol.SOCKS || mode == Mode.TUN;
             bool isUdpEnabled = getUdpEnabled.Invoke();
 

@@ -144,7 +144,7 @@ namespace InvisibleManXRay.Components
 
         private void OnLogButtonClick(object sender, RoutedEventArgs e)
         {
-            string path = $"{getLogPath.Invoke()}/{config.Name}";
+            string path = System.IO.Path.GetFullPath($"{getLogPath.Invoke()}/{config.Name}");
             
             if (!IsLogDirectoryExists())
             {
