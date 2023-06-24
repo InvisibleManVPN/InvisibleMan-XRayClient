@@ -66,6 +66,7 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new TunnelHandler());
             handlersManager.AddHandler(new NotifyHandler());
+            handlersManager.AddHandler(new VersionHandler());
             handlersManager.AddHandler(new UpdateHandler());
             handlersManager.AddHandler(new BroadcastHandler());
             handlersManager.AddHandler(new LinkHandler());
@@ -81,6 +82,7 @@ namespace InvisibleManXRay.Managers
             SetupServiceHandler();
             SetupTunnelHandler();
             SetupConfigHandler();
+            SetupUpdateHandler();
             SetupNotifyHandler();
 
             void SetupServiceHandler()
@@ -110,6 +112,16 @@ namespace InvisibleManXRay.Managers
 
                 handlersManager.GetHandler<ConfigHandler>().Setup(
                     getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex
+                );
+            }
+
+            void SetupUpdateHandler()
+            {
+                VersionHandler versionHandler = handlersManager.GetHandler<VersionHandler>();
+
+                handlersManager.GetHandler<UpdateHandler>().Setup(
+                    getApplicationVersion: versionHandler.GetApplicationVersion,
+                    convertToAppVersion: versionHandler.ConvertToAppVersion
                 );
             }
 

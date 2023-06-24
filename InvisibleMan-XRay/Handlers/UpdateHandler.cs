@@ -9,6 +9,18 @@ namespace InvisibleManXRay.Handlers
 
     public class UpdateHandler : Handler
     {
+        private Func<AppVersion> getApplicationVersion;
+        private Func<string, AppVersion> convertToAppVersion;
+
+        public void Setup(
+            Func<AppVersion> getApplicationVersion,
+            Func<string, AppVersion> convertToAppVersion
+        )
+        {
+            this.getApplicationVersion = getApplicationVersion;
+            this.convertToAppVersion = convertToAppVersion;
+        }
+
         public Status CheckForUpdate()
         {
             string latestReleaseUrl = GetLatestReleaseUrl();
@@ -23,8 +35,8 @@ namespace InvisibleManXRay.Handlers
 
             bool IsUpdateAvailable()
             {
-                AppVersion latestReleaseAppVersion = ConvertToAppVersion(latestReleaseVersion);
-                AppVersion currentReleaseAppVersion = ConvertToAppVersion(GetCurrentReleaseVersion());
+                AppVersion latestReleaseAppVersion = convertToAppVersion.Invoke(latestReleaseVersion); //ConvertToAppVersion(latestReleaseVersion);
+                AppVersion currentReleaseAppVersion = getApplicationVersion.Invoke(); //ConvertToAppVersion(GetCurrentReleaseVersion());
                 
                 if (latestReleaseAppVersion.Major > currentReleaseAppVersion.Major)
                     return true;
@@ -42,29 +54,6 @@ namespace InvisibleManXRay.Handlers
                     return false;
                 
                 return false;
-            }
-
-            AppVersion ConvertToAppVersion(string version)
-            {
-                string[] versionElements = version.Split('.');
-                
-                return new AppVersion() {
-                    Major = versionElements.Length > 0 ? TryConvertStringToInt(versionElements[0]) : 0,
-                    Feature = versionElements.Length > 1 ? TryConvertStringToInt(versionElements[1]) : 0,
-                    BugFix = versionElements.Length > 2 ? TryConvertStringToInt(versionElements[2]) : 0
-                };
-
-                int TryConvertStringToInt(string str)
-                {
-                    try
-                    {
-                        return int.Parse(str);
-                    }
-                    catch(Exception)
-                    {
-                        return 0;
-                    }
-                }
             }
         }
 
@@ -88,12 +77,6 @@ namespace InvisibleManXRay.Handlers
         private string GetLatestReleaseVersion(string latestReleaseUrl)
         {
             return latestReleaseUrl == null ? null : latestReleaseUrl.Split("/").Last().Replace("v", "");
-        }
-
-        private string GetCurrentReleaseVersion() 
-        {
-            Version version = GetType().Assembly.GetName().Version;
-            return $"{version.Major}.{version.Minor}.{version.Build}";
         }
     }
 }
