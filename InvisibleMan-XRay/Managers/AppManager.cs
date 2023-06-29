@@ -7,6 +7,7 @@ namespace InvisibleManXRay.Managers
     using Models;
     using Core;
     using Handlers;
+    using Services;
     using Factories;
     using Values;
 
@@ -14,6 +15,7 @@ namespace InvisibleManXRay.Managers
     {
         private InvisibleManXRayCore core;
         private HandlersManager handlersManager;
+        private ServicesManager servicesManager;
         public WindowFactory WindowFactory;
 
         private static Mutex mutex;
@@ -26,11 +28,13 @@ namespace InvisibleManXRay.Managers
 
             RegisterCore();
             RegisterHandlers();
-            RegisterFactory();
+            RegisterServices();
+            RegisterFactories();
 
             SetupHandlers();
+            SetupServices();
             SetupCore();
-            SetupFactory();
+            SetupFactories();
         }
 
         private void AvoidRunningMultipleInstances()
@@ -72,7 +76,13 @@ namespace InvisibleManXRay.Managers
             handlersManager.AddHandler(new LinkHandler());
         }
 
-        private void RegisterFactory()
+        private void RegisterServices()
+        {
+            servicesManager = new ServicesManager();
+            servicesManager.AddService(new AnalyticsService());
+        }
+
+        private void RegisterFactories()
         {
             WindowFactory = new WindowFactory();
         }
@@ -200,6 +210,18 @@ namespace InvisibleManXRay.Managers
             }
         }
 
+        private void SetupServices()
+        {
+            SetupServiceLocator();
+
+            void SetupServiceLocator()
+            {
+                ServiceLocator.Setup(
+                    servicesManager: servicesManager
+                );
+            }
+        }
+
         private void SetupCore()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
@@ -225,7 +247,7 @@ namespace InvisibleManXRay.Managers
             );
         }
 
-        private void SetupFactory()
+        private void SetupFactories()
         {
             WindowFactory.Setup(core, handlersManager);
         }
