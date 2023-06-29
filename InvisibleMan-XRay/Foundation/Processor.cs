@@ -24,7 +24,7 @@ namespace InvisibleManXRay.Foundation
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.WorkingDirectory = Directory.SERVICES;
+                process.StartInfo.WorkingDirectory = Directory.PROCESSES;
 
                 if (runAsAdmin)
                     process.StartInfo.Verb = "runas";
