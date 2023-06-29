@@ -61,7 +61,7 @@ namespace InvisibleManXRay.Managers
 
             handlersManager.AddHandler(new SettingsHandler());
             handlersManager.AddHandler(new TemplateHandler());
-            handlersManager.AddHandler(new ServiceHandler());
+            handlersManager.AddHandler(new ProcessHandler());
             handlersManager.AddHandler(new ConfigHandler());
             handlersManager.AddHandler(new ProxyHandler());
             handlersManager.AddHandler(new TunnelHandler());
@@ -79,30 +79,30 @@ namespace InvisibleManXRay.Managers
 
         private void SetupHandlers()
         {
-            SetupServiceHandler();
+            SetupProcessHandler();
             SetupTunnelHandler();
             SetupConfigHandler();
             SetupUpdateHandler();
             SetupNotifyHandler();
 
-            void SetupServiceHandler()
+            void SetupProcessHandler()
             {
                 SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
-                handlersManager.GetHandler<ServiceHandler>().Setup(
+                handlersManager.GetHandler<ProcessHandler>().Setup(
                     getTunnelPort: settingsHandler.UserSettings.GetTunPort
                 );
             }
 
             void SetupTunnelHandler()
             {
-                ServiceHandler serviceHandler = handlersManager.GetHandler<ServiceHandler>();
+                ProcessHandler processHandler = handlersManager.GetHandler<ProcessHandler>();
 
                 handlersManager.GetHandler<TunnelHandler>().Setup(
-                    onStartTunnelingService: serviceHandler.TunnelService.Start,
-                    isServiceRunning: serviceHandler.TunnelService.IsServiceRunning,
-                    isServicePortActive: serviceHandler.TunnelService.IsServicePortActive,
-                    connectTunnelingService: serviceHandler.TunnelService.Connect,
-                    executeCommand: serviceHandler.TunnelService.Execute
+                    onStartTunnelingService: processHandler.TunnelProcess.Start,
+                    isServiceRunning: processHandler.TunnelProcess.IsProcessRunning,
+                    isServicePortActive: processHandler.TunnelProcess.IsProcessPortActive,
+                    connectTunnelingService: processHandler.TunnelProcess.Connect,
+                    executeCommand: processHandler.TunnelProcess.Execute
                 );
             }
 
