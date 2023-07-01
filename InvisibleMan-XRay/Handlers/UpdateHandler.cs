@@ -35,8 +35,8 @@ namespace InvisibleManXRay.Handlers
 
             bool IsUpdateAvailable()
             {
-                AppVersion latestReleaseAppVersion = convertToAppVersion.Invoke(latestReleaseVersion); //ConvertToAppVersion(latestReleaseVersion);
-                AppVersion currentReleaseAppVersion = getApplicationVersion.Invoke(); //ConvertToAppVersion(GetCurrentReleaseVersion());
+                AppVersion latestReleaseAppVersion = convertToAppVersion.Invoke(latestReleaseVersion);
+                AppVersion currentReleaseAppVersion = getApplicationVersion.Invoke();
                 
                 if (latestReleaseAppVersion.Major > currentReleaseAppVersion.Major)
                     return true;
