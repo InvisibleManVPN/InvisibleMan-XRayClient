@@ -14,7 +14,7 @@ namespace InvisibleManXRay.Foundation
             this.processes = new Dictionary<string, Process>();
         }
 
-        public void StartProcess(string processName, string fileName, string command, bool runAsAdmin)
+        public void StartProcess(string processName, string fileName, string workingDirectory, string command, bool runAsAdmin)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace InvisibleManXRay.Foundation
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.WorkingDirectory = Directory.SERVICES;
+                process.StartInfo.WorkingDirectory = workingDirectory;
 
                 if (runAsAdmin)
                     process.StartInfo.Verb = "runas";

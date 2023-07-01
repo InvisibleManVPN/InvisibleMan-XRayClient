@@ -46,6 +46,7 @@ namespace InvisibleManXRay.Handlers.Services
             processor.StartProcess(
                 processName: INVISIBLEMAN_TUN_PROCESS,
                 fileName: System.IO.Path.GetFullPath(Path.INVISIBLEMAN_TUN_EXE),
+                workingDirectory: Directory.TUN,
                 command: $"-port={getPort.Invoke()}",
                 runAsAdmin: true
             );
