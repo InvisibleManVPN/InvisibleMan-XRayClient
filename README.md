@@ -33,8 +33,9 @@ Invisible Man XRay is an open-source and free client that supports [xray core](h
     md ..\InvisileMan-XRay\Libraries
     copy XRayCore.dll ..\InvisibleMan-XRay\Libraries   
     ```
-  - Download `InvisibleMan-TUN` service (based on your OS) from [this](https://github.com/InvisibleManVPN/InvisibleMan-TUN/releases/latest) link, extract and copy to the `/InvisibleMan-XRay/Processes` directory.
-  
+    
+  - Download `InvisibleMan-TUN` service (based on your OS) from [this](https://github.com/InvisibleManVPN/InvisibleMan-TUN/releases/latest) link, extract and copy to the `/InvisibleMan-XRay/TUN` directory.
+
   - Download `geoip.dat` and `geosite.dat` files and copy to the `/InvisibleMan-XRay` directory:
     ```
     cd ..\InvisibleMan-XRay
