@@ -29,8 +29,11 @@ namespace InvisibleManXRay.Managers.Initializers
 
             void SetupAnalyticsService()
             {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
                 VersionHandler versionHandler = handlersManager.GetHandler<VersionHandler>();
+
                 ServicesManager.GetService<AnalyticsService>().Setup(
+                    getClientId: settingsHandler.UserSettings.GetClientId,
                     getApplicationVersion: GetApplicationVersion
                 );
 
