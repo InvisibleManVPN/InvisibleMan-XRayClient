@@ -1,0 +1,138 @@
+<Window x:Class="InvisibleManXRay.PolicyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InvisibleManXRay"
+        mc:Ignorable="d"
+        Title="Invisible Man XRay - Policy"
+        Height="450" 
+        Width="350" 
+        WindowStartupLocation="CenterOwner"  
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.DarkGray"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <TextBlock Padding="20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    At <Span FontWeight="Normal">Invisible Man</Span> we are committed to providing you with an exceptional 
+                    user experience. As part of our efforts to continuously improve our services, we utilize analytics data 
+                    to gain insights and make informed decisions that benefit all our users. This policy outlines our 
+                    approach to data analytics and our commitment to protecting your privacy.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">1. Purpose of Analytics:</Span> We use analytics to better understand how our 
+                    app is being used, identify areas for improvement, and optimize our features and functionalities. 
+                    By analyzing user behavior patterns, we can enhance the overall user experience and tailor our app 
+                    to better meet your needs.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">2. Data Collection:</Span> The data we collect is strictly limited to 
+                    non-personal, aggregated information. This means that we do not collect or process any personal 
+                    information that can directly identify you. We respect your privacy and are committed to protecting 
+                    your personal data.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">3. Data Anonymization:</Span> To ensure your privacy, any data we collect is 
+                    anonymized and aggregated. This means that it is combined with data from other users and cannot be linked 
+                    back to any specific individual. Rest assured that your identity remains completely anonymous throughout 
+                    the analytics process.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">4. Data Security:</Span> We take the security of your data seriously. We have 
+                    implemented industry-standard security measures to safeguard the analytics data we collect. Our systems 
+                    are designed to protect against unauthorized access, use, or disclosure of your information.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">5. Third-Party Providers:</Span> We use Google Analytics as our third-party analytics 
+                    provider to assist us in collecting and analyzing data. This provider is carefully selected and complies with 
+                    our privacy and security standards.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    <Span FontWeight="Normal">6. Your Choices:</Span> We respect your right to control your data. If you do not wish 
+                    to participate in our analytics program, you can opt-out at any time through the app settings. Please note that 
+                    opting out may impact our ability to enhance your user experience.
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 10" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    By continuing to use our app, you acknowledge and consent to our use of analytics data in accordance with this policy.
+                    If you have any questions or concerns about our data analytics practices, please contact our support team at:
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Text="invisiblemanvpn@gmail.com" 
+                    FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20 0 20 20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    />
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+                    
+                    Thank you for choosing Invisible Man XRay. We appreciate your trust and look forward to providing you with 
+                    an exceptional user experience.
+                </TextBlock>
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
+            <Grid.Effect>
+                <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
+            </Grid.Effect>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource Icon.Policy.MintyGreen}" Grid.Column="0" 
+                Width="32" Height="35" Margin="0" 
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
+                        Content="POLICY" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
+                        Content="Data Analytics policy" FontFamily="{StaticResource SegoeUI}" 
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Window>

@@ -153,5 +153,11 @@ namespace InvisibleManXRay.Factories
                 mainWindow.TryRerun();
             }
         }
+
+        public PolicyWindow CreatePolicyWindow()
+        {
+            PolicyWindow policyWindow = new PolicyWindow();
+            return policyWindow;
+        }
     }
 }
