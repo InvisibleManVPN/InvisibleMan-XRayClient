@@ -6,11 +6,15 @@ namespace InvisibleManXRay
 {
     using Models;
     using Values;
+    using Services;
+    using Services.Analytics.General;
 
     public partial class MainWindow : Window
     {
         private bool isRerunRequest;
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
+        private Func<bool> isNeedToShowPolicyWindow;
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> enableMode;
@@ -20,6 +24,7 @@ namespace InvisibleManXRay
         private Func<SettingsWindow> openSettingsWindow;
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
+        private Func<PolicyWindow> openPolicyWindow;
         private Action<string> onRunServer;
         private Action onCancelServer;
         private Action onStopServer;
@@ -190,6 +195,7 @@ namespace InvisibleManXRay
         }
 
         public void Setup(
+            Func<bool> isNeedToShowPolicyWindow,
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> enableMode,
@@ -199,6 +205,7 @@ namespace InvisibleManXRay
             Func<SettingsWindow> openSettingsWindow,
             Func<UpdateWindow> openUpdateWindow,
             Func<AboutWindow> openAboutWindow,
+            Func<PolicyWindow> openPolicyWindow,
             Action<string> onRunServer,
             Action onStopServer,
             Action onCancelServer,
@@ -207,6 +214,7 @@ namespace InvisibleManXRay
             Action onBugReportingClick,
             Action<string> onCustomLinkClick)
         {
+            this.isNeedToShowPolicyWindow = isNeedToShowPolicyWindow;
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
@@ -215,6 +223,7 @@ namespace InvisibleManXRay
             this.openSettingsWindow = openSettingsWindow;
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
+            this.openPolicyWindow = openPolicyWindow;
             this.onRunServer = onRunServer;
             this.onCancelServer = onCancelServer;
             this.onStopServer = onStopServer;
@@ -225,6 +234,12 @@ namespace InvisibleManXRay
             this.onCustomLinkClick = onCustomLinkClick;
 
             UpdateUI();
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            TryOpenPolicyWindow();
+            AnalyticsService.SendEvent(new AppOpenedEvent());
         }
 
         public void UpdateUI()
@@ -310,6 +325,16 @@ namespace InvisibleManXRay
         private void OnAboutButtonClick(object sender, RoutedEventArgs e)
         {
             OpenAboutWindow();
+        }
+
+        private void TryOpenPolicyWindow()
+        {
+            if (!isNeedToShowPolicyWindow.Invoke())
+                return;
+            
+            PolicyWindow policyWindow = openPolicyWindow.Invoke();
+            policyWindow.Owner = this;
+            policyWindow.ShowDialog();
         }
 
         private void OpenServerWindow()

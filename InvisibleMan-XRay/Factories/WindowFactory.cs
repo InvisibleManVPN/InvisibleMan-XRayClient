@@ -25,10 +25,12 @@ namespace InvisibleManXRay.Factories
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             UpdateHandler updateHandler = handlersManager.GetHandler<UpdateHandler>();
             BroadcastHandler broadcastHandler = handlersManager.GetHandler<BroadcastHandler>();
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Setup(
+                isNeedToShowPolicyWindow: IsNeedToShowPolicyWindow,
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 enableMode: core.EnableMode,
@@ -38,6 +40,7 @@ namespace InvisibleManXRay.Factories
                 openSettingsWindow: CreateSettingsWindow,
                 openUpdateWindow: CreateUpdateWindow,
                 openAboutWindow: CreateAboutWindow,
+                openPolicyWindow: CreatePolicyWindow,
                 onRunServer: core.Run,
                 onStopServer: core.Stop,
                 onCancelServer: core.Cancel,
@@ -48,6 +51,8 @@ namespace InvisibleManXRay.Factories
             );
             
             return mainWindow;
+
+            bool IsNeedToShowPolicyWindow() => settingsHandler.UserSettings.GetClientId() == "";
         }
 
         public SettingsWindow CreateSettingsWindow()
@@ -156,7 +161,13 @@ namespace InvisibleManXRay.Factories
 
         public PolicyWindow CreatePolicyWindow()
         {
+            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+
             PolicyWindow policyWindow = new PolicyWindow();
+            policyWindow.Setup(
+                onGenerateClientId: settingsHandler.GenerateClientId
+            );
+
             return policyWindow;
         }
     }

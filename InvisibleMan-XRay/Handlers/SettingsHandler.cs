@@ -37,6 +37,12 @@ namespace InvisibleManXRay.Handlers
             SaveUserSettings();
         }
 
+        public void GenerateClientId()
+        {
+            userSettings.ClientId = IdentificationUtility.GenerateClientId();
+            SaveUserSettings();
+        }
+
         public void UpdateCurrentConfigIndex(int index)
         {
             userSettings.CurrentConfigIndex = index;
