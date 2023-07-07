@@ -8,11 +8,11 @@ namespace InvisibleManXRay
     using Values;
     using Services;
     using Services.Analytics.General;
+    using Services.Analytics.MainWindow;
 
     public partial class MainWindow : Window
     {
         private bool isRerunRequest;
-        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         private Func<bool> isNeedToShowPolicyWindow;
         private Func<Config> getConfig;
@@ -36,6 +36,8 @@ namespace InvisibleManXRay
         private BackgroundWorker runWorker;
         private BackgroundWorker updateWorker;
         private BackgroundWorker broadcastWorker;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public MainWindow()
         {
@@ -277,6 +279,7 @@ namespace InvisibleManXRay
         private void OnManageServersClick(object sender, RoutedEventArgs e)
         {
             OpenServerWindow();
+            AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
@@ -285,6 +288,7 @@ namespace InvisibleManXRay
                 return;
 
             runWorker.RunWorkerAsync();
+            AnalyticsService.SendEvent(new RunButtonClickedEvent());
         }
 
         private void OnStopButtonClick(object sender, RoutedEventArgs e)
@@ -292,6 +296,7 @@ namespace InvisibleManXRay
             onStopServer.Invoke();
             onDisableMode.Invoke();
             isRerunRequest = false;
+            AnalyticsService.SendEvent(new StopButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -305,26 +310,31 @@ namespace InvisibleManXRay
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
         {
             onGitHubClick.Invoke();
+            AnalyticsService.SendEvent(new GitHubButtonClickedEvent());
         }
 
         private void OnBugReportingButtonClick(object sender, RoutedEventArgs e)
         {
             onBugReportingClick.Invoke();
+            AnalyticsService.SendEvent(new BugReportingButtonClickedEvent());
         }
 
         private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
         {
             OpenSettingsWindow();
+            AnalyticsService.SendEvent(new SettingsButtonClickedEvent());
         }
 
         private void OnUpdateButtonClick(object sender, RoutedEventArgs e)
         {
             OpenUpdateWindow();
+            AnalyticsService.SendEvent(new UpdateButtonClickedEvent());
         }
 
         private void OnAboutButtonClick(object sender, RoutedEventArgs e)
         {
             OpenAboutWindow();
+            AnalyticsService.SendEvent(new AboutButtonClickedEvent());
         }
 
         private void TryOpenPolicyWindow()
