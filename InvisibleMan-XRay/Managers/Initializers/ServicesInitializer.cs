@@ -34,6 +34,7 @@ namespace InvisibleManXRay.Managers.Initializers
 
                 ServicesManager.GetService<AnalyticsService>().Setup(
                     getClientId: settingsHandler.UserSettings.GetClientId,
+                    getSendingAnalyticsEnabled: settingsHandler.UserSettings.GetSendingAnalyticsEnabled,
                     getApplicationVersion: GetApplicationVersion
                 );
 

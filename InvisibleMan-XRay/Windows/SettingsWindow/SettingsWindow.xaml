@@ -121,9 +121,6 @@
 
                     <CheckBox x:Name="checkBoxEnableUdp" Margin="5 25 0 0" Foreground="White" 
                         Content="Enable UDP" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
-                        
-                    <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
-                        Content="Run automatically at startup" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
                     <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
                         FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
@@ -142,6 +139,9 @@
                         </TextBlock>
 
                     </CheckBox>
+                        
+                    <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
+                        Content="Run automatically at startup" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
                         
                 </StackPanel>
 

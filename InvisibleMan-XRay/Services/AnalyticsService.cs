@@ -15,11 +15,17 @@ namespace InvisibleManXRay.Services
     public class AnalyticsService : Service
     {
         private Func<string> getClientId;
+        private Func<bool> getSendingAnalyticsEnabled;
         private Param[] basicParams;
 
-        public void Setup(Func<string> getClientId, Func<string> getApplicationVersion)
+        public void Setup(
+            Func<string> getClientId, 
+            Func<bool> getSendingAnalyticsEnabled, 
+            Func<string> getApplicationVersion
+        )
         {
             this.getClientId = getClientId;
+            this.getSendingAnalyticsEnabled = getSendingAnalyticsEnabled;
             this.basicParams = new[] {
                 new Param("engagement_time_msec", "100"),
                 new Param("session_id", IdentificationUtility.GenerateSessionId()),
@@ -29,6 +35,9 @@ namespace InvisibleManXRay.Services
 
         public void SendEvent(IEvent analyticsEvent, bool isForced = false)
         {
+            if (!IsSendingAnalytics())
+                return;
+
             Param[] eventParams = AppendBasicParams(analyticsEvent.Params);
             UserTier customerTier = new UserTier("standard");
 
@@ -44,6 +53,8 @@ namespace InvisibleManXRay.Services
             };
 
             SendRequest(payload);
+
+            bool IsSendingAnalytics() => getSendingAnalyticsEnabled.Invoke() || isForced;
         }
 
         private Param[] AppendBasicParams(Param[] eventParams)
