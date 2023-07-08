@@ -45,6 +45,7 @@ namespace InvisibleManXRay.Factories
                 onStopServer: core.Stop,
                 onCancelServer: core.Cancel,
                 onDisableMode: core.DisableMode,
+                onGenerateClientId: settingsHandler.GenerateClientId,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,
                 onCustomLinkClick: linkHandler.OpenCustomLink
@@ -74,6 +75,7 @@ namespace InvisibleManXRay.Factories
                 getDns: settingsHandler.UserSettings.GetDns,
                 getLogLevel: settingsHandler.UserSettings.GetLogLevel,
                 getLogPath: settingsHandler.UserSettings.GetLogPath,
+                openPolicyWindow: CreatePolicyWindow,
                 onUpdateUserSettings: UpdateUserSettings
             );
 
@@ -163,12 +165,10 @@ namespace InvisibleManXRay.Factories
         public PolicyWindow CreatePolicyWindow()
         {
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
-            SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
 
             PolicyWindow policyWindow = new PolicyWindow();
             policyWindow.Setup(
-                onEmailClick: linkHandler.OpenEmailLink,
-                onGenerateClientId: settingsHandler.GenerateClientId
+                onEmailClick: linkHandler.OpenEmailLink
             );
 
             return policyWindow;

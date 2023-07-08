@@ -126,7 +126,22 @@
                         Content="Run automatically at startup" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
                     <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
-                        Content="Allow the app to send analytics events" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
+
+                        <TextBlock>
+                            Allow the app to send 
+                            <Run TextDecorations="Underline"
+                                Foreground="{StaticResource Color.Blue}" 
+                                FontWeight="Normal" FontSize="14" Cursor="Hand"
+                                PreviewMouseDown="OnAnalyticsClick">
+                                
+                                Analytics
+                            </Run> 
+
+                                events
+                        </TextBlock>
+
+                    </CheckBox>
                         
                 </StackPanel>
 

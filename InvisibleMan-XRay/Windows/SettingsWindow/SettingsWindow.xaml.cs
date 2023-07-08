@@ -42,6 +42,7 @@ namespace InvisibleManXRay
         private Func<String> getDns;
         private Func<LogLevel> getLogLevel;
         private Func<string> getLogPath;
+        private Func<PolicyWindow> openPolicyWindow;
 
         private Action<UserSettings> onUpdateUserSettings;
 
@@ -79,6 +80,7 @@ namespace InvisibleManXRay
             Func<string> getDns,
             Func<LogLevel> getLogLevel,
             Func<string> getLogPath,
+            Func<PolicyWindow> openPolicyWindow,
             Action<UserSettings> onUpdateUserSettings
         )
         {
@@ -94,6 +96,7 @@ namespace InvisibleManXRay
             this.getDns = getDns;
             this.getLogLevel = getLogLevel;
             this.getLogPath = getLogPath;
+            this.openPolicyWindow = openPolicyWindow;
             this.onUpdateUserSettings = onUpdateUserSettings;
 
             UpdateUI();
@@ -182,6 +185,13 @@ namespace InvisibleManXRay
                 comboBoxProtocol.IsEnabled = mode != Mode.TUN;
                 checkBoxEnableUdp.IsEnabled = mode == Mode.TUN;
             }
+        }
+
+        private void OnAnalyticsClick(object sender, RoutedEventArgs e)
+        {
+            PolicyWindow policyWindow = openPolicyWindow.Invoke();
+            policyWindow.Owner = this;
+            policyWindow.ShowDialog();
         }
 
         private void OnConfirmButtonClick(object sender, RoutedEventArgs e)

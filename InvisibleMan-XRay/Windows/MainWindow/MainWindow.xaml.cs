@@ -29,6 +29,7 @@ namespace InvisibleManXRay
         private Action onCancelServer;
         private Action onStopServer;
         private Action onDisableMode;
+        private Action onGenerateClientId;
         private Action onGitHubClick;
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
@@ -212,6 +213,7 @@ namespace InvisibleManXRay
             Action onStopServer,
             Action onCancelServer,
             Action onDisableMode,
+            Action onGenerateClientId,
             Action onGitHubClick,
             Action onBugReportingClick,
             Action<string> onCustomLinkClick)
@@ -231,6 +233,7 @@ namespace InvisibleManXRay
             this.onStopServer = onStopServer;
             this.enableMode = enableMode;
             this.onDisableMode = onDisableMode;
+            this.onGenerateClientId = onGenerateClientId;
             this.onGitHubClick = onGitHubClick;
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
@@ -342,6 +345,9 @@ namespace InvisibleManXRay
             if (!isNeedToShowPolicyWindow.Invoke())
                 return;
             
+            onGenerateClientId.Invoke();
+            AnalyticsService.SendEvent(new NewUserEvent());
+
             PolicyWindow policyWindow = openPolicyWindow.Invoke();
             policyWindow.Owner = this;
             policyWindow.ShowDialog();
