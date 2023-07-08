@@ -7,6 +7,8 @@ using System.Windows.Controls;
 namespace InvisibleManXRay
 {
     using Models;
+    using Services;
+    using Services.Analytics.SettingsWindow;
 
     public partial class SettingsWindow : Window
     {
@@ -31,7 +33,8 @@ namespace InvisibleManXRay
         private Func<Mode> getMode;
         private Func<Protocol> getProtocol;
         private Func<bool> getUdpEnabled;
-        private Func<bool> getRunAtStartupEnabled;
+        private Func<bool> getRunningAtStartupEnabled;
+        private Func<bool> getSendingAnalyticsEnabled;
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
         private Func<int> getTestPort;
@@ -41,6 +44,8 @@ namespace InvisibleManXRay
         private Func<string> getLogPath;
 
         private Action<UserSettings> onUpdateUserSettings;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public SettingsWindow()
         {
@@ -65,7 +70,8 @@ namespace InvisibleManXRay
             Func<Mode> getMode,
             Func<Protocol> getProtocol,
             Func<bool> getUdpEnabled,
-            Func<bool> getRunAtStartupEnabled,
+            Func<bool> getRunningAtStartupEnabled,
+            Func<bool> getSendingAnalyticsEnabled,
             Func<int> getProxyPort,
             Func<int> getTunPort,
             Func<int> getTestPort,
@@ -79,7 +85,8 @@ namespace InvisibleManXRay
             this.getMode = getMode;
             this.getProtocol = getProtocol;
             this.getUdpEnabled = getUdpEnabled;
-            this.getRunAtStartupEnabled = getRunAtStartupEnabled;
+            this.getRunningAtStartupEnabled = getRunningAtStartupEnabled;
+            this.getSendingAnalyticsEnabled = getSendingAnalyticsEnabled;
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
             this.getTestPort = getTestPort;
@@ -104,7 +111,8 @@ namespace InvisibleManXRay
                 comboBoxMode.SelectedValue = getMode.Invoke();
                 comboBoxProtocol.SelectedValue = getProtocol.Invoke();
                 checkBoxEnableUdp.IsChecked = getUdpEnabled.Invoke();
-                checkBoxRunAtStartup.IsChecked = getRunAtStartupEnabled.Invoke();
+                checkBoxRunAtStartup.IsChecked = getRunningAtStartupEnabled.Invoke();
+                checkBoxSendAnalytics.IsChecked = getSendingAnalyticsEnabled.Invoke();
             }
 
             void UpdatePortPanelUI()
@@ -183,7 +191,8 @@ namespace InvisibleManXRay
                 protocol: (Protocol)comboBoxProtocol.SelectedValue,
                 logLevel: (LogLevel)comboBoxLogLevel.SelectedValue,
                 isUdpEnable: checkBoxEnableUdp.IsChecked.Value,
-                isRunAtStartup: checkBoxRunAtStartup.IsChecked.Value,
+                isRunningAtStartup: checkBoxRunAtStartup.IsChecked.Value,
+                isSendingAnalytics: checkBoxSendAnalytics.IsChecked.Value,
                 proxyPort: int.Parse(textBoxProxyPort.Text),
                 tunPort: int.Parse(textBoxTunPort.Text),
                 testPort: int.Parse(textBoxTestPort.Text),
@@ -193,7 +202,16 @@ namespace InvisibleManXRay
             );
             
             onUpdateUserSettings.Invoke(userSettings);
+            SendAnalyticsActivationEvent();
             Close();
+
+            void SendAnalyticsActivationEvent()
+            {
+                if (userSettings.GetSendingAnalyticsEnabled())
+                    AnalyticsService.SendEvent(new AnalyticsActivatedEvent(), true);
+                else
+                    AnalyticsService.SendEvent(new AnalyticsDeactivatedEvent(), true);
+            }
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)

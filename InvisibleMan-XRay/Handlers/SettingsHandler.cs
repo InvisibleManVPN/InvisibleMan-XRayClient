@@ -25,7 +25,8 @@ namespace InvisibleManXRay.Handlers
             this.userSettings.Protocol = userSettings.Protocol;
             this.userSettings.LogLevel = userSettings.LogLevel;
             this.userSettings.IsUdpEnable = userSettings.IsUdpEnable;
-            this.userSettings.IsRunAtStartup = userSettings.IsRunAtStartup;
+            this.userSettings.IsRunningAtStartup = userSettings.IsRunningAtStartup;
+            this.userSettings.IsSendingAnalytics = userSettings.IsSendingAnalytics;
             this.userSettings.ProxyPort = userSettings.ProxyPort;
             this.userSettings.TunPort = userSettings.TunPort;
             this.userSettings.TestPort = userSettings.TestPort;
@@ -59,7 +60,7 @@ namespace InvisibleManXRay.Handlers
         {
             IStartupSetting startupSetting = new WindowsStartupSetting();
 
-            if (userSettings.IsRunAtStartup)
+            if (userSettings.IsRunningAtStartup)
                 startupSetting.EnableRunAtStartup();
             else
                 startupSetting.DisableRunAtStartup();

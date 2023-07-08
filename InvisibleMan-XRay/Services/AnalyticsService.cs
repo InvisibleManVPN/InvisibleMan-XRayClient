@@ -27,7 +27,7 @@ namespace InvisibleManXRay.Services
             };
         }
 
-        public void SendEvent(IEvent analyticsEvent)
+        public void SendEvent(IEvent analyticsEvent, bool isForced = false)
         {
             Param[] eventParams = AppendBasicParams(analyticsEvent.Params);
             UserTier customerTier = new UserTier("standard");

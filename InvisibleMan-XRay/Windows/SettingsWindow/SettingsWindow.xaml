@@ -124,6 +124,9 @@
                         
                     <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
                         Content="Run automatically at startup" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                    <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
+                        Content="Allow the app to send analytics events" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
                         
                 </StackPanel>
 
