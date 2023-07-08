@@ -1,6 +1,6 @@
 namespace InvisibleManXRay.Services.Analytics.ServerWindow
 {
-    public class LinkConfigImportedEvent : ServerWindowEvent
+    public class ConfigFromLinkImportedEvent : ServerWindowEvent
     {
         
     }

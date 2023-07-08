@@ -130,12 +130,12 @@ namespace InvisibleManXRay
             if (IsFileImporting())
             {
                 HandleImportingConfigFromFile();
-                AnalyticsService.SendEvent(new FileConfigImportedEvent());
+                AnalyticsService.SendEvent(new ConfigFromFileImportedEvent());
             }
             else
             {
                 HandleImportingConfigFromLink();
-                AnalyticsService.SendEvent(new LinkConfigImportedEvent());
+                AnalyticsService.SendEvent(new ConfigFromLinkImportedEvent());
             }
 
             bool IsFileImporting() => importingType == ImportingType.FILE;
