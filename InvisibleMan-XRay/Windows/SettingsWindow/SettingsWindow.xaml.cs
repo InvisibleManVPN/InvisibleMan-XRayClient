@@ -211,16 +211,42 @@ namespace InvisibleManXRay
                 logPath: textBoxLogPath.Text
             );
             
+            SendRunAtStartupActivationEvent();
+            ForceSendAnalyticsActivationEvent();
             onUpdateUserSettings.Invoke(userSettings);
-            SendAnalyticsActivationEvent();
+
             Close();
 
-            void SendAnalyticsActivationEvent()
+            void SendRunAtStartupActivationEvent()
             {
+                if (!IsUserChangeRunningAtStartupSetting())
+                    return;
+
+                if (userSettings.GetRunningAtStartupEnabled())
+                    AnalyticsService.SendEvent(new StartupActivatedEvent());
+                else
+                    AnalyticsService.SendEvent(new StartupDeactivatedEvent());
+
+                bool IsUserChangeRunningAtStartupSetting()
+                {
+                    return getRunningAtStartupEnabled.Invoke() != checkBoxRunAtStartup.IsChecked.Value;
+                }
+            }
+
+            void ForceSendAnalyticsActivationEvent()
+            {
+                if (!IsUserChangeSendingAnalyticsEnabledSetting())
+                    return;
+
                 if (userSettings.GetSendingAnalyticsEnabled())
                     AnalyticsService.SendEvent(new AnalyticsActivatedEvent(), true);
                 else
                     AnalyticsService.SendEvent(new AnalyticsDeactivatedEvent(), true);
+
+                bool IsUserChangeSendingAnalyticsEnabledSetting()
+                {
+                    return getSendingAnalyticsEnabled.Invoke() != checkBoxSendAnalytics.IsChecked.Value;
+                }
             }
         }
 
