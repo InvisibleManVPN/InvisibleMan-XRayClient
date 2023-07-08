@@ -97,7 +97,7 @@
                     HorizontalAlignment="Center" VerticalAlignment="Top" 
                     Margin="20 0 20 20" Foreground="{StaticResource Color.Blue}" 
                     FontWeight="Normal" FontSize="15" Cursor="Hand"
-                    />
+                    PreviewMouseDown="OnEmailClick"/>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">

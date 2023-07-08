@@ -162,10 +162,12 @@ namespace InvisibleManXRay.Factories
 
         public PolicyWindow CreatePolicyWindow()
         {
+            LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
 
             PolicyWindow policyWindow = new PolicyWindow();
             policyWindow.Setup(
+                onEmailClick: linkHandler.OpenEmailLink,
                 onGenerateClientId: settingsHandler.GenerateClientId
             );
 
