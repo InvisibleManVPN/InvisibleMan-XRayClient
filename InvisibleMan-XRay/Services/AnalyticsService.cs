@@ -46,7 +46,7 @@ namespace InvisibleManXRay.Services
                 UserProperties = new UserProperties(customerTier),
                 Events = new[] {
                     new Event(
-                        eventName: $"{analyticsEvent.Scope}_{analyticsEvent.GetType().Name}",
+                        eventName: $"{GetAnalyticsEventScope()}_{GetAnalyticsEventName()}",
                         eventParams: eventParams
                     )
                 }
@@ -55,6 +55,10 @@ namespace InvisibleManXRay.Services
             SendRequest(payload);
 
             bool IsSendingAnalytics() => getSendingAnalyticsEnabled.Invoke() || isForced;
+
+            string GetAnalyticsEventScope() => analyticsEvent.Scope;
+
+            string GetAnalyticsEventName() => analyticsEvent.GetType().Name.Replace("Event", "");
         }
 
         private Param[] AppendBasicParams(Param[] eventParams)
