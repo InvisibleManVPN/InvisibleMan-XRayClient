@@ -223,9 +223,9 @@ namespace InvisibleManXRay
                     return;
 
                 if (userSettings.GetRunningAtStartupEnabled())
-                    AnalyticsService.SendEvent(new StartupActivatedEvent());
+                    AnalyticsService.SendEvent(new RunAtStartupActivatedEvent());
                 else
-                    AnalyticsService.SendEvent(new StartupDeactivatedEvent());
+                    AnalyticsService.SendEvent(new RunAtStartupDeactivatedEvent());
 
                 bool IsUserChangeRunningAtStartupSetting()
                 {

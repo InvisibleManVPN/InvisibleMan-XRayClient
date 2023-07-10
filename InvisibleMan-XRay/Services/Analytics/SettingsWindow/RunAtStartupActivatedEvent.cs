@@ -1,6 +1,6 @@
 namespace InvisibleManXRay.Services.Analytics.SettingsWindow
 {
-    public class StartupActivatedEvent : SettingsWindowEvent
+    public class RunAtStartupActivatedEvent : SettingsWindowEvent
     {
 
     }
