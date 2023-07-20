@@ -1,7 +1,10 @@
 using System;
+using System.Net;
+using System.Text;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Services
@@ -17,6 +20,16 @@ namespace InvisibleManXRay.Services
         private Func<string> getClientId;
         private Func<bool> getSendingAnalyticsEnabled;
         private Param[] basicParams;
+
+        private Queue<Event> bufferedEvents;
+        private static readonly object bufferLock = new object();
+        
+        private const int MAX_EVENTS_PER_BATCH = 25;
+
+        public AnalyticsService()
+        {
+            this.bufferedEvents = new Queue<Event>();
+        }
 
         public void Setup(
             Func<string> getClientId, 
@@ -38,20 +51,13 @@ namespace InvisibleManXRay.Services
             if (!IsSendingAnalytics())
                 return;
 
+            string eventName = $"{GetAnalyticsEventScope()}_{GetAnalyticsEventName()}";
             Param[] eventParams = AppendBasicParams(analyticsEvent.Params);
-            UserTier customerTier = new UserTier("standard");
+            Payload payload = CreatePayload(
+                events: new[] { new Event(eventName, eventParams) }
+            );
 
-            Payload payload = new Payload() {
-                ClientId = getClientId.Invoke(),
-                UserProperties = new UserProperties(customerTier),
-                Events = new[] {
-                    new Event(
-                        eventName: $"{GetAnalyticsEventScope()}_{GetAnalyticsEventName()}",
-                        eventParams: eventParams
-                    )
-                }
-            };
-
+            SendBufferedRequests();
             SendRequest(payload);
 
             bool IsSendingAnalytics() => getSendingAnalyticsEnabled.Invoke() || isForced;
@@ -61,6 +67,17 @@ namespace InvisibleManXRay.Services
             string GetAnalyticsEventName() => analyticsEvent.GetType().Name.Replace("Event", "");
         }
 
+        private Payload CreatePayload(Event[] events)
+        {
+            UserTier customerTier = new UserTier("standard");
+
+            return new Payload() {
+                ClientId = getClientId.Invoke(),
+                UserProperties = new UserProperties(customerTier),
+                Events = events
+            };
+        }
+
         private Param[] AppendBasicParams(Param[] eventParams)
         {
             return eventParams.Concat(basicParams).ToArray();
@@ -68,6 +85,12 @@ namespace InvisibleManXRay.Services
 
         private async void SendRequest(Payload payload)
         {
+            string requestUri = string.Format(
+                Route.GOOGLE_ANALYTICS,
+                Security.GA_MEASUREMENT_ID,
+                Security.GA_API_SECRET
+            );
+
             StringContent jsonContent = new StringContent(
                 content: JsonConvert.SerializeObject(payload),
                 encoding: Encoding.UTF8,
@@ -75,14 +98,63 @@ namespace InvisibleManXRay.Services
             );
             
             HttpClient client = new HttpClient();
-            await client.PostAsync(
-                requestUri: string.Format(
-                    Route.GOOGLE_ANALYTICS, 
-                    Security.GA_MEASUREMENT_ID, 
-                    Security.GA_API_SECRET
-                ),
-                content: jsonContent
-            );
+            HttpStatusCode responseCode = await TryPostAsync(requestUri, jsonContent);
+
+            if (!IsRequestSuccess())
+                AddToBufferedRequestsList();
+
+            async Task<HttpStatusCode> TryPostAsync(string requestUri, StringContent jsonContent)
+            {
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync(
+                        requestUri: requestUri,
+                        content: jsonContent
+                    );
+
+                    return response.StatusCode;
+                }
+                catch
+                {
+                    return HttpStatusCode.NotAcceptable;
+                }
+            }
+
+            bool IsRequestSuccess()
+            {
+                return responseCode == System.Net.HttpStatusCode.NoContent;
+            }
+
+            void AddToBufferedRequestsList()
+            {
+                lock (bufferLock)
+                {
+                    foreach (Event evt in payload.Events)
+                        bufferedEvents.Enqueue(evt);
+                }
+            }
+        }
+
+        private void SendBufferedRequests()
+        {
+            lock (bufferLock)
+            {
+                Payload payload;
+                Event[] events;
+                int bufferedEventsBatch;
+
+                while(bufferedEvents.Count > 0)
+                {
+                    bufferedEventsBatch = Math.Min(bufferedEvents.Count, MAX_EVENTS_PER_BATCH);
+                    events = new Event[bufferedEventsBatch];
+
+                    for (int i = 0; i < bufferedEventsBatch; i++)
+                        events[i] = bufferedEvents.Dequeue();
+
+                    payload = CreatePayload(events);
+                    SendRequest(payload);
+                }
+            }
         }
     }
 }
