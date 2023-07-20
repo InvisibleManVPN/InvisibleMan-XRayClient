@@ -55,6 +55,9 @@ namespace InvisibleManXRay.Models.Templates
                     sni = data.query["sni"] ?? "",
                     alpn = HttpUtility.UrlDecode(data.query["alpn"] ?? ""),
                     fingerprint = HttpUtility.UrlDecode(data.query["fp"] ?? ""),
+                    publicKey = HttpUtility.UrlDecode(data.query["pbk"] ?? ""),
+                    shortId = HttpUtility.UrlDecode(data.query["sid"] ?? ""),
+                    spiderX = HttpUtility.UrlDecode(data.query["spx"] ?? ""),
                 };
 
                 switch (adapter.streamNetwork)
