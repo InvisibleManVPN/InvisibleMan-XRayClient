@@ -8,5 +8,6 @@ namespace InvisibleManXRay.Values
         public const string ISSUES = $"{REPOSITORY}/issues";
         public const string LATEST_RELEASE = $"{REPOSITORY}/releases/latest";
         public const string BROADCAST = $"{WEBSITE}/data/Broadcast.dat";
+        public const string GOOGLE_ANALYTICS = "https://www.google-analytics.com/mp/collect?measurement_id={0}&api_secret={1}";
     }
 }

@@ -6,7 +6,7 @@ namespace InvisibleManXRay.Managers.Initializers
     public class CoreInitializer
     {
         public InvisibleManXRayCore Core { get; private set; }
-
+        
         public void Register()
         {
             Core = new InvisibleManXRayCore();

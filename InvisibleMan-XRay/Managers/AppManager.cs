@@ -12,6 +12,7 @@ namespace InvisibleManXRay.Managers
     {
         private CoreInitializer coreInitializer;
         private HandlersInitializer handlersInitializer;
+        private ServicesInitializer servicesInitializer;
         private FactoriesInitializer factoriesInitializer;
 
         public WindowFactory WindowFactory => factoriesInitializer.WindowFactory;
@@ -26,9 +27,11 @@ namespace InvisibleManXRay.Managers
 
             RegisterCore();
             RegisterHandlers();
+            RegisterServices();
             RegisterFactories();
 
             SetupHandlers();
+            SetupServices();
             SetupCore();
             SetupFactories();
         }
@@ -63,6 +66,12 @@ namespace InvisibleManXRay.Managers
             handlersInitializer.Register();
         }
 
+        private void RegisterServices()
+        {
+            servicesInitializer = new ServicesInitializer();
+            servicesInitializer.Register();
+        }
+
         private void RegisterFactories()
         {
             factoriesInitializer = new FactoriesInitializer();
@@ -75,6 +84,13 @@ namespace InvisibleManXRay.Managers
                 core: coreInitializer.Core,
                 handlersManager: handlersInitializer.HandlersManager,
                 windowFactory: factoriesInitializer.WindowFactory
+            );
+        }
+
+        private void SetupServices()
+        {
+            servicesInitializer.Setup(
+                handlersManager: handlersInitializer.HandlersManager
             );
         }
 

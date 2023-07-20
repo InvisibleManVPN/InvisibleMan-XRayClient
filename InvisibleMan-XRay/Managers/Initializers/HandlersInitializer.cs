@@ -121,7 +121,7 @@ namespace InvisibleManXRay.Managers.Initializers
                     core.DisableMode();
                     Application.Current.Shutdown();
                 }
-
+                
                 void OpenUpdateWindow() 
                 {
                     ShowMainWindow();

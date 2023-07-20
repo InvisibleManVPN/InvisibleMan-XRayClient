@@ -5,6 +5,9 @@ using System.Windows.Media.Animation;
 
 namespace InvisibleManXRay.Components
 {
+    using Services;
+    using Services.Analytics.Broadcast;
+
     public partial class Broadcast : UserControl
     {
         private Models.Broadcast broadcast;
@@ -12,6 +15,8 @@ namespace InvisibleManXRay.Components
         private Storyboard disappearStoryboard;
 
         private Action<string> onUrlClick;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public Broadcast()
         {
@@ -43,17 +48,22 @@ namespace InvisibleManXRay.Components
         {
             this.Visibility = Visibility.Visible;
             appearStoryboard.Begin();
+            AnalyticsService.SendEvent(new ShownEvent());
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             disappearStoryboard.Begin();
+            AnalyticsService.SendEvent(new ClosedEvent());
         }
 
         private void OnBroadcastBarClick(object sender,RoutedEventArgs e)
         {
             if (IsClickableBroadcast())
+            {
                 onUrlClick.Invoke(broadcast.Url);
+                AnalyticsService.SendEvent(new ClickedEvent());
+            }
         }
 
         private bool IsClickableBroadcast() => !string.IsNullOrEmpty(broadcast.Url);

@@ -7,6 +7,8 @@ namespace InvisibleManXRay
 {
     using Models;
     using Values;
+    using Services;
+    using Services.Analytics.ServerWindow;
 
     public partial class ServerWindow : Window
     {
@@ -26,6 +28,8 @@ namespace InvisibleManXRay
         private Action<string, string> onCreateConfig;
         private Action onDeleteConfig;
         private Action<int> onUpdateConfig;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public ServerWindow()
         {
@@ -72,6 +76,7 @@ namespace InvisibleManXRay
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {
             ShowAddServerPanel();
+            AnalyticsService.SendEvent(new AddConfigButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -123,9 +128,15 @@ namespace InvisibleManXRay
         private void OnImportButtonClick(object sender, RoutedEventArgs e)
         {
             if (IsFileImporting())
+            {
                 HandleImportingConfigFromFile();
+                AnalyticsService.SendEvent(new ConfigFromFileImportedEvent());
+            }
             else
+            {
                 HandleImportingConfigFromLink();
+                AnalyticsService.SendEvent(new ConfigFromLinkImportedEvent());
+            }
 
             bool IsFileImporting() => importingType == ImportingType.FILE;
 

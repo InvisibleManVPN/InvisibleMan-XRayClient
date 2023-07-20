@@ -3,6 +3,9 @@ using System.Windows;
 
 namespace InvisibleManXRay
 {
+    using Services;
+    using Services.Analytics.AboutWindow;
+
     public partial class AboutWindow : Window
     {
         private Func<string> getApplicationVersion;
@@ -10,6 +13,8 @@ namespace InvisibleManXRay
         private Action onEmailClick;
         private Action onWebsiteClick;
         private Action onBugReportingClick;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public AboutWindow()
         {
@@ -38,10 +43,22 @@ namespace InvisibleManXRay
             }
         }
 
-        private void OnWebsiteClick(object sender, RoutedEventArgs e) => onWebsiteClick.Invoke();
+        private void OnWebsiteClick(object sender, RoutedEventArgs e)
+        {
+            onWebsiteClick.Invoke();
+            AnalyticsService.SendEvent(new WebsiteClickedEvent());
+        }
 
-        private void OnBugReportingClick(object sender, RoutedEventArgs e) => onBugReportingClick.Invoke();
+        private void OnBugReportingClick(object sender, RoutedEventArgs e)
+        {
+            onBugReportingClick.Invoke();
+            AnalyticsService.SendEvent(new BugReportingClickedEvent());
+        }
 
-        private void OnEmailClick(object sender, RoutedEventArgs e) => onEmailClick.Invoke();
+        private void OnEmailClick(object sender, RoutedEventArgs e)
+        {
+            onEmailClick.Invoke();
+            AnalyticsService.SendEvent(new EmailClickedEvent());
+        }
     }
 }

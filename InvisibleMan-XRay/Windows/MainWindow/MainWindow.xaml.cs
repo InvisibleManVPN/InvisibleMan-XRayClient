@@ -6,11 +6,15 @@ namespace InvisibleManXRay
 {
     using Models;
     using Values;
+    using Services;
+    using Services.Analytics.General;
+    using Services.Analytics.MainWindow;
 
     public partial class MainWindow : Window
     {
         private bool isRerunRequest;
 
+        private Func<bool> isNeedToShowPolicyWindow;
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> enableMode;
@@ -20,10 +24,12 @@ namespace InvisibleManXRay
         private Func<SettingsWindow> openSettingsWindow;
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
+        private Func<PolicyWindow> openPolicyWindow;
         private Action<string> onRunServer;
         private Action onCancelServer;
         private Action onStopServer;
         private Action onDisableMode;
+        private Action onGenerateClientId;
         private Action onGitHubClick;
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
@@ -31,6 +37,8 @@ namespace InvisibleManXRay
         private BackgroundWorker runWorker;
         private BackgroundWorker updateWorker;
         private BackgroundWorker broadcastWorker;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public MainWindow()
         {
@@ -190,6 +198,7 @@ namespace InvisibleManXRay
         }
 
         public void Setup(
+            Func<bool> isNeedToShowPolicyWindow,
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> enableMode,
@@ -199,14 +208,17 @@ namespace InvisibleManXRay
             Func<SettingsWindow> openSettingsWindow,
             Func<UpdateWindow> openUpdateWindow,
             Func<AboutWindow> openAboutWindow,
+            Func<PolicyWindow> openPolicyWindow,
             Action<string> onRunServer,
             Action onStopServer,
             Action onCancelServer,
             Action onDisableMode,
+            Action onGenerateClientId,
             Action onGitHubClick,
             Action onBugReportingClick,
             Action<string> onCustomLinkClick)
         {
+            this.isNeedToShowPolicyWindow = isNeedToShowPolicyWindow;
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
@@ -215,16 +227,24 @@ namespace InvisibleManXRay
             this.openSettingsWindow = openSettingsWindow;
             this.openUpdateWindow = openUpdateWindow;
             this.openAboutWindow = openAboutWindow;
+            this.openPolicyWindow = openPolicyWindow;
             this.onRunServer = onRunServer;
             this.onCancelServer = onCancelServer;
             this.onStopServer = onStopServer;
             this.enableMode = enableMode;
             this.onDisableMode = onDisableMode;
+            this.onGenerateClientId = onGenerateClientId;
             this.onGitHubClick = onGitHubClick;
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
 
             UpdateUI();
+        }
+
+        protected override void OnContentRendered(EventArgs e)
+        {
+            TryOpenPolicyWindow();
+            AnalyticsService.SendEvent(new AppOpenedEvent());
         }
 
         public void UpdateUI()
@@ -262,6 +282,7 @@ namespace InvisibleManXRay
         private void OnManageServersClick(object sender, RoutedEventArgs e)
         {
             OpenServerWindow();
+            AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
@@ -270,6 +291,7 @@ namespace InvisibleManXRay
                 return;
 
             runWorker.RunWorkerAsync();
+            AnalyticsService.SendEvent(new RunButtonClickedEvent());
         }
 
         private void OnStopButtonClick(object sender, RoutedEventArgs e)
@@ -277,6 +299,7 @@ namespace InvisibleManXRay
             onStopServer.Invoke();
             onDisableMode.Invoke();
             isRerunRequest = false;
+            AnalyticsService.SendEvent(new StopButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -290,26 +313,44 @@ namespace InvisibleManXRay
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
         {
             onGitHubClick.Invoke();
+            AnalyticsService.SendEvent(new GitHubButtonClickedEvent());
         }
 
         private void OnBugReportingButtonClick(object sender, RoutedEventArgs e)
         {
             onBugReportingClick.Invoke();
+            AnalyticsService.SendEvent(new BugReportingButtonClickedEvent());
         }
 
         private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
         {
             OpenSettingsWindow();
+            AnalyticsService.SendEvent(new SettingsButtonClickedEvent());
         }
 
         private void OnUpdateButtonClick(object sender, RoutedEventArgs e)
         {
             OpenUpdateWindow();
+            AnalyticsService.SendEvent(new UpdateButtonClickedEvent());
         }
 
         private void OnAboutButtonClick(object sender, RoutedEventArgs e)
         {
             OpenAboutWindow();
+            AnalyticsService.SendEvent(new AboutButtonClickedEvent());
+        }
+
+        private void TryOpenPolicyWindow()
+        {
+            if (!isNeedToShowPolicyWindow.Invoke())
+                return;
+            
+            onGenerateClientId.Invoke();
+            AnalyticsService.SendEvent(new NewUserEvent());
+
+            PolicyWindow policyWindow = openPolicyWindow.Invoke();
+            policyWindow.Owner = this;
+            policyWindow.ShowDialog();
         }
 
         private void OpenServerWindow()
