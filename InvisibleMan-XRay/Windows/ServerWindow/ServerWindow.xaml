@@ -28,11 +28,16 @@
                 <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
             </ScrollViewer>
 
-            <TextBlock Text="There is no server configuration" x:Name="textNoServer"
+            <TextBlock x:Name="textNoServer"
                 FontFamily="{StaticResource SegoeUI}"
                 HorizontalAlignment="Center" VerticalAlignment="Top" 
-                Margin="0 20" Foreground="Gray" 
-                FontWeight="Normal" FontSize="14"/>
+                Margin="0 20" Foreground="Gray" LineHeight="20"
+                FontWeight="Normal" FontSize="14">
+
+                <Run Text="There is no server configuration" /> 
+                <LineBreak/>
+                <Run Text="Tap the plus to add a new config" /> 
+            </TextBlock>
 
             <Button Width="40" Height="40" Margin="0 0 15 15" 
                 Style="{StaticResource Button.Circle}" ToolTip="Add new server configuration" 

@@ -11,6 +11,9 @@ namespace InvisibleManXRay.Models
 
     public class UserSettings
     {
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("")]
+        public string ClientId;
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(0)]
         public int CurrentConfigIndex;
 
@@ -24,7 +27,10 @@ namespace InvisibleManXRay.Models
         public bool IsUdpEnable;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(false)]
-        public bool IsRunAtStartup;
+        public bool IsRunningAtStartup;
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(true)]
+        public bool IsSendingAnalytics;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(10801)]
         public int ProxyPort;
@@ -49,11 +55,13 @@ namespace InvisibleManXRay.Models
 
         public UserSettings()
         {
+            this.ClientId = "";
             this.CurrentConfigIndex = 0;
             this.Mode = Mode.PROXY;
             this.Protocol = Protocol.HTTP;
             this.IsUdpEnable = true;
-            this.IsRunAtStartup = false;
+            this.IsRunningAtStartup = false;
+            this.IsSendingAnalytics = true;
             this.TunIp = "10.0.236.10";
             this.ProxyPort = 10801;
             this.TunPort = 10802;
@@ -68,7 +76,8 @@ namespace InvisibleManXRay.Models
             Protocol protocol,
             LogLevel logLevel,
             bool isUdpEnable,
-            bool isRunAtStartup,
+            bool isRunningAtStartup,
+            bool isSendingAnalytics,
             int proxyPort,
             int tunPort,
             int testPort,
@@ -81,7 +90,8 @@ namespace InvisibleManXRay.Models
             this.Protocol = protocol;
             this.LogLevel = logLevel;
             this.IsUdpEnable = isUdpEnable;
-            this.IsRunAtStartup = isRunAtStartup;
+            this.IsRunningAtStartup = isRunningAtStartup;
+            this.IsSendingAnalytics = isSendingAnalytics;
             this.ProxyPort = proxyPort;
             this.TunPort = tunPort;
             this.TestPort = testPort;
@@ -89,6 +99,8 @@ namespace InvisibleManXRay.Models
             this.Dns = dns;
             this.LogPath = logPath;
         }
+
+        public string GetClientId() => ClientId;
 
         public int GetCurrentConfigIndex() => CurrentConfigIndex;
 
@@ -98,7 +110,9 @@ namespace InvisibleManXRay.Models
 
         public bool GetUdpEnabled() => IsUdpEnable;
 
-        public bool GetRunAtStartupEnabled() => IsRunAtStartup;
+        public bool GetRunningAtStartupEnabled() => IsRunningAtStartup;
+
+        public bool GetSendingAnalyticsEnabled() => IsSendingAnalytics;
 
         public int GetProxyPort() => ProxyPort;
 

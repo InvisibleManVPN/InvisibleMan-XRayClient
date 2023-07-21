@@ -4,14 +4,14 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
-namespace InvisibleManXRay.Handlers.Services
+namespace InvisibleManXRay.Handlers.Processes
 {
     using Models;
     using Foundation;
     using Utilities;
     using Values;
 
-    public class TunnelService
+    public class TunnelProcess
     {
         private IPHostEntry hostEntry;
         private IPAddress address;
@@ -23,7 +23,7 @@ namespace InvisibleManXRay.Handlers.Services
 
         private const string INVISIBLEMAN_TUN_PROCESS = "InvisibleMan-TUN";
 
-        public TunnelService()
+        public TunnelProcess()
         {
             this.hostEntry = Dns.GetHostEntry(Dns.GetHostName());
             this.address = hostEntry.AddressList.First();
@@ -38,7 +38,7 @@ namespace InvisibleManXRay.Handlers.Services
 
         public void Start()
         {
-            if (IsServiceRunning())
+            if (IsProcessRunning())
                 return;
             
             processor.StopSystemProcesses(INVISIBLEMAN_TUN_PROCESS);
@@ -46,6 +46,7 @@ namespace InvisibleManXRay.Handlers.Services
             processor.StartProcess(
                 processName: INVISIBLEMAN_TUN_PROCESS,
                 fileName: System.IO.Path.GetFullPath(Path.INVISIBLEMAN_TUN_EXE),
+                workingDirectory: Directory.TUN,
                 command: $"-port={getPort.Invoke()}",
                 runAsAdmin: true
             );
@@ -112,8 +113,8 @@ namespace InvisibleManXRay.Handlers.Services
             }
         }
 
-        public bool IsServiceRunning() => processor.IsProcessRunning(INVISIBLEMAN_TUN_PROCESS);
+        public bool IsProcessRunning() => processor.IsProcessRunning(INVISIBLEMAN_TUN_PROCESS);
 
-        public bool IsServicePortActive() => NetworkUtility.IsPortActive(getPort.Invoke());
+        public bool IsProcessPortActive() => NetworkUtility.IsPortActive(getPort.Invoke());
     }
 }

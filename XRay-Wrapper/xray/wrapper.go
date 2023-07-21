@@ -19,6 +19,11 @@ import (
 	_ "github.com/xtls/xray-core/main/distro/all"
 )
 
+const (
+	PingTimeout int = -1
+	PingError   int = -2
+)
+
 var osSignals = make(chan os.Signal, 1)
 
 //export StartServer
@@ -57,26 +62,27 @@ func StopServer() {
 }
 
 //export TestConnection
-func TestConnection(config *C.char, port int) bool {
+func TestConnection(config *C.char, port int) int {
 	configObj := convertJsonToObject(config)
 	configObj.Inbound = overrideInbound(net.Port(port), false, false)
 
 	server, err := core.New(configObj)
 	if err != nil {
-		return false
+		return PingError
 	}
 
 	if err := server.Start(); err != nil {
 		server.Close()
-		return false
+		return PingError
 	}
 
 	proxyUrl, err := url.Parse("http://127.0.0.1:" + strconv.Itoa(port))
 	if err != nil {
 		server.Close()
-		return false
+		return PingError
 	}
 
+	start := time.Now()
 	http.DefaultTransport = &http.Transport{
 		Proxy:               http.ProxyURL(proxyUrl),
 		TLSHandshakeTimeout: time.Second * 5,
@@ -85,17 +91,17 @@ func TestConnection(config *C.char, port int) bool {
 
 	if err != nil {
 		server.Close()
-		return false
+		return PingTimeout
 	}
 
 	server.Close()
 	fmt.Println("info | response code >", response.StatusCode)
 
 	if response.StatusCode == 204 {
-		return true
+		return int(time.Since(start).Milliseconds())
 	}
 
-	return false
+	return PingTimeout
 }
 
 //export GetXrayCoreVersion

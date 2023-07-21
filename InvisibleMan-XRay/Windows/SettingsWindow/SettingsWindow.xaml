@@ -121,6 +121,24 @@
 
                     <CheckBox x:Name="checkBoxEnableUdp" Margin="5 25 0 0" Foreground="White" 
                         Content="Enable UDP" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                    <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
+                        FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
+
+                        <TextBlock>
+                            Allow the app to send 
+                            <Run TextDecorations="Underline"
+                                Foreground="{StaticResource Color.Blue}" 
+                                FontWeight="Normal" FontSize="14" Cursor="Hand"
+                                PreviewMouseDown="OnAnalyticsClick">
+                                
+                                Analytics
+                            </Run> 
+
+                                events
+                        </TextBlock>
+
+                    </CheckBox>
                         
                     <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
                         Content="Run automatically at startup" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>

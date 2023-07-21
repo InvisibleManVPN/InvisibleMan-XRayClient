@@ -7,6 +7,8 @@ namespace InvisibleManXRay
 {
     using Models;
     using Values;
+    using Services;
+    using Services.Analytics.ServerWindow;
 
     public partial class ServerWindow : Window
     {
@@ -20,12 +22,14 @@ namespace InvisibleManXRay
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> convertConfigLinkToV2Ray;
         private Func<string, Status> loadConfig;
-        private Func<string, bool> testConnection;
+        private Func<string, int> testConnection;
         private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
         private Action onDeleteConfig;
         private Action<int> onUpdateConfig;
+
+        private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public ServerWindow()
         {
@@ -45,7 +49,7 @@ namespace InvisibleManXRay
             Func<List<Config>> getAllConfigs, 
             Func<string, Status> convertConfigLinkToV2Ray,
             Func<string, Status> loadConfig, 
-            Func<string, bool> testConnection,
+            Func<string, int> testConnection,
             Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
@@ -72,6 +76,7 @@ namespace InvisibleManXRay
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
         {
             ShowAddServerPanel();
+            AnalyticsService.SendEvent(new AddConfigButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -123,9 +128,15 @@ namespace InvisibleManXRay
         private void OnImportButtonClick(object sender, RoutedEventArgs e)
         {
             if (IsFileImporting())
+            {
                 HandleImportingConfigFromFile();
+                AnalyticsService.SendEvent(new ConfigFromFileImportedEvent());
+            }
             else
+            {
                 HandleImportingConfigFromLink();
+                AnalyticsService.SendEvent(new ConfigFromLinkImportedEvent());
+            }
 
             bool IsFileImporting() => importingType == ImportingType.FILE;
 
@@ -310,6 +321,9 @@ namespace InvisibleManXRay
                 AddConfigToList(configComponent);
             }
 
+            if (IsAnyConfigExists())
+                AddConfigHintAtTheEndOfList();
+
             Components.Config CreateConfigComponent(Config config)
             {
                 Components.Config configComponent = new Components.Config();
@@ -345,7 +359,7 @@ namespace InvisibleManXRay
                     testConnection: (configPath) => {
                         Status configStatus = loadConfig.Invoke(configPath);
                         if (configStatus.Code == Code.ERROR)
-                            return false;
+                            return Availability.ERROR;
                             
                         return testConnection.Invoke(configStatus.Content.ToString());
                     },
@@ -361,6 +375,16 @@ namespace InvisibleManXRay
             {
                 configComponents.Add(configComponent);
                 listConfigs.Children.Add(configComponent);
+            }
+
+            bool IsAnyConfigExists()
+            {
+                return configs != null && configs.Count > 0;
+            }
+
+            void AddConfigHintAtTheEndOfList()
+            {
+                listConfigs.Children.Add(new Components.ConfigHint());
             }
 
             void HandleShowingNoServerExistsHint()
@@ -392,10 +416,12 @@ namespace InvisibleManXRay
             
             void SelectConfig()
             {
-                if (index == configComponents.Count)
+                if (IsIndexOutOfRange())
                     return;
                 
                 configComponents[index].SetSelection(true);
+
+                bool IsIndexOutOfRange() => index >= configComponents.Count;
             } 
         }
     }

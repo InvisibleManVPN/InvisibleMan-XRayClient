@@ -1,9 +1,6 @@
-using System;
-
 namespace InvisibleManXRay.Models
 {
     public enum ConfigType { FILE, URL }
-    public enum Availability { NOT_CHECKED, AVAILABLE, TIMEOUT }
 
     public class Config
     {
@@ -11,13 +8,13 @@ namespace InvisibleManXRay.Models
         private string name;
         private string updateTime;
         private ConfigType type;
-        private Availability availability;
+        private int availability;
 
         public string Path => path;
         public string Name => name;
         public string UpdateTime => updateTime;
         public ConfigType Type => type;
-        public Availability Availability => availability;
+        public int Availability => availability;
 
         public Config(string path, string name, ConfigType type, string updateTime)
         {
@@ -25,9 +22,9 @@ namespace InvisibleManXRay.Models
             this.name = name;
             this.type = type;
             this.updateTime = updateTime;
-            this.availability = Availability.NOT_CHECKED;
+            this.availability = Values.Availability.NOT_CHECKED;
         }
-
-        public void SetAvailability(Availability availability) => this.availability = availability;
+        
+        public void SetAvailability(int availability) => this.availability = availability;
     }
 }
