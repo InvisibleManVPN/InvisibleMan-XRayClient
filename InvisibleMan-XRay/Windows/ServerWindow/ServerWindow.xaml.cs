@@ -321,6 +321,9 @@ namespace InvisibleManXRay
                 AddConfigToList(configComponent);
             }
 
+            if (IsAnyConfigExists())
+                AddConfigHintAtTheEndOfList();
+
             Components.Config CreateConfigComponent(Config config)
             {
                 Components.Config configComponent = new Components.Config();
@@ -372,6 +375,16 @@ namespace InvisibleManXRay
             {
                 configComponents.Add(configComponent);
                 listConfigs.Children.Add(configComponent);
+            }
+
+            bool IsAnyConfigExists()
+            {
+                return configs != null && configs.Count > 0;
+            }
+
+            void AddConfigHintAtTheEndOfList()
+            {
+                listConfigs.Children.Add(new Components.ConfigHint());
             }
 
             void HandleShowingNoServerExistsHint()
