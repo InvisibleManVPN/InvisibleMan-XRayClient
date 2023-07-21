@@ -87,7 +87,7 @@ namespace InvisibleManXRay.Handlers
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
             modeItems = new Dictionary<Mode, ToolStripMenuItem>() {
                 { Mode.PROXY, CreateItem("Proxy", OnProxyModeClick, true, getMode.Invoke() == Mode.PROXY) },
-                { Mode.TUN, CreateItem("TUN (Experimental)", OnTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
+                { Mode.TUN, CreateItem("TUN", OnTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
             };
             
             AddMenuItem("Open Invisible Man XRay", OnOpenClick);
