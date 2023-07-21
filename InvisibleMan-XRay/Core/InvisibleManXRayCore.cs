@@ -137,7 +137,7 @@ namespace InvisibleManXRay.Core
             CancelTunnel();
         }
 
-        public bool Test(string config)
+        public int Test(string config)
         {
             return XRayCoreWrapper.TestConnection(config, getTestPort.Invoke());
         }
