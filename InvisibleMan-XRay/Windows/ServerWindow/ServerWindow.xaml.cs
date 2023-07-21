@@ -416,13 +416,12 @@ namespace InvisibleManXRay
             
             void SelectConfig()
             {
-                if (configComponents.Count == 0)
-                    return;
-
-                if (index == configComponents.Count)
+                if (IsIndexOutOfRange())
                     return;
                 
                 configComponents[index].SetSelection(true);
+
+                bool IsIndexOutOfRange() => index >= configComponents.Count;
             } 
         }
     }
