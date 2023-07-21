@@ -48,12 +48,12 @@ namespace InvisibleManXRay.Core
             static extern void StopServer();
         }
 
-        public static bool TestConnection(string config, int port)
+        public static int TestConnection(string config, int port)
         {
             return TestConnection(config, port);
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "TestConnection")]
-            static extern bool TestConnection(string config, int port);
+            static extern int TestConnection(string config, int port);
         }
 
         public static string GetVersion()

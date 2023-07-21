@@ -22,7 +22,7 @@ namespace InvisibleManXRay
         private Func<List<Config>> getAllConfigs;
         private Func<string, Status> convertConfigLinkToV2Ray;
         private Func<string, Status> loadConfig;
-        private Func<string, bool> testConnection;
+        private Func<string, int> testConnection;
         private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
@@ -49,7 +49,7 @@ namespace InvisibleManXRay
             Func<List<Config>> getAllConfigs, 
             Func<string, Status> convertConfigLinkToV2Ray,
             Func<string, Status> loadConfig, 
-            Func<string, bool> testConnection,
+            Func<string, int> testConnection,
             Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
@@ -356,7 +356,7 @@ namespace InvisibleManXRay
                     testConnection: (configPath) => {
                         Status configStatus = loadConfig.Invoke(configPath);
                         if (configStatus.Code == Code.ERROR)
-                            return false;
+                            return Availability.ERROR;
                             
                         return testConnection.Invoke(configStatus.Content.ToString());
                     },

@@ -84,7 +84,7 @@
                         Width="8" Height="8" Margin="0 0 2 0"
                         VerticalAlignment="Center"
                         Fill="{StaticResource Color.Green}"/>
-                    <Label Content="Available" FontFamily="{StaticResource SegoeUI}"
+                    <Label x:Name="textAvailability" Content="Available" FontFamily="{StaticResource SegoeUI}"
                         VerticalAlignment="Center"
                         Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
 

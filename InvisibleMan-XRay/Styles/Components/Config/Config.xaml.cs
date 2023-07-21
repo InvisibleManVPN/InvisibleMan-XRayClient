@@ -18,7 +18,7 @@ namespace InvisibleManXRay.Components
         private Action onSelect;
         private Action onDelete;
         private Func<Window> getServerWindow;
-        private Func<string, bool> testConnection;
+        private Func<string, int> testConnection;
         private Func<string> getLogPath;
 
         private BackgroundWorker checkConnectionWorker;
@@ -38,10 +38,9 @@ namespace InvisibleManXRay.Components
                         ShowLoadingProgress();
                     }));
 
-                    bool isConnectionAvailable = testConnection.Invoke(config.Path);
+                    int availability = testConnection.Invoke(config.Path);
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        Models.Availability availability = isConnectionAvailable ? Models.Availability.AVAILABLE : Models.Availability.TIMEOUT;
                         HandleConfigStatus(availability);
                         ShowCheckButton();
                     }));
@@ -54,7 +53,7 @@ namespace InvisibleManXRay.Components
             Action onSelect, 
             Action onDelete, 
             Func<Window> getServerWindow,
-            Func<string, bool> testConnection,
+            Func<string, int> testConnection,
             Func<string> getLogPath)
         {
             this.config = config;
@@ -189,22 +188,20 @@ namespace InvisibleManXRay.Components
             }
         }
 
-        private void HandleConfigStatus(Models.Availability availability)
+        private void HandleConfigStatus(int availability)
         {
             config.SetAvailability(availability);
 
             switch(availability)
             {
-                case Models.Availability.NOT_CHECKED:
+                case Availability.NOT_CHECKED:
                     ShowNotCheckedStatus();
                     break;
-                case Models.Availability.AVAILABLE:
-                    ShowAvailableStatus();
-                    break;
-                case Models.Availability.TIMEOUT:
+                case Availability.TIMEOUT or Availability.ERROR:
                     ShowTimeoutStatus();
                     break;
                 default:
+                    ShowAvailableStatus();
                     break;
             }
         }
@@ -216,18 +213,20 @@ namespace InvisibleManXRay.Components
             statusTimeout.Visibility = Visibility.Hidden;
         }
 
-        private void ShowAvailableStatus()
-        {
-            statusAvailable.Visibility = Visibility.Visible;
-            statusNotChecked.Visibility = Visibility.Hidden;
-            statusTimeout.Visibility = Visibility.Hidden;
-        }
-
         private void ShowTimeoutStatus()
         {
             statusTimeout.Visibility = Visibility.Visible;
             statusNotChecked.Visibility = Visibility.Hidden;
             statusAvailable.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowAvailableStatus()
+        {
+            statusAvailable.Visibility = Visibility.Visible;
+            statusNotChecked.Visibility = Visibility.Hidden;
+            statusTimeout.Visibility = Visibility.Hidden;
+
+            textAvailability.Content = $"{config.Availability} ms";
         }
 
         private void ShowLoadingProgress()
