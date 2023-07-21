@@ -416,6 +416,9 @@ namespace InvisibleManXRay
             
             void SelectConfig()
             {
+                if (configComponents.Count == 0)
+                    return;
+
                 if (index == configComponents.Count)
                     return;
                 
