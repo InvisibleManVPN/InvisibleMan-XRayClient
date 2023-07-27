@@ -43,7 +43,7 @@ namespace InvisibleManXRay.Managers
             if(!isCreatedNew)
             {
                 MessageBox.Show(Message.APP_ALREADY_RUNNING);
-                Application.Current.Shutdown();
+                Environment.Exit(0);
             }
         }
 
