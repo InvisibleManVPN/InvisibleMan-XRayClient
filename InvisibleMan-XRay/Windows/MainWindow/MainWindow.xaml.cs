@@ -253,11 +253,11 @@ namespace InvisibleManXRay
 
             if (config == null)
             {
-                textServerConfig.Content = Message.NO_SERVER_CONFIGURATION;
+                textServerConfig.Text = Message.NO_SERVER_CONFIGURATION;
                 return;
             }
             
-            textServerConfig.Content = config.Name;
+            textServerConfig.Text = config.Name;
         }
 
         public void TryRerun()

@@ -98,10 +98,14 @@
                 <Controls:Broadcast Grid.Row="0" VerticalAlignment="Top" 
                     Visibility="Hidden" x:Name="barBroadcast"/>
 
-                <Label Grid.Row="2" Content="No server configuration" FontFamily="{StaticResource SegoeUI}" 
-                    HorizontalAlignment="Center"
+                <TextBlock Grid.Row="2" Width="300"
+                    HorizontalAlignment="Center" FontFamily="{StaticResource SegoeUI}"
+                    TextAlignment="Center" TextTrimming="CharacterEllipsis"
                     Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
-                    x:Name="textServerConfig"/>
+                    x:Name="textServerConfig">
+
+                    No server configuration    
+                </TextBlock>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Rectangle Fill="{StaticResource Icon.Server}" Grid.Column="0" 
