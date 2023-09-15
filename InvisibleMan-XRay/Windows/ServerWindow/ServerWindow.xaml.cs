@@ -150,7 +150,7 @@ namespace InvisibleManXRay
             string GetFilePath() => fileDialog.FileName;
         }
 
-        private void OnImportButtonClick(object sender, RoutedEventArgs e)
+        private void OnImportConfigButtonClick(object sender, RoutedEventArgs e)
         {
             if (IsFileImporting())
             {
@@ -171,7 +171,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_FILES_SELECTED, 
+                        Values.Message.NO_CONFIG_FILE_SELECTED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -191,7 +191,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_LINK_ENTERED, 
+                        Values.Message.NO_CONFIG_LINK_ENTERED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -203,12 +203,6 @@ namespace InvisibleManXRay
                 TryAddConfig(ConfigType.URL);
 
                 bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxConfigLink.Text);
-            }
-
-            void SetActiveLoadingPanel(bool isActive)
-            {
-                Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
-                panelLoading.Visibility = visibility;
             }
 
             void TryAddConfig(ConfigType type)
@@ -291,6 +285,55 @@ namespace InvisibleManXRay
                     }
                 }
             }
+        }
+
+        private void OnImportSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            HandleImportingSubscription();
+
+            void HandleImportingSubscription()
+            {
+                if (!IsRemarksEntered())
+                {
+                    MessageBox.Show(
+                        this,
+                        Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
+                        Values.Caption.WARNING, 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
+                else if (!IsLinkEntered())
+                {
+                    MessageBox.Show(
+                        this,
+                        Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
+                        Values.Caption.WARNING, 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
+
+                SetActiveLoadingPanel(true);
+                TryAddSubscription();
+
+                bool IsRemarksEntered() => !string.IsNullOrEmpty(textBoxSubscriptionRemarks.Text);
+
+                bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxSubscriptionLink.Text);
+            }
+
+            void TryAddSubscription()
+            {
+                
+            }
+        }
+
+        private void SetActiveLoadingPanel(bool isActive)
+        {
+            Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
+            panelLoading.Visibility = visibility;
         }
 
         private void ShowAddConfigsServerPanel()

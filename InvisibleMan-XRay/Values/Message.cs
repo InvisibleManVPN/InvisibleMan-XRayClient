@@ -4,8 +4,10 @@ namespace InvisibleManXRay.Values
     {
         public const string NO_CONFIGS_FOUND = "No configurations were found.\nPlease add a new server configuration.";
         public const string INVALID_CONFIG = "Invalid configuration.\nCheck the server configuration file.";
-        public const string NO_FILES_SELECTED = "No file was selected.\nAdd a server configuration file.";
-        public const string NO_LINK_ENTERED = "No link was entered.\nAdd a server configuration link.";
+        public const string NO_CONFIG_FILE_SELECTED = "No file was selected.\nAdd a server configuration file.";
+        public const string NO_CONFIG_LINK_ENTERED = "No link was entered.\nAdd a server configuration link.";
+        public const string NO_SUBSCRIPTION_LINK_ENTERED = "No link was entered.\nAdd a subscription link.";
+        public const string NO_SUBSCRIPTION_REMARKS_ENTERED = "No remarks was entered.\nPlease fill remarks.";
         public const string FILE_DOESNT_EXISTS = "This file doesn't exists.\nMaybe it has been deleted.";
         public const string DELETE_CONFIRMATION = "Are you sure you want to delete {0}?";
         public const string NO_SERVER_CONFIGURATION = "No server configuration";

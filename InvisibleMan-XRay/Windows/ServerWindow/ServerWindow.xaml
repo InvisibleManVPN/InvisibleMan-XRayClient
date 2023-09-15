@@ -162,7 +162,7 @@
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
-                    Click="OnImportButtonClick">
+                    Click="OnImportConfigButtonClick">
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
@@ -209,7 +209,7 @@
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
-                    >
+                    Click="OnImportSubscriptionButtonClick">
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"

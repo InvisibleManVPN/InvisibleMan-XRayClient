@@ -2,11 +2,11 @@ using System;
 using System.Web;
 using System.Collections.Specialized;
 
-namespace InvisibleManXRay.Models.Templates
+namespace InvisibleManXRay.Models.Templates.Configs
 {
     using Values;
 
-    public class Vless : Template
+    public class Trojan : Template
     {
         public class Data
         {
@@ -22,7 +22,7 @@ namespace InvisibleManXRay.Models.Templates
 
         private Data data;
 
-        public override Status FetchDataFromLink(string link) 
+        public override Status FetchDataFromLink(string link)
         {
             data = new Data(link);
 
@@ -43,7 +43,7 @@ namespace InvisibleManXRay.Models.Templates
             get
             {
                 Adapter adapter = new Adapter() {
-                    type = "vless",
+                    type = "trojan",
                     remark = data.uri.GetComponents(UriComponents.Fragment, UriFormat.Unescaped),
                     address = data.uri.IdnHost,
                     port = data.uri.Port,
@@ -54,10 +54,7 @@ namespace InvisibleManXRay.Models.Templates
                     flow = data.query["flow"] ?? "",
                     sni = data.query["sni"] ?? "",
                     alpn = HttpUtility.UrlDecode(data.query["alpn"] ?? ""),
-                    fingerprint = HttpUtility.UrlDecode(data.query["fp"] ?? ""),
-                    publicKey = HttpUtility.UrlDecode(data.query["pbk"] ?? ""),
-                    shortId = HttpUtility.UrlDecode(data.query["sid"] ?? ""),
-                    spiderX = HttpUtility.UrlDecode(data.query["spx"] ?? ""),
+                    fingerprint = HttpUtility.UrlDecode(data.query["fp"] ?? "")
                 };
 
                 switch (adapter.streamNetwork)
@@ -101,12 +98,7 @@ namespace InvisibleManXRay.Models.Templates
         {
             get
             {
-                if (Adapter.streamSecurity == "reality")
-                {
-                    if (string.IsNullOrEmpty(Adapter.flow))
-                        Adapter.flow = "xtls-rprx-vision";
-                }
-                else if (Adapter.streamSecurity == "xtls")
+                if (Adapter.streamSecurity == Global.StreamSecurity.XTLS)
                 {
                     if (string.IsNullOrEmpty(Adapter.flow))
                         Adapter.flow = "xtls-rprx-origin";
@@ -115,21 +107,28 @@ namespace InvisibleManXRay.Models.Templates
                 }
 
                 return new V2Ray.Outbound.Settings() {
-                    vnext = new V2Ray.Outbound.Settings.Vnext[] {
-                        new V2Ray.Outbound.Settings.Vnext() {
+                    servers = new V2Ray.Outbound.Settings.Server[] {
+                        new V2Ray.Outbound.Settings.Server() {
                             address = Adapter.address,
                             port = Adapter.port,
-                            users = new V2Ray.Outbound.Settings.Vnext.User[] {
-                                new V2Ray.Outbound.Settings.Vnext.User() {
-                                    id = Adapter.id,
-                                    flow = Adapter.flow,
-                                    email = Global.DEFAULT_EMAIL,
-                                    encryption = Adapter.security
-                                }
-                            }
+                            password = Adapter.id,
+                            ota = false,
+                            level = 1,
+                            flow = SetServerFlow()
                         }
                     }
                 };
+
+                string SetServerFlow()
+                {
+                    if (Adapter.streamSecurity != "xtls")
+                        return string.Empty;
+                    
+                    if (string.IsNullOrEmpty(Adapter.flow))
+                        return "xtls-rprx-origin";
+                    
+                    return Adapter.flow.Replace("splice", "direct");
+                }
             }
         }
     }
