@@ -77,7 +77,7 @@
                 <Button Width="40" Height="40" Margin="0 0 15 15" 
                     Style="{StaticResource Button.Circle}" ToolTip="Add new configuration" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Click="OnAddButtonClick">
+                    Click="OnAddConfigButtonClick">
 
                     <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
                         Width="15" Height="15" Margin="0" 
@@ -105,7 +105,7 @@
                 <Button Width="40" Height="40" Margin="0 0 15 15" 
                     Style="{StaticResource Button.Circle}" ToolTip="Add new subscription" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    Click="OnAddButtonClick">
+                    Click="OnAddSubscriptionButtonClick">
 
                     <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
                         Width="15" Height="15" Margin="0" 
@@ -114,14 +114,13 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAdd">
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAddConfigs">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
-                <StackPanel Orientation="Vertical">
                     <RadioButton GroupName="GroupImport" Content="Import config file" 
                         Foreground="White" IsChecked="True"
                         FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
@@ -144,7 +143,6 @@
                             x:Name="textBlockFileName"/>
                     </StackPanel>
 
-                </StackPanel>
                 <RadioButton GroupName="GroupImport" Content="Import from link" 
                     Foreground="White" IsChecked="false"
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
@@ -165,6 +163,53 @@
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
                     Click="OnImportButtonClick">
+                </Button>
+
+                <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                    Style="{StaticResource Button.Rectangle.Red}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick">
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAddSubscriptions">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
+                <TextBlock Grid.Row="2" Text="Remarks" 
+                    Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+                
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxSubscriptionRemarks"/>
+
+                <TextBlock Grid.Row="2" Text="Subscription link" 
+                    Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+                
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxSubscriptionLink"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30" Content="IMPORT" 
+                    Style="{StaticResource Button.Rectangle.Green}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    >
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"

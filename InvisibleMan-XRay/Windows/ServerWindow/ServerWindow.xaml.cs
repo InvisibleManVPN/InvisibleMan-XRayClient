@@ -92,10 +92,16 @@ namespace InvisibleManXRay
             SetActiveSubscriptionPanel(true);
         }
 
-        private void OnAddButtonClick(object sender, RoutedEventArgs e)
+        private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
         {
-            ShowAddServerPanel();
+            ShowAddConfigsServerPanel();
             AnalyticsService.SendEvent(new AddConfigButtonClickedEvent());
+        }
+
+        private void OnAddSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowAddSubscriptionsServerPanel();
+            AnalyticsService.SendEvent(new AddSubButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -287,15 +293,22 @@ namespace InvisibleManXRay
             }
         }
 
-        private void ShowAddServerPanel()
+        private void ShowAddConfigsServerPanel()
         {
             panelServers.Visibility = Visibility.Hidden;
-            panelAdd.Visibility = Visibility.Visible;
+            panelAddConfigs.Visibility = Visibility.Visible;
+        }
+
+        private void ShowAddSubscriptionsServerPanel()
+        {
+            panelServers.Visibility = Visibility.Hidden;
+            panelAddSubscriptions.Visibility = Visibility.Visible;
         }
 
         private void ShowServersPanel()
         {
-            panelAdd.Visibility = Visibility.Hidden;
+            panelAddConfigs.Visibility = Visibility.Hidden;
+            panelAddSubscriptions.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
             LoadConfigsList();
             SelectConfig(getCurrentConfigIndex.Invoke());
