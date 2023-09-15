@@ -24,30 +24,94 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Visibility="Visible" x:Name="panelServers">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
-            </ScrollViewer>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        
+            <Grid Grid.Row="0" Margin="0 0 0 2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="textNoServer"
-                FontFamily="{StaticResource SegoeUI}"
-                HorizontalAlignment="Center" VerticalAlignment="Top" 
-                Margin="0 20" Foreground="Gray" LineHeight="20"
-                FontWeight="Normal" FontSize="14">
+                <Grid Grid.Column="0">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
+                        x:Name="buttonConfigTab" Click="OnConfigTabClick"/>
 
-                <Run Text="There is no server configuration" /> 
-                <LineBreak/>
-                <Run Text="Tap the plus to add a new config" /> 
-            </TextBlock>
+                    <Label Grid.Row="0" Content="Configuration"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
 
-            <Button Width="40" Height="40" Margin="0 0 15 15" 
-                Style="{StaticResource Button.Circle}" ToolTip="Add new server configuration" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Click="OnAddButtonClick">
+                <Grid Grid.Column="2">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="True"
+                        x:Name="buttonSubscriptionTab" Click="OnSubscriptionTabClick"/>
 
-                <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
-                    Width="15" Height="15" Margin="0" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Button>
+                    <Label Grid.Row="0" Content="Subscription"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="Visible" x:Name="panelConfig">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
+                </ScrollViewer>
+
+                <TextBlock x:Name="textNoServer"
+                    FontFamily="{StaticResource SegoeUI}"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0 20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14">
+
+                    <Run Text="There is no configuration" /> 
+                    <LineBreak/>
+                    <Run Text="Tap the plus to add a new one" /> 
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15" 
+                    Style="{StaticResource Button.Circle}" ToolTip="Add new configuration" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddButtonClick">
+
+                    <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
+                        Width="15" Height="15" Margin="0" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelSubscription">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" x:Name="listSubscriptions"></StackPanel>
+                </ScrollViewer>
+
+                <TextBlock x:Name="textNoSubscription"
+                    FontFamily="{StaticResource SegoeUI}"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0 20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14">
+
+                    <Run Text="There is no subscription" /> 
+                    <LineBreak/>
+                    <Run Text="Tap the plus to add a new one" /> 
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15" 
+                    Style="{StaticResource Button.Circle}" ToolTip="Add new subscription" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddButtonClick">
+
+                    <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
+                        Width="15" Height="15" Margin="0" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAdd">

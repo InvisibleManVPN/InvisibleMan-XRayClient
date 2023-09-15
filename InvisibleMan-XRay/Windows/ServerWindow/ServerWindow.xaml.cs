@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Collections.Generic;
 using Microsoft.Win32;
 
@@ -71,6 +72,24 @@ namespace InvisibleManXRay
         protected override void OnContentRendered(EventArgs e)
         {
             ShowServersPanel();
+        }
+
+        private void OnConfigTabClick(object sender, RoutedEventArgs e)
+        {
+            EnableAllTabs();
+            HideAllPanels();
+
+            SetEnableConfigTabButton(false);
+            SetActiveConfigPanel(true);
+        }
+
+        private void OnSubscriptionTabClick(object sender, RoutedEventArgs e)
+        {
+            EnableAllTabs();
+            HideAllPanels();
+
+            SetEnableSubscriptionTabButton(false);
+            SetActiveSubscriptionPanel(true);
         }
 
         private void OnAddButtonClick(object sender, RoutedEventArgs e)
@@ -423,6 +442,36 @@ namespace InvisibleManXRay
 
                 bool IsIndexOutOfRange() => index >= configComponents.Count;
             } 
+        }
+
+        private void SetActiveConfigPanel(bool isActive) => SetActivePanel(panelConfig, isActive);
+
+        private void SetActiveSubscriptionPanel(bool isActive) => SetActivePanel(panelSubscription, isActive);
+
+        private void SetActivePanel(Panel panel, bool isActive)
+        {
+            panel.Visibility = isActive ? Visibility.Visible : Visibility.Hidden;
+        }
+        
+        private void HideAllPanels()
+        {
+            SetActiveConfigPanel(false);
+            SetActiveSubscriptionPanel(false);
+        }
+
+        private void SetEnableConfigTabButton(bool isEnabled) => SetEnableButton(buttonConfigTab, isEnabled);
+
+        private void SetEnableSubscriptionTabButton(bool isEnabled) => SetEnableButton(buttonSubscriptionTab, isEnabled);
+
+        private void SetEnableButton(Button button, bool isEnabled)
+        {
+            button.IsEnabled = isEnabled;
+        }
+
+        private void EnableAllTabs()
+        {
+            SetEnableConfigTabButton(true);
+            SetEnableSubscriptionTabButton(true);
         }
     }
 }
