@@ -223,13 +223,19 @@
 
         <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
             Visibility="Hidden" x:Name="panelLoading">
-            
-            <TextBlock Grid.Row="2" Text="PLEASE WAIT..." 
-                Margin="10 0" Foreground="White" 
-                HorizontalAlignment="Center" VerticalAlignment="Center"
-                FontFamily="{StaticResource SegoeUI}" 
-                FontWeight="Normal" FontSize="14"/>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Center" Margin="10 0">
+
+                <Grid Width="20" Height="20" Margin="0 0 5 0">
+                    <Controls:Loading Width="15" Height="15" Foreground="White"/>
+                </Grid>
                 
+                <TextBlock Grid.Row="2" Text="Please wait..." Foreground="White" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">

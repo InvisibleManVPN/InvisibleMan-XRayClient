@@ -351,12 +351,6 @@ namespace InvisibleManXRay
             }
         }
 
-        private void SetActiveLoadingPanel(bool isActive)
-        {
-            Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
-            panelLoading.Visibility = visibility;
-        }
-
         private void ShowAddConfigsServerPanel()
         {
             panelServers.Visibility = Visibility.Hidden;
@@ -520,6 +514,8 @@ namespace InvisibleManXRay
                 bool IsIndexOutOfRange() => index >= configComponents.Count;
             } 
         }
+
+        private void SetActiveLoadingPanel(bool isActive) => SetActivePanel(panelLoading, isActive);
 
         private void SetActiveConfigPanel(bool isActive) => SetActivePanel(panelConfig, isActive);
 
