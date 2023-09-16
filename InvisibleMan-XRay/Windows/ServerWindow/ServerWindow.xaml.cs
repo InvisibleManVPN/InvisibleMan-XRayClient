@@ -21,12 +21,14 @@ namespace InvisibleManXRay
 
         private Func<int> getCurrentConfigIndex;
         private Func<List<Config>> getAllConfigs;
-        private Func<string, Status> convertConfigLinkToV2Ray;
+        private Func<string, Status> convertLinkToConfig;
+        private Func<string, string, Status> convertLinkToSubscription;
         private Func<string, Status> loadConfig;
         private Func<string, int> testConnection;
         private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
+        private Action<string, string> onCreateSubscription;
         private Action onDeleteConfig;
         private Action<int> onUpdateConfig;
 
@@ -48,23 +50,27 @@ namespace InvisibleManXRay
         public void Setup(
             Func<int> getCurrentConfigIndex,
             Func<List<Config>> getAllConfigs, 
-            Func<string, Status> convertConfigLinkToV2Ray,
+            Func<string, Status> convertLinkToConfig,
+            Func<string, string, Status> convertLinkToSubscription,
             Func<string, Status> loadConfig, 
             Func<string, int> testConnection,
             Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
+            Action<string, string> onCreateSubscription,
             Action onDeleteConfig,
             Action<int> onUpdateConfig)
         {
             this.getCurrentConfigIndex = getCurrentConfigIndex;
             this.getAllConfigs = getAllConfigs;
-            this.convertConfigLinkToV2Ray = convertConfigLinkToV2Ray;
+            this.convertLinkToConfig = convertLinkToConfig;
+            this.convertLinkToSubscription = convertLinkToSubscription;
             this.loadConfig = loadConfig;
             this.testConnection = testConnection;
             this.getLogPath = getLogPath;
             this.onCopyConfig = onCopyConfig;
             this.onCreateConfig = onCreateConfig;
+            this.onCreateSubscription = onCreateSubscription;
             this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfig = onUpdateConfig;
         }
@@ -223,7 +229,7 @@ namespace InvisibleManXRay
                 }
                 else
                 {
-                    configStatus = convertConfigLinkToV2Ray.Invoke(textBoxConfigLink.Text);
+                    configStatus = convertLinkToConfig.Invoke(textBoxConfigLink.Text);
                     if (configStatus.Code == Code.ERROR)
                     {
                         HandleError();
@@ -326,7 +332,34 @@ namespace InvisibleManXRay
 
             void TryAddSubscription()
             {
-                
+                Status subscriptionStatus;
+
+                try
+                {
+                    subscriptionStatus = convertLinkToSubscription.Invoke(
+                        textBoxSubscriptionRemarks.Text, 
+                        textBoxSubscriptionLink.Text
+                    );
+
+                    if (subscriptionStatus.Code == Code.ERROR)
+                    {
+                        SetActiveLoadingPanel(false);
+                        return;
+                    }
+
+                    string[] subscription = GetSubscription();
+                    onCreateSubscription.Invoke(GetSubscriptionRemark(), GetSubscriptionData());
+
+                    string[] GetSubscription() => (string[])subscriptionStatus.Content;
+
+                    string GetSubscriptionRemark() => subscription[0];
+
+                    string GetSubscriptionData() => subscription[1];
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
         }
 

@@ -26,7 +26,7 @@ namespace InvisibleManXRay.Handlers.Templates
             templates.Add("ss", typeof(Shadowsocks));
         }
 
-        public Status ConverLinkToV2Ray(string link)
+        public Status ConverLinkToConfig(string link)
         {
             Template template = FindTemplate(type: FetchConfigType());
             if (template == null)

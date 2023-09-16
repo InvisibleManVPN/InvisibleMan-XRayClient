@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Handlers
 {
@@ -53,18 +54,64 @@ namespace InvisibleManXRay.Handlers
             }
         }
 
-        public void CreateConfig(string remark, string data)
+        public void CreateConfig(string remark, string data, string directory)
         {
-            string destinationPath = $"{Directory.CONFIGS}/{remark}.json";
+            string destinationPath;
+
+            HandleDestinationDirectory();
             SaveToConfigsDirectory();
             SetFileTime(destinationPath);
             AddConfigToList(CreateConfig(destinationPath));
+
+            void HandleDestinationDirectory()
+            {
+                destinationPath = $"{Directory.CONFIGS}/{remark}.json";
+                if (IsDirectoryArgumentExists())
+                    destinationPath = $"{directory}/{remark}.json";
+            }
+
+            bool IsDirectoryArgumentExists() => !string.IsNullOrEmpty(directory);
 
             void SaveToConfigsDirectory()
             {
                 System.IO.Directory.CreateDirectory(Directory.CONFIGS);
                 File.WriteAllText(destinationPath, data);
             }
+        }
+
+        public void CreateConfig(string remark, string data)
+        {
+            CreateConfig(remark, data, null);
+        }
+
+        public void CreateSubscription(string remark, string data)
+        {
+            string destinationDirectory = $"{Directory.CONFIGS}/{remark}";
+            List<string[]> configs = JsonConvert.DeserializeObject<List<string[]>>(data);
+
+            if (!IsAnyConfigExists())
+                return;
+
+            CreateSubscriptionDirectory();
+            foreach(string[] config in configs)
+            {
+                CreateConfig(
+                    remark: GetConfigRemark(config), 
+                    data: GetConfigData(config), 
+                    directory: destinationDirectory
+                );
+            }
+
+            bool IsAnyConfigExists() => configs.Count > 0;
+
+            void CreateSubscriptionDirectory()
+            {
+                System.IO.Directory.CreateDirectory(destinationDirectory);
+            }
+
+            string GetConfigRemark(string[] config) => config[0];
+
+            string GetConfigData(string[] config) => config[1];
         }
 
         public Config GetCurrentConfig()

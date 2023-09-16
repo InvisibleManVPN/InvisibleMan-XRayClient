@@ -11,10 +11,16 @@ namespace InvisibleManXRay.Handlers.Templates
     public class SubscriptionTemplate : ITemplate
     {
         private List<Type> templates;
+        private Func<string, Status> convertConfigLinkToV2Ray;
 
         public SubscriptionTemplate()
         {
             this.templates = new List<Type>();
+        }
+
+        public void Setup(Func<string, Status> convertConfigLinkToV2Ray)
+        {
+            this.convertConfigLinkToV2Ray = convertConfigLinkToV2Ray;
         }
 
         public void RegisterTemplates()
@@ -37,7 +43,7 @@ namespace InvisibleManXRay.Handlers.Templates
             if (fetchingStatus.Code == Code.ERROR)
                 return fetchingStatus;
             
-            List<Models.Templates.Configs.V2Ray> v2RayList = template.ConvertToV2RayList();
+            List<string[]> v2RayList = template.ConvertToV2RayList(convertConfigLinkToV2Ray);
 
             return new Status(
                 code: Code.SUCCESS,

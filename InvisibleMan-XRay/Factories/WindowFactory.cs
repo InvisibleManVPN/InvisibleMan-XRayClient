@@ -142,12 +142,14 @@ namespace InvisibleManXRay.Factories
             serverWindow.Setup(
                 getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex,
                 getAllConfigs: configHandler.GetAllConfigs,
-                convertConfigLinkToV2Ray: templateHandler.ConverLinkToV2Ray,
+                convertLinkToConfig: templateHandler.ConverLinkToConfig,
+                convertLinkToSubscription: templateHandler.ConvertLinkToSubscription,
                 loadConfig: core.LoadConfig,
                 testConnection: core.Test,
                 getLogPath: settingsHandler.UserSettings.GetLogPath,
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
+                onCreateSubscription: configHandler.CreateSubscription,
                 onDeleteConfig: configHandler.LoadConfigFiles,
                 onUpdateConfig: UpdateConfig
             );

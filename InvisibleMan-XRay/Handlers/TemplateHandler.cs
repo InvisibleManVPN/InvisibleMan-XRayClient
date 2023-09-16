@@ -12,6 +12,7 @@ namespace InvisibleManXRay.Handlers
         {
             InitializeTemplates();
             RegisterTemplates();
+            SetupTemplates();
 
             void InitializeTemplates()
             {
@@ -24,9 +25,14 @@ namespace InvisibleManXRay.Handlers
                 configTemplate.RegisterTemplates();
                 subscriptionTemplate.RegisterTemplates();
             }
+
+            void SetupTemplates()
+            {
+                subscriptionTemplate.Setup(configTemplate.ConverLinkToConfig);
+            }
         }
 
-        public Status ConverLinkToV2Ray(string link) => configTemplate.ConverLinkToV2Ray(link);
+        public Status ConverLinkToConfig(string link) => configTemplate.ConverLinkToConfig(link);
 
         public Status ConvertLinkToSubscription(string remark, string link) => subscriptionTemplate.ConvertLinkToSubscription(remark, link);
     }
