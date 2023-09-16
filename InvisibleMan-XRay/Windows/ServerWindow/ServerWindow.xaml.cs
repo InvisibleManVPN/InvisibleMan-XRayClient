@@ -259,35 +259,13 @@ namespace InvisibleManXRay
                     {
                         case SubCode.NO_CONFIG:
                         case SubCode.UNSUPPORTED_LINK:
-                            HandleWarningMessage();
+                            HandleWarningMessage(configStatus.Content.ToString());
                             break;
                         case SubCode.INVALID_CONFIG:
-                            HandleErrorMessage();
+                            HandleErrorMessage(configStatus.Content.ToString());
                             break;
                         default:
                             return;
-                    }
-
-                    void HandleWarningMessage()
-                    {
-                        MessageBoxResult result = MessageBox.Show(
-                            this,
-                            configStatus.Content.ToString(), 
-                            Caption.WARNING, 
-                            MessageBoxButton.OK, 
-                            MessageBoxImage.Warning
-                        );
-                    }
-
-                    void HandleErrorMessage()
-                    {
-                        MessageBox.Show(
-                            this,
-                            configStatus.Content.ToString(), 
-                            Caption.ERROR, 
-                            MessageBoxButton.OK, 
-                            MessageBoxImage.Error
-                        );
                     }
                 }
             }
@@ -334,31 +312,41 @@ namespace InvisibleManXRay
             {
                 Status subscriptionStatus;
 
-                try
+                subscriptionStatus = convertLinkToSubscription.Invoke(
+                    textBoxSubscriptionRemarks.Text, 
+                    textBoxSubscriptionLink.Text
+                );
+
+                if (subscriptionStatus.Code == Code.ERROR)
                 {
-                    subscriptionStatus = convertLinkToSubscription.Invoke(
-                        textBoxSubscriptionRemarks.Text, 
-                        textBoxSubscriptionLink.Text
-                    );
-
-                    if (subscriptionStatus.Code == Code.ERROR)
-                    {
-                        SetActiveLoadingPanel(false);
-                        return;
-                    }
-
-                    string[] subscription = GetSubscription();
-                    onCreateSubscription.Invoke(GetSubscriptionRemark(), GetSubscriptionData());
-
-                    string[] GetSubscription() => (string[])subscriptionStatus.Content;
-
-                    string GetSubscriptionRemark() => subscription[0];
-
-                    string GetSubscriptionData() => subscription[1];
+                    HandleError();
+                    SetActiveLoadingPanel(false);
+                    return;
                 }
-                catch(Exception ex)
+
+                string[] subscription = GetSubscription();
+                onCreateSubscription.Invoke(GetSubscriptionRemark(), GetSubscriptionData());
+
+                string[] GetSubscription() => (string[])subscriptionStatus.Content;
+
+                string GetSubscriptionRemark() => subscription[0];
+
+                string GetSubscriptionData() => subscription[1];
+
+                void HandleError()
                 {
-                    MessageBox.Show(ex.ToString());
+                    switch (subscriptionStatus.SubCode)
+                    {
+                        case SubCode.NO_CONFIG:
+                        case SubCode.UNSUPPORTED_LINK:
+                            HandleWarningMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        case SubCode.INVALID_CONFIG:
+                            HandleErrorMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        default:
+                            return;
+                    }
                 }
             }
         }
@@ -561,6 +549,28 @@ namespace InvisibleManXRay
         {
             SetEnableConfigTabButton(true);
             SetEnableSubscriptionTabButton(true);
+        }
+
+        void HandleWarningMessage(string message)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                this,
+                message, 
+                Caption.WARNING, 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Warning
+            );
+        }
+
+        void HandleErrorMessage(string message)
+        {
+            MessageBox.Show(
+                this,
+                message, 
+                Caption.ERROR, 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Error
+            );
         }
     }
 }

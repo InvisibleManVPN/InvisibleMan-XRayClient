@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 
 namespace InvisibleManXRay.Models.Templates.Subscriptions
@@ -6,12 +7,19 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
 
     public class Simple : Template
     {
+        public override bool IsValid(string link)
+        {
+            return true;
+        }
+
         public override Status FetchDataFromLink(string link)
         {
             try
             {
                 WebClient webClient = new WebClient();
                 Data = webClient.DownloadString(link);
+                if (!IsAnyDataExisits())
+                    throw new Exception();
 
                 return new Status(Code.SUCCESS, SubCode.SUCCESS, null);
             }
@@ -19,8 +27,8 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
             {
                 return new Status(
                     code: Code.ERROR,
-                    subCode: SubCode.INVALID_CONFIG,
-                    content: Message.INVALID_CONFIG
+                    subCode: SubCode.UNSUPPORTED_LINK,
+                    content: Message.UNSUPPORTED_SUBSCRIPTION_LINK
                 );
             }
         }

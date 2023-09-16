@@ -33,7 +33,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.UNSUPPORTED_LINK,
-                    content: Message.UNSUPPORTED_LINK
+                    content: Message.UNSUPPORTED_CONFIG_LINK
                 );
 
             Status fetchingStatus = template.FetchDataFromLink(link);

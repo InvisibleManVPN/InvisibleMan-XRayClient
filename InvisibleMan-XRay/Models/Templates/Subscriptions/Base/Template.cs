@@ -8,6 +8,8 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
     {
         protected string Data;
 
+        public abstract bool IsValid(string link);
+
         public abstract Status FetchDataFromLink(string link);
 
         public List<string[]> ConvertToV2RayList(Func<string, Status> convertConfigLinkToV2Ray)
@@ -72,5 +74,7 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
                 string GetConfigData(string[] config) => config[1];
             }
         }
+
+        protected bool IsAnyDataExisits() => !string.IsNullOrEmpty(Data);
     }
 }

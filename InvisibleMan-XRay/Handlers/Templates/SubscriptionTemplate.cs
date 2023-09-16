@@ -25,8 +25,8 @@ namespace InvisibleManXRay.Handlers.Templates
 
         public void RegisterTemplates()
         {
-            templates.Add(typeof(Simple));
             templates.Add(typeof(Jwt));
+            templates.Add(typeof(Simple));
         }
 
         public Status ConvertLinkToSubscription(string remark, string link)
@@ -36,7 +36,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.UNSUPPORTED_LINK,
-                    content: Message.UNSUPPORTED_LINK
+                    content: Message.UNSUPPORTED_SUBSCRIPTION_LINK
                 );
 
             Status fetchingStatus = template.FetchDataFromLink(link);
@@ -44,6 +44,12 @@ namespace InvisibleManXRay.Handlers.Templates
                 return fetchingStatus;
             
             List<string[]> v2RayList = template.ConvertToV2RayList(convertConfigLinkToV2Ray);
+            if(Isv2RayListEmpty())
+                return new Status(
+                    code: Code.ERROR,
+                    subCode: SubCode.INVALID_CONFIG,
+                    content: Message.INVALID_SUBSCRIPTION
+                );
 
             return new Status(
                 code: Code.SUCCESS,
@@ -56,14 +62,14 @@ namespace InvisibleManXRay.Handlers.Templates
                 foreach(Type type in templates)
                 {
                     Template template = Activator.CreateInstance(type) as Template;
-                    Status fetchingStatus = template.FetchDataFromLink(link);
-
-                    if (fetchingStatus.Code == Code.SUCCESS)
+                    if (template.IsValid(link))
                         return template;
                 }
 
                 return null;
             }
+
+            bool Isv2RayListEmpty() => v2RayList.Count == 0;
         }
     }
 }
