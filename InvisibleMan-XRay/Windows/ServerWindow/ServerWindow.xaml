@@ -62,7 +62,7 @@
                     <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
                 </ScrollViewer>
 
-                <TextBlock x:Name="textNoServer"
+                <TextBlock x:Name="textNoConfig"
                     FontFamily="{StaticResource SegoeUI}"
                     TextAlignment="Center"
                     HorizontalAlignment="Center" VerticalAlignment="Top" 
@@ -86,11 +86,77 @@
             </Grid>
 
             <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelSubscription">
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Orientation="Vertical" x:Name="listSubscriptions"></StackPanel>
-                </ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <TextBlock x:Name="textNoSubscription"
+                    <ScrollViewer Grid.Row="1"
+                        HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="listSubscriptions"></StackPanel>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="0" Background="{StaticResource Color.DarkGray}"
+                        Visibility="Hidden" x:Name="panelSubscriptionControl">
+                        
+                        <Grid.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
+                        </Grid.Effect>
+
+                        <Grid Margin="20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="comboBoxSubscription" Grid.Column="0" Height="26"
+                                SelectedValuePath="Key" DisplayMemberPath="Value"
+                                FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                                SelectionChanged="OnSubscriptionComboBoxSelectionChanged">
+                            </ComboBox>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="1"
+                                HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Update" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    >
+
+                                    <Rectangle Fill="{StaticResource Icon.Refresh}"
+                                        Width="13.5" Height="13.5" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Edit" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    >
+
+                                    <Rectangle Fill="{StaticResource Icon.Edit}"
+                                        Width="12" Height="12" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Delete" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    >
+
+                                    <Rectangle Fill="{StaticResource Icon.Delete}"
+                                        Width="12" Height="12" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <TextBlock x:Name="textNoSubscription" Visibility="Hidden"
                     FontFamily="{StaticResource SegoeUI}"
                     TextAlignment="Center"
                     HorizontalAlignment="Center" VerticalAlignment="Top" 

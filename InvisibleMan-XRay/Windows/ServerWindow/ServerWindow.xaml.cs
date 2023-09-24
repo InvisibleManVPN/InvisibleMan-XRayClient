@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
@@ -10,17 +11,24 @@ namespace InvisibleManXRay
     using Values;
     using Services;
     using Services.Analytics.ServerWindow;
+    using Utilities;
 
     public partial class ServerWindow : Window
     {
-        private enum ImportingType { FILE, LINK };
+        private enum ImportingType { FILE, LINK }
 
         private string configPath = null;
+        private string groupPath = null;
         private ImportingType importingType;
-        private List<Components.Config> configComponents;
 
-        private Func<int> getCurrentConfigIndex;
-        private Func<List<Config>> getAllConfigs;
+        private List<Components.Config> generalConfigComponents;
+        private List<Components.Config> subscriptionConfigComponents;
+
+        private Func<string> getCurrentConfigPath;
+        private Func<bool> isCurrentPathEqualRootConfigPath;
+        private Func<List<Config>> getAllGeneralConfigs;
+        private Func<string, List<Config>> getAllSubscriptionConfigs;
+        private Func<List<Subscription>> getAllGroups;
         private Func<string, Status> convertLinkToConfig;
         private Func<string, string, Status> convertLinkToSubscription;
         private Func<string, Status> loadConfig;
@@ -28,9 +36,9 @@ namespace InvisibleManXRay
         private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
-        private Action<string, string> onCreateSubscription;
-        private Action onDeleteConfig;
-        private Action<int> onUpdateConfig;
+        private Action<string, string, string> onCreateSubscription;
+        private Action<GroupType, string> onDeleteConfig;
+        private Action<string> onUpdateConfig;
 
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
@@ -38,6 +46,7 @@ namespace InvisibleManXRay
         {
             InitializeComponent();
             InitializeImportingGroups();
+            InitializeConfigComponents();
 
             void InitializeImportingGroups()
             {
@@ -45,11 +54,20 @@ namespace InvisibleManXRay
                 SetActiveLinkImportingGroup(false);
                 SetImportingType(ImportingType.FILE);
             }
+
+            void InitializeConfigComponents()
+            {
+                generalConfigComponents = new List<Components.Config>();
+                subscriptionConfigComponents = new List<Components.Config>();
+            }
         }
 
         public void Setup(
-            Func<int> getCurrentConfigIndex,
-            Func<List<Config>> getAllConfigs, 
+            Func<string> getCurrentConfigPath,
+            Func<bool> isCurrentPathEqualRootConfigPath,
+            Func<List<Config>> getAllGeneralConfigs, 
+            Func<string, List<Config>> getAllSubscriptionConfigs,
+            Func<List<Subscription>> getAllGroups,
             Func<string, Status> convertLinkToConfig,
             Func<string, string, Status> convertLinkToSubscription,
             Func<string, Status> loadConfig, 
@@ -57,12 +75,15 @@ namespace InvisibleManXRay
             Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
-            Action<string, string> onCreateSubscription,
-            Action onDeleteConfig,
-            Action<int> onUpdateConfig)
+            Action<string, string, string> onCreateSubscription,
+            Action<GroupType, string> onDeleteConfig,
+            Action<string> onUpdateConfig)
         {
-            this.getCurrentConfigIndex = getCurrentConfigIndex;
-            this.getAllConfigs = getAllConfigs;
+            this.getCurrentConfigPath = getCurrentConfigPath;
+            this.isCurrentPathEqualRootConfigPath = isCurrentPathEqualRootConfigPath;
+            this.getAllGeneralConfigs = getAllGeneralConfigs;
+            this.getAllSubscriptionConfigs = getAllSubscriptionConfigs;
+            this.getAllGroups = getAllGroups;
             this.convertLinkToConfig = convertLinkToConfig;
             this.convertLinkToSubscription = convertLinkToSubscription;
             this.loadConfig = loadConfig;
@@ -77,7 +98,32 @@ namespace InvisibleManXRay
 
         protected override void OnContentRendered(EventArgs e)
         {
+            LoadGroupsList();
+            InitializeGroupPath();
+            LoadConfigsLists();
             ShowServersPanel();
+            HandleShowingActiveTab(); 
+
+            void InitializeGroupPath()
+            {
+                groupPath = getCurrentConfigPath.Invoke();
+            } 
+            
+            void LoadConfigsLists()
+            {
+                LoadConfigsList(GroupType.GENERAL);
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+            }
+
+            void HandleShowingActiveTab()
+            {
+                HideAllPanels();
+
+                if (isCurrentPathEqualRootConfigPath.Invoke())
+                    OnConfigTabClick(null, null);
+                else
+                    OnSubscriptionTabClick(null, null);
+            }
         }
 
         private void OnConfigTabClick(object sender, RoutedEventArgs e)
@@ -96,6 +142,16 @@ namespace InvisibleManXRay
 
             SetEnableSubscriptionTabButton(false);
             SetActiveSubscriptionPanel(true);
+        }
+
+        private void OnSubscriptionComboBoxSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxSubscription.SelectedValue == null)
+                return;
+
+            groupPath = ((Subscription)comboBoxSubscription.SelectedValue).Directory.FullName;
+            LoadConfigsList(GroupType.SUBSCRIPTION);
+            SelectConfig(getCurrentConfigPath.Invoke());
         }
 
         private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
@@ -247,8 +303,10 @@ namespace InvisibleManXRay
                     string GetConfigData() => config[1];
                 }
                 
-                onUpdateConfig.Invoke(GetLastConfigIndex());
+                groupPath = GetLastConfigPath(GroupType.GENERAL);
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.GENERAL));
                 SetActiveLoadingPanel(false);
+                LoadConfigsList(GroupType.GENERAL);
                 ClearConfigPath();
                 ClearConfigLink();
                 ShowServersPanel();
@@ -325,9 +383,23 @@ namespace InvisibleManXRay
                 }
 
                 string[] subscription = GetSubscription();
-                onCreateSubscription.Invoke(GetSubscriptionRemark(), GetSubscriptionData());
+                groupPath = GetLastConfigPath(GroupType.SUBSCRIPTION);
+                onCreateSubscription.Invoke(
+                    GetSubscriptionRemark(), 
+                    GetSubscriptionUrl(), 
+                    GetSubscriptionData()
+                );
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+                SetActiveLoadingPanel(false);
+                LoadGroupsList();
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+                ClearSubscriptionRemarks();
+                ClearSubscriptionPath();
+                ShowServersPanel();
 
                 string[] GetSubscription() => (string[])subscriptionStatus.Content;
+
+                string GetSubscriptionUrl() => textBoxSubscriptionLink.Text;
 
                 string GetSubscriptionRemark() => subscription[0];
 
@@ -368,8 +440,7 @@ namespace InvisibleManXRay
             panelAddConfigs.Visibility = Visibility.Hidden;
             panelAddSubscriptions.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
-            LoadConfigsList();
-            SelectConfig(getCurrentConfigIndex.Invoke());
+            SelectConfig(getCurrentConfigPath.Invoke());
         }
 
         private void SetActiveFileImportingGroup(bool isActive)
@@ -397,22 +468,98 @@ namespace InvisibleManXRay
             textBoxConfigLink.Text = null;
         }
 
-        private void LoadConfigsList()
+        private void ClearSubscriptionRemarks()
         {
-            configComponents = new List<Components.Config>();
-            List<Config> configs = getAllConfigs.Invoke();
+            textBoxSubscriptionRemarks.Text = null;
+        }
 
-            ClearConfigsList();
-            HandleShowingNoServerExistsHint();
+        private void ClearSubscriptionPath()
+        {
+            textBoxSubscriptionLink.Text = null;
+        }
+
+        private void LoadGroupsList()
+        {
+            Dictionary<Subscription, string> groups;
+            InitializeGroups();
+            SelectCurrentGroup();
+
+            void InitializeGroups()
+            {
+                groups = new Dictionary<Subscription, string>();
+                foreach(Subscription group in getAllGroups.Invoke())
+                    groups.Add(group, group.Directory.Name);
+                
+                comboBoxSubscription.ItemsSource = groups;
+            }
+
+            void SelectCurrentGroup()
+            {
+                if (!IsAnyGroupExists())
+                    return;
+
+                KeyValuePair<Subscription, string> currentGroup = groups.FirstOrDefault(
+                    group => group.Key.Directory.FullName == FileUtility.GetDirectory(getCurrentConfigPath.Invoke())
+                );
+
+                if (IsCurrentGroupExists())
+                    currentGroup = groups.First();
+                
+                comboBoxSubscription.SelectedValue = currentGroup.Key;
+
+                bool IsCurrentGroupExists() => currentGroup.Key == null && currentGroup.Value == null;
+            }
+
+            bool IsAnyGroupExists() => groups.Count > 0;
+        }
+
+        private void LoadConfigsList(GroupType group)
+        {
+            List<Components.Config> configComponents;
+            List<Config> configs;
+            List<Subscription> groups;
+            StackPanel parent;
+            TextBlock textNoServer;
+
+            if (group == GroupType.GENERAL)
+            {
+                generalConfigComponents = new List<Components.Config>();
+                configs = getAllGeneralConfigs.Invoke();
+                groups = new List<Subscription>();
+                parent = listConfigs;
+                textNoServer = textNoConfig;
+                configComponents = generalConfigComponents;
+            }
+            else
+            {
+                subscriptionConfigComponents = new List<Components.Config>();
+                configs = getAllSubscriptionConfigs.Invoke(groupPath);
+                groups = getAllGroups.Invoke();
+                parent = listSubscriptions;
+                textNoServer = textNoSubscription;
+                configComponents = subscriptionConfigComponents;
+                HandleShowingSubscriptionControlPanel();
+                
+                void HandleShowingSubscriptionControlPanel()
+                {
+                    if (groups.Count > 0)
+                        panelSubscriptionControl.Visibility = Visibility.Visible;
+                    else
+                        panelSubscriptionControl.Visibility = Visibility.Collapsed;
+                }
+            }
+            
+            ClearConfigsList(parent);
+            HandleShowingNoServerExistsHint(configs, groups, textNoServer);
 
             foreach (Config config in configs)
             {
                 Components.Config configComponent = CreateConfigComponent(config);
-                AddConfigToList(configComponent);
+                AddConfigToList(configComponent, configComponents, parent);
             }
 
-            if (IsAnyConfigExists())
-                AddConfigHintAtTheEndOfList();
+            if (IsAnyConfigExists(configs))
+                AddConfigHintAtTheEndOfList(parent);
 
             Components.Config CreateConfigComponent(Config config)
             {
@@ -420,29 +567,29 @@ namespace InvisibleManXRay
                 configComponent.Setup(
                     config: config, 
                     onSelect: () => {
-                        int selectedConfigIndex = getAllConfigs.Invoke().FindIndex(
-                            item => item == config
-                        );
-                        onUpdateConfig.Invoke(selectedConfigIndex);
-                        SelectConfig(selectedConfigIndex);
+                        onUpdateConfig.Invoke(config.Path);
+                        SelectConfig(config.Path);
                     },
                     onDelete: () => {
-                        onDeleteConfig.Invoke();
-                        LoadConfigsList();
+                        onDeleteConfig.Invoke(config.Group, config.Path);
+                        groupPath = config.Path;
+                        HandleReloadingGroupsList();
+                        LoadConfigsList(config.Group);
                         HandleCurrentConfigIndex();
-                        SelectConfig(getCurrentConfigIndex.Invoke());
+                        SelectConfig(getCurrentConfigPath.Invoke());
 
+                        void HandleReloadingGroupsList()
+                        {
+                            if (config.Group == GroupType.SUBSCRIPTION && configs.Count == 1)
+                                LoadGroupsList();
+                        }
+                        
                         void HandleCurrentConfigIndex()
                         {
-                            int currentConfigIndex = getCurrentConfigIndex.Invoke();
-                            int deletedConfigIndex = getAllConfigs.Invoke().FindIndex(
-                                item => item == config
-                            );
-
-                            if (deletedConfigIndex == -1)
-                                onUpdateConfig.Invoke(GetLastConfigIndex());
-                            else if (deletedConfigIndex < currentConfigIndex)
-                                onUpdateConfig.Invoke(currentConfigIndex - 1);
+                            if(IsCurrentConfigDeleted())
+                                onUpdateConfig.Invoke(GetLastConfigPath(config.Group));
+                            
+                            bool IsCurrentConfigDeleted() => getCurrentConfigPath.Invoke() == config.Path;
                         }
                     },
                     getServerWindow: () => this,
@@ -459,59 +606,101 @@ namespace InvisibleManXRay
                 return configComponent;
             }
 
-            void ClearConfigsList() => listConfigs.Children.Clear();
-
-            void AddConfigToList(Components.Config configComponent) 
+            void AddConfigToList(
+                Components.Config config, 
+                List<Components.Config> configComponentsList, 
+                StackPanel parent
+            )
             {
-                configComponents.Add(configComponent);
-                listConfigs.Children.Add(configComponent);
+                configComponentsList.Add(config);
+                parent.Children.Add(config);
             }
 
-            bool IsAnyConfigExists()
+            void ClearConfigsList(StackPanel list)
+            {
+                list.Children.Clear();
+            }
+
+            void AddConfigHintAtTheEndOfList(StackPanel list)
+            {
+                list.Children.Add(new Components.ConfigHint());
+            }
+
+            bool IsAnyConfigExists(List<Config> configs)
             {
                 return configs != null && configs.Count > 0;
             }
 
-            void AddConfigHintAtTheEndOfList()
+            void HandleShowingNoServerExistsHint(
+                List<Config> configs, 
+                List<Subscription> groups, 
+                TextBlock textNoServer
+            )
             {
-                listConfigs.Children.Add(new Components.ConfigHint());
-            }
-
-            void HandleShowingNoServerExistsHint()
-            {
-                if (configs.Count > 0)
-                    textNoServer.Visibility = Visibility.Collapsed;
-                else
+                if (groups.Count == 0 && configs.Count == 0)
                     textNoServer.Visibility = Visibility.Visible;
+                else
+                    textNoServer.Visibility = Visibility.Collapsed;
             }
         }
 
-        private int GetLastConfigIndex()
+        private string GetLastConfigPath(GroupType group)
         {
-            int configsCount = getAllConfigs.Invoke().Count;
+            Config lastConfig;
+            if (group == GroupType.GENERAL)
+                lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
+            else
+                lastConfig = getAllSubscriptionConfigs.Invoke(
+                    getCurrentConfigPath.Invoke()
+                ).LastOrDefault();
+                
+            if(!IsConfigExists())
+                return null;
 
-            if (configsCount == 0)
-                return 0;
-            return configsCount - 1;
+            return lastConfig.Path;
+
+            bool IsConfigExists() => lastConfig != null;
         } 
 
-        private void SelectConfig(int index)
+        private void SelectConfig(string path)
         {
             DeselectAllConfigs();
             SelectConfig();
 
-            void DeselectAllConfigs() => configComponents.ForEach(
-                configComponent => configComponent.SetSelection(false)
-            );
+            void DeselectAllConfigs()
+            {
+                DeselectAllConfigsForComponentsList(generalConfigComponents);
+                DeselectAllConfigsForComponentsList(subscriptionConfigComponents);
+
+                void DeselectAllConfigsForComponentsList(List<Components.Config> configComponents)
+                {
+                    configComponents.ForEach(
+                        configComponent => configComponent.SetSelection(false)
+                    );
+                }
+            }
             
             void SelectConfig()
             {
-                if (IsIndexOutOfRange())
-                    return;
-                
-                configComponents[index].SetSelection(true);
+                Components.Config configComponent = FindConfigInComponentsList(generalConfigComponents);
 
-                bool IsIndexOutOfRange() => index >= configComponents.Count;
+                if (!IsAnyConfigExists())
+                {
+                    configComponent = FindConfigInComponentsList(subscriptionConfigComponents);
+                    if (!IsAnyConfigExists())
+                        return;
+                }
+
+                configComponent.SetSelection(true);
+
+                Components.Config FindConfigInComponentsList(List<Components.Config> configComponents)
+                {
+                    return configComponents.Find(
+                        component => component.GetConfig().Path == path
+                    );
+                }
+
+                bool IsAnyConfigExists() => configComponent != null;
             } 
         }
 
@@ -547,7 +736,7 @@ namespace InvisibleManXRay
             SetEnableSubscriptionTabButton(true);
         }
 
-        void HandleWarningMessage(string message)
+        private void HandleWarningMessage(string message)
         {
             MessageBoxResult result = MessageBox.Show(
                 this,
@@ -558,7 +747,7 @@ namespace InvisibleManXRay
             );
         }
 
-        void HandleErrorMessage(string message)
+        private void HandleErrorMessage(string message)
         {
             MessageBox.Show(
                 this,

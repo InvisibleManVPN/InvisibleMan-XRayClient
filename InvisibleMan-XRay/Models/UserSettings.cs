@@ -14,8 +14,8 @@ namespace InvisibleManXRay.Models
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("")]
         public string ClientId;
 
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(0)]
-        public int CurrentConfigIndex;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("./Configs")]
+        public string CurrentConfigPath;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(Mode.PROXY)]
         public Mode Mode;
@@ -56,7 +56,7 @@ namespace InvisibleManXRay.Models
         public UserSettings()
         {
             this.ClientId = "";
-            this.CurrentConfigIndex = 0;
+            this.CurrentConfigPath = "./Configs";
             this.Mode = Mode.PROXY;
             this.Protocol = Protocol.HTTP;
             this.IsUdpEnable = true;
@@ -102,7 +102,7 @@ namespace InvisibleManXRay.Models
 
         public string GetClientId() => ClientId;
 
-        public int GetCurrentConfigIndex() => CurrentConfigIndex;
+        public string GetCurrentConfigPath() => CurrentConfigPath;
 
         public Mode GetMode() => Mode;
 

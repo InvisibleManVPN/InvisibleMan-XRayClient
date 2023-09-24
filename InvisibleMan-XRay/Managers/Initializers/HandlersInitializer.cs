@@ -67,7 +67,7 @@ namespace InvisibleManXRay.Managers.Initializers
                 SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
 
                 handlersManager.GetHandler<ConfigHandler>().Setup(
-                    getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex
+                    getCurrentConfigPath: settingsHandler.UserSettings.GetCurrentConfigPath
                 );
             }
 
