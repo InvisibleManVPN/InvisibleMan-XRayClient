@@ -34,7 +34,7 @@ namespace InvisibleManXRay.Handlers.Configs
                 configs.Remove(path);
         }
 
-        protected void SetFileTime(string path) => FileUtility.SetTimeToNow(path);
+        protected void SetFileTime(string path) => FileUtility.SetFileTimeToNow(path);
 
         protected string GetFileName(string path) => FileUtility.GetFileName(path);
 

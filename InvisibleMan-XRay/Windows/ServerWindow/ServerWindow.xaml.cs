@@ -98,8 +98,8 @@ namespace InvisibleManXRay
 
         protected override void OnContentRendered(EventArgs e)
         {
-            LoadGroupsList();
             InitializeGroupPath();
+            LoadGroupsList();
             LoadConfigsLists();
             ShowServersPanel();
             HandleShowingActiveTab(); 
@@ -383,7 +383,7 @@ namespace InvisibleManXRay
                 }
 
                 string[] subscription = GetSubscription();
-                groupPath = GetLastConfigPath(GroupType.SUBSCRIPTION);
+                groupPath = "";
                 onCreateSubscription.Invoke(
                     GetSubscriptionRemark(), 
                     GetSubscriptionUrl(), 
@@ -499,15 +499,15 @@ namespace InvisibleManXRay
                     return;
 
                 KeyValuePair<Subscription, string> currentGroup = groups.FirstOrDefault(
-                    group => group.Key.Directory.FullName == FileUtility.GetDirectory(getCurrentConfigPath.Invoke())
+                    group => group.Key.Directory.FullName == FileUtility.GetDirectory(groupPath)
                 );
 
-                if (IsCurrentGroupExists())
-                    currentGroup = groups.First();
+                if (!IsCurrentGroupExists())
+                    currentGroup = groups.Last();
                 
                 comboBoxSubscription.SelectedValue = currentGroup.Key;
 
-                bool IsCurrentGroupExists() => currentGroup.Key == null && currentGroup.Value == null;
+                bool IsCurrentGroupExists() => currentGroup.Key != null && currentGroup.Value != null;
             }
 
             bool IsAnyGroupExists() => groups.Count > 0;
@@ -650,9 +650,7 @@ namespace InvisibleManXRay
             if (group == GroupType.GENERAL)
                 lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
             else
-                lastConfig = getAllSubscriptionConfigs.Invoke(
-                    getCurrentConfigPath.Invoke()
-                ).LastOrDefault();
+                lastConfig = getAllSubscriptionConfigs.Invoke(groupPath).LastOrDefault();
                 
             if(!IsConfigExists())
                 return null;

@@ -83,12 +83,13 @@ namespace InvisibleManXRay.Handlers.Configs
                 SetFileTime(destinationPath);
                 AddConfigToList(CreateConfigModel(destinationPath));
 
-                void SetFileTime(string path) => FileUtility.SetTimeToNow(path);
+                void SetFileTime(string path) => FileUtility.SetFileTimeToNow(path);
             }
 
             void SaveToDirectory(string destinationPath, string data)
             {
                 System.IO.Directory.CreateDirectory(destinationDirectory);
+                FileUtility.SetDirectoryTimeToNow(destinationDirectory);
                 File.WriteAllText(destinationPath, data);
             }
 
@@ -108,7 +109,7 @@ namespace InvisibleManXRay.Handlers.Configs
             DirectoryInfo directoryInfo = new DirectoryInfo(GetConfigDirectory());
 
             if (!IsValidDirectory())
-                directoryInfo = groups.First().Directory;
+                directoryInfo = groups.Last().Directory;
 
             FileInfo[] files = directoryInfo.GetFiles().Where(
                 file => file.Extension != ".dat"

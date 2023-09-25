@@ -4,10 +4,16 @@ namespace InvisibleManXRay.Utilities
 {
     public static class FileUtility
     {
-        public static void SetTimeToNow(string path)
+        public static void SetFileTimeToNow(string path)
         {
             System.IO.File.SetCreationTime(path, DateTime.Now);
             System.IO.File.SetLastWriteTime(path, DateTime.Now);
+        }
+
+        public static void SetDirectoryTimeToNow(string path)
+        {
+            System.IO.Directory.SetCreationTime(path, DateTime.Now);
+            System.IO.Directory.SetLastWriteTime(path, DateTime.Now);
         }
 
         public static string GetFullPath(string path)
