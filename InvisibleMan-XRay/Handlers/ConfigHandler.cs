@@ -1,120 +1,103 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace InvisibleManXRay.Handlers
 {
+    using Configs;
     using Models;
     using Values;
+    using Utilities;
 
     public class ConfigHandler : Handler
     {
-        private Dictionary<string, Config> configs;
-        private Func<int> getCurrentConfigIndex;
+        private GeneralConfig generalConfig;
+        private SubscriptionConfig subscriptionConfig;
+
+        private Func<string> getCurrentConfigPath;
 
         public ConfigHandler()
         {
-            this.configs = new Dictionary<string, Config>();
-            LoadConfigFiles();
+            this.generalConfig = new GeneralConfig();
+            this.subscriptionConfig = new SubscriptionConfig();
         }
 
-        public void Setup(Func<int> getCurrentConfigIndex)
+        public void Setup(Func<string> getCurrentConfigPath)
         {
-            this.getCurrentConfigIndex = getCurrentConfigIndex;
+            this.getCurrentConfigPath = getCurrentConfigPath;
+            subscriptionConfig.Setup(getCurrentConfigPath);
         }
 
-        public void LoadConfigFiles()
+        public void LoadFiles(GroupType group, string path)
         {
-            configs.Clear();
-
-            DirectoryInfo directoryInfo = new DirectoryInfo(Directory.CONFIGS);
-            if (!directoryInfo.Exists)
-                return;
-
-            FileInfo[] files = directoryInfo.GetFiles().OrderBy(file => file.CreationTime).ToArray();
-            foreach(FileInfo file in files)
-            {
-                AddConfigToList(CreateConfig(file.FullName));
-            }
+            BaseConfig config = group == GroupType.GENERAL ? generalConfig : subscriptionConfig;
+            config.LoadFiles(path);
         }
 
-        public void CopyConfig(string path)
-        {
-            string destinationPath = $"{Directory.CONFIGS}/{GetFileName(path)}";
-            CopyToConfigsDirectory();
-            SetFileTime(destinationPath);
-            AddConfigToList(CreateConfig(destinationPath));
+        public void CreateConfig(string remark, string data) => generalConfig.CreateConfig(remark, data);
 
-            void CopyToConfigsDirectory()
-            {
-                System.IO.Directory.CreateDirectory(Directory.CONFIGS);          
-                File.Copy(path, destinationPath, true);
-            }
+        public void CreateSubscription(string remark, string url, string data) => subscriptionConfig.CreateSubscription(remark, url, data);
+
+        public void DeleteSubscription(Subscription subscription) => subscriptionConfig.DeleteSubscription(subscription);
+
+        public void CopyConfig(string path) => generalConfig.CopyConfig(path);
+
+        public Config GetCurrentConfig() => CreateConfigModel(getCurrentConfigPath.Invoke());
+
+        public void RemoveConfigFromList(string path) => GetCurrentBaseConfig().RemoveConfigFromList(path);
+
+        public List<Config> GetAllGeneralConfigs() 
+        {
+            generalConfig.LoadFiles();
+            return generalConfig.GetAllConfigs();
         }
 
-        public void CreateConfig(string remark, string data)
+        public List<Config> GetAllSubscriptionConfigs(string path) 
         {
-            string destinationPath = $"{Directory.CONFIGS}/{remark}.json";
-            SaveToConfigsDirectory();
-            SetFileTime(destinationPath);
-            AddConfigToList(CreateConfig(destinationPath));
-
-            void SaveToConfigsDirectory()
-            {
-                System.IO.Directory.CreateDirectory(Directory.CONFIGS);
-                File.WriteAllText(destinationPath, data);
-            }
+            subscriptionConfig.LoadFiles(path);
+            return subscriptionConfig.GetAllConfigs();
         }
 
-        public Config GetCurrentConfig()
+        public List<Subscription> GetAllGroups()
         {
-            int currentConfigIndex = getCurrentConfigIndex.Invoke();
-            
-            try
-            {
-                return configs.ElementAt(currentConfigIndex).Value;
-            }
-            catch
-            {
+            subscriptionConfig.LoadGroups();
+            return subscriptionConfig.GetAllGroups();
+        }
+
+        public Config CreateConfigModel(string path)
+        {
+            if (string.IsNullOrEmpty(path) || !FileUtility.IsFileExists(path))
                 return null;
+
+            return GetCurrentBaseConfig().CreateConfigModel(path);
+        }
+
+        public bool IsCurrentPathEqualRootConfigPath()
+        {
+            return GetCurrentConfigDirectory() == GetRootConfigDirectory();
+
+            string GetCurrentConfigDirectory()
+            {
+                string path = getCurrentConfigPath.Invoke();
+                string directory = FileUtility.GetDirectory(path);
+
+                if (string.IsNullOrEmpty(path) || !FileUtility.IsFileExists(path))
+                    directory = Directory.CONFIGS;
+                
+                return FileUtility.GetFullPath(directory);
+            }
+
+            string GetRootConfigDirectory()
+            {
+                return FileUtility.GetFullPath(Directory.CONFIGS);
             }
         }
 
-        public List<Config> GetAllConfigs() => configs.Select(config => config.Value).ToList();
-
-        public void RemoveConfigFromList(string path)
+        private BaseConfig GetCurrentBaseConfig()
         {
-            if (configs.ContainsKey(path))
-                configs.Remove(path);
-        }
-
-        private void AddConfigToList(Config config)
-        {
-            if (configs.ContainsKey(config.Path))
-                configs[config.Path] = config;
+            if (IsCurrentPathEqualRootConfigPath())
+                return generalConfig;
             else
-                configs.Add(config.Path, config);
+                return subscriptionConfig;
         }
-
-        private Config CreateConfig(string path)
-        {
-            return new Config(
-                path: $"{Directory.CONFIGS}/{GetFileName(path)}",
-                name: GetFileName(path),
-                type: ConfigType.FILE,
-                updateTime: GetFileUpdateTime(path)
-            );
-        }
-
-        private void SetFileTime(string path)
-        {
-            File.SetCreationTime(path, DateTime.Now);
-            File.SetLastWriteTime(path, DateTime.Now);
-        }
-
-        private string GetFileName(string path) => System.IO.Path.GetFileName(path);
-
-        private string GetFileUpdateTime(string path) => System.IO.File.GetLastWriteTime(path).ToShortDateString();
     }
 }

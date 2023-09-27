@@ -1,4 +1,4 @@
-namespace InvisibleManXRay.Models.Templates
+namespace InvisibleManXRay.Models.Templates.Configs
 {
     public class Adapter
     {

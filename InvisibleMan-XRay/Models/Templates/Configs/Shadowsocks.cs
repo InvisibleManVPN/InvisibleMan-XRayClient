@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace InvisibleManXRay.Models.Templates
+namespace InvisibleManXRay.Models.Templates.Configs
 {
     using Values;
 
