@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace InvisibleManXRay.Models.Templates
+namespace InvisibleManXRay.Models.Templates.Configs
 {
     public class V2Ray
     {

@@ -140,23 +140,29 @@ namespace InvisibleManXRay.Factories
             
             ServerWindow serverWindow = new ServerWindow();
             serverWindow.Setup(
-                getCurrentConfigIndex: settingsHandler.UserSettings.GetCurrentConfigIndex,
-                getAllConfigs: configHandler.GetAllConfigs,
-                convertConfigLinkToV2Ray: templateHandler.ConverLinkToV2Ray,
+                getCurrentConfigPath: settingsHandler.UserSettings.GetCurrentConfigPath,
+                isCurrentPathEqualRootConfigPath: configHandler.IsCurrentPathEqualRootConfigPath,
+                getAllGeneralConfigs: configHandler.GetAllGeneralConfigs,
+                getAllSubscriptionConfigs: configHandler.GetAllSubscriptionConfigs,
+                getAllGroups: configHandler.GetAllGroups,
+                convertLinkToConfig: templateHandler.ConverLinkToConfig,
+                convertLinkToSubscription: templateHandler.ConvertLinkToSubscription,
                 loadConfig: core.LoadConfig,
                 testConnection: core.Test,
                 getLogPath: settingsHandler.UserSettings.GetLogPath,
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
-                onDeleteConfig: configHandler.LoadConfigFiles,
+                onCreateSubscription: configHandler.CreateSubscription,
+                onDeleteSubscription: configHandler.DeleteSubscription,
+                onDeleteConfig: configHandler.LoadFiles,
                 onUpdateConfig: UpdateConfig
             );
             
             return serverWindow;
 
-            void UpdateConfig(int index)
+            void UpdateConfig(string path)
             {
-                settingsHandler.UpdateCurrentConfigIndex(index);
+                settingsHandler.UpdateCurrentConfigPath(path);
                 mainWindow.UpdateUI();
                 mainWindow.TryRerun();
             }

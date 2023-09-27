@@ -24,40 +24,169 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Visibility="Visible" x:Name="panelServers">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
-            </ScrollViewer>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        
+            <Grid Grid.Row="0" Margin="0 0 0 2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="textNoServer"
-                FontFamily="{StaticResource SegoeUI}"
-                HorizontalAlignment="Center" VerticalAlignment="Top" 
-                Margin="0 20" Foreground="Gray" LineHeight="20"
-                FontWeight="Normal" FontSize="14">
+                <Grid Grid.Column="0">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
+                        x:Name="buttonConfigTab" Click="OnConfigTabClick"/>
 
-                <Run Text="There is no server configuration" /> 
-                <LineBreak/>
-                <Run Text="Tap the plus to add a new config" /> 
-            </TextBlock>
+                    <Label Grid.Row="0" Content="Configuration"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
 
-            <Button Width="40" Height="40" Margin="0 0 15 15" 
-                Style="{StaticResource Button.Circle}" ToolTip="Add new server configuration" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Click="OnAddButtonClick">
+                <Grid Grid.Column="2">
+                    <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="True"
+                        x:Name="buttonSubscriptionTab" Click="OnSubscriptionTabClick"/>
 
-                <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
-                    Width="15" Height="15" Margin="0" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Button>
+                    <Label Grid.Row="0" Content="Subscription"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
+                        FontSize="14" IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="Visible" x:Name="panelConfig">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" x:Name="listConfigs"></StackPanel>
+                </ScrollViewer>
+
+                <TextBlock x:Name="textNoConfig"
+                    FontFamily="{StaticResource SegoeUI}"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0 20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14">
+
+                    <Run Text="There is no configuration" /> 
+                    <LineBreak/>
+                    <Run Text="Tap the plus to add a new one" /> 
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15" 
+                    Style="{StaticResource Button.Circle}" ToolTip="Add new configuration" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddConfigButtonClick">
+
+                    <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
+                        Width="15" Height="15" Margin="0" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelSubscription">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="1"
+                        HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="listSubscriptions"></StackPanel>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="0" Background="{StaticResource Color.DarkGray}"
+                        Visibility="Hidden" x:Name="panelSubscriptionControl">
+                        
+                        <Grid.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
+                        </Grid.Effect>
+
+                        <Grid Margin="20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="comboBoxSubscription" Grid.Column="0" Height="26"
+                                SelectedValuePath="Key" DisplayMemberPath="Value"
+                                FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
+                                SelectionChanged="OnSubscriptionComboBoxSelectionChanged">
+                            </ComboBox>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="1"
+                                HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Update" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Click="OnUpdateSubscriptionButtonClick">
+
+                                    <Rectangle Fill="{StaticResource Icon.Refresh}"
+                                        Width="13.5" Height="13.5" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Edit" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Click="OnEditSubscriptionButtonClick">
+
+                                    <Rectangle Fill="{StaticResource Icon.Edit}"
+                                        Width="12" Height="12" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Style="{StaticResource Button.None}" ToolTip="Delete" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Click="OnDeleteSubscriptionButtonClick">
+
+                                    <Rectangle Fill="{StaticResource Icon.Delete}"
+                                        Width="12" Height="12" Margin="0" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <TextBlock x:Name="textNoSubscription" Visibility="Hidden"
+                    FontFamily="{StaticResource SegoeUI}"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0 20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14">
+
+                    <Run Text="There is no subscription" /> 
+                    <LineBreak/>
+                    <Run Text="Tap the plus to add a new one" /> 
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15" 
+                    Style="{StaticResource Button.Circle}" ToolTip="Add new subscription" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddSubscriptionButtonClick">
+
+                    <Rectangle Fill="{StaticResource Icon.Plus}" Grid.Column="0" 
+                        Width="15" Height="15" Margin="0" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAdd">
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAddConfigs">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
-                <StackPanel Orientation="Vertical">
                     <RadioButton GroupName="GroupImport" Content="Import config file" 
                         Foreground="White" IsChecked="True"
                         FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
@@ -80,7 +209,6 @@
                             x:Name="textBlockFileName"/>
                     </StackPanel>
 
-                </StackPanel>
                 <RadioButton GroupName="GroupImport" Content="Import from link" 
                     Foreground="White" IsChecked="false"
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
@@ -100,7 +228,54 @@
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
-                    Click="OnImportButtonClick">
+                    Click="OnImportConfigButtonClick">
+                </Button>
+
+                <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                    Style="{StaticResource Button.Rectangle.Red}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick">
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Visibility="Hidden" x:Name="panelAddSubscriptions">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
+                <TextBlock Grid.Row="2" Text="Remarks" 
+                    Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+                
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxSubscriptionRemarks"/>
+
+                <TextBlock Grid.Row="2" Text="Subscription link" 
+                    Margin="10 0" Foreground="White" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+                
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    Style="{StaticResource TextBox.Default}" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxSubscriptionLink"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30" Content="IMPORT" 
+                    Style="{StaticResource Button.Rectangle.Green}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnImportSubscriptionButtonClick">
                 </Button>
 
                 <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
@@ -114,13 +289,19 @@
 
         <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
             Visibility="Hidden" x:Name="panelLoading">
-            
-            <TextBlock Grid.Row="2" Text="PLEASE WAIT..." 
-                Margin="10 0" Foreground="White" 
-                HorizontalAlignment="Center" VerticalAlignment="Center"
-                FontFamily="{StaticResource SegoeUI}" 
-                FontWeight="Normal" FontSize="14"/>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Center" Margin="10 0">
+
+                <Grid Width="20" Height="20" Margin="0 0 5 0">
+                    <Controls:Loading Width="15" Height="15" Foreground="White"/>
+                </Grid>
                 
+                <TextBlock Grid.Row="2" Text="Please wait..." Foreground="White" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Normal" FontSize="14"/>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">

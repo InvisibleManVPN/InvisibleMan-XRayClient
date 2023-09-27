@@ -72,6 +72,11 @@ namespace InvisibleManXRay.Components
             gridSelect.Visibility = visibility;
         }
 
+        public Models.Config GetConfig()
+        {
+            return config;
+        }
+
         private void UpdateUI()
         {
             textConfigName.Content = config.Name;

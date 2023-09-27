@@ -44,9 +44,9 @@ namespace InvisibleManXRay.Handlers
             SaveUserSettings();
         }
 
-        public void UpdateCurrentConfigIndex(int index)
+        public void UpdateCurrentConfigPath(string path)
         {
-            userSettings.CurrentConfigIndex = index;
+            userSettings.CurrentConfigPath = string.IsNullOrEmpty(path) ? Directory.CONFIGS : path;
             SaveUserSettings();
         }
 

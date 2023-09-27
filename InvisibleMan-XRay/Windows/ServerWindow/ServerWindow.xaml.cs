@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Collections.Generic;
 using Microsoft.Win32;
 
@@ -9,25 +11,37 @@ namespace InvisibleManXRay
     using Values;
     using Services;
     using Services.Analytics.ServerWindow;
+    using Utilities;
 
     public partial class ServerWindow : Window
     {
-        private enum ImportingType { FILE, LINK };
+        private enum ImportingType { FILE, LINK }
+        private enum SubscriptionOperation { CREATE, EDIT }
 
         private string configPath = null;
+        private string groupPath = null;
         private ImportingType importingType;
-        private List<Components.Config> configComponents;
+        private SubscriptionOperation subscriptionOperation;
 
-        private Func<int> getCurrentConfigIndex;
-        private Func<List<Config>> getAllConfigs;
-        private Func<string, Status> convertConfigLinkToV2Ray;
+        private List<Components.Config> generalConfigComponents;
+        private List<Components.Config> subscriptionConfigComponents;
+
+        private Func<string> getCurrentConfigPath;
+        private Func<bool> isCurrentPathEqualRootConfigPath;
+        private Func<List<Config>> getAllGeneralConfigs;
+        private Func<string, List<Config>> getAllSubscriptionConfigs;
+        private Func<List<Subscription>> getAllGroups;
+        private Func<string, Status> convertLinkToConfig;
+        private Func<string, string, Status> convertLinkToSubscription;
         private Func<string, Status> loadConfig;
         private Func<string, int> testConnection;
         private Func<string> getLogPath;
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
-        private Action onDeleteConfig;
-        private Action<int> onUpdateConfig;
+        private Action<string, string, string> onCreateSubscription;
+        private Action<Subscription> onDeleteSubscription;
+        private Action<GroupType, string> onDeleteConfig;
+        private Action<string> onUpdateConfig;
 
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
@@ -35,6 +49,7 @@ namespace InvisibleManXRay
         {
             InitializeComponent();
             InitializeImportingGroups();
+            InitializeConfigComponents();
 
             void InitializeImportingGroups()
             {
@@ -42,41 +57,173 @@ namespace InvisibleManXRay
                 SetActiveLinkImportingGroup(false);
                 SetImportingType(ImportingType.FILE);
             }
+
+            void InitializeConfigComponents()
+            {
+                generalConfigComponents = new List<Components.Config>();
+                subscriptionConfigComponents = new List<Components.Config>();
+            }
         }
 
         public void Setup(
-            Func<int> getCurrentConfigIndex,
-            Func<List<Config>> getAllConfigs, 
-            Func<string, Status> convertConfigLinkToV2Ray,
+            Func<string> getCurrentConfigPath,
+            Func<bool> isCurrentPathEqualRootConfigPath,
+            Func<List<Config>> getAllGeneralConfigs, 
+            Func<string, List<Config>> getAllSubscriptionConfigs,
+            Func<List<Subscription>> getAllGroups,
+            Func<string, Status> convertLinkToConfig,
+            Func<string, string, Status> convertLinkToSubscription,
             Func<string, Status> loadConfig, 
             Func<string, int> testConnection,
             Func<string> getLogPath,
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
-            Action onDeleteConfig,
-            Action<int> onUpdateConfig)
+            Action<string, string, string> onCreateSubscription,
+            Action<Subscription> onDeleteSubscription,
+            Action<GroupType, string> onDeleteConfig,
+            Action<string> onUpdateConfig)
         {
-            this.getCurrentConfigIndex = getCurrentConfigIndex;
-            this.getAllConfigs = getAllConfigs;
-            this.convertConfigLinkToV2Ray = convertConfigLinkToV2Ray;
+            this.getCurrentConfigPath = getCurrentConfigPath;
+            this.isCurrentPathEqualRootConfigPath = isCurrentPathEqualRootConfigPath;
+            this.getAllGeneralConfigs = getAllGeneralConfigs;
+            this.getAllSubscriptionConfigs = getAllSubscriptionConfigs;
+            this.getAllGroups = getAllGroups;
+            this.convertLinkToConfig = convertLinkToConfig;
+            this.convertLinkToSubscription = convertLinkToSubscription;
             this.loadConfig = loadConfig;
             this.testConnection = testConnection;
             this.getLogPath = getLogPath;
             this.onCopyConfig = onCopyConfig;
             this.onCreateConfig = onCreateConfig;
+            this.onCreateSubscription = onCreateSubscription;
+            this.onDeleteSubscription = onDeleteSubscription;
             this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfig = onUpdateConfig;
         }
 
         protected override void OnContentRendered(EventArgs e)
         {
+            InitializeGroupPath();
+            LoadGroupsList();
+            LoadConfigsLists();
             ShowServersPanel();
+            HandleShowingActiveTab(); 
+
+            void InitializeGroupPath()
+            {
+                groupPath = getCurrentConfigPath.Invoke();
+            } 
+            
+            void LoadConfigsLists()
+            {
+                LoadConfigsList(GroupType.GENERAL);
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+            }
+
+            void HandleShowingActiveTab()
+            {
+                HideAllPanels();
+
+                if (isCurrentPathEqualRootConfigPath.Invoke())
+                    OnConfigTabClick(null, null);
+                else
+                    OnSubscriptionTabClick(null, null);
+            }
         }
 
-        private void OnAddButtonClick(object sender, RoutedEventArgs e)
+        private void OnConfigTabClick(object sender, RoutedEventArgs e)
         {
-            ShowAddServerPanel();
+            EnableAllTabs();
+            HideAllPanels();
+
+            SetEnableConfigTabButton(false);
+            SetActiveConfigPanel(true);
+        }
+
+        private void OnSubscriptionTabClick(object sender, RoutedEventArgs e)
+        {
+            EnableAllTabs();
+            HideAllPanels();
+
+            SetEnableSubscriptionTabButton(false);
+            SetActiveSubscriptionPanel(true);
+        }
+
+        private void OnSubscriptionComboBoxSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxSubscription.SelectedValue == null)
+                return;
+
+            groupPath = ((Subscription)comboBoxSubscription.SelectedValue).Directory.FullName;
+            LoadConfigsList(GroupType.SUBSCRIPTION);
+            SelectConfig(getCurrentConfigPath.Invoke());
+        }
+
+        private void OnDeleteSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            AnalyticsService.SendEvent(new SubDeleteButtonClickedEvent());
+
+            if(comboBoxSubscription.SelectedValue == null)
+                return;
+            
+            string remarks = comboBoxSubscription.Text;
+            Subscription subscription = (Subscription)comboBoxSubscription.SelectedValue;
+
+            MessageBoxResult result = MessageBox.Show(
+                this,
+                string.Format(Message.DELETE_CONFIRMATION, remarks),
+                Caption.INFO,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+                DeleteSubscription(subscription);
+        }
+
+        private void OnEditSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            AnalyticsService.SendEvent(new SubEditButtonClickedEvent());
+
+            if (comboBoxSubscription.SelectedValue == null)
+                return;
+
+            ShowEditSubscriptionServerPanel();
+        }
+
+        private void OnUpdateSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            AnalyticsService.SendEvent(new SubUpdateButtonClickedEvent());
+            
+            InitializeTextBoxFields();
+            UpdateSubscription();
+
+            void InitializeTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = comboBoxSubscription.Text;
+                textBoxSubscriptionLink.Text = ((Subscription)comboBoxSubscription.SelectedValue).Url;
+            }
+
+            void UpdateSubscription()
+            {
+                EditSubscription(
+                    subscription: (Subscription)comboBoxSubscription.SelectedValue,
+                    remarks: textBoxSubscriptionRemarks.Text,
+                    link: textBoxSubscriptionLink.Text
+                );
+            }
+        }
+
+        private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowAddConfigsServerPanel();
             AnalyticsService.SendEvent(new AddConfigButtonClickedEvent());
+        }
+
+        private void OnAddSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowAddSubscriptionsServerPanel();
+            AnalyticsService.SendEvent(new AddSubButtonClickedEvent());
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -125,7 +272,7 @@ namespace InvisibleManXRay
             string GetFilePath() => fileDialog.FileName;
         }
 
-        private void OnImportButtonClick(object sender, RoutedEventArgs e)
+        private void OnImportConfigButtonClick(object sender, RoutedEventArgs e)
         {
             if (IsFileImporting())
             {
@@ -146,7 +293,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_FILES_SELECTED, 
+                        Values.Message.NO_CONFIG_FILE_SELECTED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -166,7 +313,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_LINK_ENTERED, 
+                        Values.Message.NO_CONFIG_LINK_ENTERED, 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -178,12 +325,6 @@ namespace InvisibleManXRay
                 TryAddConfig(ConfigType.URL);
 
                 bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxConfigLink.Text);
-            }
-
-            void SetActiveLoadingPanel(bool isActive)
-            {
-                Visibility visibility = isActive ? Visibility.Visible : Visibility.Hidden;
-                panelLoading.Visibility = visibility;
             }
 
             void TryAddConfig(ConfigType type)
@@ -204,7 +345,7 @@ namespace InvisibleManXRay
                 }
                 else
                 {
-                    configStatus = convertConfigLinkToV2Ray.Invoke(textBoxConfigLink.Text);
+                    configStatus = convertLinkToConfig.Invoke(textBoxConfigLink.Text);
                     if (configStatus.Code == Code.ERROR)
                     {
                         HandleError();
@@ -222,8 +363,10 @@ namespace InvisibleManXRay
                     string GetConfigData() => config[1];
                 }
                 
-                onUpdateConfig.Invoke(GetLastConfigIndex());
+                groupPath = GetLastConfigPath(GroupType.GENERAL);
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.GENERAL));
                 SetActiveLoadingPanel(false);
+                LoadConfigsList(GroupType.GENERAL);
                 ClearConfigPath();
                 ClearConfigLink();
                 ShowServersPanel();
@@ -234,52 +377,86 @@ namespace InvisibleManXRay
                     {
                         case SubCode.NO_CONFIG:
                         case SubCode.UNSUPPORTED_LINK:
-                            HandleWarningMessage();
+                            HandleWarningMessage(configStatus.Content.ToString());
                             break;
                         case SubCode.INVALID_CONFIG:
-                            HandleErrorMessage();
+                            HandleErrorMessage(configStatus.Content.ToString());
                             break;
                         default:
                             return;
-                    }
-
-                    void HandleWarningMessage()
-                    {
-                        MessageBoxResult result = MessageBox.Show(
-                            this,
-                            configStatus.Content.ToString(), 
-                            Caption.WARNING, 
-                            MessageBoxButton.OK, 
-                            MessageBoxImage.Warning
-                        );
-                    }
-
-                    void HandleErrorMessage()
-                    {
-                        MessageBox.Show(
-                            this,
-                            configStatus.Content.ToString(), 
-                            Caption.ERROR, 
-                            MessageBoxButton.OK, 
-                            MessageBoxImage.Error
-                        );
                     }
                 }
             }
         }
 
-        private void ShowAddServerPanel()
+        private void OnImportSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (subscriptionOperation == SubscriptionOperation.CREATE)
+            {
+                AnalyticsService.SendEvent(new SubFromLinkImportedEvent());
+                AddSubscription();
+            }
+            else if (subscriptionOperation == SubscriptionOperation.EDIT)
+            {
+                AnalyticsService.SendEvent(new SubFromLinkEditedEvent());
+                EditSubscription(
+                    subscription: (Subscription)comboBoxSubscription.SelectedValue,
+                    remarks: textBoxSubscriptionRemarks.Text,
+                    link: textBoxSubscriptionLink.Text
+                );
+            }
+        }
+
+        private void ShowAddConfigsServerPanel()
         {
             panelServers.Visibility = Visibility.Hidden;
-            panelAdd.Visibility = Visibility.Visible;
+            panelAddConfigs.Visibility = Visibility.Visible;
+        }
+
+        private void ShowAddSubscriptionsServerPanel()
+        {
+            subscriptionOperation = SubscriptionOperation.CREATE;
+            ShowSubscriptionPanel();
+            InitializeTextBoxFields();
+
+            void ShowSubscriptionPanel()
+            {
+                panelServers.Visibility = Visibility.Hidden;
+                panelAddSubscriptions.Visibility = Visibility.Visible;
+            }
+
+            void InitializeTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = "";
+                textBoxSubscriptionLink.Text = "";
+            }
+        }
+
+        private void ShowEditSubscriptionServerPanel()
+        {
+            subscriptionOperation = SubscriptionOperation.EDIT;
+            ShowSubscriptionPanel();
+            FetchTextBoxFields();
+
+            void ShowSubscriptionPanel()
+            {
+                panelServers.Visibility = Visibility.Hidden;
+                panelAddSubscriptions.Visibility = Visibility.Visible;
+            }
+
+            void FetchTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = comboBoxSubscription.Text;
+                textBoxSubscriptionLink.Text = ((Subscription)comboBoxSubscription.SelectedValue).Url;
+            }
         }
 
         private void ShowServersPanel()
         {
-            panelAdd.Visibility = Visibility.Hidden;
+            panelAddConfigs.Visibility = Visibility.Hidden;
+            panelAddSubscriptions.Visibility = Visibility.Hidden;
             panelServers.Visibility = Visibility.Visible;
-            LoadConfigsList();
-            SelectConfig(getCurrentConfigIndex.Invoke());
+            SelectConfig(getCurrentConfigPath.Invoke());
         }
 
         private void SetActiveFileImportingGroup(bool isActive)
@@ -307,22 +484,98 @@ namespace InvisibleManXRay
             textBoxConfigLink.Text = null;
         }
 
-        private void LoadConfigsList()
+        private void ClearSubscriptionRemarks()
         {
-            configComponents = new List<Components.Config>();
-            List<Config> configs = getAllConfigs.Invoke();
+            textBoxSubscriptionRemarks.Text = null;
+        }
 
-            ClearConfigsList();
-            HandleShowingNoServerExistsHint();
+        private void ClearSubscriptionPath()
+        {
+            textBoxSubscriptionLink.Text = null;
+        }
+
+        private void LoadGroupsList()
+        {
+            Dictionary<Subscription, string> groups;
+            InitializeGroups();
+            SelectCurrentGroup();
+
+            void InitializeGroups()
+            {
+                groups = new Dictionary<Subscription, string>();
+                foreach(Subscription group in getAllGroups.Invoke())
+                    groups.Add(group, group.Directory.Name);
+                
+                comboBoxSubscription.ItemsSource = groups;
+            }
+
+            void SelectCurrentGroup()
+            {
+                if (!IsAnyGroupExists())
+                    return;
+
+                KeyValuePair<Subscription, string> currentGroup = groups.FirstOrDefault(
+                    group => group.Key.Directory.FullName == FileUtility.GetDirectory(groupPath)
+                );
+
+                if (!IsCurrentGroupExists())
+                    currentGroup = groups.Last();
+                
+                comboBoxSubscription.SelectedValue = currentGroup.Key;
+
+                bool IsCurrentGroupExists() => currentGroup.Key != null && currentGroup.Value != null;
+            }
+
+            bool IsAnyGroupExists() => groups.Count > 0;
+        }
+
+        private void LoadConfigsList(GroupType group)
+        {
+            List<Components.Config> configComponents;
+            List<Config> configs;
+            List<Subscription> groups;
+            StackPanel parent;
+            TextBlock textNoServer;
+
+            if (group == GroupType.GENERAL)
+            {
+                generalConfigComponents = new List<Components.Config>();
+                configs = getAllGeneralConfigs.Invoke();
+                groups = new List<Subscription>();
+                parent = listConfigs;
+                textNoServer = textNoConfig;
+                configComponents = generalConfigComponents;
+            }
+            else
+            {
+                subscriptionConfigComponents = new List<Components.Config>();
+                configs = getAllSubscriptionConfigs.Invoke(groupPath);
+                groups = getAllGroups.Invoke();
+                parent = listSubscriptions;
+                textNoServer = textNoSubscription;
+                configComponents = subscriptionConfigComponents;
+                HandleShowingSubscriptionControlPanel();
+                
+                void HandleShowingSubscriptionControlPanel()
+                {
+                    if (groups.Count > 0)
+                        panelSubscriptionControl.Visibility = Visibility.Visible;
+                    else
+                        panelSubscriptionControl.Visibility = Visibility.Collapsed;
+                }
+            }
+            
+            ClearConfigsList(parent);
+            HandleShowingNoServerExistsHint(configs, groups, textNoServer);
 
             foreach (Config config in configs)
             {
                 Components.Config configComponent = CreateConfigComponent(config);
-                AddConfigToList(configComponent);
+                AddConfigToList(configComponent, configComponents, parent);
             }
 
-            if (IsAnyConfigExists())
-                AddConfigHintAtTheEndOfList();
+            if (IsAnyConfigExists(configs))
+                AddConfigHintAtTheEndOfList(parent);
 
             Components.Config CreateConfigComponent(Config config)
             {
@@ -330,29 +583,29 @@ namespace InvisibleManXRay
                 configComponent.Setup(
                     config: config, 
                     onSelect: () => {
-                        int selectedConfigIndex = getAllConfigs.Invoke().FindIndex(
-                            item => item == config
-                        );
-                        onUpdateConfig.Invoke(selectedConfigIndex);
-                        SelectConfig(selectedConfigIndex);
+                        onUpdateConfig.Invoke(config.Path);
+                        SelectConfig(config.Path);
                     },
                     onDelete: () => {
-                        onDeleteConfig.Invoke();
-                        LoadConfigsList();
-                        HandleCurrentConfigIndex();
-                        SelectConfig(getCurrentConfigIndex.Invoke());
+                        onDeleteConfig.Invoke(config.Group, config.Path);
+                        groupPath = config.Path;
+                        HandleReloadingGroupsList();
+                        LoadConfigsList(config.Group);
+                        HandleCurrentConfigPath();
+                        SelectConfig(getCurrentConfigPath.Invoke());
 
-                        void HandleCurrentConfigIndex()
+                        void HandleReloadingGroupsList()
                         {
-                            int currentConfigIndex = getCurrentConfigIndex.Invoke();
-                            int deletedConfigIndex = getAllConfigs.Invoke().FindIndex(
-                                item => item == config
-                            );
-
-                            if (deletedConfigIndex == -1)
-                                onUpdateConfig.Invoke(GetLastConfigIndex());
-                            else if (deletedConfigIndex < currentConfigIndex)
-                                onUpdateConfig.Invoke(currentConfigIndex - 1);
+                            if (config.Group == GroupType.SUBSCRIPTION && configs.Count == 1)
+                                LoadGroupsList();
+                        }
+                        
+                        void HandleCurrentConfigPath()
+                        {
+                            if(IsCurrentConfigDeleted())
+                                onUpdateConfig.Invoke(GetLastConfigPath(config.Group));
+                            
+                            bool IsCurrentConfigDeleted() => getCurrentConfigPath.Invoke() == config.Path;
                         }
                     },
                     getServerWindow: () => this,
@@ -369,60 +622,273 @@ namespace InvisibleManXRay
                 return configComponent;
             }
 
-            void ClearConfigsList() => listConfigs.Children.Clear();
-
-            void AddConfigToList(Components.Config configComponent) 
+            void AddConfigToList(
+                Components.Config config, 
+                List<Components.Config> configComponentsList, 
+                StackPanel parent
+            )
             {
-                configComponents.Add(configComponent);
-                listConfigs.Children.Add(configComponent);
+                configComponentsList.Add(config);
+                parent.Children.Add(config);
             }
 
-            bool IsAnyConfigExists()
+            void ClearConfigsList(StackPanel list)
+            {
+                list.Children.Clear();
+            }
+
+            void AddConfigHintAtTheEndOfList(StackPanel list)
+            {
+                list.Children.Add(new Components.ConfigHint());
+            }
+
+            bool IsAnyConfigExists(List<Config> configs)
             {
                 return configs != null && configs.Count > 0;
             }
 
-            void AddConfigHintAtTheEndOfList()
+            void HandleShowingNoServerExistsHint(
+                List<Config> configs, 
+                List<Subscription> groups, 
+                TextBlock textNoServer
+            )
             {
-                listConfigs.Children.Add(new Components.ConfigHint());
-            }
-
-            void HandleShowingNoServerExistsHint()
-            {
-                if (configs.Count > 0)
-                    textNoServer.Visibility = Visibility.Collapsed;
-                else
+                if (groups.Count == 0 && configs.Count == 0)
                     textNoServer.Visibility = Visibility.Visible;
+                else
+                    textNoServer.Visibility = Visibility.Collapsed;
             }
         }
 
-        private int GetLastConfigIndex()
+        private string GetLastConfigPath(GroupType group)
         {
-            int configsCount = getAllConfigs.Invoke().Count;
+            Config lastConfig;
+            if (group == GroupType.GENERAL)
+            {
+                lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
 
-            if (configsCount == 0)
-                return 0;
-            return configsCount - 1;
+                if (!IsConfigExists())
+                    lastConfig = getAllSubscriptionConfigs.Invoke(groupPath).LastOrDefault();
+            }
+            else
+            {
+                lastConfig = getAllSubscriptionConfigs.Invoke(groupPath).LastOrDefault();
+
+                if (!IsConfigExists())
+                    lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
+            }
+                
+            if(!IsConfigExists())
+                return null;
+
+            return lastConfig.Path;
+
+            bool IsConfigExists() => lastConfig != null;
         } 
 
-        private void SelectConfig(int index)
+        private void SelectConfig(string path)
         {
             DeselectAllConfigs();
             SelectConfig();
 
-            void DeselectAllConfigs() => configComponents.ForEach(
-                configComponent => configComponent.SetSelection(false)
-            );
+            void DeselectAllConfigs()
+            {
+                DeselectAllConfigsForComponentsList(generalConfigComponents);
+                DeselectAllConfigsForComponentsList(subscriptionConfigComponents);
+
+                void DeselectAllConfigsForComponentsList(List<Components.Config> configComponents)
+                {
+                    configComponents.ForEach(
+                        configComponent => configComponent.SetSelection(false)
+                    );
+                }
+            }
             
             void SelectConfig()
             {
-                if (IsIndexOutOfRange())
-                    return;
-                
-                configComponents[index].SetSelection(true);
+                Components.Config configComponent = FindConfigInComponentsList(generalConfigComponents);
 
-                bool IsIndexOutOfRange() => index >= configComponents.Count;
+                if (!IsAnyConfigExists())
+                {
+                    configComponent = FindConfigInComponentsList(subscriptionConfigComponents);
+                    if (!IsAnyConfigExists())
+                        return;
+                }
+
+                configComponent.SetSelection(true);
+
+                Components.Config FindConfigInComponentsList(List<Components.Config> configComponents)
+                {
+                    return configComponents.Find(
+                        component => component.GetConfig().Path == path
+                    );
+                }
+
+                bool IsAnyConfigExists() => configComponent != null;
             } 
+        }
+
+        private void AddSubscription()
+        {
+            if (!IsRemarksEntered())
+            {
+                MessageBox.Show(
+                    this,
+                    Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
+                    Values.Caption.WARNING, 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+            else if (!IsLinkEntered())
+            {
+                MessageBox.Show(
+                    this,
+                    Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
+                    Values.Caption.WARNING, 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+
+            SetActiveLoadingPanel(true);
+            TryAddSubscription();
+
+            bool IsRemarksEntered() => !string.IsNullOrEmpty(textBoxSubscriptionRemarks.Text);
+
+            bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxSubscriptionLink.Text);
+
+            void TryAddSubscription()
+            {
+                Status subscriptionStatus;
+
+                subscriptionStatus = convertLinkToSubscription.Invoke(
+                    textBoxSubscriptionRemarks.Text, 
+                    textBoxSubscriptionLink.Text
+                );
+
+                if (subscriptionStatus.Code == Code.ERROR)
+                {
+                    HandleError();
+                    SetActiveLoadingPanel(false);
+                    return;
+                }
+
+                string[] subscription = GetSubscription();
+                groupPath = "";
+                onCreateSubscription.Invoke(
+                    GetSubscriptionRemark(), 
+                    GetSubscriptionUrl(), 
+                    GetSubscriptionData()
+                );
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+                SetActiveLoadingPanel(false);
+                LoadGroupsList();
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+                ClearSubscriptionRemarks();
+                ClearSubscriptionPath();
+                ShowServersPanel();
+
+                string[] GetSubscription() => (string[])subscriptionStatus.Content;
+
+                string GetSubscriptionUrl() => textBoxSubscriptionLink.Text;
+
+                string GetSubscriptionRemark() => subscription[0];
+
+                string GetSubscriptionData() => subscription[1];
+
+                void HandleError()
+                {
+                    switch (subscriptionStatus.SubCode)
+                    {
+                        case SubCode.NO_CONFIG:
+                        case SubCode.UNSUPPORTED_LINK:
+                            HandleWarningMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        case SubCode.INVALID_CONFIG:
+                            HandleErrorMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            }
+        }
+
+        private void DeleteSubscription(Subscription subscription)
+        {
+            onDeleteSubscription.Invoke(subscription);
+            LoadGroupsList();
+            LoadConfigsList(GroupType.SUBSCRIPTION);
+            onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+            SelectConfig(getCurrentConfigPath.Invoke());
+        }
+
+        private void EditSubscription(Subscription subscription, string remarks, string link)
+        {
+            string oldRemarks = comboBoxSubscription.Text;
+
+            AddSubscription();
+            if (!HasSameRemarks())
+                DeleteSubscription(subscription);
+
+            bool HasSameRemarks() => oldRemarks == comboBoxSubscription.Text;
+        }
+
+        private void SetActiveLoadingPanel(bool isActive) => SetActivePanel(panelLoading, isActive);
+
+        private void SetActiveConfigPanel(bool isActive) => SetActivePanel(panelConfig, isActive);
+
+        private void SetActiveSubscriptionPanel(bool isActive) => SetActivePanel(panelSubscription, isActive);
+
+        private void SetActivePanel(Panel panel, bool isActive)
+        {
+            panel.Visibility = isActive ? Visibility.Visible : Visibility.Hidden;
+        }
+        
+        private void HideAllPanels()
+        {
+            SetActiveConfigPanel(false);
+            SetActiveSubscriptionPanel(false);
+        }
+
+        private void SetEnableConfigTabButton(bool isEnabled) => SetEnableButton(buttonConfigTab, isEnabled);
+
+        private void SetEnableSubscriptionTabButton(bool isEnabled) => SetEnableButton(buttonSubscriptionTab, isEnabled);
+
+        private void SetEnableButton(Button button, bool isEnabled)
+        {
+            button.IsEnabled = isEnabled;
+        }
+
+        private void EnableAllTabs()
+        {
+            SetEnableConfigTabButton(true);
+            SetEnableSubscriptionTabButton(true);
+        }
+
+        private void HandleWarningMessage(string message)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                this,
+                message, 
+                Caption.WARNING, 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Warning
+            );
+        }
+
+        private void HandleErrorMessage(string message)
+        {
+            MessageBox.Show(
+                this,
+                message, 
+                Caption.ERROR, 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Error
+            );
         }
     }
 }
