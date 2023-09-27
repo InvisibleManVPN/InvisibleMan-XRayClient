@@ -161,6 +161,8 @@ namespace InvisibleManXRay
 
         private void OnDeleteSubscriptionButtonClick(object sender, RoutedEventArgs e)
         {
+            AnalyticsService.SendEvent(new SubDeleteButtonClickedEvent());
+
             if(comboBoxSubscription.SelectedValue == null)
                 return;
             
@@ -181,6 +183,8 @@ namespace InvisibleManXRay
 
         private void OnEditSubscriptionButtonClick(object sender, RoutedEventArgs e)
         {
+            AnalyticsService.SendEvent(new SubEditButtonClickedEvent());
+
             if (comboBoxSubscription.SelectedValue == null)
                 return;
 
@@ -189,6 +193,8 @@ namespace InvisibleManXRay
 
         private void OnUpdateSubscriptionButtonClick(object sender, RoutedEventArgs e)
         {
+            AnalyticsService.SendEvent(new SubUpdateButtonClickedEvent());
+            
             InitializeTextBoxFields();
             UpdateSubscription();
 
@@ -386,13 +392,19 @@ namespace InvisibleManXRay
         private void OnImportSubscriptionButtonClick(object sender, RoutedEventArgs e)
         {
             if (subscriptionOperation == SubscriptionOperation.CREATE)
+            {
+                AnalyticsService.SendEvent(new SubFromLinkImportedEvent());
                 AddSubscription();
+            }
             else if (subscriptionOperation == SubscriptionOperation.EDIT)
+            {
+                AnalyticsService.SendEvent(new SubFromLinkEditedEvent());
                 EditSubscription(
                     subscription: (Subscription)comboBoxSubscription.SelectedValue,
                     remarks: textBoxSubscriptionRemarks.Text,
                     link: textBoxSubscriptionLink.Text
                 );
+            }
         }
 
         private void ShowAddConfigsServerPanel()
