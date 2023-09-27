@@ -54,7 +54,10 @@ namespace InvisibleManXRay.Handlers.Templates
             return new Status(
                 code: Code.SUCCESS,
                 subCode: SubCode.SUCCESS,
-                content: new string[] { remark, JsonConvert.SerializeObject(v2RayList) }
+                content: new string[] { 
+                    template.GetValidRemark(remark), 
+                    JsonConvert.SerializeObject(v2RayList) 
+                }
             );
 
             Template FindTemplate()
