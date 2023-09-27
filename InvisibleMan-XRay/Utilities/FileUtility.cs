@@ -28,6 +28,20 @@ namespace InvisibleManXRay.Utilities
             }
         }
 
+        public static void TryDeleteDirectory(string path)
+        {
+            try
+            {
+                System.IO.Directory.Delete(path);
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public static void CreateDirectory(string path) => System.IO.Directory.CreateDirectory(path);
+
         public static string GetDirectory(string path) => System.IO.Path.GetDirectoryName(path);
 
         public static string GetFileName(string path) => System.IO.Path.GetFileName(path);

@@ -88,7 +88,8 @@ namespace InvisibleManXRay.Handlers.Configs
 
             void SaveToDirectory(string destinationPath, string data)
             {
-                System.IO.Directory.CreateDirectory(destinationDirectory);
+                FileUtility.TryDeleteDirectory(destinationDirectory);
+                FileUtility.CreateDirectory(destinationDirectory);
                 FileUtility.SetDirectoryTimeToNow(destinationDirectory);
                 File.WriteAllText(destinationPath, data);
             }

@@ -16,10 +16,12 @@ namespace InvisibleManXRay
     public partial class ServerWindow : Window
     {
         private enum ImportingType { FILE, LINK }
+        private enum SubscriptionOperation { CREATE, EDIT }
 
         private string configPath = null;
         private string groupPath = null;
         private ImportingType importingType;
+        private SubscriptionOperation subscriptionOperation;
 
         private List<Components.Config> generalConfigComponents;
         private List<Components.Config> subscriptionConfigComponents;
@@ -162,25 +164,27 @@ namespace InvisibleManXRay
             if(comboBoxSubscription.SelectedValue == null)
                 return;
             
-            string text = comboBoxSubscription.Text;
+            string remarks = comboBoxSubscription.Text;
             Subscription subscription = (Subscription)comboBoxSubscription.SelectedValue;
 
             MessageBoxResult result = MessageBox.Show(
                 this,
-                string.Format(Message.DELETE_CONFIRMATION, text),
+                string.Format(Message.DELETE_CONFIRMATION, remarks),
                 Caption.INFO,
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question
             );
 
             if (result == MessageBoxResult.Yes)
-            {
-                onDeleteSubscription.Invoke(subscription);
-                LoadGroupsList();
-                LoadConfigsList(GroupType.SUBSCRIPTION);
-                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
-                SelectConfig(getCurrentConfigPath.Invoke());
-            }
+                DeleteSubscription(subscription);
+        }
+
+        private void OnEditSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (comboBoxSubscription.SelectedValue == null)
+                return;
+
+            ShowEditSubscriptionServerPanel();
         }
 
         private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
@@ -360,96 +364,14 @@ namespace InvisibleManXRay
 
         private void OnImportSubscriptionButtonClick(object sender, RoutedEventArgs e)
         {
-            HandleImportingSubscription();
-
-            void HandleImportingSubscription()
-            {
-                if (!IsRemarksEntered())
-                {
-                    MessageBox.Show(
-                        this,
-                        Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
-                        Values.Caption.WARNING, 
-                        MessageBoxButton.OK, 
-                        MessageBoxImage.Warning
-                    );
-                    return;
-                }
-                else if (!IsLinkEntered())
-                {
-                    MessageBox.Show(
-                        this,
-                        Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
-                        Values.Caption.WARNING, 
-                        MessageBoxButton.OK, 
-                        MessageBoxImage.Warning
-                    );
-                    return;
-                }
-
-                SetActiveLoadingPanel(true);
-                TryAddSubscription();
-
-                bool IsRemarksEntered() => !string.IsNullOrEmpty(textBoxSubscriptionRemarks.Text);
-
-                bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxSubscriptionLink.Text);
-            }
-
-            void TryAddSubscription()
-            {
-                Status subscriptionStatus;
-
-                subscriptionStatus = convertLinkToSubscription.Invoke(
-                    textBoxSubscriptionRemarks.Text, 
-                    textBoxSubscriptionLink.Text
+            if (subscriptionOperation == SubscriptionOperation.CREATE)
+                AddSubscription();
+            else if (subscriptionOperation == SubscriptionOperation.EDIT)
+                EditSubscription(
+                    subscription: (Subscription)comboBoxSubscription.SelectedValue,
+                    remarks: textBoxSubscriptionRemarks.Text,
+                    link: textBoxSubscriptionLink.Text
                 );
-
-                if (subscriptionStatus.Code == Code.ERROR)
-                {
-                    HandleError();
-                    SetActiveLoadingPanel(false);
-                    return;
-                }
-
-                string[] subscription = GetSubscription();
-                groupPath = "";
-                onCreateSubscription.Invoke(
-                    GetSubscriptionRemark(), 
-                    GetSubscriptionUrl(), 
-                    GetSubscriptionData()
-                );
-                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
-                SetActiveLoadingPanel(false);
-                LoadGroupsList();
-                LoadConfigsList(GroupType.SUBSCRIPTION);
-                ClearSubscriptionRemarks();
-                ClearSubscriptionPath();
-                ShowServersPanel();
-
-                string[] GetSubscription() => (string[])subscriptionStatus.Content;
-
-                string GetSubscriptionUrl() => textBoxSubscriptionLink.Text;
-
-                string GetSubscriptionRemark() => subscription[0];
-
-                string GetSubscriptionData() => subscription[1];
-
-                void HandleError()
-                {
-                    switch (subscriptionStatus.SubCode)
-                    {
-                        case SubCode.NO_CONFIG:
-                        case SubCode.UNSUPPORTED_LINK:
-                            HandleWarningMessage(subscriptionStatus.Content.ToString());
-                            break;
-                        case SubCode.INVALID_CONFIG:
-                            HandleErrorMessage(subscriptionStatus.Content.ToString());
-                            break;
-                        default:
-                            return;
-                    }
-                }
-            }
         }
 
         private void ShowAddConfigsServerPanel()
@@ -460,8 +382,40 @@ namespace InvisibleManXRay
 
         private void ShowAddSubscriptionsServerPanel()
         {
-            panelServers.Visibility = Visibility.Hidden;
-            panelAddSubscriptions.Visibility = Visibility.Visible;
+            subscriptionOperation = SubscriptionOperation.CREATE;
+            ShowSubscriptionPanel();
+            InitializeTextBoxFields();
+
+            void ShowSubscriptionPanel()
+            {
+                panelServers.Visibility = Visibility.Hidden;
+                panelAddSubscriptions.Visibility = Visibility.Visible;
+            }
+
+            void InitializeTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = "";
+                textBoxSubscriptionLink.Text = "";
+            }
+        }
+
+        private void ShowEditSubscriptionServerPanel()
+        {
+            subscriptionOperation = SubscriptionOperation.EDIT;
+            ShowSubscriptionPanel();
+            FetchTextBoxFields();
+
+            void ShowSubscriptionPanel()
+            {
+                panelServers.Visibility = Visibility.Hidden;
+                panelAddSubscriptions.Visibility = Visibility.Visible;
+            }
+
+            void FetchTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = comboBoxSubscription.Text;
+                textBoxSubscriptionLink.Text = ((Subscription)comboBoxSubscription.SelectedValue).Url;
+            }
         }
 
         private void ShowServersPanel()
@@ -739,6 +693,115 @@ namespace InvisibleManXRay
 
                 bool IsAnyConfigExists() => configComponent != null;
             } 
+        }
+
+        private void AddSubscription()
+        {
+            if (!IsRemarksEntered())
+            {
+                MessageBox.Show(
+                    this,
+                    Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
+                    Values.Caption.WARNING, 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+            else if (!IsLinkEntered())
+            {
+                MessageBox.Show(
+                    this,
+                    Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
+                    Values.Caption.WARNING, 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+
+            SetActiveLoadingPanel(true);
+            TryAddSubscription();
+
+            bool IsRemarksEntered() => !string.IsNullOrEmpty(textBoxSubscriptionRemarks.Text);
+
+            bool IsLinkEntered() => !string.IsNullOrEmpty(textBoxSubscriptionLink.Text);
+
+            void TryAddSubscription()
+            {
+                Status subscriptionStatus;
+
+                subscriptionStatus = convertLinkToSubscription.Invoke(
+                    textBoxSubscriptionRemarks.Text, 
+                    textBoxSubscriptionLink.Text
+                );
+
+                if (subscriptionStatus.Code == Code.ERROR)
+                {
+                    HandleError();
+                    SetActiveLoadingPanel(false);
+                    return;
+                }
+
+                string[] subscription = GetSubscription();
+                groupPath = "";
+                onCreateSubscription.Invoke(
+                    GetSubscriptionRemark(), 
+                    GetSubscriptionUrl(), 
+                    GetSubscriptionData()
+                );
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+                SetActiveLoadingPanel(false);
+                LoadGroupsList();
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+                ClearSubscriptionRemarks();
+                ClearSubscriptionPath();
+                ShowServersPanel();
+
+                string[] GetSubscription() => (string[])subscriptionStatus.Content;
+
+                string GetSubscriptionUrl() => textBoxSubscriptionLink.Text;
+
+                string GetSubscriptionRemark() => subscription[0];
+
+                string GetSubscriptionData() => subscription[1];
+
+                void HandleError()
+                {
+                    switch (subscriptionStatus.SubCode)
+                    {
+                        case SubCode.NO_CONFIG:
+                        case SubCode.UNSUPPORTED_LINK:
+                            HandleWarningMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        case SubCode.INVALID_CONFIG:
+                            HandleErrorMessage(subscriptionStatus.Content.ToString());
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            }
+        }
+
+        private void DeleteSubscription(Subscription subscription)
+        {
+            onDeleteSubscription.Invoke(subscription);
+            LoadGroupsList();
+            LoadConfigsList(GroupType.SUBSCRIPTION);
+            onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+            SelectConfig(getCurrentConfigPath.Invoke());
+        }
+
+        private void EditSubscription(Subscription subscription, string remarks, string link)
+        {
+            string oldRemarks = comboBoxSubscription.Text;
+
+            AddSubscription();
+            if (!HasSameRemarks())
+                DeleteSubscription(subscription);
+
+            bool HasSameRemarks() => oldRemarks == comboBoxSubscription.Text;
         }
 
         private void SetActiveLoadingPanel(bool isActive) => SetActivePanel(panelLoading, isActive);
