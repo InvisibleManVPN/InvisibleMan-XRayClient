@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace InvisibleManXRay.Models.Templates.Subscriptions
 {
+    using Utilities;
+
     public abstract class Template
     {
         protected string Data;
@@ -12,26 +14,7 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
 
         public abstract Status FetchDataFromLink(string link);
 
-        public string GetValidRemark(string remark)
-        {
-            return AllowJustAsciiCharacters(RemoveInvalidFileCharacters());
-
-            string RemoveInvalidFileCharacters()
-            {
-                return string.Concat(remark.Split(
-                    System.IO.Path.GetInvalidFileNameChars()
-                ));
-            }
-
-            string AllowJustAsciiCharacters(string remark)
-            {
-                return System.Text.RegularExpressions.Regex.Replace(
-                    input: remark, 
-                    pattern: @"[^\u0000-\u007F]+", 
-                    replacement: string.Empty
-                ).Trim();
-            }
-        }
+        public string GetValidRemark(string remark) => FileUtility.GetValidFileName(remark);
 
         public List<string[]> ConvertToV2RayList(Func<string, Status> convertConfigLinkToV2Ray)
         {

@@ -11,26 +11,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
 
         public abstract Status FetchDataFromLink(string link);
 
-        public string GetRemark()
-        {
-            return AllowJustAsciiCharacters(RemoveInvalidFileCharacters());
-
-            string RemoveInvalidFileCharacters()
-            {
-                return string.Concat(Adapter.remark.Split(
-                    System.IO.Path.GetInvalidFileNameChars()
-                ));
-            }
-
-            string AllowJustAsciiCharacters(string remark)
-            {
-                return System.Text.RegularExpressions.Regex.Replace(
-                    input: remark, 
-                    pattern: @"[^\u0000-\u007F]+", 
-                    replacement: string.Empty
-                ).Trim();
-            }
-        }
+        public string GetValidRemark() => FileUtility.GetValidFileName(Adapter.remark);
         
         public V2Ray ConvertToV2Ray()
         {

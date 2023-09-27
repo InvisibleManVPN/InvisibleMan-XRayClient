@@ -4,6 +4,27 @@ namespace InvisibleManXRay.Utilities
 {
     public static class FileUtility
     {
+        public static string GetValidFileName(string fileName)
+        {
+            return AllowJustAsciiCharacters(RemoveInvalidFileCharacters());
+
+            string RemoveInvalidFileCharacters()
+            {
+                return string.Concat(fileName.Split(
+                    System.IO.Path.GetInvalidFileNameChars()
+                ));
+            }
+
+            string AllowJustAsciiCharacters(string name)
+            {
+                return System.Text.RegularExpressions.Regex.Replace(
+                    input: name, 
+                    pattern: @"[^\u0000-\u007F]+", 
+                    replacement: string.Empty
+                ).Trim();
+            }
+        }
+
         public static void SetFileTimeToNow(string path)
         {
             System.IO.File.SetCreationTime(path, DateTime.Now);

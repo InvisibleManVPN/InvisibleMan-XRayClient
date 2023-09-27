@@ -41,7 +41,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return fetchingStatus;
 
             V2Ray v2Ray = template.ConvertToV2Ray();
-            string remark = template.GetRemark();
+            string remark = template.GetValidRemark();
 
             return new Status(
                 code: Code.SUCCESS,
