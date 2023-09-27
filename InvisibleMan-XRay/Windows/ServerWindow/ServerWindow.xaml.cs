@@ -187,6 +187,27 @@ namespace InvisibleManXRay
             ShowEditSubscriptionServerPanel();
         }
 
+        private void OnUpdateSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            InitializeTextBoxFields();
+            UpdateSubscription();
+
+            void InitializeTextBoxFields()
+            {
+                textBoxSubscriptionRemarks.Text = comboBoxSubscription.Text;
+                textBoxSubscriptionLink.Text = ((Subscription)comboBoxSubscription.SelectedValue).Url;
+            }
+
+            void UpdateSubscription()
+            {
+                EditSubscription(
+                    subscription: (Subscription)comboBoxSubscription.SelectedValue,
+                    remarks: textBoxSubscriptionRemarks.Text,
+                    link: textBoxSubscriptionLink.Text
+                );
+            }
+        }
+
         private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
         {
             ShowAddConfigsServerPanel();

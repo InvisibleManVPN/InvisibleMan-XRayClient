@@ -122,7 +122,7 @@
                                 <Button Width="20" Height="20"
                                     Style="{StaticResource Button.None}" ToolTip="Update" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    >
+                                    Click="OnUpdateSubscriptionButtonClick">
 
                                     <Rectangle Fill="{StaticResource Icon.Refresh}"
                                         Width="13.5" Height="13.5" Margin="0" 
