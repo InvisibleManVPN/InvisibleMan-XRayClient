@@ -153,6 +153,7 @@ namespace InvisibleManXRay.Factories
                 onCopyConfig: configHandler.CopyConfig,
                 onCreateConfig: configHandler.CreateConfig,
                 onCreateSubscription: configHandler.CreateSubscription,
+                onDeleteSubscription: configHandler.DeleteSubscription,
                 onDeleteConfig: configHandler.LoadFiles,
                 onUpdateConfig: UpdateConfig
             );

@@ -51,7 +51,7 @@ namespace InvisibleManXRay.Handlers.Configs
             return groups;
         }
 
-        public void CreateConfig(string remark, string url, string data)
+        public void CreateSubscription(string remark, string url, string data)
         {
             string destinationDirectory = $"{Directory.CONFIGS}/{remark}";
             List<string[]> configs = JsonConvert.DeserializeObject<List<string[]>>(data);
@@ -96,6 +96,12 @@ namespace InvisibleManXRay.Handlers.Configs
             string GetConfigRemark(string[] config) => config[0];
 
             string GetConfigData(string[] config) => config[1];
+        }
+
+        public void DeleteSubscription(Subscription subscription)
+        {
+            System.IO.Directory.Delete(subscription.Directory.FullName, true);
+            groups.Remove(subscription);
         }
 
         public override void LoadFiles(string path)

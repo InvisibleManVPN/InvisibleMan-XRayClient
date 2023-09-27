@@ -35,7 +35,9 @@ namespace InvisibleManXRay.Handlers
 
         public void CreateConfig(string remark, string data) => generalConfig.CreateConfig(remark, data);
 
-        public void CreateSubscription(string remark, string url, string data) => subscriptionConfig.CreateConfig(remark, url, data);
+        public void CreateSubscription(string remark, string url, string data) => subscriptionConfig.CreateSubscription(remark, url, data);
+
+        public void DeleteSubscription(Subscription subscription) => subscriptionConfig.DeleteSubscription(subscription);
 
         public void CopyConfig(string path) => generalConfig.CopyConfig(path);
 

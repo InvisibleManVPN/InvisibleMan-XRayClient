@@ -37,6 +37,7 @@ namespace InvisibleManXRay
         private Action<string> onCopyConfig;
         private Action<string, string> onCreateConfig;
         private Action<string, string, string> onCreateSubscription;
+        private Action<Subscription> onDeleteSubscription;
         private Action<GroupType, string> onDeleteConfig;
         private Action<string> onUpdateConfig;
 
@@ -76,6 +77,7 @@ namespace InvisibleManXRay
             Action<string> onCopyConfig,
             Action<string, string> onCreateConfig,
             Action<string, string, string> onCreateSubscription,
+            Action<Subscription> onDeleteSubscription,
             Action<GroupType, string> onDeleteConfig,
             Action<string> onUpdateConfig)
         {
@@ -92,6 +94,7 @@ namespace InvisibleManXRay
             this.onCopyConfig = onCopyConfig;
             this.onCreateConfig = onCreateConfig;
             this.onCreateSubscription = onCreateSubscription;
+            this.onDeleteSubscription = onDeleteSubscription;
             this.onDeleteConfig = onDeleteConfig;
             this.onUpdateConfig = onUpdateConfig;
         }
@@ -152,6 +155,32 @@ namespace InvisibleManXRay
             groupPath = ((Subscription)comboBoxSubscription.SelectedValue).Directory.FullName;
             LoadConfigsList(GroupType.SUBSCRIPTION);
             SelectConfig(getCurrentConfigPath.Invoke());
+        }
+
+        private void OnDeleteSubscriptionButtonClick(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxSubscription.SelectedValue == null)
+                return;
+            
+            string text = comboBoxSubscription.Text;
+            Subscription subscription = (Subscription)comboBoxSubscription.SelectedValue;
+
+            MessageBoxResult result = MessageBox.Show(
+                this,
+                string.Format(Message.DELETE_CONFIRMATION, text),
+                Caption.INFO,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                onDeleteSubscription.Invoke(subscription);
+                LoadGroupsList();
+                LoadConfigsList(GroupType.SUBSCRIPTION);
+                onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
+                SelectConfig(getCurrentConfigPath.Invoke());
+            }
         }
 
         private void OnAddConfigButtonClick(object sender, RoutedEventArgs e)
@@ -575,7 +604,7 @@ namespace InvisibleManXRay
                         groupPath = config.Path;
                         HandleReloadingGroupsList();
                         LoadConfigsList(config.Group);
-                        HandleCurrentConfigIndex();
+                        HandleCurrentConfigPath();
                         SelectConfig(getCurrentConfigPath.Invoke());
 
                         void HandleReloadingGroupsList()
@@ -584,7 +613,7 @@ namespace InvisibleManXRay
                                 LoadGroupsList();
                         }
                         
-                        void HandleCurrentConfigIndex()
+                        void HandleCurrentConfigPath()
                         {
                             if(IsCurrentConfigDeleted())
                                 onUpdateConfig.Invoke(GetLastConfigPath(config.Group));
@@ -648,9 +677,19 @@ namespace InvisibleManXRay
         {
             Config lastConfig;
             if (group == GroupType.GENERAL)
+            {
                 lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
+
+                if (!IsConfigExists())
+                    lastConfig = getAllSubscriptionConfigs.Invoke(groupPath).LastOrDefault();
+            }
             else
+            {
                 lastConfig = getAllSubscriptionConfigs.Invoke(groupPath).LastOrDefault();
+
+                if (!IsConfigExists())
+                    lastConfig = getAllGeneralConfigs.Invoke().LastOrDefault();
+            }
                 
             if(!IsConfigExists())
                 return null;
