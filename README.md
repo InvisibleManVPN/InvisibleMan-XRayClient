@@ -69,6 +69,14 @@ If you know how to code, we welcome you to send fixes and new features!
 
 Please consider donating to support and sustain our activities.
 
+- **TON:**
+
+   ![TON Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/toncoin-wallet.png)
+
+   ```
+   EQA4Q2XFDHS1bCK9j6dgScYiTwtNzwRyPwYnKpZS6NPs25g1
+   ```
+
 - **BITCOIN:** 
 
    ![Bitcoin Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/bitcoin-wallet.png)
