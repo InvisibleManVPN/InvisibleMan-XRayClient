@@ -19,6 +19,7 @@ namespace InvisibleManXRay.Managers.Initializers
             HandlersManager.AddHandler(new SettingsHandler());
             HandlersManager.AddHandler(new TemplateHandler());
             HandlersManager.AddHandler(new ProcessHandler());
+            HandlersManager.AddHandler(new DatabaseHandler());
             HandlersManager.AddHandler(new ConfigHandler());
             HandlersManager.AddHandler(new ProxyHandler());
             HandlersManager.AddHandler(new TunnelHandler());
