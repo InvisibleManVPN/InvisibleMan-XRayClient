@@ -7,7 +7,7 @@ namespace InvisibleManXRay.Handlers.Databases
 
     public class SqliteDatabase
     {
-        private const string CONNECTION_STRING = $"Data Source = {Path.CONFIGS_DB}";
+        private const string CONNECTION_STRING = $"Data Source = {Path.CONFIGS_DB}; foreign keys=true";
 
         private SqliteConnection connection;
         private SqliteCommand command;
@@ -17,7 +17,7 @@ namespace InvisibleManXRay.Handlers.Databases
             this.connection = new SqliteConnection(CONNECTION_STRING);
         }
 
-        public void CreateTable(string tableName, Column[] columns)
+        public void CreateTable(string tableName, Column[] columns, ForeignKey foreignKey = null)
         {
             string query = $"CREATE TABLE IF NOT EXISTS {tableName} (";
             for (int i = 0; i < columns.Length; i++)
@@ -29,8 +29,16 @@ namespace InvisibleManXRay.Handlers.Databases
 
                 bool IsLastElement() => i == columns.Length - 1;
             }
-            query += ")";
-            Execute(query);
+
+            if (IsForeignKeyExists())
+                query += $", CONSTRAINT {foreignKey.KeyName} FOREIGN KEY ({foreignKey.FirstColumn}) " +
+                    $"REFERENCES {foreignKey.SecondColumn} {foreignKey.Properties}";
+
+            query += $")";
+
+            ExecuteNonQuery(query);
+
+            bool IsForeignKeyExists() => foreignKey != null;
         }
 
         public void InsertIntoTable(string tableName, ColumnValue[] columnValues)
@@ -53,15 +61,53 @@ namespace InvisibleManXRay.Handlers.Databases
             }
 
             string query = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
-            Execute(query);
+            ExecuteNonQuery(query);
         }
 
-        private void Execute(string query)
+        public void DeleteFromTable(string tableName, string condition = "")
+        {
+            string query = $"DELETE FROM {tableName}";
+
+            if (IsAnyConditionExists())
+                query += $" WHERE ({condition})";
+
+            ExecuteNonQuery(query);
+
+            bool IsAnyConditionExists() => !string.IsNullOrEmpty(condition);
+        }
+
+        public SqliteDataReader SelectFromTable(string tableName, string condition = "", string extraClauses = "")
+        {
+            string query = $"SELECT * FROM {tableName}";
+
+            if (IsAnyConditionExists())
+                query += $" WHERE ({condition})";
+            
+            if (IsAnyExtraClausesExists())
+                query += $" {extraClauses}";
+            
+            System.Windows.MessageBox.Show(query);
+            return ExecuteReader(query);
+            
+            bool IsAnyConditionExists() => !string.IsNullOrEmpty(condition);
+
+            bool IsAnyExtraClausesExists() => !string.IsNullOrEmpty(extraClauses);
+        }
+
+        private void ExecuteNonQuery(string query)
         {
             OpenConnection();
             command = new SqliteCommand(query);
             command.Connection = connection;
             command.ExecuteNonQuery();
+        }
+
+        private SqliteDataReader ExecuteReader(string query)
+        {
+            OpenConnection();
+            command = new SqliteCommand(query);
+            command.Connection = connection;
+            return command.ExecuteReader();
         }
 
         private void OpenConnection() => connection.Open();
