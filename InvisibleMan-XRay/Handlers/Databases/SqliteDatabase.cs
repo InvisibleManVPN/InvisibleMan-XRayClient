@@ -64,6 +64,28 @@ namespace InvisibleManXRay.Handlers.Databases
             ExecuteNonQuery(query);
         }
 
+        public void UpdateTable(string tableName, ColumnValue[] columnValues, string condition = "")
+        {
+            string query = $"UPDATE {tableName} SET ";
+
+            for (int i = 0; i < columnValues.Length; i++)
+            {
+                query += $"'{columnValues[i].Column}' = '{columnValues[i].Value}'";
+
+                if (!IsLastElement())
+                    query += ", ";
+
+                bool IsLastElement() => i == columnValues.Length - 1;
+            }
+
+            if (IsAnyConditionExists())
+                query += $" WHERE ({condition})";
+
+            ExecuteNonQuery(query);
+            
+            bool IsAnyConditionExists() => !string.IsNullOrEmpty(condition);
+        }
+
         public void DeleteFromTable(string tableName, string condition = "")
         {
             string query = $"DELETE FROM {tableName}";
