@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    
+    <RootNamespace>InvisibleManXRay</RootNamespace>
+    <AssemblyName>Invisible Man XRay</AssemblyName>
+    <Product>Invisible Man XRay</Product>
+    <PackageId>Invisible Man XRay</PackageId>
+    <Company>Invisible Man</Company>
+    <Copyright>Copyright (C) 2024 Invisible Man</Copyright>
+    <Version>1.4.4.0</Version>
+    <AssemblyVersion>1.4.4.0</AssemblyVersion>
+    <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8629;8762</NoWarn>
+    <ApplicationIcon>Assets/Icon.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.2" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.2" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.2" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
+  </ItemGroup>
+</Project>
