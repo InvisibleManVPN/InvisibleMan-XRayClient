@@ -1,6 +1,6 @@
 /Files
-/InvisibleMan-XRay/bin
-/InvisibleMan-XRay/obj
+/Temp/bin
+/Temp/obj
 *.dll
 *.dat
 *.exe
