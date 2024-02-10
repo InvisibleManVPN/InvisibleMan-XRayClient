@@ -2,22 +2,35 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace InvisibleManXRay;
-
-public partial class App : Application
+namespace InvisibleManXRay
 {
-    public override void Initialize()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    using Managers;
 
-    public override void OnFrameworkInitializationCompleted()
+    public partial class App : Application
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        private AppManager appManager;
+
+        public override void Initialize()
         {
-            desktop.MainWindow = new MainWindow();
+            AvaloniaXamlLoader.Load(this);
         }
 
-        base.OnFrameworkInitializationCompleted();
+        public override void OnFrameworkInitializationCompleted()
+        {
+            InitializeAppManager();
+            base.OnFrameworkInitializationCompleted();
+
+            void InitializeAppManager()
+            {
+                appManager = new AppManager();
+                appManager.Initialize();
+            }
+
+            void ShowMainWindow()
+            {
+                if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                    desktop.MainWindow = new MainWindow();
+            }
+        }
     }
 }

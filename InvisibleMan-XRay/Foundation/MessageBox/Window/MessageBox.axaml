@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="InvisibleManXRay.Foundation.Window.MessageBox"
+        Icon="/Assets/Icon.ico"
+        WindowStartupLocation="CenterScreen"
+        Width="320" Height="150"
+        CanResize="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.Primary.Light"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="20 0" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <PathIcon Grid.Column="0"
+                Height="40" Width="40"
+                Foreground="{StaticResource Color.Success.Regular}"             
+                Data="{StaticResource Icon.Warning}"/>
+
+            <TextBlock Grid.Column="1"
+                Margin="10 10 0 0"
+                Foreground="{StaticResource Color.Text.Plain}" TextAlignment="Left"
+                TextWrapping="Wrap"
+                FontWeight="Light" FontSize="13"
+                x:Name="textMessage">
+
+                MessageBox message text   
+            </TextBlock>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" 
+            HorizontalAlignment="Right" Margin="10 0">
+
+            <Button Width="100" Height="30"
+                Theme="{StaticResource Button.Rectangle.Confirm}"
+                Click="OnConfirmButtonClick">
+
+                OK
+            </Button>
+
+        </StackPanel>
+
+    </Grid>
+    
+</Window>
