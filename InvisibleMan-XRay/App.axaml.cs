@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -5,6 +6,8 @@ using Avalonia.Markup.Xaml;
 namespace InvisibleManXRay
 {
     using Managers;
+    using Services;
+    using Windows;
 
     public partial class App : Application
     {
@@ -17,19 +20,23 @@ namespace InvisibleManXRay
 
         public override void OnFrameworkInitializationCompleted()
         {
-            InitializeAppManager();
-            base.OnFrameworkInitializationCompleted();
+            InitializeAppManager(
+                onComplete: () => {
+                    ShowMainWindow();
+                    base.OnFrameworkInitializationCompleted();
+                }
+            );
 
-            void InitializeAppManager()
+            void InitializeAppManager(Action onComplete)
             {
                 appManager = new AppManager();
-                appManager.Initialize();
+                appManager.Initialize(onComplete);
             }
 
             void ShowMainWindow()
             {
                 if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                    desktop.MainWindow = new MainWindow();
+                    desktop.MainWindow = ServiceLocator.Find<WindowsService>().OpenWindow<MainWindow>();
             }
         }
     }

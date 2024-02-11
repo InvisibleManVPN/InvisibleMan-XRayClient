@@ -4,21 +4,26 @@ using System.Threading;
 namespace InvisibleManXRay.Managers
 {
     using Foundation;
+    using Initializers;
     using Values;
 
     public class AppManager
     {
+        private FactoriesInitializer factoriesInitializer;
+        private ServicesInitializer servicesInitializer;
+
         private static Mutex mutex;
         private const string APP_GUID = "{7I6N0VI4-S9I1-43bl-A0eM-72A47N6EDH8M}";
 
-        public void Initialize()
+        public void Initialize(Action onComplete)
         {
             AvoidRunningMultipleInstances(
                 onCreatedNew: () => {
-                    SetApplicationCurrentDirectory();
+                    PrepareToContinueApp();
+                    onComplete.Invoke();
                 },
                 onAlreadyRunning: () => {
-                    ExitFromApplication();
+                    PrepareToExitApp();
                 }
             );
         }
@@ -39,6 +44,21 @@ namespace InvisibleManXRay.Managers
                 );
         }
 
+        private void PrepareToContinueApp()
+        {
+            SetApplicationCurrentDirectory();
+
+            RegisterFactories();
+            RegisterServices();
+            
+            SetupServices();
+        }
+
+        private void PrepareToExitApp()
+        {
+            Environment.Exit(0);
+        }
+
         private void SetApplicationCurrentDirectory()
         {
             Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(
@@ -46,6 +66,23 @@ namespace InvisibleManXRay.Managers
             );
         }
 
-        private void ExitFromApplication() => Environment.Exit(0);
+        private void RegisterFactories()
+        {
+            factoriesInitializer = new FactoriesInitializer();
+            factoriesInitializer.Register();
+        }
+
+        private void RegisterServices()
+        {
+            servicesInitializer = new ServicesInitializer();
+            servicesInitializer.Register();
+        }
+
+        private void SetupServices()
+        {
+            servicesInitializer.Setup(
+                windowsFactory: factoriesInitializer.WindowsFactory
+            );
+        }
     }
 }

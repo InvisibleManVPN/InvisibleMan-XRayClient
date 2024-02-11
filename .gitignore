@@ -1,8 +1,10 @@
-/Files
+/InvisibleMan-XRay/.vscode
 /InvisibleMan-XRay/bin
 /InvisibleMan-XRay/obj
 /Temp/bin
 /Temp/obj
+/Files
+/.vscode
 *.dll
 *.dat
 *.exe
