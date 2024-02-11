@@ -16,7 +16,7 @@
             <PathIcon Grid.Column="0"
                 Height="60" Width="60"
                 HorizontalAlignment="Right" VerticalAlignment="Center"
-                Foreground="{StaticResource Color.Logo}"             
+                Foreground="{StaticResource Color.Logo.Normal}"             
                 Data="{StaticResource Icon.InvisibleMan}"/>
 
             <StackPanel Grid.Column="1"
@@ -24,14 +24,14 @@
 
                 <Label Padding="0" Margin="15 7 0 0" VerticalAlignment="Bottom"
                     FontWeight="Light" FontSize="13"
-                    Foreground="{StaticResource Color.Text.Plain}">
+                    Foreground="{StaticResource Color.Text.Normal}">
 
                     INVISIBLE MAN
                 </Label>
 
                 <Label Padding="0" Margin="15 -7 0 0" VerticalAlignment="Top"
                     FontWeight="Light" FontSize="38"
-                    Foreground="{StaticResource Color.Text.Plain}">
+                    Foreground="{StaticResource Color.Text.Normal}">
                 
                     XRAY
                 </Label>

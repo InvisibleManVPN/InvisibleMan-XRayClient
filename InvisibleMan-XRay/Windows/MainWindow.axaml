@@ -18,10 +18,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
+        <controls:MainBottomBar Grid.Row="2"/>
+        
         <controls:MainTopBar Grid.Row="0"/>
     </Grid>
-    
+
 </Window>

@@ -7,13 +7,14 @@
     <SolidColorBrush x:Key="Color.Bar.Top" Color="#2d2d2d"/>
     <SolidColorBrush x:Key="Color.Bar.Bottom" Color="#2d2d2d"/>
 
-    <SolidColorBrush x:Key="Color.Logo" Color="#6dcc8e"/>
+    <SolidColorBrush x:Key="Color.Logo.Normal" Color="#6dcc8e"/>
+    <SolidColorBrush x:Key="Color.Logo.Button" Color="#252526"/>
     
     <SolidColorBrush x:Key="Color.Button.Confirm.Normal" Color="#6dcc8e"/>
     <SolidColorBrush x:Key="Color.Button.Confirm.Highlight" Color="#74da98"/>
     <SolidColorBrush x:Key="Color.Button.Confirm.Press" Color="#63bb82"/>
     
-    <SolidColorBrush x:Key="Color.Text.Plain" Color="#ffffff"/>
+    <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
 
 </ResourceDictionary>

@@ -11,7 +11,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="Styles/Colors.axaml"/>
-                <ResourceInclude Source="Styles/Components/Buttons.axaml"/>
+                <ResourceInclude Source="Styles/Components/Button/RectangleButton.axaml"/>
+                <ResourceInclude Source="Styles/Components/Button/CircleButton.axaml"/>
                 <ResourceInclude Source="Assets/Icons.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

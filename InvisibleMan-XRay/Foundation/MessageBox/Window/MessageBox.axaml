@@ -26,12 +26,12 @@
 
             <PathIcon Grid.Column="0"
                 Height="40" Width="40"
-                Foreground="{StaticResource Color.Logo}"             
+                Foreground="{StaticResource Color.Logo.Normal}"             
                 Data="{StaticResource Icon.Warning}"/>
 
             <TextBlock Grid.Column="1"
                 Margin="10 10 0 0"
-                Foreground="{StaticResource Color.Text.Plain}"
+                Foreground="{StaticResource Color.Text.Normal}"
                 TextAlignment="Left" TextWrapping="Wrap"
                 FontWeight="Light" FontSize="13"
                 x:Name="textMessage">
