@@ -2,9 +2,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
         x:Class="InvisibleManXRay.Windows.MainWindow"
         Title="Invisible Man XRay"
+        Icon="/Assets/Icon.ico"
+        WindowStartupLocation="CenterScreen"
+        Width="400" Height="520"
         CanResize="False">
-    
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.Primary.Regular"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <controls:MainTopBar Grid.Row="0"/>
+    </Grid>
+
 </Window>
