@@ -1,17 +1,17 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="Color.Primary.Regular" Color="#1e1e1e"/>
-    <SolidColorBrush x:Key="Color.Primary.Light" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.Background.Normal" Color="#1e1e1e"/>
+    <SolidColorBrush x:Key="Color.Background.Light" Color="#252526"/>
 
     <SolidColorBrush x:Key="Color.Bar.Top" Color="#2d2d2d"/>
     <SolidColorBrush x:Key="Color.Bar.Bottom" Color="#2d2d2d"/>
 
     <SolidColorBrush x:Key="Color.Logo" Color="#6dcc8e"/>
     
-    <SolidColorBrush x:Key="Color.Success.Regular" Color="#6dcc8e"/>
-    <SolidColorBrush x:Key="Color.Success.Light" Color="#74da98"/>
-    <SolidColorBrush x:Key="Color.Success.Dark" Color="#63bb82"/>
+    <SolidColorBrush x:Key="Color.Button.Confirm.Normal" Color="#6dcc8e"/>
+    <SolidColorBrush x:Key="Color.Button.Confirm.Highlight" Color="#74da98"/>
+    <SolidColorBrush x:Key="Color.Button.Confirm.Press" Color="#63bb82"/>
     
     <SolidColorBrush x:Key="Color.Text.Plain" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>

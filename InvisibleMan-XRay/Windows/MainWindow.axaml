@@ -11,7 +11,7 @@
         CanResize="False">
 
     <Window.Background>
-        <StaticResource ResourceKey="Color.Primary.Regular"/>
+        <StaticResource ResourceKey="Color.Background.Normal"/>
     </Window.Background>
 
     <Grid>
@@ -23,5 +23,5 @@
 
         <controls:MainTopBar Grid.Row="0"/>
     </Grid>
-
+    
 </Window>

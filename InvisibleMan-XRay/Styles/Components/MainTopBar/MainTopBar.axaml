@@ -3,7 +3,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="InvisibleManXRay.Styles.Components.MainTopBar">
-
     
     <Border BoxShadow="0 0 10 0 Black" Margin="0 0 0 10"
         Background="{StaticResource Color.Bar.Top}">
@@ -36,7 +35,6 @@
                 
                     XRAY
                 </Label>
-
             </StackPanel>
         </Grid>
     </Border>

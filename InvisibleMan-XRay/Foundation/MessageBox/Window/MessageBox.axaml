@@ -9,7 +9,7 @@
         CanResize="False">
 
     <Window.Background>
-        <StaticResource ResourceKey="Color.Primary.Light"/>
+        <StaticResource ResourceKey="Color.Background.Light"/>
     </Window.Background>
 
     <Grid>
@@ -26,13 +26,13 @@
 
             <PathIcon Grid.Column="0"
                 Height="40" Width="40"
-                Foreground="{StaticResource Color.Success.Regular}"             
+                Foreground="{StaticResource Color.Logo}"             
                 Data="{StaticResource Icon.Warning}"/>
 
             <TextBlock Grid.Column="1"
                 Margin="10 10 0 0"
-                Foreground="{StaticResource Color.Text.Plain}" TextAlignment="Left"
-                TextWrapping="Wrap"
+                Foreground="{StaticResource Color.Text.Plain}"
+                TextAlignment="Left" TextWrapping="Wrap"
                 FontWeight="Light" FontSize="13"
                 x:Name="textMessage">
 
@@ -49,9 +49,7 @@
 
                 OK
             </Button>
-
         </StackPanel>
-
     </Grid>
-    
+
 </Window>
