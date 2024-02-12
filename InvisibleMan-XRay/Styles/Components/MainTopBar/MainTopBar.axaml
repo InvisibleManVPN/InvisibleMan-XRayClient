@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="InvisibleManXRay.Styles.Components.MainTopBar">
     
-    <Border BoxShadow="0 0 10 0 Black" Margin="0 0 0 10"
+    <Border BoxShadow="0 0 10 0 #aa000000"
         Background="{StaticResource Color.Bar}">
 
         <Grid>

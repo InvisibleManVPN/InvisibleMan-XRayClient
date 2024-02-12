@@ -16,7 +16,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
@@ -88,7 +88,7 @@
             </Grid>
         </StackPanel>
         
-        <controls:MainTopBar Grid.Row="0"/>
+        <controls:MainTopBar Grid.Row="0" ClipToBounds="False"/>
     </Grid>
 
 </Window>
