@@ -26,7 +26,7 @@
         <StackPanel Grid.Row="1" Orientation="Vertical"
             HorizontalAlignment="Center" VerticalAlignment="Center">
             
-            <controls:StatusLogo/>
+            <controls:StatusLogo ClipToBounds="False"/>
 
             <TextBlock Margin="0 15 0 0"
                 FontWeight="Light" FontSize="16" TextAlignment="Center"
@@ -64,7 +64,7 @@
                     </Label>
                 </Button>
 
-                <Button Width="200" Height="40" IsVisible="True"
+                <Button Width="200" Height="40" IsVisible="False"
                     Theme="{StaticResource Button.Rectangle.Cancel}">
 
                     <Label
@@ -72,6 +72,17 @@
                         Foreground="{StaticResource Color.Text.Button}">
 
                         CANCEL
+                    </Label>
+                </Button>
+
+                <Button Width="200" Height="40" IsVisible="True"
+                    Theme="{StaticResource Button.Rectangle.Cancel}">
+
+                    <Label
+                        FontWeight="Bold" FontSize="15"
+                        Foreground="{StaticResource Color.Text.Button}">
+
+                        STOP
                     </Label>
                 </Button>
             </Grid>

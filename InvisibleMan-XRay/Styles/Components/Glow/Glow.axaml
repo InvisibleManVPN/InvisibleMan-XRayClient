@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
+        x:Class="InvisibleManXRay.Styles.Components.Glow">
+    
+    <UserControl.Styles>
+        <Style Selector="controls|Glow">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Ellipse Name="PART_EllipseFill"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Fill="{TemplateBinding Fill}">
+                        </Ellipse>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ Ellipse#PART_EllipseFill">
+                <Style.Animations>
+                    <Animation IterationCount="Infinite" Duration="0:0:2" Easing="LinearEasing">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="Opacity" Value="0.7"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.5"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.5"/>
+                        </KeyFrame>
+
+                        <KeyFrame Cue="100%">
+                            <Setter Property="Opacity" Value="0.0"/>
+                            <Setter Property="ScaleTransform.ScaleX" Value="1.1"/>
+                            <Setter Property="ScaleTransform.ScaleY" Value="1.1"/>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Style>
+    </UserControl.Styles>
+</UserControl>

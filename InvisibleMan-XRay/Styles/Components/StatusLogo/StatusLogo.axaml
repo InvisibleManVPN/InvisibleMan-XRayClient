@@ -37,7 +37,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" IsVisible="True"
+        <StackPanel Orientation="Vertical" IsVisible="False"
             HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <Grid Height="120" Width="120">
@@ -67,6 +67,45 @@
                     Foreground="{StaticResource Color.Text.Normal}">
 
                     Wait for run
+                </Label>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" IsVisible="True"
+            HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Grid Height="120" Width="120">
+                <controls:Glow Width="150" Height="150" ClipToBounds="False"
+                    Fill="{StaticResource Color.StatusLogo.Run.Glow}"/>
+
+                <PathIcon Height="120" Width="120"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Background}"             
+                    Data="{StaticResource Icon.Status.Background}"/>
+
+                <PathIcon Height="105" Width="105" Margin="0 5 0 0"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Run.Back}"             
+                    Data="{StaticResource Icon.Status.Run.Back}"/>
+
+                <PathIcon Height="100" Width="100" Margin="0 10 0 0"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Run.Front}"             
+                    Data="{StaticResource Icon.Status.Run.Front}"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Ellipse
+                    Width="12" Height="12" Margin="0"
+                    Fill="{StaticResource Color.StatusBullet.Run}"/>
+
+                <Label Margin="5 0 0 0"
+                    FontWeight="Light" FontSize="15"
+                    Foreground="{StaticResource Color.Text.Normal}">
+
+                    Running
                 </Label>
             </StackPanel>
         </StackPanel>

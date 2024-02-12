@@ -25,8 +25,12 @@
     <SolidColorBrush x:Key="Color.StatusLogo.Background" Color="#2d2d2d"/>
     <SolidColorBrush x:Key="Color.StatusLogo.Loading" Color="#d95f5f"/>
     <SolidColorBrush x:Key="Color.StatusLogo.Stop" Color="#725b5b"/>
+    <SolidColorBrush x:Key="Color.StatusLogo.Run.Back" Color="#3c4444"/>
+    <SolidColorBrush x:Key="Color.StatusLogo.Run.Front" Color="#19b3e4"/>
+    <SolidColorBrush x:Key="Color.StatusLogo.Run.Glow" Color="#19b3e4"/>
 
     <SolidColorBrush x:Key="Color.StatusBullet.Stop" Color="#d95f5f"/>
     <SolidColorBrush x:Key="Color.StatusBullet.Wait" Color="#808080"/>
+    <SolidColorBrush x:Key="Color.StatusBullet.Run" Color="#43b156"/>
 
 </ResourceDictionary>
