@@ -22,6 +22,48 @@
         </Grid.RowDefinitions>
 
         <controls:MainBottomBar Grid.Row="2"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical"
+            HorizontalAlignment="Center" VerticalAlignment="Center">
+            
+            <controls:StatusLogo/>
+
+            <TextBlock Margin="0 15 0 0"
+                FontWeight="Light" FontSize="16" TextAlignment="Center"
+                Foreground="{StaticResource Color.Text.Normal}">
+
+                Config name
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <PathIcon Height="15" Width="15"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.Logo.Link}"             
+                    Data="{StaticResource Icon.Config}"/>
+
+                <TextBlock Margin="7 0 0 0"
+                    FontWeight="Normal" FontSize="13"
+                    TextDecorations="Underline"
+                    Foreground="{StaticResource Color.Text.Link}">
+
+                    Manage server configuration
+                </TextBlock>
+            </StackPanel>
+
+            <Button Margin="0 30 0 0"
+                Width="200" Height="40"
+                Theme="{StaticResource Button.Rectangle.Confirm}">
+
+                <Label
+                    FontWeight="Bold" FontSize="15"
+                    Foreground="{StaticResource Color.Text.Button}">
+
+                    RUN
+                </Label>
+            </Button>
+        </StackPanel>
         
         <controls:MainTopBar Grid.Row="0"/>
     </Grid>

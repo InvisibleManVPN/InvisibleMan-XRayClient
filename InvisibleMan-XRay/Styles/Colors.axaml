@@ -4,11 +4,11 @@
     <SolidColorBrush x:Key="Color.Background.Normal" Color="#1e1e1e"/>
     <SolidColorBrush x:Key="Color.Background.Light" Color="#252526"/>
 
-    <SolidColorBrush x:Key="Color.Bar.Top" Color="#2d2d2d"/>
-    <SolidColorBrush x:Key="Color.Bar.Bottom" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.Bar" Color="#2d2d2d"/>
 
     <SolidColorBrush x:Key="Color.Logo.Normal" Color="#6dcc8e"/>
     <SolidColorBrush x:Key="Color.Logo.Button" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.Logo.Link" Color="#19b3e4"/>
     
     <SolidColorBrush x:Key="Color.Button.Confirm.Normal" Color="#6dcc8e"/>
     <SolidColorBrush x:Key="Color.Button.Confirm.Highlight" Color="#74da98"/>
@@ -16,5 +16,11 @@
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.Text.Link" Color="#19b3e4"/>
+
+    <SolidColorBrush x:Key="Color.StatusLogo.Background" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.StatusLogo.Stop" Color="#725b5b"/>
+
+    <SolidColorBrush x:Key="Color.StatusBullet.Stop" Color="#d95f5f"/>
 
 </ResourceDictionary>

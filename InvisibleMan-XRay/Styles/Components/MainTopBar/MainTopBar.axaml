@@ -5,7 +5,7 @@
         x:Class="InvisibleManXRay.Styles.Components.MainTopBar">
     
     <Border BoxShadow="0 0 10 0 Black" Margin="0 0 0 10"
-        Background="{StaticResource Color.Bar.Top}">
+        Background="{StaticResource Color.Bar}">
 
         <Grid>
             <Grid.ColumnDefinitions>
