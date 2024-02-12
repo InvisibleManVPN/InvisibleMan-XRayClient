@@ -13,14 +13,20 @@
     <SolidColorBrush x:Key="Color.Button.Confirm.Normal" Color="#6dcc8e"/>
     <SolidColorBrush x:Key="Color.Button.Confirm.Highlight" Color="#74da98"/>
     <SolidColorBrush x:Key="Color.Button.Confirm.Press" Color="#63bb82"/>
+
+    <SolidColorBrush x:Key="Color.Button.Cancel.Normal" Color="#d95f5f"/>
+    <SolidColorBrush x:Key="Color.Button.Cancel.Highlight" Color="#e96666"/>
+    <SolidColorBrush x:Key="Color.Button.Cancel.Press" Color="#cb5a5a"/>
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
     <SolidColorBrush x:Key="Color.Text.Link" Color="#19b3e4"/>
 
     <SolidColorBrush x:Key="Color.StatusLogo.Background" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.StatusLogo.Loading" Color="#d95f5f"/>
     <SolidColorBrush x:Key="Color.StatusLogo.Stop" Color="#725b5b"/>
 
     <SolidColorBrush x:Key="Color.StatusBullet.Stop" Color="#d95f5f"/>
+    <SolidColorBrush x:Key="Color.StatusBullet.Wait" Color="#808080"/>
 
 </ResourceDictionary>

@@ -2,36 +2,73 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
         x:Class="InvisibleManXRay.Styles.Components.StatusLogo">
 
-    <StackPanel Orientation="Vertical"
-        HorizontalAlignment="Center" VerticalAlignment="Center">
-
-        <Grid Height="120" Width="120">
-            <PathIcon Height="120" Width="120"
-                HorizontalAlignment="Center" VerticalAlignment="Center"
-                Foreground="{StaticResource Color.StatusLogo.Background}"             
-                Data="{StaticResource Icon.Status.Background}"/>
-
-            <PathIcon Height="105" Width="105" Margin="0 5 0 0"
-                HorizontalAlignment="Center" VerticalAlignment="Center"
-                Foreground="{StaticResource Color.StatusLogo.Stop}"             
-                Data="{StaticResource Icon.Status.Stop}"/>
-        </Grid>
-
-        <StackPanel Orientation="Horizontal" Margin="0 15 0 0"
+    <Grid>
+        <StackPanel Orientation="Vertical" IsVisible="False"
             HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Ellipse
-                Width="12" Height="12" Margin="0"
-                Fill="{StaticResource Color.StatusBullet.Stop}"/>
+            <Grid Height="120" Width="120">
+                <PathIcon Height="120" Width="120"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Background}"             
+                    Data="{StaticResource Icon.Status.Background}"/>
 
-            <Label Margin="5 0 0 0"
-                FontWeight="Light" FontSize="15"
-                Foreground="{StaticResource Color.Text.Normal}">
+                <PathIcon Height="105" Width="105" Margin="0 5 0 0"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Stop}"             
+                    Data="{StaticResource Icon.Status.Stop}"/>
+            </Grid>
 
-                Stopped
-            </Label>
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Ellipse
+                    Width="12" Height="12" Margin="0"
+                    Fill="{StaticResource Color.StatusBullet.Stop}"/>
+
+                <Label Margin="5 0 0 0"
+                    FontWeight="Light" FontSize="15"
+                    Foreground="{StaticResource Color.Text.Normal}">
+
+                    Stopped
+                </Label>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+
+        <StackPanel Orientation="Vertical" IsVisible="True"
+            HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Grid Height="120" Width="120">
+                <PathIcon Height="120" Width="120"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Background}"             
+                    Data="{StaticResource Icon.Status.Background}"/>
+
+                <PathIcon Height="105" Width="105" Margin="0 5 0 0"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Foreground="{StaticResource Color.StatusLogo.Stop}"             
+                    Data="{StaticResource Icon.Status.Stop}"/>
+
+                <controls:Loading Width="120" Height="120"
+                    Stroke="{StaticResource Color.StatusLogo.Loading}"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Ellipse
+                    Width="12" Height="12" Margin="0"
+                    Fill="{StaticResource Color.StatusBullet.Wait}"/>
+
+                <Label Margin="5 0 0 0"
+                    FontWeight="Light" FontSize="15"
+                    Foreground="{StaticResource Color.Text.Normal}">
+
+                    Wait for run
+                </Label>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>

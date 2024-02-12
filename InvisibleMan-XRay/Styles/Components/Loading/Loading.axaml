@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
+        x:Class="InvisibleManXRay.Styles.Components.Loading">
+    
+    <UserControl.Styles>
+        <Style Selector="controls|Loading">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Arc Name="PART_ArcFill"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Stroke="{TemplateBinding Stroke}" StrokeThickness="2"
+                            StartAngle="0" SweepAngle="360">
+                        </Arc>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^ /template/ Arc#PART_ArcFill">
+                <Style.Animations>
+                    <Animation IterationCount="Infinite" Duration="0:0:2">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="StartAngle" Value="0"></Setter>
+                            <Setter Property="SweepAngle" Value="0"></Setter>
+                            <Setter Property="RotateTransform.Angle" Value="0"/>
+                        </KeyFrame>
+
+                        <KeyFrame Cue="50%">
+                            <Setter Property="StartAngle" Value="0"></Setter>
+                            <Setter Property="SweepAngle" Value="360"></Setter>
+                        </KeyFrame>
+
+                        <KeyFrame Cue="100%">
+                            <Setter Property="StartAngle" Value="360"></Setter>
+                            <Setter Property="SweepAngle" Value="0"></Setter>
+                            <Setter Property="RotateTransform.Angle" Value="360"/>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Style>
+    </UserControl.Styles>
+</UserControl>
