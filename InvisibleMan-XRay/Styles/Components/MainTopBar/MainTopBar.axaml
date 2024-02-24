@@ -23,14 +23,14 @@
                 Orientation="Vertical" VerticalAlignment="Center">
 
                 <Label Padding="0" Margin="15 7 0 0" VerticalAlignment="Bottom"
-                    FontWeight="Light" FontSize="13"
+                    FontWeight="Light" FontSize="14"
                     Foreground="{StaticResource Color.Text.Normal}">
 
                     INVISIBLE MAN
                 </Label>
 
-                <Label Padding="0" Margin="15 -7 0 0" VerticalAlignment="Top"
-                    FontWeight="Light" FontSize="38"
+                <Label Padding="0" Margin="15 -14 0 0" VerticalAlignment="Top"
+                    FontWeight="Light" FontSize="42"
                     Foreground="{StaticResource Color.Text.Normal}">
                 
                     XRAY

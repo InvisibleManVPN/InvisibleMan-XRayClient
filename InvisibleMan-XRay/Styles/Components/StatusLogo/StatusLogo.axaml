@@ -29,7 +29,7 @@
                     Fill="{StaticResource Color.StatusBullet.Stop}"/>
 
                 <Label Margin="5 0 0 0"
-                    FontWeight="Light" FontSize="15"
+                    FontWeight="Light" FontSize="16"
                     Foreground="{StaticResource Color.Text.Normal}">
 
                     Stopped
@@ -63,7 +63,7 @@
                     Fill="{StaticResource Color.StatusBullet.Wait}"/>
 
                 <Label Margin="5 0 0 0"
-                    FontWeight="Light" FontSize="15"
+                    FontWeight="Light" FontSize="16"
                     Foreground="{StaticResource Color.Text.Normal}">
 
                     Wait for run
@@ -102,7 +102,7 @@
                     Fill="{StaticResource Color.StatusBullet.Run}"/>
 
                 <Label Margin="5 0 0 0"
-                    FontWeight="Light" FontSize="15"
+                    FontWeight="Light" FontSize="16"
                     Foreground="{StaticResource Color.Text.Normal}">
 
                     Running

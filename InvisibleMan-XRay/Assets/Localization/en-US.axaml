@@ -1,0 +1,10 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+
+    <system:String x:Key="Lang.Run">RUN</system:String>
+    <system:String x:Key="Lang.Stop">STOP</system:String>
+    <system:String x:Key="Lang.Cancel">CANCEL</system:String>
+
+    <system:String x:Key="Lang.ManageServerConfiguration">Manage server configuration</system:String>
+</ResourceDictionary>

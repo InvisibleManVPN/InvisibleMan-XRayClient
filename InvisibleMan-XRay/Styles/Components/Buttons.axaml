@@ -17,6 +17,7 @@
                         Content="{TemplateBinding Content}"
                         Margin="{TemplateBinding Padding}"
                         FontWeight="Bold" FontSize="12"
+                        VerticalAlignment="Center"
                         TextAlignment="Center"/>
                 </Panel>
             </ControlTemplate>
@@ -47,6 +48,7 @@
                         Content="{TemplateBinding Content}"
                         Margin="{TemplateBinding Padding}"
                         FontWeight="Bold" FontSize="12"
+                        VerticalAlignment="Center"
                         TextAlignment="Center"/>
                 </Panel>
             </ControlTemplate>
@@ -77,6 +79,7 @@
                         Content="{TemplateBinding Content}"
                         Margin="{TemplateBinding Padding}"
                         FontWeight="Bold" FontSize="12"
+                        VerticalAlignment="Center"
                         TextAlignment="Center"/>
                 </Panel>
             </ControlTemplate>

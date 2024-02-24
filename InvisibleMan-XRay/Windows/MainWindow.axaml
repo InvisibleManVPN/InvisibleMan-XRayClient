@@ -44,11 +44,10 @@
                     Data="{StaticResource Icon.Config}"/>
 
                 <TextBlock Margin="7 0 0 0"
-                    FontWeight="Normal" FontSize="13"
+                    FontWeight="Normal" FontSize="14"
                     TextDecorations="Underline"
-                    Foreground="{StaticResource Color.Text.Link}">
-
-                    Manage server configuration
+                    Foreground="{StaticResource Color.Text.Link}"
+                    Text="{StaticResource Lang.ManageServerConfiguration}">
                 </TextBlock>
             </StackPanel>
 
@@ -56,34 +55,28 @@
                 <Button Width="200" Height="40" IsVisible="False"
                     Theme="{StaticResource Button.Rectangle.Confirm}">
 
-                    <Label
+                    <TextBlock
                         FontWeight="Bold" FontSize="15"
-                        Foreground="{StaticResource Color.Text.Button}">
-
-                        RUN
-                    </Label>
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Run}"/>
                 </Button>
 
                 <Button Width="200" Height="40" IsVisible="False"
                     Theme="{StaticResource Button.Rectangle.Cancel}">
 
-                    <Label
+                    <TextBlock
                         FontWeight="Bold" FontSize="15"
-                        Foreground="{StaticResource Color.Text.Button}">
-
-                        CANCEL
-                    </Label>
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Cancel}"/>
                 </Button>
 
                 <Button Width="200" Height="40" IsVisible="True"
                     Theme="{StaticResource Button.Rectangle.Cancel}">
 
-                    <Label
+                    <TextBlock
                         FontWeight="Bold" FontSize="15"
-                        Foreground="{StaticResource Color.Text.Button}">
-
-                        STOP
-                    </Label>
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Stop}"/>
                 </Button>
             </Grid>
         </StackPanel>
