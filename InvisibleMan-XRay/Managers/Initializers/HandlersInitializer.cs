@@ -9,15 +9,12 @@ namespace InvisibleManXRay.Managers.Initializers
         public void Register()
         {
             HandlersManager = new HandlersManager();
-        }
 
-        public void RegisterRootHandlers()
-        {
             HandlersManager.AddHandler(new SettingsHandler());
             HandlersManager.AddHandler(new LocalizationHandler());
         }
 
-        public void SetupRootHandlers()
+        public void Setup()
         {
             SettingsHandler settingsHandler = HandlersManager.GetHandler<SettingsHandler>();
 

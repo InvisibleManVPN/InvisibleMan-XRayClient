@@ -18,8 +18,12 @@ namespace InvisibleManXRay.Managers
 
         public void Initialize(Action onComplete)
         {
-            InitializeRootHandlers();
-            SetupRootHandlers();
+            RegisterHandlers();
+            RegisterFactories();
+            RegisterServices();
+            
+            SetupHandlers();
+            SetupServices();
 
             AvoidRunningMultipleInstances(
                 onCreatedNew: () => {
@@ -32,16 +36,34 @@ namespace InvisibleManXRay.Managers
             );
         }
 
-        private void InitializeRootHandlers()
+        private void RegisterHandlers()
         {
             handlersInitializer = new HandlersInitializer();
             handlersInitializer.Register();
-            handlersInitializer.RegisterRootHandlers();
         }
 
-        private void SetupRootHandlers()
+        private void RegisterFactories()
         {
-            handlersInitializer.SetupRootHandlers();
+            factoriesInitializer = new FactoriesInitializer();
+            factoriesInitializer.Register();
+        }
+
+        private void RegisterServices()
+        {
+            servicesInitializer = new ServicesInitializer();
+            servicesInitializer.Register();
+        }
+
+        private void SetupHandlers()
+        {
+            handlersInitializer.Setup();
+        }
+
+        private void SetupServices()
+        {
+            servicesInitializer.Setup(
+                windowsFactory: factoriesInitializer.WindowsFactory
+            );
         }
 
         private void AvoidRunningMultipleInstances(
@@ -64,41 +86,17 @@ namespace InvisibleManXRay.Managers
         {
             SetApplicationCurrentDirectory();
 
-            RegisterFactories();
-            RegisterServices();
-            
-            SetupServices();
+            void SetApplicationCurrentDirectory()
+            {
+                Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(
+                    path: Environment.ProcessPath
+                );
+            }
         }
 
         private void PrepareToExitApp()
         {
             Environment.Exit(0);
-        }
-
-        private void SetApplicationCurrentDirectory()
-        {
-            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(
-                path: Environment.ProcessPath
-            );
-        }
-
-        private void RegisterFactories()
-        {
-            factoriesInitializer = new FactoriesInitializer();
-            factoriesInitializer.Register();
-        }
-
-        private void RegisterServices()
-        {
-            servicesInitializer = new ServicesInitializer();
-            servicesInitializer.Register();
-        }
-
-        private void SetupServices()
-        {
-            servicesInitializer.Setup(
-                windowsFactory: factoriesInitializer.WindowsFactory
-            );
         }
     }
 }
