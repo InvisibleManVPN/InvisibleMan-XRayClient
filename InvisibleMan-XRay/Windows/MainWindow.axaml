@@ -45,7 +45,7 @@
 
                 <TextBlock Margin="7 0 0 0"
                     FontWeight="Normal" FontSize="14"
-                    TextDecorations="Underline"
+                    TextDecorations="Underline" Cursor="Hand"
                     Foreground="{StaticResource Color.Text.Link}"
                     Text="{StaticResource Lang.ManageServerConfiguration}">
                 </TextBlock>
