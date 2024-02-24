@@ -28,12 +28,10 @@
                     Width="12" Height="12" Margin="0"
                     Fill="{StaticResource Color.StatusBullet.Stop}"/>
 
-                <Label Margin="5 0 0 0"
+                <TextBlock Margin="5 0 0 0"
                     FontWeight="Light" FontSize="16"
-                    Foreground="{StaticResource Color.Text.Normal}">
-
-                    Stopped
-                </Label>
+                    Foreground="{StaticResource Color.Text.Normal}"
+                    Text="{StaticResource Lang.Status.Stopped}"/>
             </StackPanel>
         </StackPanel>
 
@@ -62,12 +60,10 @@
                     Width="12" Height="12" Margin="0"
                     Fill="{StaticResource Color.StatusBullet.Wait}"/>
 
-                <Label Margin="5 0 0 0"
+                <TextBlock Margin="5 0 0 0"
                     FontWeight="Light" FontSize="16"
-                    Foreground="{StaticResource Color.Text.Normal}">
-
-                    Wait for run
-                </Label>
+                    Foreground="{StaticResource Color.Text.Normal}"
+                    Text="{StaticResource Lang.Status.WaitForRun}"/>
             </StackPanel>
         </StackPanel>
 
@@ -101,12 +97,10 @@
                     Width="12" Height="12" Margin="0"
                     Fill="{StaticResource Color.StatusBullet.Run}"/>
 
-                <Label Margin="5 0 0 0"
+                <TextBlock Margin="5 0 0 0"
                     FontWeight="Light" FontSize="16"
-                    Foreground="{StaticResource Color.Text.Normal}">
-
-                    Running
-                </Label>
+                    Foreground="{StaticResource Color.Text.Normal}"
+                    Text="{StaticResource Lang.Status.Running}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
