@@ -8,19 +8,22 @@ namespace InvisibleManXRay.Handlers
     public class LocalizationHandler : IHandler
     {
         private Func<string> getCurrentLanguage;
+        private ResourceInclude localizationResource;
 
         public void Setup(Func<string> getCurrentLanguage)
         {
             this.getCurrentLanguage = getCurrentLanguage;
             ApplyLanguage();
         }
+
+        public ResourceInclude GetLocalizationResource() => localizationResource;
         
         private void ApplyLanguage()
         {
             Uri uri = new Uri($"{Directory.LOCALIZATION}/{getCurrentLanguage.Invoke()}.axaml");
-            App.Current.Resources.MergedDictionaries.Add(
-                item: new ResourceInclude(uri) { Source = uri }
-            );
+            localizationResource = new ResourceInclude(uri) { Source = uri };
+            
+            App.Current.Resources.MergedDictionaries.Add(localizationResource);
         }
     }
 }

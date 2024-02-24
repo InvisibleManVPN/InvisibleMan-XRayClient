@@ -7,4 +7,6 @@
     <system:String x:Key="Lang.Cancel">CANCEL</system:String>
 
     <system:String x:Key="Lang.ManageServerConfiguration">Manage server configuration</system:String>
+
+    <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
 </ResourceDictionary>

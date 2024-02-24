@@ -33,7 +33,7 @@
                 Margin="10 10 0 0"
                 Foreground="{StaticResource Color.Text.Normal}"
                 TextAlignment="Left" TextWrapping="Wrap"
-                FontWeight="Light" FontSize="13"
+                FontWeight="Light" FontSize="14"
                 x:Name="textMessage">
 
                 MessageBox message text   

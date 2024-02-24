@@ -5,6 +5,7 @@ namespace InvisibleManXRay.Managers
 {
     using Foundation;
     using Initializers;
+    using Services;
     using Values;
 
     public class AppManager
@@ -62,6 +63,7 @@ namespace InvisibleManXRay.Managers
         private void SetupServices()
         {
             servicesInitializer.Setup(
+                handlersManager: handlersInitializer.HandlersManager,
                 windowsFactory: factoriesInitializer.WindowsFactory
             );
         }
@@ -77,7 +79,9 @@ namespace InvisibleManXRay.Managers
                 onCreatedNew.Invoke();
             else
                 MessageBox.Show(
-                    message: Message.APP_ALREADY_RUNNING,
+                    message: ServiceLocator.Find<LocalizationService>().GetTerm(
+                        key: Localization.APP_ALREADY_RUNNING
+                    ),
                     onResult: (result) => onAlreadyRunning.Invoke()
                 );
         }
