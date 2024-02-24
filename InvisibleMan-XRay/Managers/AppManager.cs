@@ -9,6 +9,7 @@ namespace InvisibleManXRay.Managers
 
     public class AppManager
     {
+        private HandlersInitializer handlersInitializer;
         private FactoriesInitializer factoriesInitializer;
         private ServicesInitializer servicesInitializer;
 
@@ -17,6 +18,9 @@ namespace InvisibleManXRay.Managers
 
         public void Initialize(Action onComplete)
         {
+            InitializeRootHandlers();
+            SetupRootHandlers();
+
             AvoidRunningMultipleInstances(
                 onCreatedNew: () => {
                     PrepareToContinueApp();
@@ -26,6 +30,18 @@ namespace InvisibleManXRay.Managers
                     PrepareToExitApp();
                 }
             );
+        }
+
+        private void InitializeRootHandlers()
+        {
+            handlersInitializer = new HandlersInitializer();
+            handlersInitializer.Register();
+            handlersInitializer.RegisterRootHandlers();
+        }
+
+        private void SetupRootHandlers()
+        {
+            handlersInitializer.SetupRootHandlers();
         }
 
         private void AvoidRunningMultipleInstances(

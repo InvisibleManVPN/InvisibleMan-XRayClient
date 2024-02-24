@@ -10,7 +10,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="Assets/Localization/en-US.axaml"/>
                 <ResourceInclude Source="Styles/Colors.axaml"/>
                 <ResourceInclude Source="Styles/Components/Buttons.axaml"/>
                 <ResourceInclude Source="Assets/Icons.axaml"/>
