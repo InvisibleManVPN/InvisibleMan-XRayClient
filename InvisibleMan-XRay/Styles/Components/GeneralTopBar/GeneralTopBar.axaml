@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
+        x:Class="InvisibleManXRay.Styles.Components.GeneralTopBar">
+
+    <UserControl.Styles>
+        <Style Selector="controls|GeneralTopBar">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Border BoxShadow="0 0 10 0 #aa000000"
+                            Background="{StaticResource Color.Bar}">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Viewbox Grid.Column="0" Stretch="Fill"
+                                    Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                                    <PathIcon 
+                                        Foreground="{StaticResource Color.Logo.Normal}"             
+                                        Data="{TemplateBinding Data}"/> 
+                                </Viewbox>
+
+                                <StackPanel Grid.Column="1"
+                                    Orientation="Vertical" VerticalAlignment="Center">
+
+                                    <TextBlock Padding="0" Margin="15 -5 0 0"
+                                        VerticalAlignment="Bottom"
+                                        FontWeight="Light" FontSize="20"
+                                        Foreground="{StaticResource Color.Text.Normal}"
+                                        Text="{TemplateBinding Title}"/>
+
+                                    <TextBlock Padding="0" Margin="15 -2 0 0"
+                                        VerticalAlignment="Top"
+                                        FontWeight="Light" FontSize="14"
+                                        Foreground="{StaticResource Color.Text.Normal}"
+                                        Text="{TemplateBinding Description}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
+
+</UserControl>
