@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:InvisibleManXRay.Styles.Components"
+        x:Class="InvisibleManXRay.Windows.ConfigWindow"
+        Title="Invisible Man XRay - Server config"
+        Icon="/Assets/Icon.ico"
+        WindowStartupLocation="CenterScreen"
+        Width="350" Height="450"
+        CanResize="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.Background.Normal"/>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        
+        <controls:GeneralTopBar Grid.Row="0" ClipToBounds="False"
+            Width="35" Height="39"
+            Data="{StaticResource Icon.Config}"
+            Title="{StaticResource Lang.Window.Config.Title}"
+            Description="{StaticResource Lang.Window.Config.Description}"/>
+
+    </Grid>
+
+</Window>

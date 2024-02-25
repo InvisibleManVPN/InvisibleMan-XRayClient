@@ -47,7 +47,7 @@
                     FontWeight="Normal" FontSize="14"
                     TextDecorations="Underline" Cursor="Hand"
                     Foreground="{StaticResource Color.Text.Link}"
-                    Text="{StaticResource Lang.ManageServerConfiguration}">
+                    Text="{StaticResource Lang.Window.Main.ManageServerConfiguration}">
                 </TextBlock>
             </StackPanel>
 

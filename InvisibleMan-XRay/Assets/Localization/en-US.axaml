@@ -10,7 +10,9 @@
     <system:String x:Key="Lang.Status.Running">Running</system:String>
     <system:String x:Key="Lang.Status.WaitForRun">Wait for run</system:String>
 
-    <system:String x:Key="Lang.ManageServerConfiguration">Manage server configuration</system:String>
+    <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
+    <system:String x:Key="Lang.Window.Config.Title">SERVER CONFIG</system:String>
+    <system:String x:Key="Lang.Window.Config.Description">Manage server configuration</system:String>
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
 </ResourceDictionary>
