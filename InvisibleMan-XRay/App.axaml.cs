@@ -36,7 +36,7 @@ namespace InvisibleManXRay
             void ShowMainWindow()
             {
                 if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                    desktop.MainWindow = ServiceLocator.Find<WindowsService>().OpenWindow<MainWindow>();
+                    desktop.MainWindow = ServiceLocator.Find<WindowsService>().CreateWindow<MainWindow>();
             }
         }
     }

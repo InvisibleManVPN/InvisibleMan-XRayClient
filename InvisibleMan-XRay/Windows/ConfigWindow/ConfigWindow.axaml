@@ -6,9 +6,10 @@
         x:Class="InvisibleManXRay.Windows.ConfigWindow"
         Title="Invisible Man XRay - Server config"
         Icon="/Assets/Icon.ico"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
         Width="350" Height="450"
-        CanResize="False">
+        CanResize="False"
+        ShowInTaskbar="False">
 
     <Window.Background>
         <StaticResource ResourceKey="Color.Background.Normal"/>
