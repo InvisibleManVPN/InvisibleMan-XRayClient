@@ -94,4 +94,39 @@
         </Style>
     </ControlTheme>
 
+    <!-- Tab Button -->
+    <ControlTheme x:Key="Button.Tab" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Button.Tab.Normal}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Text.Button}"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Rectangle Fill="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        Margin="{TemplateBinding Padding}"
+                        FontWeight="Bold" FontSize="12"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{StaticResource Color.Button.Tab.Highlight}"/>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{StaticResource Color.Button.Tab.Press}" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{StaticResource Color.Button.Tab.Disable}" />
+        </Style>
+    </ControlTheme>
+
 </ResourceDictionary>

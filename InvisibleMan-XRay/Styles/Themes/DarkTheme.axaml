@@ -17,9 +17,15 @@
     <SolidColorBrush x:Key="Color.Button.Cancel.Normal" Color="#d95f5f"/>
     <SolidColorBrush x:Key="Color.Button.Cancel.Highlight" Color="#e96666"/>
     <SolidColorBrush x:Key="Color.Button.Cancel.Press" Color="#cb5a5a"/>
+
+    <SolidColorBrush x:Key="Color.Button.Tab.Normal" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.Button.Tab.Highlight" Color="#3f3f3f"/>
+    <SolidColorBrush x:Key="Color.Button.Tab.Press" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.Button.Tab.Disable" Color="#1e1e1e"/>
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
+    <SolidColorBrush x:Key="Color.Text.Tab" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Link" Color="#19b3e4"/>
 
     <SolidColorBrush x:Key="Color.StatusLogo.Background" Color="#2d2d2d"/>

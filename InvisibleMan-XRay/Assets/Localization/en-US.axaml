@@ -5,6 +5,8 @@
     <system:String x:Key="Lang.Run">RUN</system:String>
     <system:String x:Key="Lang.Stop">STOP</system:String>
     <system:String x:Key="Lang.Cancel">CANCEL</system:String>
+    <system:String x:Key="Lang.Configuration">Configuration</system:String>
+    <system:String x:Key="Lang.Subscription">Subscription</system:String>
 
     <system:String x:Key="Lang.Status.Stopped">Stopped</system:String>
     <system:String x:Key="Lang.Status.Running">Running</system:String>

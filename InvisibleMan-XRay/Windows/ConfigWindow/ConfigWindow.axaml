@@ -7,7 +7,7 @@
         Title="Invisible Man XRay - Server config"
         Icon="/Assets/Icon.ico"
         WindowStartupLocation="CenterOwner"
-        Width="350" Height="450"
+        Width="350" Height="430"
         CanResize="False"
         ShowInTaskbar="False">
 
@@ -21,6 +21,35 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0 0 0 2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Theme="{StaticResource Button.Tab}" IsEnabled="False">
+                    <TextBlock
+                        FontWeight="Normal" FontSize="14"
+                        Foreground="{StaticResource Color.Text.Tab}"
+                        Text="{StaticResource Lang.Configuration}"/>
+                </Button>
+
+                <Button Grid.Column="2" Theme="{StaticResource Button.Tab}">
+                    <TextBlock
+                        FontWeight="Normal" FontSize="14"
+                        Foreground="{StaticResource Color.Text.Tab}"
+                        Text="{StaticResource Lang.Subscription}"/>
+                </Button>
+            </Grid>
+        </Grid>
         
         <controls:GeneralTopBar Grid.Row="0" ClipToBounds="False"
             Width="35" Height="39"
