@@ -19,7 +19,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1">
@@ -49,6 +48,15 @@
                         Text="{StaticResource Lang.Subscription}"/>
                 </Button>
             </Grid>
+
+            <Grid Grid.Row="1">
+                <ScrollViewer Theme="{StaticResource ScrollViewer}" AllowAutoHide="False"
+                    HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                    
+                    <StackPanel Orientation="Vertical"></StackPanel>
+                </ScrollViewer>
+            </Grid>
+
         </Grid>
         
         <controls:GeneralTopBar Grid.Row="0" ClipToBounds="False"

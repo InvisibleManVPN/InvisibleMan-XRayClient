@@ -10,7 +10,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="Styles/Components/Buttons.axaml"/>
+                <ResourceInclude Source="Styles/Components/Button.axaml"/>
+                <ResourceInclude Source="Styles/Components/ScrollBar.axaml"/>
+                <ResourceInclude Source="Styles/Components/ScrollViewer.axaml"/>
                 <ResourceInclude Source="Assets/Icons.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

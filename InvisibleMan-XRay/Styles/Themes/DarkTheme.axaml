@@ -22,6 +22,8 @@
     <SolidColorBrush x:Key="Color.Button.Tab.Highlight" Color="#3f3f3f"/>
     <SolidColorBrush x:Key="Color.Button.Tab.Press" Color="#252526"/>
     <SolidColorBrush x:Key="Color.Button.Tab.Disable" Color="#1e1e1e"/>
+
+    <SolidColorBrush x:Key="Color.ScrollBar.Thumb" Color="#3f3f3f"/>
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
