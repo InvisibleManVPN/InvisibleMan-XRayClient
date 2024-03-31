@@ -27,6 +27,10 @@
     <SolidColorBrush x:Key="Color.RadioButton.Stroke.Normal" Color="#3f3f3f"/>
     <SolidColorBrush x:Key="Color.RadioButton.Stroke.Selected" Color="#19b3e4"/>
 
+    <SolidColorBrush x:Key="Color.TextBox.Background" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.TextBox.Stroke.Normal" Color="#3f3f3f"/>
+    <SolidColorBrush x:Key="Color.TextBox.Stroke.Selected" Color="#19b3e4"/>
+
     <SolidColorBrush x:Key="Color.ScrollBar.Thumb" Color="#3f3f3f"/>
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
