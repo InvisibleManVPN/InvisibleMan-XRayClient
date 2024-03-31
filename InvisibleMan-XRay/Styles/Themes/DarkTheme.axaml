@@ -23,6 +23,10 @@
     <SolidColorBrush x:Key="Color.Button.Tab.Press" Color="#252526"/>
     <SolidColorBrush x:Key="Color.Button.Tab.Disable" Color="#1e1e1e"/>
 
+    <SolidColorBrush x:Key="Color.RadioButton.Fill" Color="#2d2d2d"/>
+    <SolidColorBrush x:Key="Color.RadioButton.Stroke.Normal" Color="#3f3f3f"/>
+    <SolidColorBrush x:Key="Color.RadioButton.Stroke.Selected" Color="#19b3e4"/>
+
     <SolidColorBrush x:Key="Color.ScrollBar.Thumb" Color="#3f3f3f"/>
     
     <SolidColorBrush x:Key="Color.Text.Normal" Color="#ffffff"/>
