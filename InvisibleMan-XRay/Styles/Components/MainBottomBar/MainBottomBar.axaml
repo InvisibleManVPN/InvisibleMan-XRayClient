@@ -10,7 +10,7 @@
 
             <Button Width="30" Height="30" Margin="0"
                 Theme="{StaticResource Button.Circle.Confirm}"
-                ToolTip.Tip="About">
+                ToolTip.Tip="{StaticResource Lang.ToolTip.About}">
 
                 <PathIcon Height="14" Width="14"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -20,7 +20,7 @@
 
             <Button Width="30" Height="30" Margin="10 0 0 0"
                 Theme="{StaticResource Button.Circle.Confirm}"
-                ToolTip.Tip="Check for updates">
+                ToolTip.Tip="{StaticResource Lang.ToolTip.CheckForUpdates}">
 
                 <PathIcon Height="15" Width="15"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -30,7 +30,7 @@
 
             <Button Width="30" Height="30" Margin="10 0 0 0"
                 Theme="{StaticResource Button.Circle.Confirm}"
-                ToolTip.Tip="Settings">
+                ToolTip.Tip="{StaticResource Lang.ToolTip.Settings}">
 
                 <PathIcon Height="16" Width="16"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -40,7 +40,7 @@
 
             <Button Width="30" Height="30" Margin="10 0 0 0"
                 Theme="{StaticResource Button.Circle.Confirm}"
-                ToolTip.Tip="Bug reporting">
+                ToolTip.Tip="{StaticResource Lang.ToolTip.BugReporting}">
 
                 <PathIcon Height="17" Width="17" Margin="0 1 0 0"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -50,7 +50,7 @@
 
             <Button Width="30" Height="30" Margin="10 0 0 0"
                 Theme="{StaticResource Button.Circle.Confirm}"
-                ToolTip.Tip="Source code on GitHub">
+                ToolTip.Tip="{StaticResource Lang.ToolTip.SourceCodeOnGitHub}">
 
                 <PathIcon Height="18" Width="18" Margin="0 2 0 0"
                     HorizontalAlignment="Center" VerticalAlignment="Center"

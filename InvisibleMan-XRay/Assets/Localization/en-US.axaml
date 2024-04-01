@@ -5,6 +5,8 @@
     <system:String x:Key="Lang.Run">RUN</system:String>
     <system:String x:Key="Lang.Stop">STOP</system:String>
     <system:String x:Key="Lang.Cancel">CANCEL</system:String>
+    <system:String x:Key="Lang.Import">IMPORT</system:String>
+    <system:String x:Key="Lang.Select">SELECT</system:String>
     <system:String x:Key="Lang.Configuration">Configuration</system:String>
     <system:String x:Key="Lang.Subscription">Subscription</system:String>
 
@@ -16,5 +18,22 @@
     <system:String x:Key="Lang.Window.Config.Title">SERVER CONFIG</system:String>
     <system:String x:Key="Lang.Window.Config.Description">Manage server configuration</system:String>
 
+    <system:String x:Key="Lang.Import.Link">Import from link</system:String>
+    <system:String x:Key="Lang.Import.File">Import config file</system:String>
+    <system:String x:Key="Lang.Import.Remarks">Remarks</system:String>
+    <system:String x:Key="Lang.Import.SubscriptionLink">Subscription link</system:String>
+    <system:String x:Key="Lang.Import.NoFileChoosen">No file chosen...</system:String>
+
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
+    <system:String x:Key="Lang.Message.NoConfiguration">There is no configuration</system:String>
+    <system:String x:Key="Lang.Message.NoSubscription">There is no subscription</system:String>
+    <system:String x:Key="Lang.Message.TapThePlusToAddNewOne">Tap the plus to add a new one</system:String>
+
+    <system:String x:Key="Lang.ToolTip.About">About</system:String>
+    <system:String x:Key="Lang.ToolTip.Settings">Settings</system:String>
+    <system:String x:Key="Lang.ToolTip.BugReporting">Bug reporting</system:String>
+    <system:String x:Key="Lang.ToolTip.CheckForUpdates">Check for updates</system:String>
+    <system:String x:Key="Lang.ToolTip.SourceCodeOnGitHub">Source code on GitHub</system:String>
+    <system:String x:Key="Lang.ToolTip.AddNewConfiguration">Add new configuration</system:String>
+    <system:String x:Key="Lang.ToolTip.AddNewSubscription">Add new subscription</system:String>
 </ResourceDictionary>

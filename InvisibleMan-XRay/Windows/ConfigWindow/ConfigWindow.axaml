@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Name="panelConfigLists">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -34,14 +34,18 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Theme="{StaticResource Button.Tab}" IsEnabled="False">
+                <Button Grid.Column="0" Theme="{StaticResource Button.Tab}" IsEnabled="False"
+                    Name="buttonConfigurationTab" Click="OnConfigurationTabClick">
+                    
                     <TextBlock
                         FontWeight="Normal" FontSize="14"
                         Foreground="{StaticResource Color.Text.Tab}"
                         Text="{StaticResource Lang.Configuration}"/>
                 </Button>
 
-                <Button Grid.Column="2" Theme="{StaticResource Button.Tab}">
+                <Button Grid.Column="2" Theme="{StaticResource Button.Tab}"
+                    Name="buttonSubscriptionTab" Click="OnSubscriptionTabClick">
+
                     <TextBlock
                         FontWeight="Normal" FontSize="14"
                         Foreground="{StaticResource Color.Text.Tab}"
@@ -49,14 +53,192 @@
                 </Button>
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" IsVisible="True" Name="panelConfiguration">
                 <ScrollViewer Theme="{StaticResource ScrollViewer}" AllowAutoHide="False"
                     HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
                     
                     <StackPanel Orientation="Vertical"></StackPanel>
                 </ScrollViewer>
+
+                <TextBlock
+                    Margin="0 20" LineHeight="20"
+                    FontWeight="Normal" FontSize="14" TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Foreground="{StaticResource Color.Text.Hint}">
+
+                    <Run Text="{StaticResource Lang.Message.NoConfiguration}" /> 
+                    <LineBreak/>
+                    <Run Text="{StaticResource Lang.Message.TapThePlusToAddNewOne}" /> 
+                    
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Theme="{StaticResource Button.Circle.Confirm}"
+                    ToolTip.Tip="{StaticResource Lang.ToolTip.AddNewConfiguration}"
+                    Click="OnAddConfigurationButtonClick">
+
+                    <PathIcon Height="15" Width="15" Margin="0 1 0 0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="{StaticResource Color.Logo.Button}"             
+                        Data="{StaticResource Icon.Plus}"/>
+                </Button>
             </Grid>
 
+            <Grid Grid.Row="1" IsVisible="False" Name="panelSubscription">
+                <ScrollViewer Theme="{StaticResource ScrollViewer}" AllowAutoHide="False"
+                    HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                    
+                    <StackPanel Orientation="Vertical"></StackPanel>
+                </ScrollViewer>
+
+                <TextBlock
+                    Margin="0 20" LineHeight="20"
+                    FontWeight="Normal" FontSize="14" TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Foreground="{StaticResource Color.Text.Hint}">
+
+                    <Run Text="{StaticResource Lang.Message.NoSubscription}" /> 
+                    <LineBreak/>
+                    <Run Text="{StaticResource Lang.Message.TapThePlusToAddNewOne}" /> 
+                    
+                </TextBlock>
+
+                <Button Width="40" Height="40" Margin="0 0 15 15"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Theme="{StaticResource Button.Circle.Confirm}"
+                    ToolTip.Tip="{StaticResource Lang.ToolTip.AddNewSubscription}"
+                    Click="OnAddSubscriptionButtonClick">
+
+                    <PathIcon Height="15" Width="15" Margin="0 1 0 0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="{StaticResource Color.Logo.Button}"             
+                        Data="{StaticResource Icon.Plus}"/>
+                </Button>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Color.Background.Normal}"
+            IsVisible="False" Name="panelAddConfiguration">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                VerticalAlignment="Center" Margin="20 0">
+
+                <RadioButton Theme="{StaticResource RadioButton}"
+                    GroupName="ImportGroup" IsChecked="True"
+                    Content="{StaticResource Lang.Import.Link}"/>
+
+                <TextBox Theme="{StaticResource TextBox}"
+                    Margin="20 10" Height="30" VerticalContentAlignment="Center"/>
+                
+                <RadioButton Theme="{StaticResource RadioButton}"
+                    GroupName="ImportGroup"
+                    Content="{StaticResource Lang.Import.File}"/>
+
+                <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Center" Margin="20 10">
+
+                    <TextBox Theme="{StaticResource TextBox}" Margin="0 0 10 0"
+                        Width="160" Height="30" VerticalContentAlignment="Center"
+                        Watermark="{StaticResource Lang.Import.NoFileChoosen}" IsEnabled="False"/>
+
+                    <Button Width="100" Height="30"
+                        Theme="{StaticResource Button.Rectangle.Confirm}">
+
+                        <TextBlock Margin="0 -1 0 0"
+                            FontWeight="Bold" FontSize="12"
+                            Foreground="{StaticResource Color.Text.Button}"
+                            Text="{StaticResource Lang.Select}"/>
+                    </Button>
+                
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30"
+                    Theme="{StaticResource Button.Rectangle.Confirm}"
+                    Click="OnAddConfigurationImportButtonClick">
+
+                    <TextBlock Margin="0 -1 0 0"
+                        FontWeight="Bold" FontSize="12"
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Import}"/>
+                </Button>
+
+                <Button Width="100" Height="30" Margin="10 0 0 0"
+                    Theme="{StaticResource Button.Rectangle.Cancel}"
+                    Click="OnAddConfigurationCancelButtonClick">
+
+                    <TextBlock Margin="0 -1 0 0"
+                        FontWeight="Bold" FontSize="12"
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Cancel}"/>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Color.Background.Normal}"
+            IsVisible="False" Name="panelAddSubscription">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                VerticalAlignment="Center" Margin="20 0">
+
+                <TextBlock Margin="20 0" FontWeight="Normal"
+                    Foreground="{StaticResource Color.Text.Normal}"
+                    Text="{StaticResource Lang.Import.Remarks}"/>
+
+                <TextBox Theme="{StaticResource TextBox}"
+                    Margin="20 10" Height="30" VerticalContentAlignment="Center"/>
+
+                <TextBlock Margin="20 10 20 0" FontWeight="Normal"
+                    Foreground="{StaticResource Color.Text.Normal}"
+                    Text="{StaticResource Lang.Import.SubscriptionLink}"/>
+
+                <TextBox Theme="{StaticResource TextBox}"
+                    Margin="20 10" Height="30" VerticalContentAlignment="Center"/>
+            
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30"
+                    Theme="{StaticResource Button.Rectangle.Confirm}"
+                    Click="OnAddSubscriptionImportButtonClick">
+
+                    <TextBlock Margin="0 -1 0 0"
+                        FontWeight="Bold" FontSize="12"
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Import}"/>
+                </Button>
+
+                <Button Width="100" Height="30" Margin="10 0 0 0"
+                    Theme="{StaticResource Button.Rectangle.Cancel}"
+                    Click="OnAddSubscriptionCancelButtonClick">
+
+                    <TextBlock Margin="0 -1 0 0"
+                        FontWeight="Bold" FontSize="12"
+                        Foreground="{StaticResource Color.Text.Button}"
+                        Text="{StaticResource Lang.Cancel}"/>
+                </Button>
+
+            </StackPanel>
+        
         </Grid>
         
         <controls:GeneralTopBar Grid.Row="0" ClipToBounds="False"

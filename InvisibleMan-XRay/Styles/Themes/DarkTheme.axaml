@@ -37,6 +37,7 @@
     <SolidColorBrush x:Key="Color.Text.Button" Color="#252526"/>
     <SolidColorBrush x:Key="Color.Text.Tab" Color="#ffffff"/>
     <SolidColorBrush x:Key="Color.Text.Link" Color="#19b3e4"/>
+    <SolidColorBrush x:Key="Color.Text.Hint" Color="#808080"/>
 
     <SolidColorBrush x:Key="Color.StatusLogo.Background" Color="#2d2d2d"/>
     <SolidColorBrush x:Key="Color.StatusLogo.Loading" Color="#d95f5f"/>
