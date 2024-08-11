@@ -65,6 +65,7 @@ namespace InvisibleManXRay.Factories
             settingsWindow.Setup(
                 getMode: settingsHandler.UserSettings.GetMode,
                 getProtocol: settingsHandler.UserSettings.GetProtocol,
+                getSystemProxyEnabled: settingsHandler.UserSettings.GetSystemProxyEnabled,
                 getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
                 getRunningAtStartupEnabled: settingsHandler.UserSettings.GetRunningAtStartupEnabled,
                 getSendingAnalyticsEnabled: settingsHandler.UserSettings.GetSendingAnalyticsEnabled,

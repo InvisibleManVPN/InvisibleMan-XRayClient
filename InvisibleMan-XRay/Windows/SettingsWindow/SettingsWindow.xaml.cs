@@ -32,6 +32,7 @@ namespace InvisibleManXRay
 
         private Func<Mode> getMode;
         private Func<Protocol> getProtocol;
+        private Func<bool> getSystemProxyEnabled;
         private Func<bool> getUdpEnabled;
         private Func<bool> getRunningAtStartupEnabled;
         private Func<bool> getSendingAnalyticsEnabled;
@@ -70,6 +71,7 @@ namespace InvisibleManXRay
         public void Setup(
             Func<Mode> getMode,
             Func<Protocol> getProtocol,
+            Func<bool> getSystemProxyEnabled,
             Func<bool> getUdpEnabled,
             Func<bool> getRunningAtStartupEnabled,
             Func<bool> getSendingAnalyticsEnabled,
@@ -86,6 +88,7 @@ namespace InvisibleManXRay
         {
             this.getMode = getMode;
             this.getProtocol = getProtocol;
+            this.getSystemProxyEnabled = getSystemProxyEnabled;
             this.getUdpEnabled = getUdpEnabled;
             this.getRunningAtStartupEnabled = getRunningAtStartupEnabled;
             this.getSendingAnalyticsEnabled = getSendingAnalyticsEnabled;
@@ -113,6 +116,7 @@ namespace InvisibleManXRay
             {
                 comboBoxMode.SelectedValue = getMode.Invoke();
                 comboBoxProtocol.SelectedValue = getProtocol.Invoke();
+                checkBoxEnableSystemProxy.IsChecked = getSystemProxyEnabled.Invoke();
                 checkBoxEnableUdp.IsChecked = getUdpEnabled.Invoke();
                 checkBoxRunAtStartup.IsChecked = getRunningAtStartupEnabled.Invoke();
                 checkBoxSendAnalytics.IsChecked = getSendingAnalyticsEnabled.Invoke();
@@ -183,6 +187,7 @@ namespace InvisibleManXRay
                 Mode mode = (Mode)comboBoxMode.SelectedValue;
                 
                 comboBoxProtocol.IsEnabled = mode != Mode.TUN;
+                checkBoxEnableSystemProxy.IsEnabled = mode != Mode.TUN;
                 checkBoxEnableUdp.IsEnabled = mode == Mode.TUN;
             }
         }
@@ -200,6 +205,7 @@ namespace InvisibleManXRay
                 mode: (Mode)comboBoxMode.SelectedValue,
                 protocol: (Protocol)comboBoxProtocol.SelectedValue,
                 logLevel: (LogLevel)comboBoxLogLevel.SelectedValue,
+                isSystemProxyEnable: checkBoxEnableSystemProxy.IsChecked.Value,
                 isUdpEnable: checkBoxEnableUdp.IsChecked.Value,
                 isRunningAtStartup: checkBoxRunAtStartup.IsChecked.Value,
                 isSendingAnalytics: checkBoxSendAnalytics.IsChecked.Value,
