@@ -24,7 +24,7 @@ namespace InvisibleManXRay.Models
         public Protocol Protocol;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(true)]
-        public bool IsSystemProxyEnable;
+        public bool IsSystemProxyUse;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue(true)]
         public bool IsUdpEnable;
@@ -62,7 +62,7 @@ namespace InvisibleManXRay.Models
             this.CurrentConfigPath = "./Configs";
             this.Mode = Mode.PROXY;
             this.Protocol = Protocol.HTTP;
-            this.IsSystemProxyEnable = true;
+            this.IsSystemProxyUse = true;
             this.IsUdpEnable = true;
             this.IsRunningAtStartup = false;
             this.IsSendingAnalytics = true;
@@ -80,7 +80,7 @@ namespace InvisibleManXRay.Models
             Protocol protocol,
             LogLevel logLevel,
             bool isUdpEnable,
-            bool isSystemProxyEnable,
+            bool isSystemProxyUse,
             bool isRunningAtStartup,
             bool isSendingAnalytics,
             int proxyPort,
@@ -94,7 +94,7 @@ namespace InvisibleManXRay.Models
             this.Mode = mode;
             this.Protocol = protocol;
             this.LogLevel = logLevel;
-            this.IsSystemProxyEnable = isSystemProxyEnable;
+            this.IsSystemProxyUse = isSystemProxyUse;
             this.IsUdpEnable = isUdpEnable;
             this.IsRunningAtStartup = isRunningAtStartup;
             this.IsSendingAnalytics = isSendingAnalytics;
@@ -114,7 +114,7 @@ namespace InvisibleManXRay.Models
 
         public Protocol GetProtocol() => Protocol;
 
-        public bool GetSystemProxyEnabled() => IsSystemProxyEnable;
+        public bool GetSystemProxyUsed() => IsSystemProxyUse;
 
         public bool GetUdpEnabled() => IsUdpEnable;
 

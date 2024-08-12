@@ -28,7 +28,7 @@ namespace InvisibleManXRay.Managers.Initializers
                 getProxyPort: settingsHandler.UserSettings.GetProxyPort,
                 getTunPort: settingsHandler.UserSettings.GetTunPort,
                 getTestPort: settingsHandler.UserSettings.GetTestPort,
-                getSystemProxyEnabled: settingsHandler.UserSettings.GetSystemProxyEnabled,
+                getSystemProxyUsed: settingsHandler.UserSettings.GetSystemProxyUsed,
                 getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
                 getTunIp: settingsHandler.UserSettings.GetTunIp,
                 getDns: settingsHandler.UserSettings.GetDns,

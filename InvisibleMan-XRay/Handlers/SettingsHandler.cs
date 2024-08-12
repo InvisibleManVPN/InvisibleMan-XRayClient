@@ -24,7 +24,7 @@ namespace InvisibleManXRay.Handlers
             this.userSettings.Mode = userSettings.Mode;
             this.userSettings.Protocol = userSettings.Protocol;
             this.userSettings.LogLevel = userSettings.LogLevel;
-            this.userSettings.IsSystemProxyEnable = userSettings.IsSystemProxyEnable;
+            this.userSettings.IsSystemProxyUse = userSettings.IsSystemProxyUse;
             this.userSettings.IsUdpEnable = userSettings.IsUdpEnable;
             this.userSettings.IsRunningAtStartup = userSettings.IsRunningAtStartup;
             this.userSettings.IsSendingAnalytics = userSettings.IsSendingAnalytics;
