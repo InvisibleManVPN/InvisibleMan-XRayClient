@@ -13,14 +13,14 @@ namespace InvisibleManXRay.Handlers.Proxies
         private const string PROXY_ENABLE = "ProxyEnable";
         private const string PROXY_SERVER = "ProxyServer";
 
-        public Status Enable(string ip, int port)
+        public Status Enable(string address, int port)
         {
             RegistryKey registry = GetInternetSettingsRegistry();
 
             try
             {
                 registry.SetValue(PROXY_ENABLE, 1);
-                registry.SetValue(PROXY_SERVER, $"{ip}:{port}");
+                registry.SetValue(PROXY_SERVER, $"{address}:{port}");
 
                 if (isCanceled)
                     return CancelStatus();

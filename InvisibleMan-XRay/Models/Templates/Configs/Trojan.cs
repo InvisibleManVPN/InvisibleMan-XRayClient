@@ -54,6 +54,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
                     flow = data.query["flow"] ?? "",
                     sni = data.query["sni"] ?? "",
                     alpn = HttpUtility.UrlDecode(data.query["alpn"] ?? ""),
+                    allowInsecure = HttpUtility.UrlDecode(data.query["allowInsecure"] ?? "") == "1" ? true : false,
                     fingerprint = HttpUtility.UrlDecode(data.query["fp"] ?? "")
                 };
 

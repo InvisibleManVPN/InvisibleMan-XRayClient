@@ -4,7 +4,7 @@ namespace InvisibleManXRay.Handlers.Proxies
 
     public interface IProxy
     {
-        Status Enable(string ip, int port);
+        Status Enable(string address, int port);
         void Disable();
         void Cancel();
     }
