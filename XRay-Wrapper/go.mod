@@ -1,6 +1,6 @@
 module github.com/invisiblemanvpn/xray-wrapper
 
-go 1.22.6
+go 1.21.4
 
 require github.com/xtls/xray-core v1.8.23
 
