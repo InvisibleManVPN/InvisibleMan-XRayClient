@@ -20,6 +20,7 @@ namespace InvisibleManXRay.Core
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
         private Func<int> getTestPort;
+        private Func<bool> getSystemProxyUsed;
         private Func<bool> getUdpEnabled;
         private Func<string> getTunIp;
         private Func<string> getDns;
@@ -38,6 +39,7 @@ namespace InvisibleManXRay.Core
             Func<int> getProxyPort,
             Func<int> getTunPort,
             Func<int> getTestPort,
+            Func<bool> getSystemProxyUsed,
             Func<bool> getUdpEnabled,
             Func<string> getTunIp,
             Func<string> getDns,
@@ -53,6 +55,7 @@ namespace InvisibleManXRay.Core
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
             this.getTestPort = getTestPort;
+            this.getSystemProxyUsed = getSystemProxyUsed;
             this.getUdpEnabled = getUdpEnabled;
             this.getTunIp = getTunIp;
             this.getDns = getDns;
@@ -149,6 +152,13 @@ namespace InvisibleManXRay.Core
 
         private Status EnableProxy()
         {
+            if (!ShouldChangeSystemProxy())
+                return new Status(
+                    code: Code.SUCCESS,
+                    subCode: SubCode.SUCCESS,
+                    content: null
+                );
+
             IProxy proxy = getProxy.Invoke();
 
             return proxy.Enable(
@@ -159,6 +169,9 @@ namespace InvisibleManXRay.Core
 
         private void DisableProxy()
         {
+            if (!ShouldChangeSystemProxy())
+                return;
+            
             IProxy proxy = getProxy.Invoke();
             proxy.Disable();
         }
@@ -216,5 +229,7 @@ namespace InvisibleManXRay.Core
             ITunnel tunnel = getTunnel.Invoke();
             tunnel.Cancel();
         }
+
+        private bool ShouldChangeSystemProxy() => getSystemProxyUsed.Invoke();
     }
 }
