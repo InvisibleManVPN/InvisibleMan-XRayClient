@@ -18,6 +18,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
         public string flow;
         public string sni;
         public string alpn;
+        public bool allowInsecure;
         public string fingerprint;
         public string publicKey;
         public string shortId;

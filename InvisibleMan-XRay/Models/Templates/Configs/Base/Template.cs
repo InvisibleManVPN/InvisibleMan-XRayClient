@@ -69,7 +69,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
                 if (Adapter.streamSecurity == Global.StreamSecurity.TLS)
                 {
                     tlsSettings = new V2Ray.StreamSettings.TlsSettings() {
-                        allowInsecure = false,
+                        allowInsecure = Adapter.allowInsecure,
                         fingerprint = Adapter.fingerprint
                     };
 
@@ -97,7 +97,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
                 if (Adapter.streamSecurity == Global.StreamSecurity.XTLS)
                 {
                     xtlsSettings = new V2Ray.StreamSettings.TlsSettings() {
-                        allowInsecure = false,
+                        allowInsecure = Adapter.allowInsecure,
                         alpn = new[] { Adapter.alpn },
                         fingerprint = Adapter.fingerprint
                     };
