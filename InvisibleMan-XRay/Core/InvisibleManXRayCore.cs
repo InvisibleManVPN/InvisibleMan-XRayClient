@@ -162,9 +162,15 @@ namespace InvisibleManXRay.Core
             IProxy proxy = getProxy.Invoke();
 
             return proxy.Enable(
-                ip: Global.LOCAL_HOST,
-                port: getProxyPort.Invoke()
+                address: GetProxyAddress(),
+                port: GetProxyPort()
             );
+
+            int GetProxyPort() => getProxyPort.Invoke();
+
+            string GetProxyAddress() => IsSocksProtocol() ? $"socks={Global.LOCAL_HOST}" : Global.LOCAL_HOST;
+
+            bool IsSocksProtocol() => getProtocol.Invoke() == Protocol.SOCKS;
         }
 
         private void DisableProxy()
