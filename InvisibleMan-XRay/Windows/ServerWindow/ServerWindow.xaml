@@ -288,6 +288,29 @@
         </Grid>
 
         <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
+            Visibility="Hidden" x:Name="panelShare">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Image x:Name="imageQrCode" Margin="20 20"/>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15 0">
+
+                <Button Width="100" Height="30" Content="BACK" 
+                    Style="{StaticResource Button.Rectangle.Green}" 
+                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnBackShareButtonClick">
+                </Button>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
             Visibility="Hidden" x:Name="panelLoading">
 
             <StackPanel Grid.Row="1" Orientation="Horizontal" 

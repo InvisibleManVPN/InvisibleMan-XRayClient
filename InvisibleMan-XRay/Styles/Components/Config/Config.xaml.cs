@@ -17,6 +17,7 @@ namespace InvisibleManXRay.Components
         
         private Action onSelect;
         private Action onDelete;
+        private Action<string> onShare;
         private Func<Window> getServerWindow;
         private Func<string, int> testConnection;
         private Func<string> getLogPath;
@@ -52,6 +53,7 @@ namespace InvisibleManXRay.Components
             Models.Config config, 
             Action onSelect, 
             Action onDelete, 
+            Action<string> onShare,
             Func<Window> getServerWindow,
             Func<string, int> testConnection,
             Func<string> getLogPath)
@@ -59,6 +61,7 @@ namespace InvisibleManXRay.Components
             this.config = config;
             this.onSelect = onSelect;
             this.onDelete = onDelete;
+            this.onShare = onShare;
             this.getServerWindow = getServerWindow;
             this.testConnection = testConnection;
             this.getLogPath = getLogPath;
@@ -148,6 +151,40 @@ namespace InvisibleManXRay.Components
                     onDelete.Invoke();
                 }
             }
+        }
+
+        private void OnShareButtonClick(object sender, RoutedEventArgs e)
+        {
+            AnalyticsService.SendEvent(new ShareButtonClickedEvent());
+
+            if (!File.Exists(config.Path))
+            {
+                MessageBox.Show(
+                    getServerWindow.Invoke(),
+                    Message.FILE_DOESNT_EXISTS,
+                    Caption.ERROR,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+                return;
+            }
+
+            try
+            {
+                string content = GetFileAsText().Trim();
+                if (!IsValidConfig(content))
+                    return;
+                
+                onShare.Invoke(content);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(getServerWindow.Invoke(), ex.Message);
+            }
+
+            string GetFileAsText() => File.ReadAllText(config.Path);
+
+            bool IsValidConfig(string config) => !string.IsNullOrEmpty(config);
         }
 
         private void OnCheckButtonClick(object sender, RoutedEventArgs e)

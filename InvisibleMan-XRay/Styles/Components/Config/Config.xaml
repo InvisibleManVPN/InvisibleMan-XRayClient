@@ -14,7 +14,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
@@ -122,6 +122,17 @@
                         Click="OnLogButtonClick">
 
                         <Rectangle Fill="{StaticResource Icon.Log}" Grid.Column="0" 
+                            Width="11" Height="13" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    </Button>
+
+                    <Button Width="20" Height="20"
+                        Style="{StaticResource Button.None}" ToolTip="Share" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Click="OnShareButtonClick">
+
+                        <Rectangle Fill="{StaticResource Icon.Share}" Grid.Column="0" 
                             Width="11" Height="13" Margin="0" 
                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
