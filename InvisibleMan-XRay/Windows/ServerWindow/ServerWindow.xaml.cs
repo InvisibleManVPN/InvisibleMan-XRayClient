@@ -1,7 +1,10 @@
 using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using QRCoder;
+using QRCoder.Xaml;
 
 namespace InvisibleManXRay
 {
@@ -97,6 +100,11 @@ namespace InvisibleManXRay
             ShowServersPanel();
         }
 
+        private void OnBackShareButtonClick(object sender, RoutedEventArgs e)
+        {
+            SetActiveSharePanel(false);
+        }
+
         private void ShowServersPanel()
         {
             panelAddConfigs.Visibility = Visibility.Hidden;
@@ -174,6 +182,19 @@ namespace InvisibleManXRay
                             
                             bool IsCurrentConfigDeleted() => getCurrentConfigPath.Invoke() == config.Path;
                         }
+                    },
+                    onShare: (content) => {
+                        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                        QRCodeData qrCodeData = qrGenerator.CreateQrCode(
+                            plainText: content,
+                            eccLevel: QRCodeGenerator.ECCLevel.Default
+                        );
+                        
+                        XamlQRCode qrCode = new XamlQRCode(qrCodeData);
+                        DrawingImage qrCodeAsXaml = qrCode.GetGraphic(20);
+                        imageQrCode.Source = qrCodeAsXaml;
+
+                        SetActiveSharePanel(true);
                     },
                     getServerWindow: () => this,
                     testConnection: (configPath) => {
@@ -268,6 +289,8 @@ namespace InvisibleManXRay
             onUpdateConfig.Invoke(GetLastConfigPath(GroupType.SUBSCRIPTION));
             SelectConfig(getCurrentConfigPath.Invoke());
         }
+
+        private void SetActiveSharePanel(bool isActive) => SetActivePanel(panelShare, isActive);
 
         private void SetActiveLoadingPanel(bool isActive) => SetActivePanel(panelLoading, isActive);
 
