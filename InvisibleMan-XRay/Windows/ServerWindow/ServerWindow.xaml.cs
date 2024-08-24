@@ -11,6 +11,8 @@ namespace InvisibleManXRay
 
     public partial class ServerWindow : Window
     {
+        private Action pendingToRenderActions = delegate { };
+
         private Func<string> getCurrentConfigPath;
         private Func<bool> isCurrentPathEqualRootConfigPath;
         private Func<string, int> testConnection;
@@ -68,7 +70,8 @@ namespace InvisibleManXRay
             LoadGroupsList();
             LoadConfigsLists();
             ShowServersPanel();
-            HandleShowingActiveTab(); 
+            HandleShowingActiveTab();
+            ExecutePendingToRenderActions();
             
             void LoadConfigsLists()
             {
@@ -85,6 +88,8 @@ namespace InvisibleManXRay
                 else
                     OnSubscriptionTabClick(null, null);
             }
+
+            void ExecutePendingToRenderActions() => pendingToRenderActions.Invoke();
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)

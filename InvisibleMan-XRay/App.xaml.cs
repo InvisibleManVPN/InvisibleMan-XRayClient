@@ -15,10 +15,11 @@ namespace InvisibleManXRay
             InitializeAppManager();
             InitializeWindowFactory();
             InitializeMainWindow();
+            HandlePipes();
 
             void InitializeAppManager()
             {
-                appManager = new AppManager();
+                appManager = new AppManager(e.Args);
                 appManager.Initialize();
             }
 
@@ -32,6 +33,16 @@ namespace InvisibleManXRay
                 MainWindow mainWindow = windowFactory.CreateMainWindow();
                 mainWindow.Show();
             }
+
+            void HandlePipes()
+            {
+                if (IsThereAnyArg())
+                    PipeManager.SignalThisApp(e.Args);
+                
+                PipeManager.ListenForPipes();
+            }
+
+            bool IsThereAnyArg() => e.Args.Length != 0;
         }
     }
 }

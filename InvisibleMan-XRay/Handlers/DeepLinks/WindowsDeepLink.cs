@@ -4,9 +4,11 @@ using Microsoft.Win32;
 
 namespace InvisibleManXRay.Handlers.DeepLinks
 {
+    using Values;
+
     public class WindowsDeepLink : IDeepLink
     {
-        private const string URI_SCHEME = @"Software\Classes\invxray";
+        private const string URI_SCHEME = $@"Software\Classes\{DeepLink.SCHEME}";
         private const string SHELL_OPEN_COMMAND = @"shell\open\command";
         private const string URL_PROTOCOL = "URL Protocol";
 

@@ -41,6 +41,7 @@ namespace InvisibleManXRay.Managers.Initializers
             SetupConfigHandler();
             SetupUpdateHandler();
             SetupNotifyHandler();
+            SetupDeepLinkHandler();
 
             void SetupProcessHandler()
             {
@@ -96,27 +97,6 @@ namespace InvisibleManXRay.Managers.Initializers
                     onTunnelModeClick: () => { OnModeClick(Mode.TUN); }
                 );
 
-                bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
-
-                bool IsMainWindow(Window window) => window == Application.Current.MainWindow;
-
-                void ShowMainWindow() => Application.Current.MainWindow.Show();
-
-                void CloseOtherWindows()
-                {
-                    foreach (Window window in Application.Current.Windows)
-                    {
-                        if (!IsMainWindow(window))
-                            window.Close();
-                    }
-                }
-
-                void OpenApplication()
-                {
-                    ShowMainWindow();
-                    Application.Current.MainWindow.WindowState = WindowState.Normal;
-                }
-
                 void CloseApplication()
                 {
                     core.DisableMode();
@@ -155,6 +135,62 @@ namespace InvisibleManXRay.Managers.Initializers
                     mainWindow.TryDisableModeAndRerun();
                 }
             }
+
+            void SetupDeepLinkHandler()
+            {
+                HandlersManager.GetHandler<DeepLinkHandler>().Setup(
+                    onReceiveArg: ref PipeManager.OnReceiveArg,
+                    onConfigLinkFetched: PrepareToImportConfigLink,
+                    onSubscriptionLinkFetched: PrepareToImportSubscriptionLink
+                );
+
+                void PrepareToImportConfigLink(string link)
+                {
+                    ServerWindow serverWindow = GetServerWindow();
+                    serverWindow.OpenImportConfigWithLinkSection(link);
+                    serverWindow.ShowDialog();
+                }
+
+                void PrepareToImportSubscriptionLink(string link)
+                {
+                    ServerWindow serverWindow = GetServerWindow();
+                    serverWindow.OpenImportSubscriptionWithLinkSection(link);
+                    serverWindow.ShowDialog();
+                }
+
+                ServerWindow GetServerWindow()
+                {
+                    OpenApplication();
+                    if (IsAnotherWindowOpened())
+                        CloseOtherWindows();
+
+                    ServerWindow serverWindow = windowFactory.CreateServerWindow();
+                    serverWindow.Owner = Application.Current.MainWindow;
+
+                    return serverWindow;
+                }
+            }
         }
+
+        private void OpenApplication()
+        {
+            ShowMainWindow();
+            Application.Current.MainWindow.WindowState = WindowState.Normal;
+        }
+
+        private void CloseOtherWindows()
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (!IsMainWindow(window))
+                    window.Close();
+            }
+        }
+
+        private void ShowMainWindow() => Application.Current.MainWindow.Show();
+
+        private bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
+
+        private bool IsMainWindow(Window window) => window == Application.Current.MainWindow;
     }
 }
