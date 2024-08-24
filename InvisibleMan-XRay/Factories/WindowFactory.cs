@@ -132,7 +132,7 @@ namespace InvisibleManXRay.Factories
             }
         }
 
-        private ServerWindow CreateServerWindow()
+        public ServerWindow CreateServerWindow()
         {
             ConfigHandler configHandler = handlersManager.GetHandler<ConfigHandler>();
             TemplateHandler templateHandler = handlersManager.GetHandler<TemplateHandler>();
