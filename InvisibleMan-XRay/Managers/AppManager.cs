@@ -17,8 +17,14 @@ namespace InvisibleManXRay.Managers
 
         public WindowFactory WindowFactory => factoriesInitializer.WindowFactory;
 
+        private string[] args;
         private static Mutex mutex;
         private const string APP_GUID = "{7I6N0VI4-S9I1-43bl-A0eM-72A47N6EDH8M}";
+
+        public AppManager(string[] args)
+        {
+            this.args = args;
+        }
 
         public void Initialize()
         {
@@ -42,9 +48,15 @@ namespace InvisibleManXRay.Managers
             
             if(!isCreatedNew)
             {
-                MessageBox.Show(Message.APP_ALREADY_RUNNING);
+                if (IsThereAnyArg())
+                    PipeManager.SignalOpenedApp(args);
+                else
+                    MessageBox.Show(Message.APP_ALREADY_RUNNING);
+                
                 Environment.Exit(0);
             }
+
+            bool IsThereAnyArg() => args.Length != 0;
         }
 
         private void SetApplicationCurrentDirectory()

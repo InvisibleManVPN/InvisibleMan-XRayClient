@@ -24,6 +24,16 @@ namespace InvisibleManXRay
         private Action<string, string, string> onCreateSubscription;
         private Action<Subscription> onDeleteSubscription;
 
+        public void OpenImportSubscriptionWithLinkSection(string link)
+        {
+            pendingToRenderActions = () => {
+                OnSubscriptionTabClick(null, null);
+                OnAddSubscriptionButtonClick(null, null);
+                textBoxSubscriptionLink.Text = link;
+                textBoxSubscriptionRemarks.Focus();
+            };
+        }
+
         private void InitializeImportingGroups()
         {
             SetActiveFileImportingGroup(true);

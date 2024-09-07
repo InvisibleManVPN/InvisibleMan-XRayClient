@@ -25,6 +25,17 @@ namespace InvisibleManXRay
         private Action<GroupType, string> onDeleteConfig;
         private Action<string> onUpdateConfig;
 
+        public void OpenImportConfigWithLinkSection(string link)
+        {
+            pendingToRenderActions = () => {
+                OnConfigTabClick(null, null);
+                OnAddConfigButtonClick(null, null);
+                OnLinkRadioButtonClick(null, null);
+                radioButtonLink.IsChecked = true;
+                textBoxConfigLink.Text = link;
+            };
+        }
+
         private void InitializeGeneralConfigComponents()
         {
             generalConfigComponents = new List<Components.Config>();
