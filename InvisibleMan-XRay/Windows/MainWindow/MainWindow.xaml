@@ -48,7 +48,7 @@
                             Width="12" Height="12" Margin="0 0 2 0"
                             VerticalAlignment="Center"
                             Fill="{StaticResource Color.Red}"/>
-                        <Label Content="Stopped" FontFamily="{StaticResource SegoeUI}" 
+                        <Label Content="{DynamicResource Lang.Status.Stopped}" FontFamily="{StaticResource SegoeUI}" 
                             Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
                     </StackPanel>
                 </StackPanel>
@@ -69,7 +69,7 @@
                             Width="12" Height="12" Margin="0 0 2 0"
                             VerticalAlignment="Center"
                             Fill="Gray"/>
-                        <Label Content="Wait for run" FontFamily="{StaticResource SegoeUI}" 
+                        <Label Content="{DynamicResource Lang.Status.WaitForRun}" FontFamily="{StaticResource SegoeUI}" 
                             Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
                     </StackPanel>
                 </StackPanel>
@@ -90,7 +90,7 @@
                             Width="12" Height="12" Margin="0 0 2 0"
                             VerticalAlignment="Center"
                             Fill="{StaticResource Color.Green}"/>
-                        <Label Content="Running" FontFamily="{StaticResource SegoeUI}" 
+                        <Label Content="{DynamicResource Lang.Status.Running}" FontFamily="{StaticResource SegoeUI}" 
                             Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
                     </StackPanel>
                 </StackPanel>
@@ -111,7 +111,7 @@
                     <Rectangle Fill="{StaticResource Icon.Server}" Grid.Column="0" 
                         Width="15" Height="15" Margin="0 0 7 0" 
                         HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock Grid.Row="2" Text="Manage server configuration" 
+                    <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Window.Main.ManageServerConfiguration}" 
                         FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
                         HorizontalAlignment="Center" VerticalAlignment="Top" 
                         Margin="0" Foreground="{StaticResource Color.Blue}" 
@@ -120,7 +120,7 @@
                 </StackPanel>
 
                 <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="RUN" Style="{StaticResource Button.Rectangle.Green}" 
+                    Content="{DynamicResource Lang.Run}" Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                     Foreground="{StaticResource Color.Gray}" Visibility="Visible"
                     Click="OnRunButtonClick" x:Name="buttonRun">
@@ -128,7 +128,7 @@
                 </Button>
 
                 <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="CANCEL" Style="{StaticResource Button.Rectangle.Red}" 
+                    Content="{DynamicResource Lang.Cancel}" Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                     Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
                     Click="OnCancelButtonClick" x:Name="buttonCancel">
@@ -136,7 +136,7 @@
                 </Button>
 
                 <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="STOP" Style="{StaticResource Button.Rectangle.Red}" 
+                    Content="{DynamicResource Lang.Stop}" Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                     Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
                     Click="OnStopButtonClick" x:Name="buttonStop">
@@ -177,7 +177,7 @@
 
                         <Button Width="30" Height="30" Margin="0" 
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="About" RenderTransformOrigin="0.5,0.5"
+                            ToolTip="{DynamicResource Lang.ToolTip.About}" RenderTransformOrigin="0.5,0.5"
                             Click="OnAboutButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.About}" Grid.Column="0" 
@@ -186,7 +186,7 @@
                         </Button>
                         <Grid Width="30" Height="30" Margin="10 0 0 0">
                             <Button  Style="{StaticResource Button.Circle}" 
-                                ToolTip="Check for updates" RenderTransformOrigin="0.5,0.5"
+                                ToolTip="{DynamicResource Lang.ToolTip.CheckForUpdates}" RenderTransformOrigin="0.5,0.5"
                                 Click="OnUpdateButtonClick">
 
                                 <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
@@ -201,7 +201,7 @@
                         </Grid>
                         <Button Width="30" Height="30" Margin="10 0 0 0" 
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="Settings" RenderTransformOrigin="0.5,0.5"
+                            ToolTip="{DynamicResource Lang.ToolTip.Settings}" RenderTransformOrigin="0.5,0.5"
                             Click="OnSettingsButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Settings}" Grid.Column="0" 
@@ -210,7 +210,7 @@
                         </Button>
                         <Button Width="30" Height="30" Margin="10 0 0 0" 
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="Bug reporting" RenderTransformOrigin="0.5,0.5"
+                            ToolTip="{DynamicResource Lang.ToolTip.BugReporting}" RenderTransformOrigin="0.5,0.5"
                             Click="OnBugReportingButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Bug}" Grid.Column="0" 
@@ -219,7 +219,7 @@
                         </Button>
                         <Button Width="30" Height="30" Margin="10 0 0 0"
                             Style="{StaticResource Button.Circle}"
-                            ToolTip="Source code on GitHub" RenderTransformOrigin="0.5,0.5"
+                            ToolTip="{DynamicResource Lang.ToolTip.SourceCodeOnGitHub}" RenderTransformOrigin="0.5,0.5"
                             Click="OnGitHubButtonClick">
 
                             <Rectangle Fill="{StaticResource Icon.Github}" Grid.Column="0" 
