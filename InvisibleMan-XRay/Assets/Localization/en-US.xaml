@@ -20,4 +20,5 @@
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
     <system:String xml:space="preserve" x:Key="Lang.Message.NoConfigsFound">No configurations were found.&#10;Please add a new server configuration.</system:String>
+    <system:String xml:space="preserve" x:Key="Lang.Message.InvalidConfig">Invalid configuration.&#10;Please check it again.</system:String>
 </ResourceDictionary>

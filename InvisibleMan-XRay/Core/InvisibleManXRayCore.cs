@@ -87,7 +87,7 @@ namespace InvisibleManXRay.Core
             string file = XRayCoreWrapper.LoadConfig(format, path);
 
             if (!JsonUtility.IsJsonValid(file))
-                return new Status(Code.ERROR, SubCode.INVALID_CONFIG, Message.INVALID_CONFIG);
+                return new Status(Code.ERROR, SubCode.INVALID_CONFIG, LocalizationService.GetTerm(Localization.INVALID_CONFIG));
 
             return new Status(Code.SUCCESS, SubCode.SUCCESS, file);
         }

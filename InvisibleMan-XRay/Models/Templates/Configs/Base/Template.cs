@@ -1,5 +1,6 @@
 namespace InvisibleManXRay.Models.Templates.Configs
 {
+    using Services;
     using Utilities;
     using Values;
 
@@ -9,6 +10,8 @@ namespace InvisibleManXRay.Models.Templates.Configs
         protected abstract Adapter Adapter { get; }
         protected abstract V2Ray.Outbound.Settings OutboundSettings { get; }
 
+        protected LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
+        
         public abstract Status FetchDataFromLink(string link);
 
         public string GetValidRemark() => FileUtility.GetValidFileName(Adapter.remark);
