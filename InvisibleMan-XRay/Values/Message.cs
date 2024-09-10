@@ -19,7 +19,6 @@ namespace InvisibleManXRay.Values
         public const string UPDATE_AVAILABLE = "A new version is available!";
         public const string YOU_HAVE_LATEST_VERSION = "You already have the latest version";
         public const string CANT_CONNECT_TO_SERVER = "Can't connect to the server";
-        public const string APP_ALREADY_RUNNING = "The application is already running";
         public const string CANT_CONNECT_TO_TUNNEL_SERVICE = "The application can't connect to the tunnel service.";
         public const string CANT_PROXY_SYSTEM = "The application cannot proxy the system";
         public const string CANT_TUNNEL_SYSTEM = "The application cannot tunnel the system";

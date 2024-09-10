@@ -16,6 +16,8 @@ namespace InvisibleManXRay.Handlers
             ApplyLanguage();
         }
 
+        public ResourceDictionary GetLocalizationResource() => localizationResource;
+
         private void ApplyLanguage()
         {
             Uri uri = new Uri($"{Directory.LOCALIZATION}/{getCurrentLanguage.Invoke()}.xaml", UriKind.Relative);

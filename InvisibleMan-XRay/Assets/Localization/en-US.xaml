@@ -17,4 +17,6 @@
     <system:String x:Key="Lang.ToolTip.BugReporting">Bug reporting</system:String>
     <system:String x:Key="Lang.ToolTip.CheckForUpdates">Check for updates</system:String>
     <system:String x:Key="Lang.ToolTip.SourceCodeOnGitHub">Source code on GitHub</system:String>
+
+    <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
 </ResourceDictionary>
