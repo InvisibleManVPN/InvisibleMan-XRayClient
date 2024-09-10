@@ -7,5 +7,6 @@ namespace InvisibleManXRay.Values
         public const string TUN = $"{ROOT}/TUN";
         public const string CONFIGS = $"{ROOT}/Configs";
         public const string ASSETS = $"{ROOT}/Assets";
+        public const string LOCALIZATION = $"{ASSETS}/Localization";
     }
 }
