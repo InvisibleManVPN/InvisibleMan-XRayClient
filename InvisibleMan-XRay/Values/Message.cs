@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string INVALID_SUBSCRIPTION = "Invalid subscription.\nPlease check it again.";
         public const string NO_CONFIG_FILE_SELECTED = "No file was selected.\nAdd a server configuration file.";
         public const string NO_CONFIG_LINK_ENTERED = "No link was entered.\nAdd a server configuration link.";
         public const string NO_SUBSCRIPTION_LINK_ENTERED = "No link was entered.\nAdd a subscription link.";
