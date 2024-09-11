@@ -86,7 +86,7 @@ namespace InvisibleManXRay
                     SetActiveConnectionErrorStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.YOU_HAVE_LATEST_VERSION;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.YOU_HAVE_LATEST_VERSION);
                 }
 
                 void ShowConnectionErrorStatus()

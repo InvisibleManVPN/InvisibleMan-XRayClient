@@ -34,7 +34,7 @@ namespace InvisibleManXRay.Handlers
             if (IsUpdateAvailable())
                 return new Status(Code.SUCCESS, SubCode.UPDATE_AVAILABLE, LocalizationService.GetTerm(Localization.UPDATE_AVAILABLE));
             
-            return new Status(Code.SUCCESS, SubCode.UPDATE_UNAVAILABLE, Message.YOU_HAVE_LATEST_VERSION);
+            return new Status(Code.SUCCESS, SubCode.UPDATE_UNAVAILABLE, LocalizationService.GetTerm(Localization.YOU_HAVE_LATEST_VERSION));
 
             bool IsUpdateAvailable()
             {
