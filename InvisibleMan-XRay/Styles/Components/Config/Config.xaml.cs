@@ -24,6 +24,7 @@ namespace InvisibleManXRay.Components
 
         private BackgroundWorker checkConnectionWorker;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public Config()
@@ -102,7 +103,7 @@ namespace InvisibleManXRay.Components
             {
                 MessageBox.Show(
                     getServerWindow.Invoke(),
-                    Message.FILE_DOESNT_EXISTS,
+                    LocalizationService.GetTerm(Localization.FILE_DOESNT_EXISTS),
                     Caption.ERROR,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
@@ -161,7 +162,7 @@ namespace InvisibleManXRay.Components
             {
                 MessageBox.Show(
                     getServerWindow.Invoke(),
-                    Message.FILE_DOESNT_EXISTS,
+                    LocalizationService.GetTerm(Localization.FILE_DOESNT_EXISTS),
                     Caption.ERROR,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error

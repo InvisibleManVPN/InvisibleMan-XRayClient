@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string FILE_DOESNT_EXISTS = "This file doesn't exists.\nMaybe it has been deleted.";
         public const string DELETE_CONFIRMATION = "Are you sure you want to delete {0}?";
         public const string NO_SERVER_CONFIGURATION = "No server configuration";
         public const string UNSUPPORTED_CONFIG_LINK = "This link wasn't supported.\nTry another configuration link.";
