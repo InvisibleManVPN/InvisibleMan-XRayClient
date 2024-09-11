@@ -6,8 +6,9 @@ using System.Net.Sockets;
 
 namespace InvisibleManXRay.Handlers.Processes
 {
-    using Models;
     using Foundation;
+    using Services;
+    using Models;
     using Utilities;
     using Values;
 
@@ -22,6 +23,8 @@ namespace InvisibleManXRay.Handlers.Processes
         private Processor processor;
 
         private const string INVISIBLEMAN_TUN_PROCESS = "InvisibleMan-TUN";
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public TunnelProcess()
         {
@@ -79,7 +82,7 @@ namespace InvisibleManXRay.Handlers.Processes
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.CANT_CONNECT_TO_TUNNEL_SERVICE,
-                    content: Message.CANT_CONNECT_TO_TUNNEL_SERVICE
+                    content: LocalizationService.GetTerm(Localization.CANT_CONNECT_TO_TUNNEL_SERVICE)
                 );
             }
 
