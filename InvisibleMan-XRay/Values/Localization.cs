@@ -16,5 +16,6 @@ namespace InvisibleManXRay.Values
         public const string UNSUPPORTED_CONFIG_LINK = "Lang.Message.UnsopportedConfigLink";
         public const string UNSUPPORTED_SUBSCRIPTION_LINK = "Lang.Message.UnsopportedSubscriptionLink";
         public const string WAITING_FOR_SERVER_RESPONSE = "Lang.Message.WaitingForServerResponse";
+        public const string UPDATE_AVAILABLE = "Lang.Message.UpdateAvailable";
     }
 }

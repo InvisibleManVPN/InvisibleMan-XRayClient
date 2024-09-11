@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace InvisibleManXRay.Handlers
 {
+    using Services;
     using Models;
     using Values;
 
@@ -11,6 +12,8 @@ namespace InvisibleManXRay.Handlers
     {
         private Func<AppVersion> getApplicationVersion;
         private Func<string, AppVersion> convertToAppVersion;
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public void Setup(
             Func<AppVersion> getApplicationVersion,
@@ -29,7 +32,7 @@ namespace InvisibleManXRay.Handlers
                 return new Status(Code.ERROR, SubCode.CANT_CONNECT, Message.CANT_CONNECT_TO_SERVER);
 
             if (IsUpdateAvailable())
-                return new Status(Code.SUCCESS, SubCode.UPDATE_AVAILABLE, Message.UPDATE_AVAILABLE);
+                return new Status(Code.SUCCESS, SubCode.UPDATE_AVAILABLE, LocalizationService.GetTerm(Localization.UPDATE_AVAILABLE));
             
             return new Status(Code.SUCCESS, SubCode.UPDATE_UNAVAILABLE, Message.YOU_HAVE_LATEST_VERSION);
 

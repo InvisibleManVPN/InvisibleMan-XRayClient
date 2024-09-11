@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string UPDATE_AVAILABLE = "A new version is available!";
         public const string YOU_HAVE_LATEST_VERSION = "You already have the latest version";
         public const string CANT_CONNECT_TO_SERVER = "Can't connect to the server";
         public const string CANT_CONNECT_TO_TUNNEL_SERVICE = "The application can't connect to the tunnel service.";

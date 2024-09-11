@@ -22,6 +22,7 @@
     <system:String x:Key="Lang.Message.DeleteConfirmation">Are you sure you want to delete {0}?</system:String>
     <system:String x:Key="Lang.Message.NoServerConfiguration">No server configuration</system:String>
     <system:String x:Key="Lang.Message.WaitingForServerResponse">Waiting for the server response...</system:String>
+    <system:String x:Key="Lang.Message.UpdateAvailable">A new version is available!</system:String>
     <system:String x:Key="Lang.Message.NoConfigsFound" xml:space="preserve">No configurations were found.&#10;Please add a new server configuration.</system:String>
     <system:String x:Key="Lang.Message.InvalidConfig" xml:space="preserve">Invalid configuration.&#10;Please check it again.</system:String>
     <system:String x:Key="Lang.Message.InvalidSubscription" xml:space="preserve">Invalid subscription.&#10;Please check it again.</system:String>

@@ -76,7 +76,7 @@ namespace InvisibleManXRay
                     SetActiveConnectionErrorStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.UPDATE_AVAILABLE;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.UPDATE_AVAILABLE);
                 }
 
                 void ShowUpdateUnavailableStatus()
