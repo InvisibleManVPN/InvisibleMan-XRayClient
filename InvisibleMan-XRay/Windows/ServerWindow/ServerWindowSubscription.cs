@@ -166,7 +166,7 @@ namespace InvisibleManXRay
             {
                 MessageBox.Show(
                     this,
-                    Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
+                    LocalizationService.GetTerm(Values.Localization.NO_SUBSCRIPTION_LINK_ENTERED), 
                     Values.Caption.WARNING, 
                     MessageBoxButton.OK, 
                     MessageBoxImage.Warning
