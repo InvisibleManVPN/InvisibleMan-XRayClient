@@ -111,7 +111,7 @@ namespace InvisibleManXRay.Handlers.Processes
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.CANT_TUNNEL,
-                    content: Message.CANT_TUNNEL_SYSTEM
+                    content: LocalizationService.GetTerm(Localization.CANT_TUNNEL_SYSTEM)
                 );
             }
         }

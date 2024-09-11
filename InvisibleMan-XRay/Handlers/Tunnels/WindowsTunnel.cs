@@ -4,6 +4,7 @@ using System.Net;
 namespace InvisibleManXRay.Handlers.Tunnels
 {
     using Foundation;
+    using InvisibleManXRay.Services;
     using Models;
     using Values;
 
@@ -19,6 +20,8 @@ namespace InvisibleManXRay.Handlers.Tunnels
         private Func<string, Status> executeCommand;
 
         private const string NETWORK_INTERFACE_NAME = "InvisibleMan-XRay";
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public WindowsTunnel()
         {
@@ -86,7 +89,7 @@ namespace InvisibleManXRay.Handlers.Tunnels
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.CANT_TUNNEL,
-                    content: Message.CANT_TUNNEL_SYSTEM
+                    content: LocalizationService.GetTerm(Localization.CANT_TUNNEL_SYSTEM)
                 );
             }
 

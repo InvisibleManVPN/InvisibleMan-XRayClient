@@ -21,5 +21,6 @@ namespace InvisibleManXRay.Values
         public const string CANT_CONNECT_TO_SERVER = "Lang.Message.CantConnectToServer";
         public const string CANT_CONNECT_TO_TUNNEL_SERVICE = "Lang.Message.CantConnectToTunnelService";
         public const string CANT_PROXY_SYSTEM = "Lang.Message.CantProxySystem";
+        public const string CANT_TUNNEL_SYSTEM = "Lang.Message.CantTunnelSystem";
     }
 }
