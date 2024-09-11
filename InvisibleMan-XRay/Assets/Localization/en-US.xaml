@@ -24,6 +24,7 @@
     <system:String x:Key="Lang.Message.WaitingForServerResponse">Waiting for the server response...</system:String>
     <system:String x:Key="Lang.Message.UpdateAvailable">A new version is available!</system:String>
     <system:String x:Key="Lang.Message.YouHaveLatestVersion">You already have the latest version</system:String>
+    <system:String x:Key="Lang.Message.CantConnectToServer">Can't connect to the server</system:String>
     <system:String x:Key="Lang.Message.NoConfigsFound" xml:space="preserve">No configurations were found.&#10;Please add a new server configuration.</system:String>
     <system:String x:Key="Lang.Message.InvalidConfig" xml:space="preserve">Invalid configuration.&#10;Please check it again.</system:String>
     <system:String x:Key="Lang.Message.InvalidSubscription" xml:space="preserve">Invalid subscription.&#10;Please check it again.</system:String>

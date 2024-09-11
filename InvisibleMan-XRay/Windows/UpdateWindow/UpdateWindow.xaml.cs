@@ -96,7 +96,7 @@ namespace InvisibleManXRay
                     SetActiveUpdateUnavailableStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.CANT_CONNECT_TO_SERVER;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.CANT_CONNECT_TO_SERVER);
                 }
             }
         }

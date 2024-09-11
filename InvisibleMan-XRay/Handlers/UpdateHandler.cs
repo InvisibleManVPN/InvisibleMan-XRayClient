@@ -29,7 +29,7 @@ namespace InvisibleManXRay.Handlers
             string latestReleaseUrl = GetLatestReleaseUrl();
             string latestReleaseVersion = GetLatestReleaseVersion(latestReleaseUrl);
             if (latestReleaseVersion == null)
-                return new Status(Code.ERROR, SubCode.CANT_CONNECT, Message.CANT_CONNECT_TO_SERVER);
+                return new Status(Code.ERROR, SubCode.CANT_CONNECT, LocalizationService.GetTerm(Localization.CANT_CONNECT_TO_SERVER));
 
             if (IsUpdateAvailable())
                 return new Status(Code.SUCCESS, SubCode.UPDATE_AVAILABLE, LocalizationService.GetTerm(Localization.UPDATE_AVAILABLE));

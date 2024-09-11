@@ -18,5 +18,6 @@ namespace InvisibleManXRay.Values
         public const string WAITING_FOR_SERVER_RESPONSE = "Lang.Message.WaitingForServerResponse";
         public const string UPDATE_AVAILABLE = "Lang.Message.UpdateAvailable";
         public const string YOU_HAVE_LATEST_VERSION = "Lang.Message.YouHaveLatestVersion";
+        public const string CANT_CONNECT_TO_SERVER = "Lang.Message.CantConnectToServer";
     }
 }
