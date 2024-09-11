@@ -25,4 +25,5 @@
     <system:String x:Key="Lang.Message.NoConfigFileSelected" xml:space="preserve">No file was selected.&#10;Add a server configuration file.</system:String>
     <system:String x:Key="Lang.Message.NoConfigLinkEntered" xml:space="preserve">No link was entered.&#10;Add a server configuration link.</system:String>
     <system:String x:Key="Lang.Message.NoSubscriptionLinkEntered" xml:space="preserve">No link was entered.&#10;Add a subscription link.</system:String>
+    <system:String x:Key="Lang.Message.NoSubscriptionRemarksEntered" xml:space="preserve">No remarks was entered.&#10;Please fill remarks.</system:String>
 </ResourceDictionary>

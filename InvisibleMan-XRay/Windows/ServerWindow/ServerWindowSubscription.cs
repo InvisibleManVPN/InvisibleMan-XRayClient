@@ -155,7 +155,7 @@ namespace InvisibleManXRay
             {
                 MessageBox.Show(
                     this,
-                    Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
+                    LocalizationService.GetTerm(Values.Localization.NO_SUBSCRIPTION_REMARKS_ENTERED), 
                     Values.Caption.WARNING, 
                     MessageBoxButton.OK, 
                     MessageBoxImage.Warning

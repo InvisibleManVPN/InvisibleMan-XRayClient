@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string NO_SUBSCRIPTION_REMARKS_ENTERED = "No remarks was entered.\nPlease fill remarks.";
         public const string FILE_DOESNT_EXISTS = "This file doesn't exists.\nMaybe it has been deleted.";
         public const string DELETE_CONFIRMATION = "Are you sure you want to delete {0}?";
         public const string NO_SERVER_CONFIGURATION = "No server configuration";

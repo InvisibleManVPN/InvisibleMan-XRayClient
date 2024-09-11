@@ -9,5 +9,6 @@ namespace InvisibleManXRay.Values
         public const string NO_CONFIG_FILE_SELECTED = "Lang.Message.NoConfigFileSelected";
         public const string NO_CONFIG_LINK_ENTERED = "Lang.Message.NoConfigLinkEntered";
         public const string NO_SUBSCRIPTION_LINK_ENTERED = "Lang.Message.NoSubscriptionLinkEntered";
+        public const string NO_SUBSCRIPTION_REMARKS_ENTERED = "Lang.Message.NoSubscriptionRemarksEntered";
     }
 }
