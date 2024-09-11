@@ -12,11 +12,20 @@
     
     <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
 
+    <system:String x:Key="Lang.Config.Status.NotChecked">Not checked</system:String>
+    <system:String x:Key="Lang.Config.Status.Timeout">Timeout</system:String>
+    <system:String x:Key="Lang.Config.Status.Available">Available</system:String>
+
     <system:String x:Key="Lang.ToolTip.About">About</system:String>
     <system:String x:Key="Lang.ToolTip.Settings">Settings</system:String>
     <system:String x:Key="Lang.ToolTip.BugReporting">Bug reporting</system:String>
     <system:String x:Key="Lang.ToolTip.CheckForUpdates">Check for updates</system:String>
     <system:String x:Key="Lang.ToolTip.SourceCodeOnGitHub">Source code on GitHub</system:String>
+    <system:String x:Key="Lang.ToolTip.Edit">Edit</system:String>
+    <system:String x:Key="Lang.ToolTip.Delete">Delete</system:String>
+    <system:String x:Key="Lang.ToolTip.Log">Log</system:String>
+    <system:String x:Key="Lang.ToolTip.Share">Share</system:String>
+    <system:String x:Key="Lang.ToolTip.Check">Check</system:String>
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
     <system:String x:Key="Lang.Message.DeleteConfirmation">Are you sure you want to delete {0}?</system:String>

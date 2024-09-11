@@ -56,7 +56,7 @@
                         Width="8" Height="8" Margin="0 0 2 0"
                         VerticalAlignment="Center"
                         Fill="Gray"/>
-                    <Label Content="Not checked" FontFamily="{StaticResource SegoeUI}"
+                    <Label Content="{DynamicResource Lang.Config.Status.NotChecked}" FontFamily="{StaticResource SegoeUI}"
                         VerticalAlignment="Center"
                         Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
 
@@ -70,7 +70,7 @@
                         Width="8" Height="8" Margin="0 0 2 0"
                         VerticalAlignment="Center"
                         Fill="{StaticResource Color.Red}"/>
-                    <Label Content="Timeout" FontFamily="{StaticResource SegoeUI}"
+                    <Label Content="{DynamicResource Lang.Config.Status.Timeout}" FontFamily="{StaticResource SegoeUI}"
                         VerticalAlignment="Center"
                         Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
 
@@ -84,7 +84,7 @@
                         Width="8" Height="8" Margin="0 0 2 0"
                         VerticalAlignment="Center"
                         Fill="{StaticResource Color.Green}"/>
-                    <Label x:Name="textAvailability" Content="Available" FontFamily="{StaticResource SegoeUI}"
+                    <Label x:Name="textAvailability" Content="{DynamicResource Lang.Config.Status.Available}" FontFamily="{StaticResource SegoeUI}"
                         VerticalAlignment="Center"
                         Margin="0" Foreground="White" FontWeight="Light" FontSize="12"/>
 
@@ -94,7 +94,7 @@
                     HorizontalAlignment="Center" VerticalAlignment="Top">
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Edit" 
+                        Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Edit}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="OnEditButtonClick">
 
@@ -105,7 +105,7 @@
                     </Button>
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Delete" 
+                        Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Delete}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="OnDeleteButtonClick">
 
@@ -116,7 +116,7 @@
                     </Button>
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Log" 
+                        Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Log}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         x:Name="buttonLog"
                         Click="OnLogButtonClick">
@@ -128,7 +128,7 @@
                     </Button>
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Share" 
+                        Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Share}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Click="OnShareButtonClick">
 
@@ -139,7 +139,7 @@
                     </Button>
 
                     <Button Width="20" Height="20"
-                        Style="{StaticResource Button.None}" ToolTip="Check" 
+                        Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Check}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         x:Name="buttonCheck"
                         Click="OnCheckButtonClick">
