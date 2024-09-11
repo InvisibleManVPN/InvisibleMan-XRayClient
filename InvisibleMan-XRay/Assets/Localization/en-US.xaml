@@ -19,7 +19,8 @@
     <system:String x:Key="Lang.ToolTip.SourceCodeOnGitHub">Source code on GitHub</system:String>
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
-    <system:String xml:space="preserve" x:Key="Lang.Message.NoConfigsFound">No configurations were found.&#10;Please add a new server configuration.</system:String>
-    <system:String xml:space="preserve" x:Key="Lang.Message.InvalidConfig">Invalid configuration.&#10;Please check it again.</system:String>
-    <system:String xml:space="preserve" x:Key="Lang.Message.InvalidSubscription">Invalid subscription.&#10;Please check it again.</system:String>
+    <system:String x:Key="Lang.Message.NoConfigsFound" xml:space="preserve">No configurations were found.&#10;Please add a new server configuration.</system:String>
+    <system:String x:Key="Lang.Message.InvalidConfig" xml:space="preserve">Invalid configuration.&#10;Please check it again.</system:String>
+    <system:String x:Key="Lang.Message.InvalidSubscription" xml:space="preserve">Invalid subscription.&#10;Please check it again.</system:String>
+    <system:String x:Key="Lang.Message.NoConfigFileSelected" xml:space="preserve">No file was selected.&#10;Add a server configuration file.</system:String>
 </ResourceDictionary>
