@@ -2,8 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string UNSUPPORTED_SUBSCRIPTION_LINK = "This link wasn't supported.\nTry another subscription link.";
-        public const string INVALID_LINK = "The link was not in the correct format.\nTry another link.";
         public const string WAITING_FOR_SERVER_RESPONSE = "Waiting for the server response...";
         public const string UPDATE_AVAILABLE = "A new version is available!";
         public const string YOU_HAVE_LATEST_VERSION = "You already have the latest version";

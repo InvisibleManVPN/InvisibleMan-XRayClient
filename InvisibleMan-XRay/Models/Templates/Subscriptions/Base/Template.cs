@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 namespace InvisibleManXRay.Models.Templates.Subscriptions
 {
+    using Services;
     using Utilities;
 
     public abstract class Template
     {
         protected string Data;
+
+        protected LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public abstract bool IsValid(string link);
 

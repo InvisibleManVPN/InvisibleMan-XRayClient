@@ -14,5 +14,6 @@ namespace InvisibleManXRay.Values
         public const string DELETE_CONFIRMATION = "Lang.Message.DeleteConfirmation";
         public const string NO_SERVER_CONFIGURATION = "Lang.Message.NoServerConfiguration";
         public const string UNSUPPORTED_CONFIG_LINK = "Lang.Message.UnsopportedConfigLink";
+        public const string UNSUPPORTED_SUBSCRIPTION_LINK = "Lang.Message.UnsopportedSubscriptionLink";
     }
 }
