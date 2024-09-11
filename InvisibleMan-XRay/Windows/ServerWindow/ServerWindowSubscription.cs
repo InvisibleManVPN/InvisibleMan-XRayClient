@@ -88,7 +88,7 @@ namespace InvisibleManXRay
 
             MessageBoxResult result = MessageBox.Show(
                 this,
-                string.Format(Message.DELETE_CONFIRMATION, remarks),
+                string.Format(LocalizationService.GetTerm(Localization.DELETE_CONFIRMATION), remarks),
                 Caption.INFO,
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question

@@ -128,7 +128,7 @@ namespace InvisibleManXRay.Components
 
             MessageBoxResult result = MessageBox.Show(
                 getServerWindow.Invoke(),
-                string.Format(Message.DELETE_CONFIRMATION, config.Name),
+                string.Format(LocalizationService.GetTerm(Localization.DELETE_CONFIRMATION), config.Name),
                 Caption.INFO,
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question
