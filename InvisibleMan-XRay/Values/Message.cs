@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string NO_SERVER_CONFIGURATION = "No server configuration";
         public const string UNSUPPORTED_CONFIG_LINK = "This link wasn't supported.\nTry another configuration link.";
         public const string UNSUPPORTED_SUBSCRIPTION_LINK = "This link wasn't supported.\nTry another subscription link.";
         public const string INVALID_LINK = "The link was not in the correct format.\nTry another link.";

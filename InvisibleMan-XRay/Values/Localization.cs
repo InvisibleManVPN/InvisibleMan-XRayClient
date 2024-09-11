@@ -12,5 +12,6 @@ namespace InvisibleManXRay.Values
         public const string NO_SUBSCRIPTION_REMARKS_ENTERED = "Lang.Message.NoSubscriptionRemarksEntered";
         public const string FILE_DOESNT_EXISTS = "Lang.Message.FileDoesntExists";
         public const string DELETE_CONFIRMATION = "Lang.Message.DeleteConfirmation";
+        public const string NO_SERVER_CONFIGURATION = "Lang.Message.NoServerConfiguration";
     }
 }
