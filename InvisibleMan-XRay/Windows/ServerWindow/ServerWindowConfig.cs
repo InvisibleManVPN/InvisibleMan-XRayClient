@@ -141,7 +141,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_CONFIG_LINK_ENTERED, 
+                        LocalizationService.GetTerm(Values.Localization.NO_CONFIG_LINK_ENTERED), 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning

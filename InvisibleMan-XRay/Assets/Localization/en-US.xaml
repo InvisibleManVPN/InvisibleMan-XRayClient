@@ -23,4 +23,5 @@
     <system:String x:Key="Lang.Message.InvalidConfig" xml:space="preserve">Invalid configuration.&#10;Please check it again.</system:String>
     <system:String x:Key="Lang.Message.InvalidSubscription" xml:space="preserve">Invalid subscription.&#10;Please check it again.</system:String>
     <system:String x:Key="Lang.Message.NoConfigFileSelected" xml:space="preserve">No file was selected.&#10;Add a server configuration file.</system:String>
+    <system:String x:Key="Lang.Message.NoConfigLinkEntered" xml:space="preserve">No link was entered.&#10;Add a server configuration link.</system:String>
 </ResourceDictionary>
