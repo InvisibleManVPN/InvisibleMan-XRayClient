@@ -38,4 +38,5 @@
     <system:String x:Key="Lang.Message.FileDoesntExists" xml:space="preserve">This file doesn't exists.&#10;Maybe it has been deleted.</system:String>
     <system:String x:Key="Lang.Message.UnsopportedConfigLink" xml:space="preserve">This link wasn't supported.&#10;Try another configuration link.</system:String>
     <system:String x:Key="Lang.Message.UnsopportedSubscriptionLink" xml:space="preserve">This link wasn't supported.&#10;Try another subscription link.</system:String>
+    <system:String x:Key="Lang.Message.NoLogFile" xml:space="preserve">There is no log file for this config.&#10;You can manage the log files from the settings menu.</system:String>
 </ResourceDictionary>

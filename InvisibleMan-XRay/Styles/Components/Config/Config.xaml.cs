@@ -214,7 +214,7 @@ namespace InvisibleManXRay.Components
             {
                 MessageBox.Show(
                     getServerWindow.Invoke(),
-                    Message.NO_LOG_FILE,
+                    LocalizationService.GetTerm(Localization.NO_LOG_FILE),
                     Caption.INFO,
                     MessageBoxButton.OK,
                     MessageBoxImage.Information
