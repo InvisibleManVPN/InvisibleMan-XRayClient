@@ -16,6 +16,7 @@ namespace InvisibleManXRay
 
         private BackgroundWorker updateWorker;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public UpdateWindow()
@@ -65,7 +66,7 @@ namespace InvisibleManXRay
                     SetActiveUpdateAvailableStatus(false);
                     SetActiveUpdateUnavailableStatus(false);
 
-                    textUpdateStatus.Content = Message.WAITING_FOR_SERVER_RESPONSE;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.WAITING_FOR_SERVER_RESPONSE);
                 }
 
                 void ShowUpdateAvailableStatus()

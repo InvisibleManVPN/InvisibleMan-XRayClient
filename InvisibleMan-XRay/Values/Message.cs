@@ -2,7 +2,6 @@ namespace InvisibleManXRay.Values
 {
     public static class Message
     {
-        public const string WAITING_FOR_SERVER_RESPONSE = "Waiting for the server response...";
         public const string UPDATE_AVAILABLE = "A new version is available!";
         public const string YOU_HAVE_LATEST_VERSION = "You already have the latest version";
         public const string CANT_CONNECT_TO_SERVER = "Can't connect to the server";
