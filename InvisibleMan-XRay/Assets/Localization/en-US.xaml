@@ -29,6 +29,7 @@
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
     <system:String x:Key="Lang.Message.DeleteConfirmation">Are you sure you want to delete {0}?</system:String>
+    <system:String x:Key="Lang.Message.ConfigHint">Tap the plus to add a new one</system:String>
     <system:String x:Key="Lang.Message.NoServerConfiguration">No server configuration</system:String>
     <system:String x:Key="Lang.Message.WaitingForServerResponse">Waiting for the server response...</system:String>
     <system:String x:Key="Lang.Message.UpdateAvailable">A new version is available!</system:String>
