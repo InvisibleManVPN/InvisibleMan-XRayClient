@@ -12,6 +12,18 @@
     
     <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
 
+    <system:String x:Key="Lang.Window.About.Title">ABOUT</system:String>
+    <system:String x:Key="Lang.Window.About.Subtitle">About Invisible Man XRay</system:String>
+    <system:String x:Key="Lang.Window.About.ApplicationVersion">Application version:</system:String>
+    <system:String x:Key="Lang.Window.About.XrayCoreVersion">Xray-core version:</system:String>
+    <system:String x:Key="Lang.Window.About.Description">is an open source and free client that supports xray core. It provides an easy-to-use interface to configure and manage proxies and allows users to switch between different server locations.</system:String>
+    <system:String x:Key="Lang.Window.About.VisitWebsite">Please visit the website to download the latest version or to get help and information.</system:String>
+    <system:String x:Key="Lang.Window.About.SubmitIssuePart1">If you have any problem or you want to report a bug or suggestion, feel free to submit them in our</system:String>
+    <system:String x:Key="Lang.Window.About.SubmitIssuePart2">issue tracker</system:String>
+    <system:String x:Key="Lang.Window.About.SubmitIssuePart3">.</system:String>
+    <system:String x:Key="Lang.Window.About.ContactUs">Also, you can contact us by sending an email. We will try to respond to you as soon as possible!</system:String>
+    <system:String x:Key="Lang.Window.About.Thanks" xml:space="preserve">Thanks for using Invisible Man XRay&#10;Hope you enjoy it</system:String>
+
     <system:String x:Key="Lang.Config.Status.NotChecked">Not checked</system:String>
     <system:String x:Key="Lang.Config.Status.Timeout">Timeout</system:String>
     <system:String x:Key="Lang.Config.Status.Available">Available</system:String>

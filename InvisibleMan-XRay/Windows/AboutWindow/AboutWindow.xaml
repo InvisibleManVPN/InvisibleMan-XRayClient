@@ -28,11 +28,11 @@
                 <TextBlock Padding="20 20 20 0" FontFamily="{StaticResource SegoeUI}"
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
 
-                    Application version: <Span FontWeight="Normal"> 
+                    <Run Text="{DynamicResource Lang.Window.About.ApplicationVersion}" /> <Span FontWeight="Normal"> 
                         <Run x:Name="textApplicationVersion" Text="0.0.0" /> 
                     </Span><LineBreak/>
 
-                    Xray-core version: <Span FontWeight="Normal">
+                    <Run Text="{DynamicResource Lang.Window.About.XrayCoreVersion}" /> <Span FontWeight="Normal">
                         <Run x:Name="textXRayCoreVersion" Text="0.0.0" />
                     </Span>
 
@@ -41,15 +41,14 @@
                 <TextBlock Padding="20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">Invisible Man XRay</Span> is an open source and free client that supports xray core.
-                    It provides an easy-to-use interface to configure and manage proxies and allows users to switch between
-                    different server locations.
+                    <Span FontWeight="Normal">Invisible Man XRay</Span> 
+                    <Run Text="{DynamicResource Lang.Window.About.Description}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    Please visit the website to download the latest version or to get help and information.
+                    <Run Text="{DynamicResource Lang.Window.About.VisitWebsite}" />
                 </TextBlock>
 
                 <TextBlock Grid.Row="2" Text="https://invisiblemanvpn.github.io" 
@@ -62,16 +61,17 @@
                 <TextBlock Padding="20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    If you have any problem or you want to report a bug or suggestion, feel free to submit them in our
-                    <Span TextDecorations="Underline" Foreground="{StaticResource Color.Blue}" 
-                    FontWeight="Normal" Cursor="Hand"
-                    PreviewMouseDown="OnBugReportingClick">issue tracker</Span>.
+                    <Run Text="{DynamicResource Lang.Window.About.SubmitIssuePart1}" />
+                    <Run TextDecorations="Underline" Foreground="{StaticResource Color.Blue}" 
+                        FontWeight="Normal" Cursor="Hand"
+                        Text = "{DynamicResource Lang.Window.About.SubmitIssuePart2}"
+                        PreviewMouseDown="OnBugReportingClick" /><Run Text="{DynamicResource Lang.Window.About.SubmitIssuePart3}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 20 20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    Also, you can contact us by sending an email. We will try to respond to you as soon as possible!
+                    <Run Text="{DynamicResource Lang.Window.About.ContactUs}" />
                 </TextBlock>
 
                 <TextBlock Grid.Row="2" Text="invisiblemanvpn@gmail.com" 
@@ -81,16 +81,10 @@
                     FontWeight="Normal" FontSize="15" Cursor="Hand"
                     PreviewMouseDown="OnEmailClick"/>
 
-                <TextBlock Padding="20 0 20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
-                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
-                    
-                    Thanks for using Invisible Man XRay
-                </TextBlock>
-
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    Hope you enjoy it
+                    <Run Text="{DynamicResource Lang.Window.About.Thanks}" />
                 </TextBlock>
 
             </StackPanel>
@@ -113,10 +107,10 @@
 
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
-                        Content="ABOUT" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.About.Title}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="20" Foreground="White"/>
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
-                        Content="About Invisible Man XRay" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.About.Subtitle}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="14" Foreground="White"/>
             </StackPanel>
         </Grid>
