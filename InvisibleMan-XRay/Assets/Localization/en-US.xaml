@@ -24,6 +24,26 @@
     <system:String x:Key="Lang.Window.About.ContactUs">Also, you can contact us by sending an email. We will try to respond to you as soon as possible!</system:String>
     <system:String x:Key="Lang.Window.About.Thanks" xml:space="preserve">Thanks for using Invisible Man XRay&#10;Hope you enjoy it</system:String>
 
+    <system:String x:Key="Lang.Window.Policy.Title">POLICY</system:String>
+    <system:String x:Key="Lang.Window.Policy.Subtitle">Data Analytics policy</system:String>
+    <system:String x:Key="Lang.Window.Policy.DescriptionPart1">At</system:String>
+    <system:String x:Key="Lang.Window.Policy.DescriptionPart2">Invisible Man</system:String>
+    <system:String x:Key="Lang.Window.Policy.DescriptionPart3">we are committed to providing you with an exceptional user experience. As part of our efforts to continuously improve our services, we utilize analytics data to gain insights and make informed decisions that benefit all our users. This policy outlines our approach to data analytics and our commitment to protecting your privacy.</system:String>
+    <system:String x:Key="Lang.Window.Policy.PurposeOfAnalyticsTitle">1. Purpose of Analytics:</system:String>
+    <system:String x:Key="Lang.Window.Policy.PurposeOfAnalyticsDescription">We use analytics to better understand how our app is being used, identify areas for improvement, and optimize our features and functionalities. By analyzing user behavior patterns, we can enhance the overall user experience and tailor our app to better meet your needs.</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataCollectionTitle">2. Data Collection:</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataCollectionDescription">The data we collect is strictly limited to non-personal, aggregated information. This means that we do not collect or process any personal information that can directly identify you. We respect your privacy and are committed to protecting your personal data.</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataAnonymizationTitle">3. Data Anonymization:</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataAnonymizationDescription">To ensure your privacy, any data we collect is anonymized and aggregated. This means that it is combined with data from other users and cannot be linked back to any specific individual. Rest assured that your identity remains completely anonymous throughout the analytics process.</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataSecurityTitle">4. Data Security:</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataSecurityDescription">We take the security of your data seriously. We have implemented industry-standard security measures to safeguard the analytics data we collect. Our systems are designed to protect against unauthorized access, use, or disclosure of your information.</system:String>
+    <system:String x:Key="Lang.Window.Policy.ThirdPartyProvidersTitle">5. Third-Party Providers:</system:String>
+    <system:String x:Key="Lang.Window.Policy.ThirdPartyProvidersDescription">We use Google Analytics as our third-party analytics provider to assist us in collecting and analyzing data. This provider is carefully selected and complies with our privacy and security standards.</system:String>
+    <system:String x:Key="Lang.Window.Policy.YourChoicesTitle">6. Your Choices:</system:String>
+    <system:String x:Key="Lang.Window.Policy.YourChoicesDescription">We respect your right to control your data. If you do not wish to participate in our analytics program, you can opt-out at any time through the app settings. Please note that opting out may impact our ability to enhance your user experience.</system:String>
+    <system:String x:Key="Lang.Window.Policy.AcknowledgeAnalyticsUse">By continuing to use our app, you acknowledge and consent to our use of analytics data in accordance with this policy. If you have any questions or concerns about our data analytics practices, please contact our support team at:</system:String>
+    <system:String x:Key="Lang.Window.Policy.Thanks">Thank you for choosing Invisible Man XRay. We appreciate your trust and look forward to providing you with an exceptional user experience.</system:String>
+
     <system:String x:Key="Lang.Config.Status.NotChecked">Not checked</system:String>
     <system:String x:Key="Lang.Config.Status.Timeout">Timeout</system:String>
     <system:String x:Key="Lang.Config.Status.Available">Available</system:String>
