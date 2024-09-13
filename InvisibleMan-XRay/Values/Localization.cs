@@ -23,5 +23,6 @@ namespace InvisibleManXRay.Values
         public const string CANT_PROXY_SYSTEM = "Lang.Message.CantProxySystem";
         public const string CANT_TUNNEL_SYSTEM = "Lang.Message.CantTunnelSystem";
         public const string NO_LOG_FILE = "Lang.Message.NoLogFile";
+        public const string NO_FILE_CHOOSEN = "Lang.Message.NoFileChoosen";
     }
 }

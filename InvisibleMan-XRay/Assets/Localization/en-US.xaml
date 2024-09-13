@@ -9,6 +9,11 @@
     <system:String x:Key="Lang.Status.Stopped">Stopped</system:String>
     <system:String x:Key="Lang.Status.Running">Running</system:String>
     <system:String x:Key="Lang.Status.WaitForRun">Wait for run</system:String>
+
+    <system:String x:Key="Lang.Button.Import">IMPORT</system:String>
+    <system:String x:Key="Lang.Button.Cancel">CANCEL</system:String>
+    <system:String x:Key="Lang.Button.Back">BACK</system:String>
+    <system:String x:Key="Lang.Button.ChooseFile">CHOOSE FILE</system:String>
     
     <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
 
@@ -44,6 +49,15 @@
     <system:String x:Key="Lang.Window.Policy.AcknowledgeAnalyticsUse">By continuing to use our app, you acknowledge and consent to our use of analytics data in accordance with this policy. If you have any questions or concerns about our data analytics practices, please contact our support team at:</system:String>
     <system:String x:Key="Lang.Window.Policy.Thanks">Thank you for choosing Invisible Man XRay. We appreciate your trust and look forward to providing you with an exceptional user experience.</system:String>
 
+    <system:String x:Key="Lang.Window.Server.Title">SERVER CONFIG</system:String>
+    <system:String x:Key="Lang.Window.Server.Subtitle">Manage server configuration</system:String>
+    <system:String x:Key="Lang.Window.Server.Tab.Configuration">Configuration</system:String>
+    <system:String x:Key="Lang.Window.Server.Tab.Subscription">Subscription</system:String>
+    <system:String x:Key="Lang.Window.Server.Import.File">Import config file</system:String>
+    <system:String x:Key="Lang.Window.Server.Import.Link">Import from link</system:String>
+    <system:String x:Key="Lang.Window.Server.Import.Remarks">Remarks</system:String>
+    <system:String x:Key="Lang.Window.Server.Import.SubscriptionLink">Subscription link</system:String>
+
     <system:String x:Key="Lang.Config.Status.NotChecked">Not checked</system:String>
     <system:String x:Key="Lang.Config.Status.Timeout">Timeout</system:String>
     <system:String x:Key="Lang.Config.Status.Available">Available</system:String>
@@ -53,16 +67,23 @@
     <system:String x:Key="Lang.ToolTip.BugReporting">Bug reporting</system:String>
     <system:String x:Key="Lang.ToolTip.CheckForUpdates">Check for updates</system:String>
     <system:String x:Key="Lang.ToolTip.SourceCodeOnGitHub">Source code on GitHub</system:String>
+    <system:String x:Key="Lang.ToolTip.AddNewConfiguration">Add new configuration</system:String>
+    <system:String x:Key="Lang.ToolTip.AddNewSubscription">Add new subscription</system:String>
     <system:String x:Key="Lang.ToolTip.Edit">Edit</system:String>
     <system:String x:Key="Lang.ToolTip.Delete">Delete</system:String>
     <system:String x:Key="Lang.ToolTip.Log">Log</system:String>
     <system:String x:Key="Lang.ToolTip.Share">Share</system:String>
     <system:String x:Key="Lang.ToolTip.Check">Check</system:String>
+    <system:String x:Key="Lang.ToolTip.Update">Update</system:String>
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
     <system:String x:Key="Lang.Message.DeleteConfirmation">Are you sure you want to delete {0}?</system:String>
     <system:String x:Key="Lang.Message.ConfigHint">Tap the plus to add a new one</system:String>
     <system:String x:Key="Lang.Message.NoServerConfiguration">No server configuration</system:String>
+    <system:String x:Key="Lang.Message.ThereIsNoConfiguration">There is no configuration</system:String>
+    <system:String x:Key="Lang.Message.ThereIsNoSubscription">There is no subscription</system:String>
+    <system:String x:Key="Lang.Message.NoFileChoosen">No file chosen...</system:String>
+    <system:String x:Key="Lang.Message.PleaseWait">Please wait...</system:String>
     <system:String x:Key="Lang.Message.WaitingForServerResponse">Waiting for the server response...</system:String>
     <system:String x:Key="Lang.Message.UpdateAvailable">A new version is available!</system:String>
     <system:String x:Key="Lang.Message.YouHaveLatestVersion">You already have the latest version</system:String>

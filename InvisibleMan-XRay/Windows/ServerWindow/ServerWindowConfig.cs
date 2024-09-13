@@ -238,7 +238,7 @@ namespace InvisibleManXRay
         private void ClearConfigPath()
         {
             configPath = null;
-            textBlockFileName.Text = "No file chosen...";
+            textBlockFileName.Text = LocalizationService.GetTerm(Values.Localization.NO_FILE_CHOOSEN);
         }
 
         private void ClearConfigLink()

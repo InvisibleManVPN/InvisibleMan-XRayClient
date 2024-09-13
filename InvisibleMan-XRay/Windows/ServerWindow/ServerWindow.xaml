@@ -40,7 +40,7 @@
                     <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
                         x:Name="buttonConfigTab" Click="OnConfigTabClick"/>
 
-                    <Label Grid.Row="0" Content="Configuration"
+                    <Label Grid.Row="0" Content="{DynamicResource Lang.Window.Server.Tab.Configuration}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
                         FontSize="14" IsHitTestVisible="False"/>
@@ -50,7 +50,7 @@
                     <Button Style="{StaticResource Button.Rectangle.Gray}" IsEnabled="True"
                         x:Name="buttonSubscriptionTab" Click="OnSubscriptionTabClick"/>
 
-                    <Label Grid.Row="0" Content="Subscription"
+                    <Label Grid.Row="0" Content="{DynamicResource Lang.Window.Server.Tab.Subscription}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         FontFamily="{StaticResource SegoeUI}" Foreground="White" FontWeight="Normal" 
                         FontSize="14" IsHitTestVisible="False"/>
@@ -69,13 +69,13 @@
                     Margin="0 20" Foreground="Gray" LineHeight="20"
                     FontWeight="Normal" FontSize="14">
 
-                    <Run Text="There is no configuration" /> 
+                    <Run Text="{DynamicResource Lang.Message.ThereIsNoConfiguration}" /> 
                     <LineBreak/>
-                    <Run Text="Tap the plus to add a new one" /> 
+                    <Run Text="{DynamicResource Lang.Message.ConfigHint}" /> 
                 </TextBlock>
 
                 <Button Width="40" Height="40" Margin="0 0 15 15" 
-                    Style="{StaticResource Button.Circle}" ToolTip="Add new configuration" 
+                    Style="{StaticResource Button.Circle}" ToolTip="{DynamicResource Lang.ToolTip.AddNewConfiguration}" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Click="OnAddConfigButtonClick">
 
@@ -120,7 +120,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Center">
 
                                 <Button Width="20" Height="20"
-                                    Style="{StaticResource Button.None}" ToolTip="Update" 
+                                    Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Update}" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Click="OnUpdateSubscriptionButtonClick">
 
@@ -131,7 +131,7 @@
                                 </Button>
 
                                 <Button Width="20" Height="20"
-                                    Style="{StaticResource Button.None}" ToolTip="Edit" 
+                                    Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Edit}" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Click="OnEditSubscriptionButtonClick">
 
@@ -142,7 +142,7 @@
                                 </Button>
 
                                 <Button Width="20" Height="20"
-                                    Style="{StaticResource Button.None}" ToolTip="Delete" 
+                                    Style="{StaticResource Button.None}" ToolTip="{DynamicResource Lang.ToolTip.Delete}" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Click="OnDeleteSubscriptionButtonClick">
 
@@ -163,13 +163,13 @@
                     Margin="0 20" Foreground="Gray" LineHeight="20"
                     FontWeight="Normal" FontSize="14">
 
-                    <Run Text="There is no subscription" /> 
+                    <Run Text="{DynamicResource Lang.Message.ThereIsNoSubscription}" /> 
                     <LineBreak/>
-                    <Run Text="Tap the plus to add a new one" /> 
+                    <Run Text="{DynamicResource Lang.Message.ConfigHint}" /> 
                 </TextBlock>
 
                 <Button Width="40" Height="40" Margin="0 0 15 15" 
-                    Style="{StaticResource Button.Circle}" ToolTip="Add new subscription" 
+                    Style="{StaticResource Button.Circle}" ToolTip="{DynamicResource Lang.ToolTip.AddNewSubscription}" 
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Click="OnAddSubscriptionButtonClick">
 
@@ -187,14 +187,14 @@
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
-                    <RadioButton GroupName="GroupImport" Content="Import config file" 
+                    <RadioButton GroupName="GroupImport" Content="{DynamicResource Lang.Window.Server.Import.File}" 
                         Foreground="White" IsChecked="True"
                         FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
                         x:Name="radioButtonFile"
                         Click="OnFileRadioButtonClick"/>
 
                     <StackPanel Orientation="Horizontal" Margin="20">
-                        <Button Width="100" Height="30" Content="CHOOSE FILE" 
+                        <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.ChooseFile}" 
                             Style="{StaticResource Button.Rectangle.Green}" 
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                             Foreground="{StaticResource Color.Gray}"
@@ -202,14 +202,14 @@
                             Click="OnChooseFileButtonClick">
                         </Button>
 
-                        <TextBlock Grid.Row="2" Text="No file chosen..." 
+                        <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Message.NoFileChoosen}" 
                             Margin="10 0" Foreground="White" VerticalAlignment="Center"
                             FontFamily="{StaticResource SegoeUI}" 
                             FontWeight="Normal" FontSize="14"
                             x:Name="textBlockFileName"/>
                     </StackPanel>
 
-                <RadioButton GroupName="GroupImport" Content="Import from link" 
+                <RadioButton GroupName="GroupImport" Content="{DynamicResource Lang.Window.Server.Import.Link}" 
                     Foreground="White" IsChecked="false"
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"
                     x:Name="radioButtonLink"
@@ -224,14 +224,14 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" 
                 HorizontalAlignment="Right" Margin="15 0">
 
-                <Button Width="100" Height="30" Content="IMPORT" 
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.Import}" 
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
                     Click="OnImportConfigButtonClick">
                 </Button>
 
-                <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.Cancel}" Margin="10 0 0 0"
                     Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
@@ -247,7 +247,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0">
-                <TextBlock Grid.Row="2" Text="Remarks" 
+                <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Window.Server.Import.Remarks}" 
                     Margin="10 0" Foreground="White" VerticalAlignment="Center"
                     FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Normal" FontSize="14"/>
@@ -257,7 +257,7 @@
                     FontWeight="Normal" FontSize="14"
                     x:Name="textBoxSubscriptionRemarks"/>
 
-                <TextBlock Grid.Row="2" Text="Subscription link" 
+                <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Window.Server.Import.SubscriptionLink}" 
                     Margin="10 0" Foreground="White" VerticalAlignment="Center"
                     FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Normal" FontSize="14"/>
@@ -271,14 +271,14 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" 
                 HorizontalAlignment="Right" Margin="15 0">
 
-                <Button Width="100" Height="30" Content="IMPORT" 
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.Import}" 
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
                     Click="OnImportSubscriptionButtonClick">
                 </Button>
 
-                <Button Width="100" Height="30" Content="CANCEL" Margin="10 0 0 0"
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.Cancel}" Margin="10 0 0 0"
                     Style="{StaticResource Button.Rectangle.Red}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
@@ -300,7 +300,7 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal" 
                 HorizontalAlignment="Right" Margin="15 0">
 
-                <Button Width="100" Height="30" Content="BACK" 
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Button.Back}" 
                     Style="{StaticResource Button.Rectangle.Green}" 
                     FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="12" 
                     Foreground="{StaticResource Color.Gray}"
@@ -320,7 +320,7 @@
                     <Controls:Loading Width="15" Height="15" Foreground="White"/>
                 </Grid>
                 
-                <TextBlock Grid.Row="2" Text="Please wait..." Foreground="White" 
+                <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Message.PleaseWait}" Foreground="White" 
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Normal" FontSize="14"/>
@@ -343,10 +343,10 @@
 
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
-                        Content="SERVER CONFIG" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Server.Title}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="20" Foreground="White"/>
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
-                        Content="Manage server configuration" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Server.Subtitle}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="14" Foreground="White"/>
             </StackPanel>
         </Grid>
