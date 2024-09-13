@@ -104,7 +104,7 @@
                     Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
                     x:Name="textServerConfig">
 
-                    No server configuration    
+                    <Run Text="{DynamicResource Lang.Message.NoServerConfiguration}" /> 
                 </TextBlock>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
