@@ -12,8 +12,11 @@
 
     <system:String x:Key="Lang.Button.Import">IMPORT</system:String>
     <system:String x:Key="Lang.Button.Confirm">CONFIRM</system:String>
+    <system:String x:Key="Lang.Button.Update">UPDATE</system:String>
     <system:String x:Key="Lang.Button.Cancel">CANCEL</system:String>
+    <system:String x:Key="Lang.Button.TryAgain">TRY AGAIN</system:String>
     <system:String x:Key="Lang.Button.Back">BACK</system:String>
+    <system:String x:Key="Lang.Button.Close">CLOSE</system:String>
     <system:String x:Key="Lang.Button.ChooseFile">CHOOSE FILE</system:String>
     
     <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
@@ -80,6 +83,9 @@
     <system:String x:Key="Lang.Window.Settings.Tun.Dns">DNS</system:String>
     <system:String x:Key="Lang.Window.Settings.Log.Level">Log level</system:String>
     <system:String x:Key="Lang.Window.Settings.Log.Path">Log path</system:String>
+
+    <system:String x:Key="Lang.Window.Update.Title">UPDATE</system:String>
+    <system:String x:Key="Lang.Window.Update.Subtitle">Check for updates</system:String>
 
     <system:String x:Key="Lang.Config.Status.NotChecked">Not checked</system:String>
     <system:String x:Key="Lang.Config.Status.Timeout">Timeout</system:String>
