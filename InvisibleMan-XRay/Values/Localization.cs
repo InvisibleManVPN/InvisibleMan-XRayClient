@@ -29,5 +29,10 @@ namespace InvisibleManXRay.Values
         public const string NOTIFY_UPDATE = "Lang.Notify.Update";
         public const string NOTIFY_ABOUT = "Lang.Notify.About";
         public const string NOTIFY_CLOSE = "Lang.Notify.Close";
+        public const string WINDOW_TITLE_ABOUT = "Lang.Window.About.WindowTitle";
+        public const string WINDOW_TITLE_POLICY = "Lang.Window.Policy.WindowTitle";
+        public const string WINDOW_TITLE_SERVER = "Lang.Window.Server.WindowTitle";
+        public const string WINDOW_TITLE_SETTINGS = "Lang.Window.Settings.WindowTitle";
+        public const string WINDOW_TITLE_UPDATE = "Lang.Window.Update.WindowTitle";
     }
 }

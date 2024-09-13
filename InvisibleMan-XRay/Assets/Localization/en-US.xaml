@@ -21,6 +21,7 @@
     
     <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Manage server configuration</system:String>
 
+    <system:String x:Key="Lang.Window.About.WindowTitle">About</system:String>
     <system:String x:Key="Lang.Window.About.Title">ABOUT</system:String>
     <system:String x:Key="Lang.Window.About.Subtitle">About Invisible Man XRay</system:String>
     <system:String x:Key="Lang.Window.About.ApplicationVersion">Application version:</system:String>
@@ -33,6 +34,7 @@
     <system:String x:Key="Lang.Window.About.ContactUs">Also, you can contact us by sending an email. We will try to respond to you as soon as possible!</system:String>
     <system:String x:Key="Lang.Window.About.Thanks" xml:space="preserve">Thanks for using Invisible Man XRay&#10;Hope you enjoy it</system:String>
 
+    <system:String x:Key="Lang.Window.Policy.WindowTitle">Policy</system:String>
     <system:String x:Key="Lang.Window.Policy.Title">POLICY</system:String>
     <system:String x:Key="Lang.Window.Policy.Subtitle">Data Analytics policy</system:String>
     <system:String x:Key="Lang.Window.Policy.DescriptionPart1">At</system:String>
@@ -53,6 +55,7 @@
     <system:String x:Key="Lang.Window.Policy.AcknowledgeAnalyticsUse">By continuing to use our app, you acknowledge and consent to our use of analytics data in accordance with this policy. If you have any questions or concerns about our data analytics practices, please contact our support team at:</system:String>
     <system:String x:Key="Lang.Window.Policy.Thanks">Thank you for choosing Invisible Man XRay. We appreciate your trust and look forward to providing you with an exceptional user experience.</system:String>
 
+    <system:String x:Key="Lang.Window.Server.WindowTitle">Server config</system:String>
     <system:String x:Key="Lang.Window.Server.Title">SERVER CONFIG</system:String>
     <system:String x:Key="Lang.Window.Server.Subtitle">Manage server configuration</system:String>
     <system:String x:Key="Lang.Window.Server.Tab.Configuration">Configuration</system:String>
@@ -62,6 +65,7 @@
     <system:String x:Key="Lang.Window.Server.Import.Remarks">Remarks</system:String>
     <system:String x:Key="Lang.Window.Server.Import.SubscriptionLink">Subscription link</system:String>
 
+    <system:String x:Key="Lang.Window.Settings.WindowTitle">Settings</system:String>
     <system:String x:Key="Lang.Window.Settings.Title">SETTINGS</system:String>
     <system:String x:Key="Lang.Window.Settings.Subtitle">Customize your settings</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Basic">Basic</system:String>
@@ -84,6 +88,7 @@
     <system:String x:Key="Lang.Window.Settings.Log.Level">Log level</system:String>
     <system:String x:Key="Lang.Window.Settings.Log.Path">Log path</system:String>
 
+    <system:String x:Key="Lang.Window.Update.WindowTitle">Update</system:String>
     <system:String x:Key="Lang.Window.Update.Title">UPDATE</system:String>
     <system:String x:Key="Lang.Window.Update.Subtitle">Check for updates</system:String>
 

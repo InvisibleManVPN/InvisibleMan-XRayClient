@@ -5,12 +5,16 @@ namespace InvisibleManXRay.Factories
     using Core;
     using Models;
     using Managers;
+    using Services;
     using Handlers;
+    using Values;
 
     public class WindowFactory
     {
         private InvisibleManXRayCore core;
         private HandlersManager handlersManager;
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public void Setup(InvisibleManXRayCore core, HandlersManager handlersManager)
         {
@@ -80,6 +84,11 @@ namespace InvisibleManXRay.Factories
                 onUpdateUserSettings: UpdateUserSettings
             );
 
+            SetupLocalizedWindowTitle(
+                window: settingsWindow,
+                term: Localization.WINDOW_TITLE_SETTINGS
+            );
+
             return settingsWindow;
 
             void UpdateUserSettings(UserSettings userSettings)
@@ -101,6 +110,11 @@ namespace InvisibleManXRay.Factories
                 onUpdateClick: linkHandler.OpenLatestReleaseLink
             );
 
+            SetupLocalizedWindowTitle(
+                window: updateWindow,
+                term: Localization.WINDOW_TITLE_UPDATE
+            );
+
             return updateWindow;
         }
 
@@ -116,6 +130,11 @@ namespace InvisibleManXRay.Factories
                 onEmailClick: linkHandler.OpenEmailLink,
                 onWebsiteClick: linkHandler.OpenWebsiteLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink
+            );
+
+            SetupLocalizedWindowTitle(
+                window: aboutWindow,
+                term: Localization.WINDOW_TITLE_ABOUT
             );
 
             return aboutWindow;
@@ -158,6 +177,11 @@ namespace InvisibleManXRay.Factories
                 onDeleteConfig: configHandler.LoadFiles,
                 onUpdateConfig: UpdateConfig
             );
+
+            SetupLocalizedWindowTitle(
+                window: serverWindow,
+                term: Localization.WINDOW_TITLE_SERVER
+            );
             
             return serverWindow;
 
@@ -178,7 +202,17 @@ namespace InvisibleManXRay.Factories
                 onEmailClick: linkHandler.OpenEmailLink
             );
 
+            SetupLocalizedWindowTitle(
+                window: policyWindow,
+                term: Localization.WINDOW_TITLE_POLICY
+            );
+
             return policyWindow;
+        }
+
+        private void SetupLocalizedWindowTitle(Window window, string term)
+        {
+            window.Title = $"Invisible Man XRay - {LocalizationService.GetTerm(term)}";
         }
     }
 }
