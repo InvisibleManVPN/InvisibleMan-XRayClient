@@ -9,6 +9,7 @@ namespace InvisibleManXRay.Handlers
     using Models;
     using Services;
     using Services.Analytics.Notify;
+    using Values;
 
     public class NotifyHandler : Handler
     {
@@ -24,12 +25,8 @@ namespace InvisibleManXRay.Handlers
 
         private Dictionary<Mode, ToolStripMenuItem> modeItems;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
-
-        public NotifyHandler()
-        {
-            InitializeNotifyIcon();
-        }
 
         public void Setup(
             Func<Mode> getMode,
@@ -48,9 +45,6 @@ namespace InvisibleManXRay.Handlers
             this.onCloseClick = onCloseClick;
             this.onProxyModeClick = onProxyModeClick;
             this.onTunnelModeClick = onTunnelModeClick;
-
-            HandleNotifyIconClick();
-            AddMenuStrip();
         }
 
         public void CheckModeItem(Mode mode)
@@ -60,11 +54,14 @@ namespace InvisibleManXRay.Handlers
             CheckItem(modeItem);
         }
 
-        private void InitializeNotifyIcon()
+        public void InitializeNotifyIcon()
         {
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = GetNotifyIcon();
             notifyIcon.Visible = true;
+
+            HandleNotifyIconClick();
+            AddMenuStrip();
 
             Icon GetNotifyIcon()
             {
@@ -90,11 +87,11 @@ namespace InvisibleManXRay.Handlers
                 { Mode.TUN, CreateItem("TUN", OnTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
             };
             
-            AddMenuItem("Open Invisible Man XRay", OnOpenClick);
-            AddMenuItem("Mode", delegate { }, modeItems.Values.ToArray());
-            AddMenuItem("Check for updates", OnUpdateClick);
-            AddMenuItem("About", OnAboutClick);
-            AddMenuItem("Close", OnCloseClick);
+            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_OPEN), OnOpenClick);
+            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_MODE), delegate { }, modeItems.Values.ToArray());
+            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_UPDATE), OnUpdateClick);
+            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_ABOUT), OnAboutClick);
+            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_CLOSE), OnCloseClick);
 
             notifyIcon.ContextMenuStrip = contextMenuStrip;
 

@@ -18,6 +18,7 @@ namespace InvisibleManXRay.Managers
         private FactoriesInitializer factoriesInitializer;
 
         public WindowFactory WindowFactory => factoriesInitializer.WindowFactory;
+        public HandlersManager HandlersManager => handlersInitializer.HandlersManager;
 
         private string[] args;
         private static Mutex mutex;

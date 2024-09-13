@@ -105,6 +105,12 @@
     <system:String x:Key="Lang.ToolTip.Check">Check</system:String>
     <system:String x:Key="Lang.ToolTip.Update">Update</system:String>
 
+    <system:String x:Key="Lang.Notify.Open">Open Invisible Man XRay</system:String>
+    <system:String x:Key="Lang.Notify.Mode">Mode</system:String>
+    <system:String x:Key="Lang.Notify.Update">Check for updates</system:String>
+    <system:String x:Key="Lang.Notify.About">About</system:String>
+    <system:String x:Key="Lang.Notify.Close">Close</system:String>
+
     <system:String x:Key="Lang.Message.AppAlreadyRunning">The application is already running.</system:String>
     <system:String x:Key="Lang.Message.DeleteConfirmation">Are you sure you want to delete {0}?</system:String>
     <system:String x:Key="Lang.Message.ConfigHint">Tap the plus to add a new one</system:String>
