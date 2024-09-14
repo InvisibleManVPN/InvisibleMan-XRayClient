@@ -21,7 +21,7 @@
     <system:String x:Key="Lang.Button.Close">Закрыть</system:String>
     <system:String x:Key="Lang.Button.ChooseFile">Выбрать файл</system:String>
 
-    <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Управление конфигурацией сервера</system:String>
+    <system:String x:Key="Lang.Window.Main.ManageServerConfiguration">Управление конфигурациями</system:String>
 
     <system:String x:Key="Lang.Window.About.WindowTitle">О программе</system:String>
     <system:String x:Key="Lang.Window.About.Title">О ПРОГРАММЕ</system:String>
@@ -57,19 +57,18 @@
     <system:String x:Key="Lang.Window.Policy.AcknowledgeAnalyticsUse">Продолжая использовать наше приложение, вы подтверждаете и соглашаетесь с использованием нами аналитических данных в соответствии с этой политикой. Если у вас есть вопросы или опасения по поводу наших практик анализа данных, пожалуйста, свяжитесь с нашей службой поддержки по адресу:</system:String>
     <system:String x:Key="Lang.Window.Policy.Thanks">Спасибо, что выбрали Invisible Man XRay. Мы ценим ваше доверие и надеемся предоставить вам исключительный пользовательский опыт.</system:String>
 
-    <system:String x:Key="Lang.Window.Server.WindowTitle">Конфигурация сервера</system:String>
-    <system:String x:Key="Lang.Window.Server.Title">КОНФИГУРАЦИЯ СЕРВЕРА</system:String>
-    <system:String x:Key="Lang.Window.Server.Subtitle">Управление конфигурацией сервера</system:String>
+    <system:String x:Key="Lang.Window.Server.WindowTitle">Конфигурации</system:String>
+    <system:String x:Key="Lang.Window.Server.Title">КОНФИГУРАЦИИ</system:String>
+    <system:String x:Key="Lang.Window.Server.Subtitle">Управление конфигурациями</system:String>
     <system:String x:Key="Lang.Window.Server.Tab.Configuration">Конфигурация</system:String>
     <system:String x:Key="Lang.Window.Server.Tab.Subscription">Подписка</system:String>
     <system:String x:Key="Lang.Window.Server.Import.File">Импортировать файл конфигурации</system:String>
     <system:String x:Key="Lang.Window.Server.Import.Link">Импортировать по ссылке</system:String>
-    <system:String x:Key="Lang.Window.Server.Import.Remarks">Примечания</system:String>
+    <system:String x:Key="Lang.Window.Server.Import.Remarks">Название подписки</system:String>
     <system:String x:Key="Lang.Window.Server.Import.SubscriptionLink">Ссылка на подписку</system:String>
 
     <system:String x:Key="Lang.Window.Settings.WindowTitle">Настройки</system:String>
     <system:String x:Key="Lang.Window.Settings.Title">НАСТРОЙКИ</system:String>
-    <system:String x:Key="Lang.Window.Settings.Subtitle">Настройте свои параметры</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Basic">Основные</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Port">Порт</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.TUN">TUN</system:String>
@@ -79,9 +78,8 @@
     <system:String x:Key="Lang.Window.Settings.Basic.Protocol">Протокол</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.UseSystemProxy">Использовать системный прокси</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.EnbleUdp">Включить UDP</system:String>
-    <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart1">Разрешить приложению отправлять</system:String>
-    <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart2">аналитические</system:String>
-    <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart3">события</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart1">Разрешить отправку</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart2">аналитики</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.RunAtStartup">Автозапуск при старте системы</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Proxy">Порт прокси</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.TUN">Порт TUN</system:String>
@@ -121,10 +119,10 @@
 
     <system:String x:Key="Lang.Message.AppAlreadyRunning">Приложение уже запущено.</system:String>
     <system:String x:Key="Lang.Message.DeleteConfirmation">Вы уверены, что хотите удалить {0}?</system:String>
-    <system:String x:Key="Lang.Message.ConfigHint">Нажмите плюс, чтобы добавить новую конфигурацию</system:String>
-    <system:String x:Key="Lang.Message.NoServerConfiguration">Нет конфигурации сервера</system:String>
-    <system:String x:Key="Lang.Message.ThereIsNoConfiguration">Конфигурация отсутствует</system:String>
-    <system:String x:Key="Lang.Message.ThereIsNoSubscription">Подписка отсутствует</system:String>
+    <system:String x:Key="Lang.Message.ConfigHint">Нажмите +, чтобы добавить новую</system:String>
+    <system:String x:Key="Lang.Message.NoServerConfiguration">Конфигурации отсутствуют</system:String>
+    <system:String x:Key="Lang.Message.ThereIsNoConfiguration">Конфигурации отсутствуют</system:String>
+    <system:String x:Key="Lang.Message.ThereIsNoSubscription">Подписки отсутствуют</system:String>
     <system:String x:Key="Lang.Message.NoFileChoosen">Файл не выбран...</system:String>
     <system:String x:Key="Lang.Message.PleaseWait">Пожалуйста, подождите...</system:String>
     <system:String x:Key="Lang.Message.WaitingForServerResponse">Ожидание ответа сервера...</system:String>
@@ -140,9 +138,9 @@
     <system:String x:Key="Lang.Message.NoConfigFileSelected" xml:space="preserve">Файл не выбран.&#10;Добавьте файл конфигурации сервера.</system:String>
     <system:String x:Key="Lang.Message.NoConfigLinkEntered" xml:space="preserve">Ссылка не введена.&#10;Добавьте ссылку на конфигурацию сервера.</system:String>
     <system:String x:Key="Lang.Message.NoSubscriptionLinkEntered" xml:space="preserve">Ссылка не введена.&#10;Добавьте ссылку на подписку.</system:String>
-    <system:String x:Key="Lang.Message.NoSubscriptionRemarksEntered" xml:space="preserve">Примечания не введены.&#10;Пожалуйста, заполните поле примечаний.</system:String>
+    <system:String x:Key="Lang.Message.NoSubscriptionRemarksEntered" xml:space="preserve">Название подписки не введено.&#10;Пожалуйста, заполните это поле.</system:String>
     <system:String x:Key="Lang.Message.FileDoesntExists" xml:space="preserve">Этот файл не существует.&#10;Возможно, он был удален.</system:String>
     <system:String x:Key="Lang.Message.UnsopportedConfigLink" xml:space="preserve">Эта ссылка не поддерживается.&#10;Попробуйте другую ссылку на конфигурацию.</system:String>
     <system:String x:Key="Lang.Message.UnsopportedSubscriptionLink" xml:space="preserve">Эта ссылка не поддерживается.&#10;Попробуйте другую ссылку на подписку.</system:String>
-    <system:String x:Key="Lang.Message.NoLogFile" xml:space="preserve">Нет файла журнала для этой конфигурации.&#10;Вы можете управлять файлами журналов в меню настроек.</system:String>
+    <system:String x:Key="Lang.Message.NoLogFile" xml:space="preserve">Файл лога для этой конфигурации отсутствует.&#10;Вы можете управлять логами через меню настроек.</system:String>
 </ResourceDictionary>
