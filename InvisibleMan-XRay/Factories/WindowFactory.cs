@@ -96,8 +96,9 @@ namespace InvisibleManXRay.Factories
             void UpdateUserSettings(UserSettings userSettings)
             {
                 settingsHandler.UpdateUserSettings(userSettings);
-                notifyHandler.CheckModeItem(userSettings.GetMode());
                 localizationHandler.TryApplyCurrentLanguage();
+                notifyHandler.InitializeNotifyIcon();
+                notifyHandler.CheckModeItem(userSettings.GetMode());
                 GetMainWindow().TryDisableModeAndRerun();
             }
         }

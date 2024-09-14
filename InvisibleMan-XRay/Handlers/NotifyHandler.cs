@@ -56,12 +56,17 @@ namespace InvisibleManXRay.Handlers
 
         public void InitializeNotifyIcon()
         {
+            if (IsNotifyIconAlreadyExists())
+                notifyIcon.Dispose();
+
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = GetNotifyIcon();
             notifyIcon.Visible = true;
 
             HandleNotifyIconClick();
             AddMenuStrip();
+
+            bool IsNotifyIconAlreadyExists() => notifyIcon != null;
 
             Icon GetNotifyIcon()
             {
