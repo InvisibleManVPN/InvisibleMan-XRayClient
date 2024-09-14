@@ -24,7 +24,7 @@
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Orientation="Vertical" FlowDirection="{DynamicResource Lang.Direction}">
                 <TextBlock Padding="20 20 20 0" FontFamily="{StaticResource SegoeUI}"
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
 
@@ -65,7 +65,8 @@
                     <Run TextDecorations="Underline" Foreground="{StaticResource Color.Blue}" 
                         FontWeight="Normal" Cursor="Hand"
                         Text = "{DynamicResource Lang.Window.About.SubmitIssuePart2}"
-                        PreviewMouseDown="OnBugReportingClick" /><Run Text="{DynamicResource Lang.Window.About.SubmitIssuePart3}" />
+                        PreviewMouseDown="OnBugReportingClick" />
+                    <Run Text="{DynamicResource Lang.Window.About.SubmitIssuePart3}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 20 20 0" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 

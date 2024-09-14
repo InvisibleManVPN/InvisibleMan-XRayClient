@@ -24,7 +24,7 @@
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Orientation="Vertical" FlowDirection="{DynamicResource Lang.Direction}">
                 <TextBlock Padding="20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
 
