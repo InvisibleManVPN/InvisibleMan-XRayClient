@@ -12,18 +12,28 @@ namespace InvisibleManXRay.Managers.Initializers
         public void Register()
         {
             ServicesManager = new ServicesManager();
+
+            ServicesManager.AddService(new LocalizationService());
             ServicesManager.AddService(new AnalyticsService());
         }
 
         public void Setup(HandlersManager handlersManager)
         {
             SetupServiceLocator();
+            SetupLocalizationService();
             SetupAnalyticsService();
 
             void SetupServiceLocator()
             {
                 ServiceLocator.Setup(
                     servicesManager: ServicesManager
+                );
+            }
+
+            void SetupLocalizationService()
+            {
+                ServicesManager.GetService<LocalizationService>().Setup(
+                    getLocalizationResource: handlersManager.GetHandler<LocalizationHandler>().GetLocalizationResource
                 );
             }
 

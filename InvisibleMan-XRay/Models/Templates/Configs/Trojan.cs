@@ -30,7 +30,7 @@ namespace InvisibleManXRay.Models.Templates.Configs
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.INVALID_CONFIG,
-                    content: Message.INVALID_CONFIG
+                    content: LocalizationService.GetTerm(Localization.INVALID_CONFIG)
                 );
 
             return new Status(Code.SUCCESS, SubCode.SUCCESS, null);

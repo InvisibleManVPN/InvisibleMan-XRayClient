@@ -38,6 +38,7 @@ namespace InvisibleManXRay
         private BackgroundWorker updateWorker;
         private BackgroundWorker broadcastWorker;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public MainWindow()
@@ -253,7 +254,7 @@ namespace InvisibleManXRay
 
             if (config == null)
             {
-                textServerConfig.Text = Message.NO_SERVER_CONFIGURATION;
+                textServerConfig.Text = LocalizationService.GetTerm(Localization.NO_SERVER_CONFIGURATION);
                 return;
             }
             

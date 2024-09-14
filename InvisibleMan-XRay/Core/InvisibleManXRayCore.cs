@@ -28,6 +28,7 @@ namespace InvisibleManXRay.Core
         private Func<ITunnel> getTunnel;
         private Action<string> onFailLoadingConfig;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public void Setup(
@@ -69,7 +70,7 @@ namespace InvisibleManXRay.Core
             Config config = getConfig.Invoke();
 
             if (config == null)
-                return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+                return new Status(Code.ERROR, SubCode.NO_CONFIG, LocalizationService.GetTerm(Localization.NO_CONFIGS_FOUND));
 
             return LoadConfig(config.Path);
         }
@@ -79,14 +80,14 @@ namespace InvisibleManXRay.Core
             if (!XRayCoreWrapper.IsFileExists(path))
             {
                 onFailLoadingConfig.Invoke(path);
-                return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+                return new Status(Code.ERROR, SubCode.NO_CONFIG, LocalizationService.GetTerm(Localization.NO_CONFIGS_FOUND));
             }
 
             string format = XRayCoreWrapper.GetConfigFormat(path);
             string file = XRayCoreWrapper.LoadConfig(format, path);
 
             if (!JsonUtility.IsJsonValid(file))
-                return new Status(Code.ERROR, SubCode.INVALID_CONFIG, Message.INVALID_CONFIG);
+                return new Status(Code.ERROR, SubCode.INVALID_CONFIG, LocalizationService.GetTerm(Localization.INVALID_CONFIG));
 
             return new Status(Code.SUCCESS, SubCode.SUCCESS, file);
         }
@@ -212,7 +213,7 @@ namespace InvisibleManXRay.Core
                 Config config = getConfig.Invoke();
 
                 if (config == null)
-                    return new Status(Code.ERROR, SubCode.NO_CONFIG, Message.NO_CONFIGS_FOUND);
+                    return new Status(Code.ERROR, SubCode.NO_CONFIG, LocalizationService.GetTerm(Localization.NO_CONFIGS_FOUND));
                 
                 return new Status(Code.SUCCESS, SubCode.SUCCESS, System.IO.File.ReadAllText(config.Path).ToLower());
             }

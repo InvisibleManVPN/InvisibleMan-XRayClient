@@ -21,6 +21,7 @@ namespace InvisibleManXRay.Handlers
 
         public void UpdateUserSettings(UserSettings userSettings)
         {
+            this.userSettings.Language = userSettings.Language;
             this.userSettings.Mode = userSettings.Mode;
             this.userSettings.Protocol = userSettings.Protocol;
             this.userSettings.LogLevel = userSettings.LogLevel;

@@ -8,7 +8,7 @@
     d:DesignHeight="50" d:DesignWidth="300">
 
     <Grid Margin="0 0 0 2">
-        <TextBlock Text="Tap the plus to add a new one"
+        <TextBlock Text="{DynamicResource Lang.Message.ConfigHint}"
             FontFamily="{StaticResource SegoeUI}"
             HorizontalAlignment="Center" VerticalAlignment="Top" 
             Margin="0 13" Foreground="Gray" 

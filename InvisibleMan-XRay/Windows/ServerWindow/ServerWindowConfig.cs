@@ -7,6 +7,7 @@ using Microsoft.Win32;
 namespace InvisibleManXRay
 {
     using Models;
+    using Services;
     using Services.Analytics.ServerWindow;
 
     public partial class ServerWindow : Window
@@ -24,6 +25,8 @@ namespace InvisibleManXRay
         private Action<string, string> onCreateConfig;
         private Action<GroupType, string> onDeleteConfig;
         private Action<string> onUpdateConfig;
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public void OpenImportConfigWithLinkSection(string link)
         {
@@ -118,7 +121,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_CONFIG_FILE_SELECTED, 
+                        LocalizationService.GetTerm(Values.Localization.NO_CONFIG_FILE_SELECTED), 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -138,7 +141,7 @@ namespace InvisibleManXRay
                 {
                     MessageBox.Show(
                         this,
-                        Values.Message.NO_CONFIG_LINK_ENTERED, 
+                        LocalizationService.GetTerm(Values.Localization.NO_CONFIG_LINK_ENTERED), 
                         Values.Caption.WARNING, 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Warning
@@ -235,7 +238,7 @@ namespace InvisibleManXRay
         private void ClearConfigPath()
         {
             configPath = null;
-            textBlockFileName.Text = "No file chosen...";
+            textBlockFileName.Text = LocalizationService.GetTerm(Values.Localization.NO_FILE_CHOOSEN);
         }
 
         private void ClearConfigLink()

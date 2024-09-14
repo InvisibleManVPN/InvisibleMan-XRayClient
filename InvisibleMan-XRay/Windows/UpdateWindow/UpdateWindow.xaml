@@ -56,33 +56,33 @@
                 </Grid>
             </Grid>
             
-            <Label Content="Waiting for server response..." Foreground="White" Margin="0 10" HorizontalContentAlignment="Center"
+            <Label Content="{DynamicResource Lang.Message.WaitingForServerResponse}" Foreground="White" Margin="0 10" HorizontalContentAlignment="Center"
                 FontFamily="{StaticResource SegoeUI}" FontWeight="Light" FontSize="16"
                 x:Name="textUpdateStatus"/>
 
             <Button Width="200" Height="40" Margin="0 20"
-                Content="CANCEL" Style="{StaticResource Button.Rectangle.Red}" 
+                Content="{DynamicResource Lang.Button.Cancel}" Style="{StaticResource Button.Rectangle.Red}" 
                 FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                 Foreground="{StaticResource Color.Gray}" Visibility="Visible"
                 x:Name="buttonCancel" Click="OnCancelButtonClick">
             </Button>
 
             <Button Width="200" Height="40" Margin="0 20"
-                Content="UPDATE" Style="{StaticResource Button.Rectangle.Green}" 
+                Content="{DynamicResource Lang.Button.Update}" Style="{StaticResource Button.Rectangle.Green}" 
                 FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                 Foreground="{StaticResource Color.Gray}" Visibility="Collapsed"
                 x:Name="buttonUpdate" Click="OnUpdateButtonClick">
             </Button>
 
             <Button Width="200" Height="40" Margin="0 20"
-                Content="TRY AGAIN" Style="{StaticResource Button.Rectangle.Red}" 
+                Content="{DynamicResource Lang.Button.TryAgain}" Style="{StaticResource Button.Rectangle.Red}" 
                 FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                 Foreground="{StaticResource Color.Gray}" Visibility="Collapsed"
                 x:Name="buttonTryAgain" Click="OnTryAgainButtonClick">
             </Button>
 
             <Button Width="200" Height="40" Margin="0 20"
-                Content="CLOSE" Style="{StaticResource Button.Rectangle.Red}" 
+                Content="{DynamicResource Lang.Button.Close}" Style="{StaticResource Button.Rectangle.Red}" 
                 FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
                 Foreground="{StaticResource Color.Gray}" Visibility="Collapsed"
                 x:Name="buttonClose" Click="OnCloseButtonClick">
@@ -105,10 +105,10 @@
 
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
-                        Content="UPDATE" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Update.Title}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="20" Foreground="White"/>
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
-                        Content="Check for updates" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Update.Subtitle}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="14" Foreground="White"/>
             </StackPanel>
         </Grid>
