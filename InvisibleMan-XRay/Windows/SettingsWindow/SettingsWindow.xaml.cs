@@ -13,7 +13,8 @@ namespace InvisibleManXRay
     public partial class SettingsWindow : Window
     {
         private static readonly Dictionary<string, string> Languages = new Dictionary<string, string>() {
-            { "en-US", "English" }
+            { "en-US", "English" },
+            { "ru-RU", "Русский" }
         };
 
         private static readonly Dictionary<Mode, string> Modes = new Dictionary<Mode, string>() {
