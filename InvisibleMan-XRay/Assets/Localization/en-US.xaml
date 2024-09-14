@@ -74,6 +74,7 @@
     <system:String x:Key="Lang.Window.Settings.Tab.Port">Port</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.TUN">TUN</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Log">Log</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.Language">Language</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Mode">Mode</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Protocol">Protocol</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.UseSystemProxy">Use system proxy</system:String>

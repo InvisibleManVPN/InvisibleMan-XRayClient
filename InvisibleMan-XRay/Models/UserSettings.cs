@@ -15,7 +15,7 @@ namespace InvisibleManXRay.Models
         public string ClientId;
 
         [JsonProperty(PropertyName = "language", DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("en-US")]
-        public string Language { get; private set; }
+        public string Language;
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("./Configs")]
         public string CurrentConfigPath;
@@ -80,6 +80,7 @@ namespace InvisibleManXRay.Models
         }
 
         public UserSettings(
+            string language,
             Mode mode,
             Protocol protocol,
             LogLevel logLevel,
@@ -95,6 +96,7 @@ namespace InvisibleManXRay.Models
             string logPath
         )
         {
+            this.Language = language;
             this.Mode = mode;
             this.Protocol = protocol;
             this.LogLevel = logLevel;

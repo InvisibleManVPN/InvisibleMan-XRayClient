@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
         mc:Ignorable="d"
         Title="Invisible Man XRay - Settings"
-        Height="450" 
+        Height="470" 
         Width="350" 
         WindowStartupLocation="CenterOwner"  
         ResizeMode="NoResize"
@@ -89,6 +89,21 @@
                 
                 <StackPanel x:Name="panelBasic" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0" Visibility="Visible">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Foreground="White" Content="{DynamicResource Lang.Window.Settings.Basic.Language}"
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                        <ComboBox x:Name="comboBoxLanguage" Grid.Column="1" Height="26"
+                            SelectedValuePath="Key" DisplayMemberPath="Value"
+                            FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
+                        </ComboBox>
+                    </Grid>
+
+                    <Grid Margin="0 5 0 0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>

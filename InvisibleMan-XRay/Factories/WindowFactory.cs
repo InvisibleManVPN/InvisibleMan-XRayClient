@@ -64,9 +64,11 @@ namespace InvisibleManXRay.Factories
         {
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
             NotifyHandler notifyHandler = handlersManager.GetHandler<NotifyHandler>();
+            LocalizationHandler localizationHandler = handlersManager.GetHandler<LocalizationHandler>();
 
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.Setup(
+                getLanguage: settingsHandler.UserSettings.GetLanguage,
                 getMode: settingsHandler.UserSettings.GetMode,
                 getProtocol: settingsHandler.UserSettings.GetProtocol,
                 getSystemProxyUsed: settingsHandler.UserSettings.GetSystemProxyUsed,
@@ -95,6 +97,7 @@ namespace InvisibleManXRay.Factories
             {
                 settingsHandler.UpdateUserSettings(userSettings);
                 notifyHandler.CheckModeItem(userSettings.GetMode());
+                localizationHandler.TryApplyCurrentLanguage();
                 GetMainWindow().TryDisableModeAndRerun();
             }
         }

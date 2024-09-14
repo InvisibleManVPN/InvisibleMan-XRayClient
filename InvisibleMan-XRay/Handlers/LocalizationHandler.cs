@@ -13,14 +13,26 @@ namespace InvisibleManXRay.Handlers
         public void Setup(Func<string> getCurrentLanguage)
         {
             this.getCurrentLanguage = getCurrentLanguage;
-            ApplyLanguage();
+            TryApplyCurrentLanguage();
         }
 
         public ResourceDictionary GetLocalizationResource() => localizationResource;
 
-        private void ApplyLanguage()
+        public void TryApplyCurrentLanguage()
         {
-            Uri uri = new Uri($"{Directory.LOCALIZATION}/{getCurrentLanguage.Invoke()}.xaml", UriKind.Relative);
+            try
+            {
+                ApplyLanguage(getCurrentLanguage.Invoke());
+            }
+            catch
+            {
+                ApplyLanguage(Localization.DEFAULT_LANGUAGE);
+            }
+        }
+
+        private void ApplyLanguage(string language)
+        {
+            Uri uri = new Uri($"{Directory.LOCALIZATION}/{language}.xaml", UriKind.Relative);
             localizationResource = new ResourceDictionary() { Source = uri };
             
             App.Current.Resources.MergedDictionaries.Add(localizationResource);
