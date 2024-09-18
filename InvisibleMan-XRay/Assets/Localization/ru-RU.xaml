@@ -29,11 +29,11 @@
     <system:String x:Key="Lang.Window.About.ApplicationVersion">Версия приложения:</system:String>
     <system:String x:Key="Lang.Window.About.XrayCoreVersion">Версия Xray-core:</system:String>
     <system:String x:Key="Lang.Window.About.Description">— это бесплатный клиент с открытым исходным кодом, поддерживающий xray core. Он предоставляет удобный интерфейс для настройки и управления прокси, позволяя пользователям переключаться между различными серверами.</system:String>
-    <system:String x:Key="Lang.Window.About.VisitWebsite">Пожалуйста, посетите сайт, чтобы загрузить последнюю версию или получить помощь и информацию.</system:String>
+    <system:String x:Key="Lang.Window.About.VisitWebsite">Пожалуйста, посетите сайт, чтобы загрузить последнюю версию или получить помощь.</system:String>
     <system:String x:Key="Lang.Window.About.SubmitIssuePart1">Если у вас возникли проблемы или вы хотите сообщить об ошибке или предложении, вы можете сообщить об этом в нашем</system:String>
     <system:String x:Key="Lang.Window.About.SubmitIssuePart2">трекере задач</system:String>
     <system:String x:Key="Lang.Window.About.SubmitIssuePart3">.</system:String>
-    <system:String x:Key="Lang.Window.About.ContactUs">Также вы можете связаться с нами, отправив электронное письмо. Мы постараемся ответить вам как можно скорее!</system:String>
+    <system:String x:Key="Lang.Window.About.ContactUs">Также вы можете связаться с нами по email. Мы постараемся ответить вам как можно скорее!</system:String>
     <system:String x:Key="Lang.Window.About.Thanks" xml:space="preserve">Спасибо, что используете Invisible Man XRay&#10;Надеемся, вам понравится</system:String>
 
     <system:String x:Key="Lang.Window.Policy.WindowTitle">Политика</system:String>
@@ -49,7 +49,7 @@
     <system:String x:Key="Lang.Window.Policy.DataAnonymizationTitle">3. Анонимизация данных:</system:String>
     <system:String x:Key="Lang.Window.Policy.DataAnonymizationDescription">Чтобы обеспечить вашу конфиденциальность, любые данные, которые мы собираем, анонимизируются и агрегируются. Это означает, что они объединяются с данными других пользователей и не могут быть связаны с конкретным лицом. Будьте уверены, что ваша личность остается полностью анонимной на протяжении всего процесса анализа.</system:String>
     <system:String x:Key="Lang.Window.Policy.DataSecurityTitle">4. Безопасность данных:</system:String>
-    <system:String x:Key="Lang.Window.Policy.DataSecurityDescription">Мы серьезно относимся к безопасности ваших данных. Мы внедрили современные меры безопасности для защиты аналитических данных, которые мы собираем. Наши системы защищены от несанкционированного доступа, использования или раскрытия вашей информации.</system:String>
+    <system:String x:Key="Lang.Window.Policy.DataSecurityDescription">Мы серьезно относимся к безопасности ваших данных. Мы внедрили современные меры для защиты аналитических данных, которые мы собираем. Наши системы защищены от несанкционированного доступа, использования или раскрытия вашей информации.</system:String>
     <system:String x:Key="Lang.Window.Policy.ThirdPartyProvidersTitle">5. Сторонние поставщики:</system:String>
     <system:String x:Key="Lang.Window.Policy.ThirdPartyProvidersDescription">Мы используем Google Analytics в качестве стороннего провайдера аналитики, чтобы помочь нам в сборе и анализе данных. Этот провайдер тщательно выбран и соответствует нашим стандартам конфиденциальности и безопасности.</system:String>
     <system:String x:Key="Lang.Window.Policy.YourChoicesTitle">6. Ваш выбор:</system:String>
@@ -129,9 +129,9 @@
     <system:String x:Key="Lang.Message.UpdateAvailable">Доступна новая версия!</system:String>
     <system:String x:Key="Lang.Message.YouHaveLatestVersion">У вас установлена последняя версия</system:String>
     <system:String x:Key="Lang.Message.CantConnectToServer">Не удается подключиться к серверу</system:String>
-    <system:String x:Key="Lang.Message.CantConnectToTunnelService">Приложение не может подключиться к туннельному сервису.</system:String>
-    <system:String x:Key="Lang.Message.CantProxySystem">Приложение не может проксировать систему.</system:String>
-    <system:String x:Key="Lang.Message.CantTunnelSystem">Приложение не может туннелировать систему.</system:String>
+    <system:String x:Key="Lang.Message.CantConnectToTunnelService">Приложение не может подключиться к сервису-туннелю.</system:String>
+    <system:String x:Key="Lang.Message.CantProxySystem">Приложение не может проксировать системные запросы.</system:String>
+    <system:String x:Key="Lang.Message.CantTunnelSystem">Приложение не может туннелировать системные запросы.</system:String>
     <system:String x:Key="Lang.Message.NoConfigsFound" xml:space="preserve">Конфигурации не найдены.&#10;Пожалуйста, добавьте новую конфигурацию сервера.</system:String>
     <system:String x:Key="Lang.Message.InvalidConfig" xml:space="preserve">Неверная конфигурация.&#10;Пожалуйста, проверьте ее еще раз.</system:String>
     <system:String x:Key="Lang.Message.InvalidSubscription" xml:space="preserve">Неверная подписка.&#10;Пожалуйста, проверьте ее еще раз.</system:String>
