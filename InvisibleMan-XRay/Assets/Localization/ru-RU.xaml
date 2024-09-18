@@ -73,7 +73,7 @@
     <system:String x:Key="Lang.Window.Settings.Tab.Basic">Основные</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Port">Порт</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.TUN">TUN</system:String>
-    <system:String x:Key="Lang.Window.Settings.Tab.Log">Лог</system:String>
+    <system:String x:Key="Lang.Window.Settings.Tab.Log">Логи</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Language">Язык</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Mode">Режим</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Protocol">Протокол</system:String>
@@ -87,8 +87,8 @@
     <system:String x:Key="Lang.Window.Settings.Port.Test">Порт тестирования</system:String>
     <system:String x:Key="Lang.Window.Settings.Tun.DeviceIp">IP устройства</system:String>
     <system:String x:Key="Lang.Window.Settings.Tun.Dns">DNS</system:String>
-    <system:String x:Key="Lang.Window.Settings.Log.Level">Уровень лога</system:String>
-    <system:String x:Key="Lang.Window.Settings.Log.Path">Путь лога</system:String>
+    <system:String x:Key="Lang.Window.Settings.Log.Level">Уровень логов</system:String>
+    <system:String x:Key="Lang.Window.Settings.Log.Path">Путь до лог-файлов</system:String>
 
     <system:String x:Key="Lang.Window.Update.WindowTitle">Обновление</system:String>
     <system:String x:Key="Lang.Window.Update.Title">ОБНОВЛЕНИЕ</system:String>
