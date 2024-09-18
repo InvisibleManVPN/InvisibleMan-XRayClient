@@ -4,13 +4,13 @@
 
     <FlowDirection x:Key="Lang.Direction">LeftToRight</FlowDirection>
 
-    <system:String x:Key="Lang.Run">Запуск</system:String>
+    <system:String x:Key="Lang.Run">Пуск</system:String>
     <system:String x:Key="Lang.Stop">Стоп</system:String>
     <system:String x:Key="Lang.Cancel">Отмена</system:String>
 
-    <system:String x:Key="Lang.Status.Stopped">Остановлено</system:String>
-    <system:String x:Key="Lang.Status.Running">Работает</system:String>
-    <system:String x:Key="Lang.Status.WaitForRun">Ожидание запуска</system:String>
+    <system:String x:Key="Lang.Status.Stopped">Не подключено</system:String>
+    <system:String x:Key="Lang.Status.Running">Подключено</system:String>
+    <system:String x:Key="Lang.Status.WaitForRun">Подключение</system:String>
 
     <system:String x:Key="Lang.Button.Import">Импорт</system:String>
     <system:String x:Key="Lang.Button.Confirm">Подтвердить</system:String>
