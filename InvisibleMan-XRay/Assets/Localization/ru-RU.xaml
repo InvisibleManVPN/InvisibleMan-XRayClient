@@ -69,6 +69,7 @@
 
     <system:String x:Key="Lang.Window.Settings.WindowTitle">Настройки</system:String>
     <system:String x:Key="Lang.Window.Settings.Title">НАСТРОЙКИ</system:String>
+    <system:String x:Key="Lang.Window.Settings.Subtitle">Измените настройки</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Basic">Основные</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.Port">Порт</system:String>
     <system:String x:Key="Lang.Window.Settings.Tab.TUN">TUN</system:String>
