@@ -14,7 +14,8 @@ namespace InvisibleManXRay
     {
         private static readonly Dictionary<string, string> Languages = new Dictionary<string, string>() {
             { "en-US", "English" },
-            { "ru-RU", "Русский" }
+            { "ru-RU", "Русский" },
+            { "fa-IR", "فارسی" }
         };
 
         private static readonly Dictionary<Mode, string> Modes = new Dictionary<Mode, string>() {
