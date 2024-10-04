@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Runtime.InteropServices;
 
 namespace InvisibleManXRay.Core
@@ -10,34 +11,38 @@ namespace InvisibleManXRay.Core
     {
         public static string GetConfigFormat(string path)
         {
-            return Marshal.PtrToStringAnsi(GetConfigFormat(path));
+            IntPtr pathPtr = StringToUtf8Ptr(path);
+            return Marshal.PtrToStringAnsi(GetConfigFormat(pathPtr));
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "GetConfigFormat")]
-            static extern IntPtr GetConfigFormat(string path);
+            static extern IntPtr GetConfigFormat(IntPtr pathPtr);
         }
 
         public static bool IsFileExists(string path)
         {
-            return IsFileExists(path);
+            IntPtr pathPtr = StringToUtf8Ptr(path);
+            return IsFileExists(pathPtr);
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "IsFileExists")]
-            static extern bool IsFileExists(string path);
+            static extern bool IsFileExists(IntPtr pathPtr);
         }
 
         public static string LoadConfig(string fileFormat, string filePath)
         {
-            return Marshal.PtrToStringAnsi(LoadConfig(fileFormat, filePath));
+            IntPtr formatPtr = StringToUtf8Ptr(fileFormat);
+            IntPtr pathPtr = StringToUtf8Ptr(filePath);
+            return Marshal.PtrToStringAnsi(LoadConfig(formatPtr, pathPtr));
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "LoadConfig")]
-            static extern IntPtr LoadConfig(string format, string file);
+            static extern IntPtr LoadConfig(IntPtr formatPtr, IntPtr pathPtr);
         }
 
         public static void StartServer(string config, int port, LogLevel logLevel, string logPath, bool isSocks, bool isUdpEnabled)
         {
-            StartServer(config, port, logLevel.ToString(), logPath, isSocks, isUdpEnabled);
+            StartServer(config, port, logLevel.ToString(), StringToUtf8Ptr(logPath), isSocks, isUdpEnabled);
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "StartServer")]
-            static extern void StartServer(string config, int port, string logLevel, string logPath, bool isSocks, bool isUdpEnabled);
+            static extern void StartServer(string config, int port, string logLevel, IntPtr logPathPtr, bool isSocks, bool isUdpEnabled);
         }
 
         public static void StopServer()
@@ -62,6 +67,15 @@ namespace InvisibleManXRay.Core
 
             [DllImport(Path.XRAY_CORE_DLL, EntryPoint = "GetXrayCoreVersion")]
             static extern IntPtr GetXRayCoreVersion();
+        }
+
+        private static IntPtr StringToUtf8Ptr(string str)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(str);
+            IntPtr pointer = Marshal.AllocHGlobal(bytes.Length + 1);
+            Marshal.Copy(bytes, 0, pointer, bytes.Length);
+            Marshal.WriteByte(pointer, bytes.Length, 0);
+            return pointer;
         }
     }
 }
