@@ -2,6 +2,7 @@ using Microsoft.Win32;
 
 namespace InvisibleManXRay.Handlers.Proxies
 {
+    using Services;
     using Models;
     using Values;
 
@@ -12,6 +13,8 @@ namespace InvisibleManXRay.Handlers.Proxies
         private const string INTERNET_SETTINGS = @"Software\Microsoft\Windows\CurrentVersion\Internet Settings";
         private const string PROXY_ENABLE = "ProxyEnable";
         private const string PROXY_SERVER = "ProxyServer";
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public Status Enable(string address, int port)
         {
@@ -36,7 +39,7 @@ namespace InvisibleManXRay.Handlers.Proxies
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.CANT_PROXY,
-                    content: Message.CANT_PROXY_SYSTEM
+                    content: LocalizationService.GetTerm(Localization.CANT_PROXY_SYSTEM)
                 );
             }
         }

@@ -67,7 +67,7 @@ namespace InvisibleManXRay.Models.Templates.Subscriptions
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.UNSUPPORTED_LINK,
-                    content: Message.UNSUPPORTED_SUBSCRIPTION_LINK
+                    content: LocalizationService.GetTerm(Localization.UNSUPPORTED_SUBSCRIPTION_LINK)
                 );
             }
         }

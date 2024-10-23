@@ -14,6 +14,9 @@ namespace InvisibleManXRay.Models
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("")]
         public string ClientId;
 
+        [JsonProperty(PropertyName = "language", DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("en-US")]
+        public string Language;
+
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate), DefaultValue("./Configs")]
         public string CurrentConfigPath;
 
@@ -59,6 +62,7 @@ namespace InvisibleManXRay.Models
         public UserSettings()
         {
             this.ClientId = "";
+            this.Language = "en-US";
             this.CurrentConfigPath = "./Configs";
             this.Mode = Mode.PROXY;
             this.Protocol = Protocol.HTTP;
@@ -76,6 +80,7 @@ namespace InvisibleManXRay.Models
         }
 
         public UserSettings(
+            string language,
             Mode mode,
             Protocol protocol,
             LogLevel logLevel,
@@ -91,6 +96,7 @@ namespace InvisibleManXRay.Models
             string logPath
         )
         {
+            this.Language = language;
             this.Mode = mode;
             this.Protocol = protocol;
             this.LogLevel = logLevel;
@@ -107,6 +113,8 @@ namespace InvisibleManXRay.Models
         }
 
         public string GetClientId() => ClientId;
+
+        public string GetLanguage() => Language;
 
         public string GetCurrentConfigPath() => CurrentConfigPath;
 

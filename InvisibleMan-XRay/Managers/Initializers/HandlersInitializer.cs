@@ -28,6 +28,7 @@ namespace InvisibleManXRay.Managers.Initializers
             HandlersManager.AddHandler(new BroadcastHandler());
             HandlersManager.AddHandler(new DeepLinkHandler());
             HandlersManager.AddHandler(new LinkHandler());
+            HandlersManager.AddHandler(new LocalizationHandler());
         }
 
         public void Setup(
@@ -42,6 +43,7 @@ namespace InvisibleManXRay.Managers.Initializers
             SetupUpdateHandler();
             SetupNotifyHandler();
             SetupDeepLinkHandler();
+            SetupLocalizationHandler();
 
             void SetupProcessHandler()
             {
@@ -169,6 +171,15 @@ namespace InvisibleManXRay.Managers.Initializers
 
                     return serverWindow;
                 }
+            }
+
+            void SetupLocalizationHandler()
+            {
+                SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+
+                HandlersManager.GetHandler<LocalizationHandler>().Setup(
+                    getCurrentLanguage: settingsHandler.UserSettings.GetLanguage
+                );
             }
         }
 

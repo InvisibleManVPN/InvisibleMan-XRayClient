@@ -88,7 +88,7 @@ namespace InvisibleManXRay
 
             MessageBoxResult result = MessageBox.Show(
                 this,
-                string.Format(Message.DELETE_CONFIRMATION, remarks),
+                string.Format(LocalizationService.GetTerm(Localization.DELETE_CONFIRMATION), remarks),
                 Caption.INFO,
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question
@@ -155,7 +155,7 @@ namespace InvisibleManXRay
             {
                 MessageBox.Show(
                     this,
-                    Values.Message.NO_SUBSCRIPTION_REMARKS_ENTERED, 
+                    LocalizationService.GetTerm(Values.Localization.NO_SUBSCRIPTION_REMARKS_ENTERED), 
                     Values.Caption.WARNING, 
                     MessageBoxButton.OK, 
                     MessageBoxImage.Warning
@@ -166,7 +166,7 @@ namespace InvisibleManXRay
             {
                 MessageBox.Show(
                     this,
-                    Values.Message.NO_SUBSCRIPTION_LINK_ENTERED, 
+                    LocalizationService.GetTerm(Values.Localization.NO_SUBSCRIPTION_LINK_ENTERED), 
                     Values.Caption.WARNING, 
                     MessageBoxButton.OK, 
                     MessageBoxImage.Warning

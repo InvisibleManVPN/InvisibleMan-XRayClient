@@ -24,72 +24,61 @@
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Orientation="Vertical" FlowDirection="{DynamicResource Lang.Direction}">
                 <TextBlock Padding="20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
-                    
-                    At <Span FontWeight="Normal">Invisible Man</Span> we are committed to providing you with an exceptional 
-                    user experience. As part of our efforts to continuously improve our services, we utilize analytics data 
-                    to gain insights and make informed decisions that benefit all our users. This policy outlines our 
-                    approach to data analytics and our commitment to protecting your privacy.
+
+                    <Run Text="{DynamicResource Lang.Window.Policy.DescriptionPart1}" />
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.DescriptionPart2}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.DescriptionPart3}" />
+                </TextBlock>
+
+                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
+                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
+
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.PurposeOfAnalyticsTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.PurposeOfAnalyticsDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">1. Purpose of Analytics:</Span> We use analytics to better understand how our 
-                    app is being used, identify areas for improvement, and optimize our features and functionalities. 
-                    By analyzing user behavior patterns, we can enhance the overall user experience and tailor our app 
-                    to better meet your needs.
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.DataCollectionTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.DataCollectionDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">2. Data Collection:</Span> The data we collect is strictly limited to 
-                    non-personal, aggregated information. This means that we do not collect or process any personal 
-                    information that can directly identify you. We respect your privacy and are committed to protecting 
-                    your personal data.
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.DataAnonymizationTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.DataAnonymizationDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">3. Data Anonymization:</Span> To ensure your privacy, any data we collect is 
-                    anonymized and aggregated. This means that it is combined with data from other users and cannot be linked 
-                    back to any specific individual. Rest assured that your identity remains completely anonymous throughout 
-                    the analytics process.
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.DataSecurityTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.DataSecurityDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">4. Data Security:</Span> We take the security of your data seriously. We have 
-                    implemented industry-standard security measures to safeguard the analytics data we collect. Our systems 
-                    are designed to protect against unauthorized access, use, or disclosure of your information.
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.ThirdPartyProvidersTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.ThirdPartyProvidersDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    <Span FontWeight="Normal">5. Third-Party Providers:</Span> We use Google Analytics as our third-party analytics 
-                    provider to assist us in collecting and analyzing data. This provider is carefully selected and complies with 
-                    our privacy and security standards.
-                </TextBlock>
-
-                <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
-                    FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
-                    
-                    <Span FontWeight="Normal">6. Your Choices:</Span> We respect your right to control your data. If you do not wish 
-                    to participate in our analytics program, you can opt-out at any time through the app settings. Please note that 
-                    opting out may impact our ability to enhance your user experience.
+                    <Run FontWeight="Normal" Text="{DynamicResource Lang.Window.Policy.YourChoicesTitle}" />
+                    <Run Text="{DynamicResource Lang.Window.Policy.YourChoicesDescription}" />
                 </TextBlock>
 
                 <TextBlock Padding="20 0 20 10" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    By continuing to use our app, you acknowledge and consent to our use of analytics data in accordance with this policy.
-                    If you have any questions or concerns about our data analytics practices, please contact our support team at:
+                    <Run Text="{DynamicResource Lang.Window.Policy.AcknowledgeAnalyticsUse}" />
                 </TextBlock>
 
                 <TextBlock Grid.Row="2" Text="invisiblemanvpn@gmail.com" 
@@ -102,8 +91,7 @@
                 <TextBlock Padding="20 0 20 20" TextAlignment="Justify" TextWrapping="Wrap" FontFamily="{StaticResource SegoeUI}" 
                     FontWeight="Light" LineHeight="15" FontSize="15" Foreground="White">
                     
-                    Thank you for choosing Invisible Man XRay. We appreciate your trust and look forward to providing you with 
-                    an exceptional user experience.
+                    <Run Text="{DynamicResource Lang.Window.Policy.Thanks}" />
                 </TextBlock>
 
             </StackPanel>
@@ -126,10 +114,10 @@
 
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Bottom" 
-                        Content="POLICY" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Policy.Title}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="20" Foreground="White"/>
                 <Label Padding="0" Margin="15 0 0 0" VerticalAlignment="Top" 
-                        Content="Data Analytics policy" FontFamily="{StaticResource SegoeUI}" 
+                        Content="{DynamicResource Lang.Window.Policy.Subtitle}" FontFamily="{StaticResource SegoeUI}" 
                         FontWeight="Light" FontSize="14" Foreground="White"/>
             </StackPanel>
         </Grid>

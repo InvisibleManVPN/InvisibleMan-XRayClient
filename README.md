@@ -64,6 +64,8 @@ Go to our [Issue tracker](https://github.com/InvisibleManVPN/InvisibleMan-XRayCl
 ### Contribute to the code
 
 If you know how to code, we welcome you to send fixes and new features!
+<br/>
+Also, you can contribute to adding new language to the Invisible Man XRay. For more information, read [this](./Language.md).
 
 ## Donation
 

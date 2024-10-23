@@ -12,6 +12,12 @@ namespace InvisibleManXRay
 
     public partial class SettingsWindow : Window
     {
+        private static readonly Dictionary<string, string> Languages = new Dictionary<string, string>() {
+            { "en-US", "English" },
+            { "ru-RU", "Русский" },
+            { "fa-IR", "فارسی" }
+        };
+
         private static readonly Dictionary<Mode, string> Modes = new Dictionary<Mode, string>() {
             { Mode.PROXY, "Proxy" },
             { Mode.TUN, "TUN" }
@@ -30,6 +36,7 @@ namespace InvisibleManXRay
             { LogLevel.ERROR, "Error" }
         };
 
+        private Func<string> getLanguage;
         private Func<Mode> getMode;
         private Func<Protocol> getProtocol;
         private Func<bool> getSystemProxyUsed;
@@ -56,9 +63,12 @@ namespace InvisibleManXRay
 
             void InitializeItems()
             {
+                InitializeLanguageItems();
                 InitializeModeItems();
                 InitializeProtocolItems();
                 InitializeLogLevelItems();
+
+                void InitializeLanguageItems() => comboBoxLanguage.ItemsSource = Languages;
 
                 void InitializeModeItems() => comboBoxMode.ItemsSource = Modes;
 
@@ -69,6 +79,7 @@ namespace InvisibleManXRay
         }
 
         public void Setup(
+            Func<string> getLanguage,
             Func<Mode> getMode,
             Func<Protocol> getProtocol,
             Func<bool> getSystemProxyUsed,
@@ -86,6 +97,7 @@ namespace InvisibleManXRay
             Action<UserSettings> onUpdateUserSettings
         )
         {
+            this.getLanguage = getLanguage;
             this.getMode = getMode;
             this.getProtocol = getProtocol;
             this.getSystemProxyUsed = getSystemProxyUsed;
@@ -114,6 +126,7 @@ namespace InvisibleManXRay
 
             void UpdateBasicPanelUI()
             {
+                comboBoxLanguage.SelectedValue = getLanguage.Invoke();
                 comboBoxMode.SelectedValue = getMode.Invoke();
                 comboBoxProtocol.SelectedValue = getProtocol.Invoke();
                 checkBoxUseSystemProxy.IsChecked = getSystemProxyUsed.Invoke();
@@ -202,6 +215,7 @@ namespace InvisibleManXRay
         private void OnConfirmButtonClick(object sender, RoutedEventArgs e)
         {
             UserSettings userSettings = new UserSettings(
+                language: comboBoxLanguage.SelectedValue.ToString(),
                 mode: (Mode)comboBoxMode.SelectedValue,
                 protocol: (Protocol)comboBoxProtocol.SelectedValue,
                 logLevel: (LogLevel)comboBoxLogLevel.SelectedValue,

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Handlers.Templates
 {
+    using Services;
     using Models;
     using Models.Templates.Configs;
     using Values;
@@ -12,6 +13,8 @@ namespace InvisibleManXRay.Handlers.Templates
     public class ConfigTemplate : ITemplate
     {
         private Dictionary<string, Type> templates;
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public ConfigTemplate()
         {
@@ -33,7 +36,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.UNSUPPORTED_LINK,
-                    content: Message.UNSUPPORTED_CONFIG_LINK
+                    content: LocalizationService.GetTerm(Localization.UNSUPPORTED_CONFIG_LINK)
                 );
 
             Status fetchingStatus = template.FetchDataFromLink(link);

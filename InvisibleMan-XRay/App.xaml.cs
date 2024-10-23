@@ -3,6 +3,7 @@
 namespace InvisibleManXRay
 {
     using Managers;
+    using Handlers;
     using Factories;
 
     public partial class App : Application
@@ -13,6 +14,7 @@ namespace InvisibleManXRay
         protected override void OnStartup(StartupEventArgs e)
         {
             InitializeAppManager();
+            InitializeNotifyIcon();
             InitializeWindowFactory();
             InitializeMainWindow();
             HandlePipes();
@@ -21,6 +23,11 @@ namespace InvisibleManXRay
             {
                 appManager = new AppManager(e.Args);
                 appManager.Initialize();
+            }
+
+            void InitializeNotifyIcon()
+            {
+                appManager.HandlersManager.GetHandler<NotifyHandler>().InitializeNotifyIcon();
             }
 
             void InitializeWindowFactory()

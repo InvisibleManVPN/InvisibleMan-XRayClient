@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace InvisibleManXRay.Handlers.Templates
 {
+    using Services;
     using Models;
     using Models.Templates.Subscriptions;
     using Values;
@@ -12,6 +13,8 @@ namespace InvisibleManXRay.Handlers.Templates
     {
         private List<Type> templates;
         private Func<string, Status> convertConfigLinkToV2Ray;
+
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
 
         public SubscriptionTemplate()
         {
@@ -36,7 +39,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.UNSUPPORTED_LINK,
-                    content: Message.UNSUPPORTED_SUBSCRIPTION_LINK
+                    content: LocalizationService.GetTerm(Localization.UNSUPPORTED_SUBSCRIPTION_LINK)
                 );
 
             Status fetchingStatus = template.FetchDataFromLink(link);
@@ -48,7 +51,7 @@ namespace InvisibleManXRay.Handlers.Templates
                 return new Status(
                     code: Code.ERROR,
                     subCode: SubCode.INVALID_CONFIG,
-                    content: Message.INVALID_SUBSCRIPTION
+                    content: LocalizationService.GetTerm(Localization.INVALID_SUBSCRIPTION)
                 );
 
             return new Status(

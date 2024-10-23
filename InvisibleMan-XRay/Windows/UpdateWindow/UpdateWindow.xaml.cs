@@ -16,6 +16,7 @@ namespace InvisibleManXRay
 
         private BackgroundWorker updateWorker;
 
+        private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
         public UpdateWindow()
@@ -65,7 +66,7 @@ namespace InvisibleManXRay
                     SetActiveUpdateAvailableStatus(false);
                     SetActiveUpdateUnavailableStatus(false);
 
-                    textUpdateStatus.Content = Message.WAITING_FOR_SERVER_RESPONSE;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.WAITING_FOR_SERVER_RESPONSE);
                 }
 
                 void ShowUpdateAvailableStatus()
@@ -75,7 +76,7 @@ namespace InvisibleManXRay
                     SetActiveConnectionErrorStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.UPDATE_AVAILABLE;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.UPDATE_AVAILABLE);
                 }
 
                 void ShowUpdateUnavailableStatus()
@@ -85,7 +86,7 @@ namespace InvisibleManXRay
                     SetActiveConnectionErrorStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.YOU_HAVE_LATEST_VERSION;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.YOU_HAVE_LATEST_VERSION);
                 }
 
                 void ShowConnectionErrorStatus()
@@ -95,7 +96,7 @@ namespace InvisibleManXRay
                     SetActiveUpdateUnavailableStatus(false);
                     SetActiveCheckForUpdateStatus(false);
 
-                    textUpdateStatus.Content = Message.CANT_CONNECT_TO_SERVER;
+                    textUpdateStatus.Content = LocalizationService.GetTerm(Localization.CANT_CONNECT_TO_SERVER);
                 }
             }
         }
