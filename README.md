@@ -61,11 +61,13 @@ You can help this project by reporting problems, suggestions or contributing to 
 
 Go to our [Issue tracker](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/issues) and check if your problem/suggestion is already reported. If not, create a new issue with a descriptive title and detail your suggestion or steps to reproduce the problem.
 
+### Add a new language
+
+Invisible Man XRay supports multi-languages. So, you can contribute to adding new language to the app by following [this](./Language.md) instruction.
+
 ### Contribute to the code
 
 If you know how to code, we welcome you to send fixes and new features!
-<br/>
-Also, you can contribute to adding new language to the Invisible Man XRay. For more information, read [this](./Language.md).
 
 ## Donation
 
