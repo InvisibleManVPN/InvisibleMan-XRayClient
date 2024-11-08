@@ -4,9 +4,9 @@
 
     <FlowDirection x:Key="Lang.Direction">LeftToRight</FlowDirection>
 
-    <system:String x:Key="Lang.Run">Пуск</system:String>
-    <system:String x:Key="Lang.Stop">Стоп</system:String>
-    <system:String x:Key="Lang.Cancel">Отмена</system:String>
+    <system:String x:Key="Lang.Run">ЗАПУСК</system:String>
+    <system:String x:Key="Lang.Stop">СТОП</system:String>
+    <system:String x:Key="Lang.Cancel">ОТМЕНА</system:String>
 
     <system:String x:Key="Lang.Status.Stopped">Не подключено</system:String>
     <system:String x:Key="Lang.Status.Running">Подключено</system:String>
