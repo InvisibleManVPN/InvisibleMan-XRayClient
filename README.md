@@ -71,31 +71,10 @@ If you know how to code, we welcome you to send fixes and new features!
 
 ## Donation
 
-Please consider donating to support and sustain our activities.
 
-- **TON:**
-
-   ![TON Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/toncoin-wallet.png)
-
-   ```
-   EQA4Q2XFDHS1bCK9j6dgScYiTwtNzwRyPwYnKpZS6NPs25g1
-   ```
-
-- **BITCOIN:** 
-
-   ![Bitcoin Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/bitcoin-wallet.png)
-
-   ```
-   bc1qy6a47vrygqf4x5dwpcm7wnamgn2gxxwn32w807
-   ```
-
-- **ETHEREUM:**
-
-   ![Ethereum Wallet](https://github.com/InvisibleManVPN/InvisibleMan-XRayClient/blob/master/Images/ethereum-wallet.png)
-
-   ```
-   0x8cad02de7dd61237Fdf6B98589e15e1a59C54849
-   ```
+Please consider donating to support and sustain my activities.
+<br/>
+See: https://invisiblemanvpn.github.io/donation/
 
 ## Contacts
 
