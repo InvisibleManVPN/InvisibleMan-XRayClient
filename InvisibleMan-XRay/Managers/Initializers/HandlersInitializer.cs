@@ -101,7 +101,6 @@ namespace InvisibleManXRay.Managers.Initializers
 
                 void CloseApplication()
                 {
-                    core.DisableMode();
                     Application.Current.Shutdown();
                 }
                 
