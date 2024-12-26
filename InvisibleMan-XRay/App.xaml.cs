@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Microsoft.Win32;
 
 namespace InvisibleManXRay
 {
@@ -18,6 +20,7 @@ namespace InvisibleManXRay
             InitializeWindowFactory();
             InitializeMainWindow();
             HandlePipes();
+            HandleExitingEvents();
 
             void InitializeAppManager()
             {
@@ -49,7 +52,26 @@ namespace InvisibleManXRay
                 PipeManager.ListenForPipes();
             }
 
+            void HandleExitingEvents()
+            {
+                AppDomain.CurrentDomain.ProcessExit += (sender, e) => CleanupBeforeExit();
+                SystemEvents.SessionEnded += (sender, e) => CleanupBeforeExit();
+            }
+
             bool IsThereAnyArg() => e.Args.Length != 0;
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            AppDomain.CurrentDomain.ProcessExit -= (sender, e) => CleanupBeforeExit();
+            SystemEvents.SessionEnded -= (sender, e) => CleanupBeforeExit();
+
+            base.OnExit(e);
+        }
+
+        void CleanupBeforeExit()
+        {
+            appManager.Core.DisableMode();
         }
     }
 }

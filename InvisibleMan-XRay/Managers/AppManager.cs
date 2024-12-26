@@ -4,6 +4,7 @@ using System.Threading;
 
 namespace InvisibleManXRay.Managers
 {
+    using Core;
     using Initializers;
     using Factories;
     using Handlers;
@@ -17,6 +18,7 @@ namespace InvisibleManXRay.Managers
         private ServicesInitializer servicesInitializer;
         private FactoriesInitializer factoriesInitializer;
 
+        public InvisibleManXRayCore Core => coreInitializer.Core;
         public WindowFactory WindowFactory => factoriesInitializer.WindowFactory;
         public HandlersManager HandlersManager => handlersInitializer.HandlersManager;
 
@@ -43,6 +45,7 @@ namespace InvisibleManXRay.Managers
             SetupServices();
             SetupCore();
             SetupFactories();
+            DisableModeByDefault();
         }
 
         private void AvoidRunningMultipleInstances()
@@ -139,6 +142,11 @@ namespace InvisibleManXRay.Managers
                 core: coreInitializer.Core,
                 handlersManager: handlersInitializer.HandlersManager
             );
+        }
+
+        private void DisableModeByDefault()
+        {
+            coreInitializer.Core.DisableMode();
         }
     }
 }
