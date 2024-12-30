@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 
@@ -12,6 +13,7 @@ namespace InvisibleManXRay
     {
         private AppManager appManager;
         private WindowFactory windowFactory;
+        private MainWindow mainWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -21,6 +23,15 @@ namespace InvisibleManXRay
             InitializeMainWindow();
             HandlePipes();
             HandleExitingEvents();
+
+            SettingsHandler settingsHandler = appManager.HandlersManager.GetHandler<SettingsHandler>();
+            if (settingsHandler.UserSettings.GetRunningAtStartupEnabled())
+                Task.Run(async delegate
+                {
+                    await Task.Delay(100);
+                    // Note: windowFactory.GetMainWindow() does not work here!
+                    mainWindow.RunWorker();
+                });
 
             void InitializeAppManager()
             {
@@ -40,7 +51,7 @@ namespace InvisibleManXRay
 
             void InitializeMainWindow()
             {
-                MainWindow mainWindow = windowFactory.CreateMainWindow();
+                mainWindow = windowFactory.CreateMainWindow();
                 mainWindow.Show();
             }
 

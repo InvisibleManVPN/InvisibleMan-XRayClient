@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
 
@@ -286,6 +287,26 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
+        public void RunWorker()
+        {
+            if (runWorker.IsBusy)
+                return;
+
+            Dispatcher.BeginInvoke(new Action(async delegate {
+                runWorker.RunWorkerAsync();
+                for (int i = 0; i < 10; ++i)
+                {
+                    await Task.Delay(200);
+                    // TODO: Check that the service has started and connected
+                    if (runWorker.IsBusy)
+                    {
+                        this.Hide();
+                        return;
+                    }
+                }
+            }));
+        }
+
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
         {
             if (runWorker.IsBusy)
@@ -345,7 +366,7 @@ namespace InvisibleManXRay
         {
             if (!isNeedToShowPolicyWindow.Invoke())
                 return;
-            
+
             onGenerateClientId.Invoke();
             AnalyticsService.SendEvent(new NewUserEvent());
 
