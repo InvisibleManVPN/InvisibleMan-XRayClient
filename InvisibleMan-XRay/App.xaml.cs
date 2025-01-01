@@ -25,7 +25,7 @@ namespace InvisibleManXRay
             HandleExitingEvents();
 
             SettingsHandler settingsHandler = appManager.HandlersManager.GetHandler<SettingsHandler>();
-            if (settingsHandler.UserSettings.GetRunningAtStartupEnabled())
+            if (settingsHandler.UserSettings.GetAutoconnectEnabled())
                 Task.Run(async delegate
                 {
                     await Task.Delay(100);

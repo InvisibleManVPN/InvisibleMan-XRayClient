@@ -83,6 +83,7 @@
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart2">تجزیه و تحلیل</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart3">داده‌ها</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.RunAtStartup">اجرای خودکار در هنگام راه‌اندازی سیستم</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.Autoconnect">اتصال خودکار هنگام راه‌اندازی</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Proxy">پورت پراکسی</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.TUN">TUN پورت</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Test">پورت تست</system:String>

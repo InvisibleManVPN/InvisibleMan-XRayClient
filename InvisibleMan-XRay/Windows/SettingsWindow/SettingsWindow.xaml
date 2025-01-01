@@ -134,7 +134,7 @@
                         </ComboBox>
                     </Grid>
 
-                    <CheckBox x:Name="checkBoxUseSystemProxy" Margin="5 25 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxUseSystemProxy" Margin="5 15 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.UseSystemProxy}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
                     <CheckBox x:Name="checkBoxEnableUdp" Margin="5 15 0 0" Foreground="White" 
@@ -154,10 +154,13 @@
                         </TextBlock>
 
                     </CheckBox>
-                        
+
                     <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.RunAtStartup}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
-                        
+
+                    <CheckBox x:Name="checkBoxAutoconnect" Margin="5 15 0 0" Foreground="White" 
+                        Content="{DynamicResource Lang.Window.Settings.Basic.Autoconnect}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
                 </StackPanel>
 
                 <StackPanel x:Name="panelPort" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 0" Visibility="Hidden">
