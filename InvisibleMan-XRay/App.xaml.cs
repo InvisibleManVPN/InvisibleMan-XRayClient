@@ -27,7 +27,7 @@ namespace InvisibleManXRay
             // Note: windowFactory.GetMainWindow() does not work here!
             mainWindow.Startup(
                 connect: settingsHandler.UserSettings.GetAutoconnectEnabled(),
-                hide: true // TODO: Make "Start hidden" option
+                hide: settingsHandler.UserSettings.GetStartHiddenEnabled()
             );
 
             void InitializeAppManager()

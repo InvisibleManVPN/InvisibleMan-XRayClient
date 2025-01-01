@@ -134,13 +134,13 @@
                         </ComboBox>
                     </Grid>
 
-                    <CheckBox x:Name="checkBoxUseSystemProxy" Margin="5 15 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxUseSystemProxy" Margin="5 12 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.UseSystemProxy}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                    <CheckBox x:Name="checkBoxEnableUdp" Margin="5 15 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxEnableUdp" Margin="5 10 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.EnbleUdp}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                    <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 10 0 0" Foreground="White" 
                         FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">
 
                         <TextBlock>
@@ -155,10 +155,13 @@
 
                     </CheckBox>
 
-                    <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 15 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxRunAtStartup" Margin="5 10 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.RunAtStartup}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                    <CheckBox x:Name="checkBoxAutoconnect" Margin="5 15 0 0" Foreground="White" 
+                    <CheckBox x:Name="checkBoxStartHidden" Margin="5 10 0 0" Foreground="White" 
+                        Content="{DynamicResource Lang.Window.Settings.Basic.StartHidden}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+
+                    <CheckBox x:Name="checkBoxAutoconnect" Margin="5 10 0 0" Foreground="White" 
                         Content="{DynamicResource Lang.Window.Settings.Basic.Autoconnect}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
                 </StackPanel>

@@ -74,6 +74,7 @@ namespace InvisibleManXRay.Factories
                 getSystemProxyUsed: settingsHandler.UserSettings.GetSystemProxyUsed,
                 getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
                 getRunningAtStartupEnabled: settingsHandler.UserSettings.GetRunningAtStartupEnabled,
+                getStartHiddenEnabled: settingsHandler.UserSettings.GetStartHiddenEnabled,
                 getAutoconnectEnabled: settingsHandler.UserSettings.GetAutoconnectEnabled,
                 getSendingAnalyticsEnabled: settingsHandler.UserSettings.GetSendingAnalyticsEnabled,
                 getProxyPort: settingsHandler.UserSettings.GetProxyPort,

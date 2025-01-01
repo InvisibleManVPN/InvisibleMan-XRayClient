@@ -82,6 +82,7 @@
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart1">Разрешить отправку</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart2">аналитики</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.RunAtStartup">Автозапуск при старте системы</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.StartHidden">Скрывать окно при запуске</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.Autoconnect">Автосоединение при запуске</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Proxy">Порт прокси</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.TUN">Порт TUN</system:String>
