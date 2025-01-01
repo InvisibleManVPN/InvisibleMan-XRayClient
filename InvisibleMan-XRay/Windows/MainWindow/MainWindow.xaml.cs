@@ -42,6 +42,16 @@ namespace InvisibleManXRay
         private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
 
+        private bool isAutoconnect = false;
+
+        private enum ConnectionState {
+            NotConnected = 0,
+            IsConnecting = 1,
+            Connected = 2,
+        };
+
+        private ConnectionState connectionState = ConnectionState.NotConnected;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -59,6 +69,7 @@ namespace InvisibleManXRay
                 runWorker.RunWorkerCompleted += (sender, e) => {
                     if (isRerunRequest)
                     {
+                        isAutoconnect = false;
                         runWorker.RunWorkerAsync();
                         isRerunRequest = false;
                     }
@@ -95,7 +106,7 @@ namespace InvisibleManXRay
                             );
                             ShowStopStatus();
                         }));
-                        
+
                         return;
                     }
                     else if (modeStatus.Code == Code.INFO)
@@ -128,10 +139,12 @@ namespace InvisibleManXRay
                         switch (configStatus.SubCode)
                         {
                             case SubCode.NO_CONFIG:
-                                HandleNoConfigError();
+                                if (!isAutoconnect)
+                                    HandleNoConfigError();
                                 break;
                             case SubCode.INVALID_CONFIG:
-                                HandleInvalidConfigError();
+                                if (!isAutoconnect)
+                                    HandleInvalidConfigError();
                                 break;
                             default:
                                 return;
@@ -287,24 +300,35 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
-        public void RunWorker()
+        public void Startup(bool connect, bool hide)
         {
-            if (runWorker.IsBusy)
-                return;
-
-            Dispatcher.BeginInvoke(new Action(async delegate {
-                runWorker.RunWorkerAsync();
-                for (int i = 0; i < 10; ++i)
-                {
-                    await Task.Delay(200);
-                    // TODO: Check that the service has started and connected
+            if (connect)
+                Dispatcher.BeginInvoke(new Action(async delegate {
                     if (runWorker.IsBusy)
-                    {
-                        this.Hide();
                         return;
+                    isAutoconnect = true;
+                    connectionState = ConnectionState.IsConnecting;
+                    runWorker.RunWorkerAsync();
+                    for (int i = 0; i < 50; ++i)
+                    {
+                        await Task.Delay(100);
+                        switch (connectionState)
+                        {
+                            case ConnectionState.IsConnecting:
+                                continue;
+                            case ConnectionState.Connected:
+                                if (hide)
+                                    this.Hide();
+                                return;
+                            case ConnectionState.NotConnected:
+                                return;
+                        }
                     }
-                }
-            }));
+                }));
+            else if (hide)
+                Dispatcher.BeginInvoke(new Action(delegate {
+                    this.Hide();
+                }));
         }
 
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
@@ -312,6 +336,7 @@ namespace InvisibleManXRay
             if (runWorker.IsBusy)
                 return;
 
+            isAutoconnect = false;
             runWorker.RunWorkerAsync();
             AnalyticsService.SendEvent(new RunButtonClickedEvent());
         }
@@ -412,6 +437,8 @@ namespace InvisibleManXRay
             buttonStop.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonRun.Visibility = Visibility.Hidden;
+
+            connectionState = ConnectionState.Connected;
         }
 
         private void ShowStopStatus()
@@ -423,6 +450,8 @@ namespace InvisibleManXRay
             buttonRun.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
+
+            connectionState = ConnectionState.NotConnected;
         }
 
         private void ShowWaitForRunStatus()
@@ -434,6 +463,8 @@ namespace InvisibleManXRay
             buttonCancel.Visibility = Visibility.Visible;
             buttonRun.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
+
+            connectionState = ConnectionState.IsConnecting;
         }
 
         protected override void OnClosing(CancelEventArgs e)

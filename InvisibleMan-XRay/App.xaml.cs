@@ -25,13 +25,15 @@ namespace InvisibleManXRay
             HandleExitingEvents();
 
             SettingsHandler settingsHandler = appManager.HandlersManager.GetHandler<SettingsHandler>();
-            if (settingsHandler.UserSettings.GetAutoconnectEnabled())
-                Task.Run(async delegate
-                {
-                    await Task.Delay(100);
-                    // Note: windowFactory.GetMainWindow() does not work here!
-                    mainWindow.RunWorker();
-                });
+            Task.Run(async delegate
+            {
+                await Task.Delay(100);
+                // Note: windowFactory.GetMainWindow() does not work here!
+                mainWindow.Startup(
+                    connect: settingsHandler.UserSettings.GetAutoconnectEnabled(),
+                    hide: true
+                );
+            });
 
             void InitializeAppManager()
             {
