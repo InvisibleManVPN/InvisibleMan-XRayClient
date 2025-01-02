@@ -69,7 +69,6 @@ namespace InvisibleManXRay
                 runWorker.RunWorkerCompleted += (sender, e) => {
                     if (isRerunRequest)
                     {
-                        isAutoconnect = false;
                         runWorker.RunWorkerAsync();
                         isRerunRequest = false;
                     }
@@ -309,19 +308,25 @@ namespace InvisibleManXRay
                     isAutoconnect = true;
                     connectionState = ConnectionState.IsConnecting;
                     runWorker.RunWorkerAsync();
-                    for (int i = 0; i < 50; ++i)
+                    WaitForStateChange();
+                    isAutoconnect = false;
+
+                    async void WaitForStateChange()
                     {
-                        await Task.Delay(100);
-                        switch (connectionState)
+                        for (int i = 0; i < 50; ++i)
                         {
-                            case ConnectionState.IsConnecting:
-                                continue;
-                            case ConnectionState.Connected:
-                                if (hide)
-                                    this.Hide();
-                                return;
-                            case ConnectionState.NotConnected:
-                                return;
+                            await Task.Delay(100);
+                            switch (connectionState)
+                            {
+                                case ConnectionState.IsConnecting:
+                                    continue;
+                                case ConnectionState.Connected:
+                                    if (hide)
+                                        this.Hide();
+                                    return;
+                                case ConnectionState.NotConnected:
+                                    return;
+                            }
                         }
                     }
                 }));
@@ -336,7 +341,6 @@ namespace InvisibleManXRay
             if (runWorker.IsBusy)
                 return;
 
-            isAutoconnect = false;
             runWorker.RunWorkerAsync();
             AnalyticsService.SendEvent(new RunButtonClickedEvent());
         }
