@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
 
@@ -16,6 +15,8 @@ namespace InvisibleManXRay
         private bool isRerunRequest;
 
         private Func<bool> isNeedToShowPolicyWindow;
+        private Func<bool> shouldStartHidden;
+        private Func<bool> isNeedToAutoConnect;
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> enableMode;
@@ -41,16 +42,6 @@ namespace InvisibleManXRay
 
         private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
-
-        private bool isAutoconnect = false;
-
-        private enum ConnectionState {
-            NotConnected = 0,
-            IsConnecting = 1,
-            Connected = 2,
-        };
-
-        private ConnectionState connectionState = ConnectionState.NotConnected;
 
         public MainWindow()
         {
@@ -132,22 +123,22 @@ namespace InvisibleManXRay
 
                     void HandleError()
                     {
-                        if (IsAnotherWindowOpened())
+                        if (IsWindowHidden() || IsAnotherWindowOpened())
                             return;
 
                         switch (configStatus.SubCode)
                         {
                             case SubCode.NO_CONFIG:
-                                if (!isAutoconnect)
-                                    HandleNoConfigError();
+                                HandleNoConfigError();
                                 break;
                             case SubCode.INVALID_CONFIG:
-                                if (!isAutoconnect)
-                                    HandleInvalidConfigError();
+                                HandleInvalidConfigError();
                                 break;
                             default:
                                 return;
                         }
+
+                        bool IsWindowHidden() => this.Visibility == Visibility.Hidden;
 
                         bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
 
@@ -213,6 +204,8 @@ namespace InvisibleManXRay
 
         public void Setup(
             Func<bool> isNeedToShowPolicyWindow,
+            Func<bool> shouldStartHidden,
+            Func<bool> isNeedToAutoConnect,
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> enableMode,
@@ -233,6 +226,8 @@ namespace InvisibleManXRay
             Action<string> onCustomLinkClick)
         {
             this.isNeedToShowPolicyWindow = isNeedToShowPolicyWindow;
+            this.shouldStartHidden = shouldStartHidden;
+            this.isNeedToAutoConnect = isNeedToAutoConnect;
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
@@ -258,6 +253,9 @@ namespace InvisibleManXRay
         protected override void OnContentRendered(EventArgs e)
         {
             TryOpenPolicyWindow();
+            TryStartHidden();
+            TryAutoConnect();
+
             AnalyticsService.SendEvent(new AppOpenedEvent());
         }
 
@@ -297,43 +295,6 @@ namespace InvisibleManXRay
         {
             OpenServerWindow();
             AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
-        }
-
-        public void Startup(bool connect, bool hide)
-        {
-            if (connect)
-                Dispatcher.BeginInvoke(new Action(async delegate {
-                    if (runWorker.IsBusy)
-                        return;
-                    isAutoconnect = true;
-                    connectionState = ConnectionState.IsConnecting;
-                    runWorker.RunWorkerAsync();
-                    WaitForStateChange();
-                    isAutoconnect = false;
-
-                    async void WaitForStateChange()
-                    {
-                        for (int i = 0; i < 50; ++i)
-                        {
-                            await Task.Delay(100);
-                            switch (connectionState)
-                            {
-                                case ConnectionState.IsConnecting:
-                                    continue;
-                                case ConnectionState.Connected:
-                                    if (hide)
-                                        this.Hide();
-                                    return;
-                                case ConnectionState.NotConnected:
-                                    return;
-                            }
-                        }
-                    }
-                }));
-            else if (hide)
-                Dispatcher.BeginInvoke(new Action(delegate {
-                    this.Hide();
-                }));
         }
 
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
@@ -391,6 +352,27 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new AboutButtonClickedEvent());
         }
 
+        private void TryStartHidden()
+        {
+            if (!shouldStartHidden.Invoke())
+                return;
+
+            if(ShouldAvoidStartHidden())
+                return;
+            
+            OnClosing(new CancelEventArgs());
+
+            bool ShouldAvoidStartHidden() => Application.Current.Windows.Count > 1;
+        }
+
+        private void TryAutoConnect()
+        {
+            if (!isNeedToAutoConnect.Invoke())
+                return;
+            
+            OnRunButtonClick(null, null);
+        }
+
         private void TryOpenPolicyWindow()
         {
             if (!isNeedToShowPolicyWindow.Invoke())
@@ -441,8 +423,6 @@ namespace InvisibleManXRay
             buttonStop.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonRun.Visibility = Visibility.Hidden;
-
-            connectionState = ConnectionState.Connected;
         }
 
         private void ShowStopStatus()
@@ -454,8 +434,6 @@ namespace InvisibleManXRay
             buttonRun.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
-
-            connectionState = ConnectionState.NotConnected;
         }
 
         private void ShowWaitForRunStatus()
@@ -467,8 +445,6 @@ namespace InvisibleManXRay
             buttonCancel.Visibility = Visibility.Visible;
             buttonRun.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
-
-            connectionState = ConnectionState.IsConnecting;
         }
 
         protected override void OnClosing(CancelEventArgs e)

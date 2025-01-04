@@ -12,7 +12,6 @@ namespace InvisibleManXRay
     {
         private AppManager appManager;
         private WindowFactory windowFactory;
-        private MainWindow mainWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -22,13 +21,6 @@ namespace InvisibleManXRay
             InitializeMainWindow();
             HandlePipes();
             HandleExitingEvents();
-
-            SettingsHandler settingsHandler = appManager.HandlersManager.GetHandler<SettingsHandler>();
-            // Note: windowFactory.GetMainWindow() does not work here!
-            mainWindow.Startup(
-                connect: settingsHandler.UserSettings.GetAutoConnectEnabled(),
-                hide: settingsHandler.UserSettings.GetStartHiddenEnabled()
-            );
 
             void InitializeAppManager()
             {
@@ -48,7 +40,7 @@ namespace InvisibleManXRay
 
             void InitializeMainWindow()
             {
-                mainWindow = windowFactory.CreateMainWindow();
+                MainWindow mainWindow = windowFactory.CreateMainWindow();
                 mainWindow.Show();
             }
 
