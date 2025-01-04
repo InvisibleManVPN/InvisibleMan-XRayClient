@@ -293,7 +293,7 @@ namespace InvisibleManXRay
 
         private void SetActiveLogPanel(bool isActive) => SetActivePanel(panelLog, isActive);
 
-        private void SetActivePanel(Panel panel, bool isActive)
+        private void SetActivePanel(UIElement panel, bool isActive)
         {
             panel.Visibility = isActive ? Visibility.Visible : Visibility.Hidden;
         }

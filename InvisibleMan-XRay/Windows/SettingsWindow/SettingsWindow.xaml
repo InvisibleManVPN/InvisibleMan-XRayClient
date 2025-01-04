@@ -87,9 +87,9 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="panelBasic" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 
-                    <StackPanel x:Name="panelBasic" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 20 20 0" Visibility="Visible">
+                    <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20 20 20 0" Visibility="Visible">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
