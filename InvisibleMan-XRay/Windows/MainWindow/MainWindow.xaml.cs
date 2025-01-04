@@ -123,8 +123,10 @@ namespace InvisibleManXRay
 
                     void HandleError()
                     {
-                        if (IsWindowHidden() || IsAnotherWindowOpened())
+                        if (IsAnotherWindowOpened())
                             return;
+                        
+                        ForceShowWindowIfNeeded();
 
                         switch (configStatus.SubCode)
                         {
@@ -141,6 +143,14 @@ namespace InvisibleManXRay
                         bool IsWindowHidden() => this.Visibility == Visibility.Hidden;
 
                         bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
+
+                        void ForceShowWindowIfNeeded()
+                        {
+                            if (!IsWindowHidden())
+                                return;
+                            
+                            this.Show();
+                        }
 
                         void HandleNoConfigError()
                         {
