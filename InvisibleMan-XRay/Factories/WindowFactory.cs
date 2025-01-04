@@ -35,6 +35,8 @@ namespace InvisibleManXRay.Factories
             MainWindow mainWindow = new MainWindow();
             mainWindow.Setup(
                 isNeedToShowPolicyWindow: IsNeedToShowPolicyWindow,
+                shouldStartHidden: ShouldStartHidden,
+                isNeedToAutoConnect: IsNeedToAutoConnect,
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 enableMode: core.EnableMode,
@@ -58,6 +60,10 @@ namespace InvisibleManXRay.Factories
             return mainWindow;
 
             bool IsNeedToShowPolicyWindow() => settingsHandler.UserSettings.GetClientId() == "";
+
+            bool ShouldStartHidden() => settingsHandler.UserSettings.GetStartHiddenEnabled();
+
+            bool IsNeedToAutoConnect() => settingsHandler.UserSettings.GetAutoConnectEnabled();
         }
 
         public SettingsWindow CreateSettingsWindow()
@@ -74,6 +80,8 @@ namespace InvisibleManXRay.Factories
                 getSystemProxyUsed: settingsHandler.UserSettings.GetSystemProxyUsed,
                 getUdpEnabled: settingsHandler.UserSettings.GetUdpEnabled,
                 getRunningAtStartupEnabled: settingsHandler.UserSettings.GetRunningAtStartupEnabled,
+                getStartHiddenEnabled: settingsHandler.UserSettings.GetStartHiddenEnabled,
+                getAutoConnectEnabled: settingsHandler.UserSettings.GetAutoConnectEnabled,
                 getSendingAnalyticsEnabled: settingsHandler.UserSettings.GetSendingAnalyticsEnabled,
                 getProxyPort: settingsHandler.UserSettings.GetProxyPort,
                 getTunPort: settingsHandler.UserSettings.GetTunPort,
