@@ -84,7 +84,7 @@
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart3">events</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.RunAtStartup">Run automatically at startup</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.StartHidden">Hide window on launch</system:String>
-    <system:String x:Key="Lang.Window.Settings.Basic.Autoconnect">Autoconnect at launch</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.AutoConnect">Auto connect on launch</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Proxy">Proxy port</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.TUN">TUN port</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Test">Test port</system:String>

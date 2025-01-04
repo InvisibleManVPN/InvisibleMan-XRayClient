@@ -84,7 +84,7 @@
     <system:String x:Key="Lang.Window.Settings.Basic.SendAnalyticsPart3" xml:space="preserve">&#32;</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.RunAtStartup">Автозапуск при старте системы</system:String>
     <system:String x:Key="Lang.Window.Settings.Basic.StartHidden">Скрывать окно при запуске</system:String>
-    <system:String x:Key="Lang.Window.Settings.Basic.Autoconnect">Автосоединение при запуске</system:String>
+    <system:String x:Key="Lang.Window.Settings.Basic.AutoConnect">Автосоединение при запуске</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Proxy">Порт прокси</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.TUN">Порт TUN</system:String>
     <system:String x:Key="Lang.Window.Settings.Port.Test">Порт тестирования</system:String>

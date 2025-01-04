@@ -148,8 +148,8 @@
                         <CheckBox x:Name="checkBoxStartHidden" Margin="5 15 0 0" Foreground="White" 
                             Content="{DynamicResource Lang.Window.Settings.Basic.StartHidden}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
 
-                        <CheckBox x:Name="checkBoxAutoconnect" Margin="5 15 0 0" Foreground="White" 
-                            Content="{DynamicResource Lang.Window.Settings.Basic.Autoconnect}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
+                        <CheckBox x:Name="checkBoxAutoConnect" Margin="5 15 0 0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.Basic.AutoConnect}" FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14"/>
                         
                         <CheckBox x:Name="checkBoxSendAnalytics" Margin="5 15 0 0" Foreground="White" 
                             FontFamily="{StaticResource SegoeUI}" FontWeight="Normal" FontSize="14">

@@ -43,7 +43,7 @@ namespace InvisibleManXRay
         private Func<bool> getUdpEnabled;
         private Func<bool> getRunningAtStartupEnabled;
         private Func<bool> getStartHiddenEnabled;
-        private Func<bool> getAutoconnectEnabled;
+        private Func<bool> getAutoConnectEnabled;
         private Func<bool> getSendingAnalyticsEnabled;
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
@@ -88,7 +88,7 @@ namespace InvisibleManXRay
             Func<bool> getUdpEnabled,
             Func<bool> getRunningAtStartupEnabled,
             Func<bool> getStartHiddenEnabled,
-            Func<bool> getAutoconnectEnabled,
+            Func<bool> getAutoConnectEnabled,
             Func<bool> getSendingAnalyticsEnabled,
             Func<int> getProxyPort,
             Func<int> getTunPort,
@@ -108,7 +108,7 @@ namespace InvisibleManXRay
             this.getUdpEnabled = getUdpEnabled;
             this.getRunningAtStartupEnabled = getRunningAtStartupEnabled;
             this.getStartHiddenEnabled = getStartHiddenEnabled;
-            this.getAutoconnectEnabled = getAutoconnectEnabled;
+            this.getAutoConnectEnabled = getAutoConnectEnabled;
             this.getSendingAnalyticsEnabled = getSendingAnalyticsEnabled;
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
@@ -139,7 +139,7 @@ namespace InvisibleManXRay
                 checkBoxEnableUdp.IsChecked = getUdpEnabled.Invoke();
                 checkBoxRunAtStartup.IsChecked = getRunningAtStartupEnabled.Invoke();
                 checkBoxStartHidden.IsChecked = getStartHiddenEnabled.Invoke();
-                checkBoxAutoconnect.IsChecked = getAutoconnectEnabled.Invoke();
+                checkBoxAutoConnect.IsChecked = getAutoConnectEnabled.Invoke();
                 checkBoxSendAnalytics.IsChecked = getSendingAnalyticsEnabled.Invoke();
             }
 
@@ -231,7 +231,7 @@ namespace InvisibleManXRay
                 isUdpEnable: checkBoxEnableUdp.IsChecked.Value,
                 isRunningAtStartup: checkBoxRunAtStartup.IsChecked.Value,
                 isStartHidden: checkBoxStartHidden.IsChecked.Value,
-                isAutoconnect: checkBoxAutoconnect.IsChecked.Value,
+                isAutoConnect: checkBoxAutoConnect.IsChecked.Value,
                 isSendingAnalytics: checkBoxSendAnalytics.IsChecked.Value,
                 proxyPort: int.Parse(textBoxProxyPort.Text),
                 tunPort: int.Parse(textBoxTunPort.Text),

@@ -26,7 +26,7 @@ namespace InvisibleManXRay
             SettingsHandler settingsHandler = appManager.HandlersManager.GetHandler<SettingsHandler>();
             // Note: windowFactory.GetMainWindow() does not work here!
             mainWindow.Startup(
-                connect: settingsHandler.UserSettings.GetAutoconnectEnabled(),
+                connect: settingsHandler.UserSettings.GetAutoConnectEnabled(),
                 hide: settingsHandler.UserSettings.GetStartHiddenEnabled()
             );
 
