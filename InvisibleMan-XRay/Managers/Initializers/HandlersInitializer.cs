@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 
 namespace InvisibleManXRay.Managers.Initializers
@@ -92,7 +91,7 @@ namespace InvisibleManXRay.Managers.Initializers
 
                 handlersManager.GetHandler<NotifyHandler>().Setup(
                     getMode: settingsHandler.UserSettings.GetMode,
-                    onOpenClick: OpenApplicationFromNotifyHandler,
+                    onOpenClick: OpenApplication,
                     onUpdateClick: OpenUpdateWindow,
                     onAboutClick: OpenAboutWindow,
                     onCloseClick: CloseApplication,
@@ -107,7 +106,7 @@ namespace InvisibleManXRay.Managers.Initializers
                 
                 void OpenUpdateWindow() 
                 {
-                    ShowMainWindow();
+                    OpenApplication();
                     if(IsAnotherWindowOpened())
                         CloseOtherWindows();
 
@@ -118,7 +117,7 @@ namespace InvisibleManXRay.Managers.Initializers
 
                 void OpenAboutWindow()
                 {
-                    ShowMainWindow();
+                    OpenApplication();
                     if(IsAnotherWindowOpened())
                         CloseOtherWindows();
 
@@ -182,17 +181,20 @@ namespace InvisibleManXRay.Managers.Initializers
                 );
             }
         }
-
+        
         private void OpenApplication()
         {
-            ShowMainWindow();
-            Application.Current.MainWindow.WindowState = WindowState.Normal;
-        }
-        
-        private void OpenApplicationFromNotifyHandler()
-        {
-            ShowMainWindowFromNotifyHandler();
-            Application.Current.MainWindow.WindowState = WindowState.Normal;
+            var mainWindow = Application.Current.MainWindow;
+            mainWindow.Show();
+            ForceShowWindowOnTop();
+            mainWindow.WindowState = WindowState.Normal;
+
+            void ForceShowWindowOnTop()
+            {
+                mainWindow.Topmost = true;
+                mainWindow.Topmost = false;
+                mainWindow.Activate();
+            }
         }
 
         private void CloseOtherWindows()
@@ -201,25 +203,6 @@ namespace InvisibleManXRay.Managers.Initializers
             {
                 if (!IsMainWindow(window))
                     window.Close();
-            }
-        }
-
-        private void ShowMainWindow() => Application.Current.MainWindow.Show();
-        
-        private void ShowMainWindowFromNotifyHandler()
-        {
-            var mainWindow = Application.Current.MainWindow;
-            mainWindow.Show();
-            
-            // If Windows 11 23H2 or greater (you can test it on earlier builds and change it if ok)
-            if (Environment.OSVersion.Version.Build >= 22631) 
-            {
-                // This sequence forces Windows to open the virtual desktop with the application window
-                // when you are on another virtual desktop.
-                var lastTopMostValue = mainWindow.Topmost;
-                mainWindow.Topmost = true;
-                mainWindow.Topmost = lastTopMostValue;
-                mainWindow.Activate();
             }
         }
 
