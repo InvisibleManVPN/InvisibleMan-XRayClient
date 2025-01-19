@@ -106,7 +106,7 @@ namespace InvisibleManXRay.Managers.Initializers
                 
                 void OpenUpdateWindow() 
                 {
-                    ShowMainWindow();
+                    OpenApplication();
                     if(IsAnotherWindowOpened())
                         CloseOtherWindows();
 
@@ -117,7 +117,7 @@ namespace InvisibleManXRay.Managers.Initializers
 
                 void OpenAboutWindow()
                 {
-                    ShowMainWindow();
+                    OpenApplication();
                     if(IsAnotherWindowOpened())
                         CloseOtherWindows();
 
@@ -181,11 +181,20 @@ namespace InvisibleManXRay.Managers.Initializers
                 );
             }
         }
-
+        
         private void OpenApplication()
         {
-            ShowMainWindow();
-            Application.Current.MainWindow.WindowState = WindowState.Normal;
+            var mainWindow = Application.Current.MainWindow;
+            mainWindow.Show();
+            ForceShowWindowOnTop();
+            mainWindow.WindowState = WindowState.Normal;
+
+            void ForceShowWindowOnTop()
+            {
+                mainWindow.Topmost = true;
+                mainWindow.Topmost = false;
+                mainWindow.Activate();
+            }
         }
 
         private void CloseOtherWindows()
@@ -196,8 +205,6 @@ namespace InvisibleManXRay.Managers.Initializers
                     window.Close();
             }
         }
-
-        private void ShowMainWindow() => Application.Current.MainWindow.Show();
 
         private bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
 
