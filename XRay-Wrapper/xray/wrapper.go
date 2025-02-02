@@ -17,6 +17,7 @@ import (
 	"github.com/xtls/xray-core/core"
 
 	_ "github.com/xtls/xray-core/main/distro/all"
+	clog "github.com/xtls/xray-core/common/log"
 )
 
 const (
@@ -28,11 +29,15 @@ var osSignals = make(chan os.Signal, 1)
 
 //export StartServer
 func StartServer(config *C.char, port int, logLevel *C.char, logPath *C.char, isSocks bool, isUdpEnabled bool) {
+	logSeverity := convertLogLevelToSeverity(logLevel)
 	configObj := convertJsonToObject(config)
 	configObj.Inbound = overrideInbound(net.Port(port), isSocks, isUdpEnabled)
-	log := overrideLog(convertLogLevelToSeverity(logLevel), logPath)
-	insertElementToConfigApp(log, configObj.App)
-	tryMakingDirectory(logPath)
+
+	if logSeverity != clog.Severity_Unknown {
+		log := overrideLog(logSeverity, logPath)
+		insertElementToConfigApp(log, configObj.App)
+		tryMakingDirectory(logPath)
+	}
 
 	server, err := core.New(configObj)
 	if err != nil {
