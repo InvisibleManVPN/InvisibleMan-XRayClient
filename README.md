@@ -80,3 +80,7 @@ See: https://invisiblemanvpn.github.io/donation/
 
 - Web [invisiblemanvpn.github.io](https://invisiblemanvpn.github.io)
 - Email [invisiblemanvpn@gmail.com](mailto:invisiblemanvpn@gmail.com)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/InvisibleManVPN/InvisibleMan-XRayClient.svg?variant=adaptive)](https://starchart.cc/InvisibleManVPN/InvisibleMan-XRayClient)
