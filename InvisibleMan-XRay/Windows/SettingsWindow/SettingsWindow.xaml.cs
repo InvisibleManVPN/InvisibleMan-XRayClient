@@ -42,6 +42,8 @@ namespace InvisibleManXRay
         private Func<bool> getSystemProxyUsed;
         private Func<bool> getUdpEnabled;
         private Func<bool> getRunningAtStartupEnabled;
+        private Func<bool> getStartHiddenEnabled;
+        private Func<bool> getAutoConnectEnabled;
         private Func<bool> getSendingAnalyticsEnabled;
         private Func<int> getProxyPort;
         private Func<int> getTunPort;
@@ -85,6 +87,8 @@ namespace InvisibleManXRay
             Func<bool> getSystemProxyUsed,
             Func<bool> getUdpEnabled,
             Func<bool> getRunningAtStartupEnabled,
+            Func<bool> getStartHiddenEnabled,
+            Func<bool> getAutoConnectEnabled,
             Func<bool> getSendingAnalyticsEnabled,
             Func<int> getProxyPort,
             Func<int> getTunPort,
@@ -103,6 +107,8 @@ namespace InvisibleManXRay
             this.getSystemProxyUsed = getSystemProxyUsed;
             this.getUdpEnabled = getUdpEnabled;
             this.getRunningAtStartupEnabled = getRunningAtStartupEnabled;
+            this.getStartHiddenEnabled = getStartHiddenEnabled;
+            this.getAutoConnectEnabled = getAutoConnectEnabled;
             this.getSendingAnalyticsEnabled = getSendingAnalyticsEnabled;
             this.getProxyPort = getProxyPort;
             this.getTunPort = getTunPort;
@@ -132,6 +138,8 @@ namespace InvisibleManXRay
                 checkBoxUseSystemProxy.IsChecked = getSystemProxyUsed.Invoke();
                 checkBoxEnableUdp.IsChecked = getUdpEnabled.Invoke();
                 checkBoxRunAtStartup.IsChecked = getRunningAtStartupEnabled.Invoke();
+                checkBoxStartHidden.IsChecked = getStartHiddenEnabled.Invoke();
+                checkBoxAutoConnect.IsChecked = getAutoConnectEnabled.Invoke();
                 checkBoxSendAnalytics.IsChecked = getSendingAnalyticsEnabled.Invoke();
             }
 
@@ -222,6 +230,8 @@ namespace InvisibleManXRay
                 isSystemProxyUse: checkBoxUseSystemProxy.IsChecked.Value,
                 isUdpEnable: checkBoxEnableUdp.IsChecked.Value,
                 isRunningAtStartup: checkBoxRunAtStartup.IsChecked.Value,
+                isStartHidden: checkBoxStartHidden.IsChecked.Value,
+                isAutoConnect: checkBoxAutoConnect.IsChecked.Value,
                 isSendingAnalytics: checkBoxSendAnalytics.IsChecked.Value,
                 proxyPort: int.Parse(textBoxProxyPort.Text),
                 tunPort: int.Parse(textBoxTunPort.Text),
@@ -283,7 +293,7 @@ namespace InvisibleManXRay
 
         private void SetActiveLogPanel(bool isActive) => SetActivePanel(panelLog, isActive);
 
-        private void SetActivePanel(Panel panel, bool isActive)
+        private void SetActivePanel(UIElement panel, bool isActive)
         {
             panel.Visibility = isActive ? Visibility.Visible : Visibility.Hidden;
         }

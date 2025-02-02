@@ -15,6 +15,8 @@ namespace InvisibleManXRay
         private bool isRerunRequest;
 
         private Func<bool> isNeedToShowPolicyWindow;
+        private Func<bool> shouldStartHidden;
+        private Func<bool> isNeedToAutoConnect;
         private Func<Config> getConfig;
         private Func<Status> loadConfig;
         private Func<Status> enableMode;
@@ -94,7 +96,7 @@ namespace InvisibleManXRay
                             );
                             ShowStopStatus();
                         }));
-                        
+
                         return;
                     }
                     else if (modeStatus.Code == Code.INFO)
@@ -123,6 +125,8 @@ namespace InvisibleManXRay
                     {
                         if (IsAnotherWindowOpened())
                             return;
+                        
+                        ForceShowWindowIfNeeded();
 
                         switch (configStatus.SubCode)
                         {
@@ -136,7 +140,17 @@ namespace InvisibleManXRay
                                 return;
                         }
 
+                        bool IsWindowHidden() => this.Visibility == Visibility.Hidden;
+
                         bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
+
+                        void ForceShowWindowIfNeeded()
+                        {
+                            if (!IsWindowHidden())
+                                return;
+                            
+                            this.Show();
+                        }
 
                         void HandleNoConfigError()
                         {
@@ -200,6 +214,8 @@ namespace InvisibleManXRay
 
         public void Setup(
             Func<bool> isNeedToShowPolicyWindow,
+            Func<bool> shouldStartHidden,
+            Func<bool> isNeedToAutoConnect,
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> enableMode,
@@ -220,6 +236,8 @@ namespace InvisibleManXRay
             Action<string> onCustomLinkClick)
         {
             this.isNeedToShowPolicyWindow = isNeedToShowPolicyWindow;
+            this.shouldStartHidden = shouldStartHidden;
+            this.isNeedToAutoConnect = isNeedToAutoConnect;
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
@@ -245,6 +263,9 @@ namespace InvisibleManXRay
         protected override void OnContentRendered(EventArgs e)
         {
             TryOpenPolicyWindow();
+            TryStartHidden();
+            TryAutoConnect();
+
             AnalyticsService.SendEvent(new AppOpenedEvent());
         }
 
@@ -341,11 +362,32 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new AboutButtonClickedEvent());
         }
 
+        private void TryStartHidden()
+        {
+            if (!shouldStartHidden.Invoke())
+                return;
+
+            if(ShouldAvoidStartHidden())
+                return;
+            
+            OnClosing(new CancelEventArgs());
+
+            bool ShouldAvoidStartHidden() => Application.Current.Windows.Count > 1;
+        }
+
+        private void TryAutoConnect()
+        {
+            if (!isNeedToAutoConnect.Invoke())
+                return;
+            
+            OnRunButtonClick(null, null);
+        }
+
         private void TryOpenPolicyWindow()
         {
             if (!isNeedToShowPolicyWindow.Invoke())
                 return;
-            
+
             onGenerateClientId.Invoke();
             AnalyticsService.SendEvent(new NewUserEvent());
 
