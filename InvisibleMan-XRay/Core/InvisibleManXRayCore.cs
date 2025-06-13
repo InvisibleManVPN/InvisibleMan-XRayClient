@@ -152,6 +152,7 @@ namespace InvisibleManXRay.Core
         {
             CancelProxy();
             CancelTunnel();
+            coreEnabledOrDisabledModeObserver.Notify(ProxyEnabledOrDisabledState.DISABLED);
         }
 
         public int Test(string config)
