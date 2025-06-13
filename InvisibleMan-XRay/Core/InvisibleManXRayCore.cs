@@ -1,4 +1,5 @@
 using System;
+using InvisibleManXRay.Handlers;
 
 namespace InvisibleManXRay.Core
 {
@@ -27,6 +28,7 @@ namespace InvisibleManXRay.Core
         private Func<IProxy> getProxy;
         private Func<ITunnel> getTunnel;
         private Action<string> onFailLoadingConfig;
+        private CoreEnabledOrDisabledModeObserver coreEnabledOrDisabledModeObserver;
 
         private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
@@ -46,7 +48,8 @@ namespace InvisibleManXRay.Core
             Func<string> getDns,
             Func<IProxy> getProxy, 
             Func<ITunnel> getTunnel,
-            Action<string> onFailLoadingConfig)
+            Action<string> onFailLoadingConfig,
+            CoreEnabledOrDisabledModeObserver coreEnabledOrDisabledModeObserver)
         {
             this.getConfig = getConfig;
             this.getMode = getMode;
@@ -63,6 +66,7 @@ namespace InvisibleManXRay.Core
             this.getProxy = getProxy;
             this.getTunnel = getTunnel;
             this.onFailLoadingConfig = onFailLoadingConfig;
+            this.coreEnabledOrDisabledModeObserver = coreEnabledOrDisabledModeObserver;
         }
         
         public Status LoadConfig()
@@ -95,17 +99,26 @@ namespace InvisibleManXRay.Core
         public Status EnableMode()
         {
             Mode mode = getMode.Invoke();
-            
+
+            Status status;
             if (mode == Mode.PROXY)
-                return EnableProxy();
+                status = EnableProxy();
             else
-                return EnableTunnel();
+                status = EnableTunnel();
+
+            if (status.Code == Code.SUCCESS)
+            {
+                coreEnabledOrDisabledModeObserver.Notify(ProxyEnabledOrDisabledState.ENABLED);
+            }
+            
+            return status;
         }
 
         public void DisableMode()
         {
             DisableProxy();
             DisableTunnel();
+            coreEnabledOrDisabledModeObserver.Notify(ProxyEnabledOrDisabledState.DISABLED);
         }
 
         public void Run(string config)

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace InvisibleManXRay.Handlers
 {
@@ -13,7 +14,7 @@ namespace InvisibleManXRay.Handlers
 
     public class NotifyHandler : Handler
     {
-        private NotifyIcon notifyIcon;
+        private NotifyIcon? notifyIcon;
 
         private Func<Mode> getMode;
         private Action onOpenClick;
@@ -35,7 +36,8 @@ namespace InvisibleManXRay.Handlers
             Action onAboutClick,
             Action onCloseClick,
             Action onProxyModeClick,
-            Action onTunnelModeClick
+            Action onTunnelModeClick,
+            CoreEnabledOrDisabledModeObserver coreEnabledOrDisabledModeObserver
         )
         {
             this.getMode = getMode;
@@ -45,6 +47,7 @@ namespace InvisibleManXRay.Handlers
             this.onCloseClick = onCloseClick;
             this.onProxyModeClick = onProxyModeClick;
             this.onTunnelModeClick = onTunnelModeClick;
+            coreEnabledOrDisabledModeObserver.Subscribe(HandleProxyEnabledOrDisabled);
         }
 
         public void CheckModeItem(Mode mode)
@@ -60,20 +63,35 @@ namespace InvisibleManXRay.Handlers
                 notifyIcon.Dispose();
 
             notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = GetNotifyIcon();
+            notifyIcon.Icon = GetNotifyIconFromResources(forEnabled: false);
             notifyIcon.Visible = true;
 
             HandleNotifyIconClick();
             AddMenuStrip();
 
             bool IsNotifyIconAlreadyExists() => notifyIcon != null;
+        }
 
-            Icon GetNotifyIcon()
-            {
-                return Icon.ExtractAssociatedIcon(
-                    System.Environment.GetCommandLineArgs().First()
-                );
-            }
+        public void HandleProxyEnabledOrDisabled(ProxyEnabledOrDisabledState state)
+        {
+            if (notifyIcon is null)
+                return;
+            
+            var icon = GetNotifyIconFromResources(forEnabled: state == ProxyEnabledOrDisabledState.ENABLED);
+            notifyIcon.Icon = icon;
+        }
+        
+        private Icon GetNotifyIconFromResources(bool forEnabled)
+        {
+            const string rootNamespace = "InvisibleManXRay";
+            const string basePath = $"Assets.NotifyIcons";
+            var fileName = forEnabled ? "IconEnabled.ico" : "IconDisabled.ico";
+            var resourceName = $"{rootNamespace}.{basePath}.{fileName}";
+            
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream(resourceName) ?? throw new InvalidOperationException("Something went wrong with resources or with assembly or with root namespace");
+            var icon = new Icon(stream);
+            return icon;
         }
 
         private void HandleNotifyIconClick()

@@ -29,6 +29,7 @@ namespace InvisibleManXRay.Managers.Initializers
             HandlersManager.AddHandler(new DeepLinkHandler());
             HandlersManager.AddHandler(new LinkHandler());
             HandlersManager.AddHandler(new LocalizationHandler());
+            HandlersManager.AddHandler(new CoreEnabledOrDisabledModeObserver());
         }
 
         public void Setup(
@@ -96,7 +97,8 @@ namespace InvisibleManXRay.Managers.Initializers
                     onAboutClick: OpenAboutWindow,
                     onCloseClick: CloseApplication,
                     onProxyModeClick: () => { OnModeClick(Mode.PROXY); },
-                    onTunnelModeClick: () => { OnModeClick(Mode.TUN); }
+                    onTunnelModeClick: () => { OnModeClick(Mode.TUN); },
+                    coreEnabledOrDisabledModeObserver: HandlersManager.GetHandler<CoreEnabledOrDisabledModeObserver>()
                 );
 
                 void CloseApplication()

@@ -34,7 +34,8 @@ namespace InvisibleManXRay.Managers.Initializers
                 getDns: settingsHandler.UserSettings.GetDns,
                 getProxy: proxyHandler.GetProxy,
                 getTunnel: tunnelHandler.GetTunnel,
-                onFailLoadingConfig: configHandler.RemoveConfigFromList
+                onFailLoadingConfig: configHandler.RemoveConfigFromList,
+                coreEnabledOrDisabledModeObserver: handlersManager.GetHandler<CoreEnabledOrDisabledModeObserver>()
             );
         }
     }

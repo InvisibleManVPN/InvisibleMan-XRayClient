@@ -41,4 +41,10 @@
     </Content>
   </ItemGroup>
 
+  <!-- icons for notify icon-->
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\NotifyIcons\IconDisabled.ico" />
+    <EmbeddedResource Include="Assets\NotifyIcons\IconEnabled.ico" />
+  </ItemGroup>
+
 </Project>
