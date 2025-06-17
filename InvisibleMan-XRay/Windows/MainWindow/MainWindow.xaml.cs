@@ -31,6 +31,8 @@ namespace InvisibleManXRay
         private Action onCancelServer;
         private Action onStopServer;
         private Action onDisableMode;
+        private Func<Mode> getMode;
+        private Action<Mode?> setTrayIndicator;
         private Action onGenerateClientId;
         private Action onGitHubClick;
         private Action onBugReportingClick;
@@ -230,6 +232,8 @@ namespace InvisibleManXRay
             Action onStopServer,
             Action onCancelServer,
             Action onDisableMode,
+            Func<Mode> getMode,
+            Action<Mode?> setTrayIndicator,
             Action onGenerateClientId,
             Action onGitHubClick,
             Action onBugReportingClick,
@@ -252,12 +256,15 @@ namespace InvisibleManXRay
             this.onStopServer = onStopServer;
             this.enableMode = enableMode;
             this.onDisableMode = onDisableMode;
+            this.getMode = getMode;
+            this.setTrayIndicator = setTrayIndicator;
             this.onGenerateClientId = onGenerateClientId;
             this.onGitHubClick = onGitHubClick;
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
 
             UpdateUI();
+            setTrayIndicator(null);
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -433,6 +440,7 @@ namespace InvisibleManXRay
             buttonStop.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonRun.Visibility = Visibility.Hidden;
+            setTrayIndicator(getMode.Invoke());
         }
 
         private void ShowStopStatus()
@@ -444,6 +452,7 @@ namespace InvisibleManXRay
             buttonRun.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
+            setTrayIndicator(null);
         }
 
         private void ShowWaitForRunStatus()
@@ -455,6 +464,7 @@ namespace InvisibleManXRay
             buttonCancel.Visibility = Visibility.Visible;
             buttonRun.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
+            setTrayIndicator(null);
         }
 
         protected override void OnClosing(CancelEventArgs e)

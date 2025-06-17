@@ -14,6 +14,7 @@ namespace InvisibleManXRay.Handlers
     public class NotifyHandler : Handler
     {
         private NotifyIcon notifyIcon;
+        private Icon baseIcon;
 
         private Func<Mode> getMode;
         private Action onOpenClick;
@@ -61,6 +62,7 @@ namespace InvisibleManXRay.Handlers
 
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = GetNotifyIcon();
+            baseIcon = notifyIcon.Icon;
             notifyIcon.Visible = true;
 
             HandleNotifyIconClick();
@@ -182,5 +184,41 @@ namespace InvisibleManXRay.Handlers
         {
             item.Checked = true;
         }
+
+        public void SetIndicator(Mode? mode)
+        {
+            if (notifyIcon == null || baseIcon == null)
+                return;
+
+            if (mode == null)
+            {
+                notifyIcon.Icon = baseIcon;
+                return;
+            }
+
+            Color color = mode == Mode.TUN ? Color.Red : Color.Blue;
+            notifyIcon.Icon = CreateIndicatorIcon(color);
+        }
+
+        private Icon CreateIndicatorIcon(Color color)
+        {
+            using (Bitmap bmp = baseIcon.ToBitmap())
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (Brush brush = new SolidBrush(color))
+            {
+                int size = bmp.Width / 4;
+                int x = bmp.Width - size - 1;
+                int y = bmp.Height - size - 1;
+                g.FillEllipse(brush, x, y, size, size);
+
+                IntPtr hIcon = bmp.GetHicon();
+                Icon icon = (Icon)Icon.FromHandle(hIcon).Clone();
+                DestroyIcon(hIcon);
+                return icon;
+            }
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        private static extern bool DestroyIcon(IntPtr handle);
     }
 }
