@@ -51,6 +51,8 @@ namespace InvisibleManXRay.Factories
                 onStopServer: core.Stop,
                 onCancelServer: core.Cancel,
                 onDisableMode: core.DisableMode,
+                getMode: settingsHandler.UserSettings.GetMode,
+                setTrayIndicator: handlersManager.GetHandler<NotifyHandler>().SetIndicator,
                 onGenerateClientId: settingsHandler.GenerateClientId,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,
@@ -107,6 +109,7 @@ namespace InvisibleManXRay.Factories
                 localizationHandler.TryApplyCurrentLanguage();
                 notifyHandler.InitializeNotifyIcon();
                 notifyHandler.CheckModeItem(userSettings.GetMode());
+                notifyHandler.SetIndicator(null);
                 GetMainWindow().TryDisableModeAndRerun();
             }
         }
