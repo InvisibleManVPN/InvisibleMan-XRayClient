@@ -206,7 +206,7 @@ namespace InvisibleManXRay.Handlers
             using (Graphics g = Graphics.FromImage(bmp))
             using (Brush brush = new SolidBrush(color))
             {
-                int size = bmp.Width / 4;
+                int size = bmp.Width / 3;
                 int x = bmp.Width - size - 1;
                 int y = bmp.Height - size - 1;
                 g.FillEllipse(brush, x, y, size, size);
