@@ -208,7 +208,7 @@ namespace InvisibleManXRay.Handlers
             using (Brush brush = new SolidBrush(color))
             using (Pen outline = new Pen(Color.White, 1))
             {
-                int size = bmp.Width / 3 + 2;
+                int size = bmp.Width / 3 + 5;
                 int x = bmp.Width - size - 1;
                 int y = bmp.Height - size - 1;
 
