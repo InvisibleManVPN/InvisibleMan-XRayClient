@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 
 namespace InvisibleManXRay.Handlers
@@ -205,11 +206,15 @@ namespace InvisibleManXRay.Handlers
             using (Bitmap bmp = baseIcon.ToBitmap())
             using (Graphics g = Graphics.FromImage(bmp))
             using (Brush brush = new SolidBrush(color))
+            using (Pen outline = new Pen(Color.White, 1))
             {
-                int size = bmp.Width / 3;
+                int size = bmp.Width / 3 + 2;
                 int x = bmp.Width - size - 1;
                 int y = bmp.Height - size - 1;
+
+                g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.FillEllipse(brush, x, y, size, size);
+                g.DrawEllipse(outline, x, y, size, size);
 
                 IntPtr hIcon = bmp.GetHicon();
                 Icon icon = (Icon)Icon.FromHandle(hIcon).Clone();
