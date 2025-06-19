@@ -30,6 +30,7 @@ namespace InvisibleManXRay.Factories
             UpdateHandler updateHandler = handlersManager.GetHandler<UpdateHandler>();
             BroadcastHandler broadcastHandler = handlersManager.GetHandler<BroadcastHandler>();
             SettingsHandler settingsHandler = handlersManager.GetHandler<SettingsHandler>();
+            NotifyHandler notifyHandler = handlersManager.GetHandler<NotifyHandler>();
             LinkHandler linkHandler = handlersManager.GetHandler<LinkHandler>();
 
             MainWindow mainWindow = new MainWindow();
@@ -37,6 +38,7 @@ namespace InvisibleManXRay.Factories
                 isNeedToShowPolicyWindow: IsNeedToShowPolicyWindow,
                 shouldStartHidden: ShouldStartHidden,
                 isNeedToAutoConnect: IsNeedToAutoConnect,
+                getMode: settingsHandler.UserSettings.GetMode,
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 enableMode: core.EnableMode,
@@ -54,7 +56,8 @@ namespace InvisibleManXRay.Factories
                 onGenerateClientId: settingsHandler.GenerateClientId,
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,
-                onCustomLinkClick: linkHandler.OpenCustomLink
+                onCustomLinkClick: linkHandler.OpenCustomLink,
+                setIndicator: notifyHandler.SetIndicator
             );
             
             return mainWindow;
