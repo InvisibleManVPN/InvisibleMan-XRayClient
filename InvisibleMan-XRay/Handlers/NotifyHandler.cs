@@ -24,6 +24,7 @@ namespace InvisibleManXRay.Handlers
         private Action onCloseClick;
         private Action onProxyModeClick;
         private Action onTunnelModeClick;
+        private Action onSwitchConnectionClick;
 
         private Dictionary<Mode, ToolStripMenuItem> modeItems;
 
@@ -37,7 +38,8 @@ namespace InvisibleManXRay.Handlers
             Action onAboutClick,
             Action onCloseClick,
             Action onProxyModeClick,
-            Action onTunnelModeClick
+            Action onTunnelModeClick,
+            Action onSwitchConnectionClick
         )
         {
             this.getMode = getMode;
@@ -47,6 +49,14 @@ namespace InvisibleManXRay.Handlers
             this.onCloseClick = onCloseClick;
             this.onProxyModeClick = onProxyModeClick;
             this.onTunnelModeClick = onTunnelModeClick;
+            this.onSwitchConnectionClick = onSwitchConnectionClick;
+        }
+
+        public void UpdateConnectionStatus(bool isRunning)
+        {
+            string switchConnectionLocalizationKey = isRunning ? Localization.NOTIFY_STOP : Localization.NOTIFY_RUN;
+            ToolStripItem switchConnectionMenuItem = notifyIcon.ContextMenuStrip.Items.Find(Localization.NOTIFY_RUN, false).First();
+            switchConnectionMenuItem.Text = LocalizationService.GetTerm(switchConnectionLocalizationKey);
         }
 
         public void CheckModeItem(Mode mode)
@@ -91,42 +101,44 @@ namespace InvisibleManXRay.Handlers
         {
             ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
             modeItems = new Dictionary<Mode, ToolStripMenuItem>() {
-                { Mode.PROXY, CreateItem("Proxy", OnProxyModeClick, true, getMode.Invoke() == Mode.PROXY) },
-                { Mode.TUN, CreateItem("TUN", OnTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
+                { Mode.PROXY, CreateItem(nameof(Mode.PROXY), "Proxy", OnProxyModeClick, true, getMode.Invoke() == Mode.PROXY) },
+                { Mode.TUN, CreateItem(nameof(Mode.TUN), "TUN", OnTunnelModeClick, true, getMode.Invoke() == Mode.TUN) }
             };
-            
-            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_OPEN), OnOpenClick);
-            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_MODE), delegate { }, modeItems.Values.ToArray());
-            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_UPDATE), OnUpdateClick);
-            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_ABOUT), OnAboutClick);
-            AddMenuItem(LocalizationService.GetTerm(Localization.NOTIFY_CLOSE), OnCloseClick);
+
+            AddMenuItem(Localization.NOTIFY_OPEN, LocalizationService.GetTerm(Localization.NOTIFY_OPEN), OnOpenClick);
+            AddMenuItem(Localization.NOTIFY_RUN, LocalizationService.GetTerm(Localization.NOTIFY_RUN), OnSwitchConnectionClick);
+            AddMenuItem(Localization.NOTIFY_MODE, LocalizationService.GetTerm(Localization.NOTIFY_MODE), delegate { }, modeItems.Values.ToArray());
+            AddMenuItem(Localization.NOTIFY_UPDATE, LocalizationService.GetTerm(Localization.NOTIFY_UPDATE), OnUpdateClick);
+            AddMenuItem(Localization.NOTIFY_ABOUT, LocalizationService.GetTerm(Localization.NOTIFY_ABOUT), OnAboutClick);
+            AddMenuItem(Localization.NOTIFY_CLOSE, LocalizationService.GetTerm(Localization.NOTIFY_CLOSE), OnCloseClick);
 
             notifyIcon.ContextMenuStrip = contextMenuStrip;
 
-            void AddMenuItem(string text, Action onClick, ToolStripMenuItem[] children = default)
+            void AddMenuItem(string key, string text, Action onClick, ToolStripMenuItem[] children = default)
             {
-                ToolStripMenuItem item = CreateItem(text, onClick);
+                ToolStripMenuItem item = CreateItem(key, text, onClick);
 
                 if (children != null)
                     foreach(ToolStripMenuItem child in children)
                         item.DropDownItems.Add(child);
-                
+
                 contextMenuStrip.Items.Add(item);
             }
 
             ToolStripMenuItem CreateItem(
-                string text, 
-                Action onClick, 
+                string key,
+                string text,
+                Action onClick,
                 bool isToggle = default,
                 bool isChecked = default
             )
             {
-                ToolStripMenuItem item = new ToolStripMenuItem() { Text = text, Checked = isChecked };
-                item.Click += (sender, e) => { 
+                ToolStripMenuItem item = new ToolStripMenuItem() { Name = key, Text = text, Checked = isChecked };
+                item.Click += (sender, e) => {
                     HandleToggleClick();
-                    onClick.Invoke(); 
+                    onClick.Invoke();
                 };
-                
+
                 return item;
 
                 void HandleToggleClick()
@@ -155,6 +167,12 @@ namespace InvisibleManXRay.Handlers
             {
                 AnalyticsService.SendEvent(new OpenClickedEvent());
                 onOpenClick.Invoke();
+            }
+
+            void OnSwitchConnectionClick()
+            {
+                AnalyticsService.SendEvent(new SwitchConnectionClickedEvent());
+                onSwitchConnectionClick.Invoke();
             }
 
             void OnUpdateClick()

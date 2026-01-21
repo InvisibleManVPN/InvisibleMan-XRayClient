@@ -95,8 +95,9 @@ namespace InvisibleManXRay.Managers.Initializers
                     onUpdateClick: OpenUpdateWindow,
                     onAboutClick: OpenAboutWindow,
                     onCloseClick: CloseApplication,
-                    onProxyModeClick: () => { OnModeClick(Mode.PROXY); },
-                    onTunnelModeClick: () => { OnModeClick(Mode.TUN); }
+                    onProxyModeClick: () => OnModeClick(Mode.PROXY),
+                    onTunnelModeClick: () => OnModeClick(Mode.TUN),
+                    onSwitchConnectionClick: () => OnSwitchConnectionClick()
                 );
 
                 void CloseApplication()
@@ -136,6 +137,12 @@ namespace InvisibleManXRay.Managers.Initializers
                     mainWindow.TryDisableModeAndRerun();
                 }
             }
+
+            void OnSwitchConnectionClick()
+            {
+                MainWindow mainWindow = windowFactory.GetMainWindow();
+                mainWindow.SwitchConnection();
+            } 
 
             void SetupDeepLinkHandler()
             {

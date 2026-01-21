@@ -1,6 +1,8 @@
 using System;
-using System.Windows;
 using System.Threading;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Interop;
 
 namespace InvisibleManXRay.Managers
 {
@@ -34,6 +36,7 @@ namespace InvisibleManXRay.Managers
         public void Initialize()
         {
             AvoidRunningMultipleInstances();
+            SetApplicationRenderMode();
             SetApplicationCurrentDirectory();
 
             RegisterCore();
@@ -80,6 +83,11 @@ namespace InvisibleManXRay.Managers
 
                 MessageBox.Show(localizationService.GetTerm(Localization.APP_ALREADY_RUNNING));
             }
+        }
+
+        private void SetApplicationRenderMode()
+        {
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
         }
 
         private void SetApplicationCurrentDirectory()

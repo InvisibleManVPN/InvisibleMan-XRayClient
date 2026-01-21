@@ -116,6 +116,8 @@
     <system:String x:Key="Lang.ToolTip.Update">Обновить</system:String>
 
     <system:String x:Key="Lang.Notify.Open">Открыть Invisible Man XRay</system:String>
+    <system:String x:Key="Lang.Notify.Run">Запуск</system:String>
+    <system:String x:Key="Lang.Notify.Stop">Стоп</system:String>
     <system:String x:Key="Lang.Notify.Mode">Режим</system:String>
     <system:String x:Key="Lang.Notify.Update">Проверить обновления</system:String>
     <system:String x:Key="Lang.Notify.About">О программе</system:String>

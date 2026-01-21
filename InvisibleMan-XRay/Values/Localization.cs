@@ -25,6 +25,8 @@ namespace InvisibleManXRay.Values
         public const string CANT_TUNNEL_SYSTEM = "Lang.Message.CantTunnelSystem";
         public const string NO_LOG_FILE = "Lang.Message.NoLogFile";
         public const string NO_FILE_CHOOSEN = "Lang.Message.NoFileChoosen";
+        public const string NOTIFY_RUN = "Lang.Notify.Run";
+        public const string NOTIFY_STOP = "Lang.Notify.Stop";
         public const string NOTIFY_OPEN = "Lang.Notify.Open";
         public const string NOTIFY_MODE = "Lang.Notify.Mode";
         public const string NOTIFY_UPDATE = "Lang.Notify.Update";

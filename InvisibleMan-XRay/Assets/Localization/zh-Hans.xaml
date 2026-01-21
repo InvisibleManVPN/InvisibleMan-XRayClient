@@ -116,6 +116,8 @@
     <system:String x:Key="Lang.ToolTip.Update">更新</system:String>
 
     <system:String x:Key="Lang.Notify.Open">打开主界面</system:String>
+    <system:String x:Key="Lang.Notify.Run">运行</system:String>
+    <system:String x:Key="Lang.Notify.Stop">停止</system:String>
     <system:String x:Key="Lang.Notify.Mode">代理模式</system:String>
     <system:String x:Key="Lang.Notify.Update">检查更新</system:String>
     <system:String x:Key="Lang.Notify.About">关于</system:String>

@@ -116,6 +116,8 @@
     <system:String x:Key="Lang.ToolTip.Update">بروزرسانی</system:String>
 
     <system:String x:Key="Lang.Notify.Open">باز کردن برنامه</system:String>
+    <system:String x:Key="Lang.Notify.Run">اجرا</system:String>
+    <system:String x:Key="Lang.Notify.Stop">توقف</system:String>
     <system:String x:Key="Lang.Notify.Mode">حالت</system:String>
     <system:String x:Key="Lang.Notify.Update">بررسی بروزرسانی</system:String>
     <system:String x:Key="Lang.Notify.About">درباره</system:String>
