@@ -38,6 +38,7 @@ namespace InvisibleManXRay.Factories
                 isNeedToShowPolicyWindow: IsNeedToShowPolicyWindow,
                 shouldStartHidden: ShouldStartHidden,
                 isNeedToAutoConnect: IsNeedToAutoConnect,
+                getMode: settingsHandler.UserSettings.GetMode,
                 getConfig: configHandler.GetCurrentConfig,
                 loadConfig: core.LoadConfig,
                 enableMode: core.EnableMode,
@@ -56,7 +57,8 @@ namespace InvisibleManXRay.Factories
                 onGitHubClick: linkHandler.OpenGitHubRepositoryLink,
                 onBugReportingClick: linkHandler.OpenBugReportingLink,
                 onCustomLinkClick: linkHandler.OpenCustomLink,
-                onChangeRunningStatus: notifyHandler.UpdateConnectionStatus
+                onChangeRunningStatus: notifyHandler.UpdateConnectionStatus,
+                setIndicator: notifyHandler.SetIndicator
             );
             
             return mainWindow;

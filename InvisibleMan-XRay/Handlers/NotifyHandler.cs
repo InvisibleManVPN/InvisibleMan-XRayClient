@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace InvisibleManXRay.Handlers
     public class NotifyHandler : Handler, IDisposable
     {
         private NotifyIcon notifyIcon;
+        private Icon baseIcon;
 
         private Func<Mode> getMode;
         private Action onOpenClick;
@@ -71,6 +73,7 @@ namespace InvisibleManXRay.Handlers
 
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = GetNotifyIcon();
+            baseIcon = notifyIcon.Icon;
             notifyIcon.Visible = true;
 
             HandleNotifyIconClick();
@@ -199,6 +202,45 @@ namespace InvisibleManXRay.Handlers
         private void CheckItem(ToolStripMenuItem item)
         {
             item.Checked = true;
+        }
+
+        public void SetIndicator(Mode? mode)
+        {
+            if (notifyIcon == null || baseIcon == null)
+                return;
+
+            if (mode == null)
+            {
+                notifyIcon.Icon = baseIcon;
+                return;
+            }
+
+            Color color = mode == Mode.TUN ? Color.Red : Color.Blue;
+            notifyIcon.Icon = CreateIndicatorIcon(color);
+        }
+        private Icon CreateIndicatorIcon(Color color)
+        {
+            using (Bitmap bmp = baseIcon.ToBitmap())
+            using (Graphics g = Graphics.FromImage(bmp))
+            using (Brush brush = new SolidBrush(color))
+            using (Pen outline = new Pen(Color.White, 1))
+            {
+                int size = bmp.Width / 3 + 2;
+                int x = bmp.Width - size - 1;
+                int y = bmp.Height - size - 1;
+
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.FillEllipse(brush, x, y, size, size);
+                g.DrawEllipse(outline, x, y, size, size);
+
+                IntPtr hIcon = bmp.GetHicon();
+                Icon icon = (Icon)Icon.FromHandle(hIcon).Clone();
+                DestroyIcon(hIcon);
+                return icon;
+
+                [System.Runtime.InteropServices.DllImport("user32.dll")]
+                static extern bool DestroyIcon(IntPtr handle);
+            }
         }
 
         public void Dispose()

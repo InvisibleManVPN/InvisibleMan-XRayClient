@@ -29,6 +29,7 @@ namespace InvisibleManXRay
         private Func<UpdateWindow> openUpdateWindow;
         private Func<AboutWindow> openAboutWindow;
         private Func<PolicyWindow> openPolicyWindow;
+        private Func<Mode> getMode;
         private Action<string> onRunServer;
         private Action onCancelServer;
         private Action onStopServer;
@@ -38,6 +39,7 @@ namespace InvisibleManXRay
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
         private Action<bool> onChangeRunningStatus;
+        private Action<Mode?> setIndicator;
 
         private BackgroundWorker runWorker;
         private BackgroundWorker updateWorker;
@@ -219,6 +221,7 @@ namespace InvisibleManXRay
             Func<bool> isNeedToShowPolicyWindow,
             Func<bool> shouldStartHidden,
             Func<bool> isNeedToAutoConnect,
+            Func<Mode> getMode,
             Func<Config> getConfig,
             Func<Status> loadConfig, 
             Func<Status> enableMode,
@@ -237,12 +240,14 @@ namespace InvisibleManXRay
             Action onGitHubClick,
             Action onBugReportingClick,
             Action<string> onCustomLinkClick,
-            Action<bool> onChangeRunningStatus
+            Action<bool> onChangeRunningStatus,
+            Action<Mode?> setIndicator
         )
         {
             this.isNeedToShowPolicyWindow = isNeedToShowPolicyWindow;
             this.shouldStartHidden = shouldStartHidden;
             this.isNeedToAutoConnect = isNeedToAutoConnect;
+            this.getMode = getMode;
             this.getConfig = getConfig;
             this.loadConfig = loadConfig;
             this.checkForUpdate = checkForUpdate;
@@ -262,6 +267,7 @@ namespace InvisibleManXRay
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
             this.onChangeRunningStatus = onChangeRunningStatus;
+            this.setIndicator = setIndicator;
 
             UpdateUI();
         }
@@ -454,6 +460,8 @@ namespace InvisibleManXRay
             statusStop.Visibility = Visibility.Hidden;
             statusWaitForRun.Visibility = Visibility.Hidden;
 
+            setIndicator?.Invoke(getMode?.Invoke());
+
             buttonStop.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonRun.Visibility = Visibility.Hidden;
@@ -467,6 +475,8 @@ namespace InvisibleManXRay
             statusRun.Visibility = Visibility.Hidden;
             statusWaitForRun.Visibility = Visibility.Hidden;
 
+            setIndicator?.Invoke(null);
+
             buttonRun.Visibility = Visibility.Visible;
             buttonCancel.Visibility = Visibility.Hidden;
             buttonStop.Visibility = Visibility.Hidden;
@@ -479,6 +489,8 @@ namespace InvisibleManXRay
             statusWaitForRun.Visibility = Visibility.Visible;
             statusStop.Visibility = Visibility.Hidden;
             statusRun.Visibility = Visibility.Hidden;
+
+            setIndicator?.Invoke(null);
 
             buttonCancel.Visibility = Visibility.Visible;
             buttonRun.Visibility = Visibility.Hidden;
