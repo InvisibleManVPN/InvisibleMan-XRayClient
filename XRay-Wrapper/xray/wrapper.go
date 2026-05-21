@@ -10,14 +10,15 @@ import (
 	"runtime"
 	"runtime/debug"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 
 	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/core"
 
-	_ "github.com/xtls/xray-core/main/distro/all"
 	clog "github.com/xtls/xray-core/common/log"
+	_ "github.com/xtls/xray-core/main/distro/all"
 )
 
 const (
@@ -25,13 +26,26 @@ const (
 	PingError   int = -2
 )
 
-var osSignals = make(chan os.Signal, 1)
+var serverStopMutex sync.Mutex
+var serverStopChannel chan struct{}
+var serverLifecycleActive bool
+var serverStopRequested bool
 
 //export StartServer
-func StartServer(config *C.char, port int, logLevel *C.char, logPath *C.char, isSocks bool, isUdpEnabled bool) {
+func StartServer(config *C.char, port int, logLevel *C.char, logPath *C.char, isSocks bool, isUdpEnabled bool, username *C.char, password *C.char) {
+	serverStopMutex.Lock()
+	serverLifecycleActive = true
+	serverStopRequested = false
+	serverStopChannel = nil
+	serverStopMutex.Unlock()
+
 	logSeverity := convertLogLevelToSeverity(logLevel)
 	configObj := convertJsonToObject(config)
-	configObj.Inbound = overrideInbound(net.Port(port), isSocks, isUdpEnabled)
+	configObj.Inbound = overrideInbound(
+		net.Port(port),
+		isSocks,
+		isUdpEnabled,
+		newLocalSocksAuth(C.GoString(username), C.GoString(password)))
 
 	if logSeverity != clog.Severity_Unknown {
 		log := overrideLog(logSeverity, logPath)
@@ -51,25 +65,53 @@ func StartServer(config *C.char, port int, logLevel *C.char, logPath *C.char, is
 	}
 
 	defer server.Close()
+	defer clearServerStopState()
 
 	runtime.GC()
 	debug.FreeOSMemory()
 
-	{
-		signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
-		<-osSignals
+	stopChannel := make(chan struct{})
+	serverStopMutex.Lock()
+	serverStopChannel = stopChannel
+	pendingStop := serverStopRequested
+	serverStopRequested = false
+	serverStopMutex.Unlock()
+
+	if pendingStop {
+		closeServerStopChannel(stopChannel)
+	}
+
+	osSignalChannel := make(chan os.Signal, 1)
+	signal.Notify(osSignalChannel, os.Interrupt, syscall.SIGTERM)
+	defer signal.Stop(osSignalChannel)
+
+	select {
+	case <-osSignalChannel:
+	case <-stopChannel:
 	}
 }
 
 //export StopServer
 func StopServer() {
-	osSignals <- syscall.SIGTERM
+	serverStopMutex.Lock()
+	stopChannel := serverStopChannel
+	if stopChannel != nil {
+		serverStopChannel = nil
+		serverStopMutex.Unlock()
+		closeServerStopChannel(stopChannel)
+		return
+	}
+
+	if serverLifecycleActive {
+		serverStopRequested = true
+	}
+	serverStopMutex.Unlock()
 }
 
 //export TestConnection
 func TestConnection(config *C.char, port int) int {
 	configObj := convertJsonToObject(config)
-	configObj.Inbound = overrideInbound(net.Port(port), false, false)
+	configObj.Inbound = overrideInbound(net.Port(port), false, false, nil)
 
 	server, err := core.New(configObj)
 	if err != nil {
@@ -99,6 +141,10 @@ func TestConnection(config *C.char, port int) int {
 		return PingTimeout
 	}
 
+	if response.Body != nil {
+		response.Body.Close()
+	}
+
 	server.Close()
 	fmt.Println("info | response code >", response.StatusCode)
 
@@ -112,4 +158,20 @@ func TestConnection(config *C.char, port int) int {
 //export GetXrayCoreVersion
 func GetXrayCoreVersion() *C.char {
 	return C.CString(core.Version())
+}
+
+func clearServerStopState() {
+	serverStopMutex.Lock()
+	serverStopChannel = nil
+	serverLifecycleActive = false
+	serverStopRequested = false
+	serverStopMutex.Unlock()
+}
+
+func closeServerStopChannel(channel chan struct{}) {
+	defer func() {
+		_ = recover()
+	}()
+
+	close(channel)
 }

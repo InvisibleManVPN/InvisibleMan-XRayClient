@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="CheckBox">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Border Name="border" Grid.Column="0"
+                            Width="16" Height="16"
+                            Background="{StaticResource Color.LightGray}"
+                            BorderBrush="{StaticResource Color.BrightGray}"
+                            BorderThickness="1.5">
+                        <Path Name="CheckMark"
+                              Stroke="White" StrokeThickness="2"
+                              Data="M 0.469,4.668 L 3.033,7.954 L 7.281,0.421"
+                              Stretch="Uniform"
+                              Width="8" Height="9"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </Border>
+                    <ContentPresenter Grid.Column="1"
+                                      Margin="10,0"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{StaticResource Color.Blue}"/>
+        </Style>
+        <Style Selector="^:unchecked /template/ Path#CheckMark">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+        <Style Selector="^:indeterminate /template/ Path#CheckMark">
+            <Setter Property="Data" Value="M 0 7 L 7 0"/>
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{StaticResource Color.Blue}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Color.BrightGray}"/>
+            <Setter Property="Background" Value="{StaticResource Color.LightGray}"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,95 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.PolicyWindow"
+        Title="Invisible Gorilla XRay - Privacy Policy"
+        Height="450" 
+        Width="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+
+                <TextBlock Margin="20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run Text="We value your privacy. This application collects minimal anonymous usage data to help improve the user experience. "/>
+                    <Run FontWeight="Normal" Text="No personal information is collected. "/>
+                    <Run Text="All data is anonymized and used solely for improving the application."/>
+                </TextBlock>
+
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run FontWeight="Normal" Text="Purpose of Analytics: "/>
+                    <Run Text="We use analytics to understand how the app is being used, identify bugs, and prioritize new features."/>
+                </TextBlock>
+
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run FontWeight="Normal" Text="Data Collection: "/>
+                    <Run Text="We collect anonymous event data such as button clicks, feature usage, and error occurrences. No IP addresses, server configurations, or browsing data are collected."/>
+                </TextBlock>
+
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run FontWeight="Normal" Text="Data Security: "/>
+                    <Run Text="All collected data is transmitted securely and stored with industry-standard protections."/>
+                </TextBlock>
+
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run FontWeight="Normal" Text="Your Choices: "/>
+                    <Run Text="You can opt out of analytics at any time in the Settings window."/>
+                </TextBlock>
+
+                <TextBlock Margin="20,0,20,10" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White"
+                    Text="By using this application, you acknowledge the use of anonymous analytics. For questions or concerns, contact us:"/>
+
+                <TextBlock Text="invisiblegorilla@gmail.com" 
+                    TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20,0,20,20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    PointerPressed="OnEmailClick"/>
+
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White"
+                    Text="Thank you for using Invisible Gorilla XRay!"/>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.About}" Grid.Column="0" 
+                    Width="15" Height="35" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Bottom" 
+                        Text="{DynamicResource Lang.Window.Policy.Title}"
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Top" 
+                        Text="Invisible Gorilla XRay"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

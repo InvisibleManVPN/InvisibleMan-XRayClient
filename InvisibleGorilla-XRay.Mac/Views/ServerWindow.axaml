@@ -1,0 +1,316 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.ServerWindow"
+        Title="Invisible Gorilla XRay - Server config"
+        Height="450" 
+        Width="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Servers panel -->
+        <Grid Grid.Row="1" IsVisible="True" x:Name="panelServers">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Tabs -->
+            <Grid Grid.Row="0" Margin="0,0,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
+                        x:Name="buttonConfigTab" Click="OnConfigTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Server.Configs}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}" IsEnabled="True"
+                        x:Name="buttonSubscriptionTab" Click="OnSubscriptionTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Server.Subscriptions}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+
+            <!-- Config list panel -->
+            <Grid Grid.Row="1" IsVisible="True" x:Name="panelConfig">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical" x:Name="listConfigs"/>
+                </ScrollViewer>
+
+                <TextBlock x:Name="textNoConfig"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0,20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14"
+                    Text="{DynamicResource Lang.Message.NoServerConfiguration}"/>
+
+                <Button Width="40" Height="40" Margin="0,0,15,15" 
+                    Theme="{StaticResource Button.Circle}"
+                    ToolTip.Tip="Add new configuration"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddConfigButtonClick">
+                    <TextBlock Text="+" FontSize="20" Foreground="{StaticResource Color.DarkGray}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+
+            <!-- Subscription list panel -->
+            <Grid Grid.Row="1" IsVisible="False" x:Name="panelSubscription">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="1"
+                        HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" x:Name="listSubscriptions"/>
+                    </ScrollViewer>
+
+                    <!-- Subscription control bar -->
+                    <Border Grid.Row="0" Background="{StaticResource Color.DarkGray}"
+                        IsVisible="False" x:Name="panelSubscriptionControl"
+                        BoxShadow="0 2 4 0 #66000000">
+                        <Grid Margin="20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="comboBoxSubscription" Grid.Column="0" Height="26"
+                                FontWeight="Normal" FontSize="14"
+                                SelectionChanged="OnSubscriptionComboBoxSelectionChanged"/>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="1"
+                                HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                                <Button Width="20" Height="20"
+                                    Theme="{StaticResource Button.None}"
+                                    ToolTip.Tip="Update"
+                                    Click="OnUpdateSubscriptionButtonClick">
+                                    <TextBlock Text="↻" FontSize="14" Foreground="White"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Theme="{StaticResource Button.None}"
+                                    ToolTip.Tip="Edit"
+                                    Click="OnEditSubscriptionButtonClick">
+                                    <TextBlock Text="✎" FontSize="14" Foreground="White"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+
+                                <Button Width="20" Height="20"
+                                    Theme="{StaticResource Button.None}"
+                                    ToolTip.Tip="Delete"
+                                    Click="OnDeleteSubscriptionButtonClick">
+                                    <TextBlock Text="✕" FontSize="14" Foreground="White"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <TextBlock x:Name="textNoSubscription" IsVisible="False"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0,20" Foreground="Gray" LineHeight="20"
+                    FontWeight="Normal" FontSize="14"
+                    Text="No subscriptions"/>
+
+                <Button Width="40" Height="40" Margin="0,0,15,15" 
+                    Theme="{StaticResource Button.Circle}"
+                    ToolTip.Tip="Add new subscription"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Click="OnAddSubscriptionButtonClick">
+                    <TextBlock Text="+" FontSize="20" Foreground="{StaticResource Color.DarkGray}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+
+            <Border x:Name="borderAppRulesSummary"
+                    Grid.Row="1"
+                    Margin="15,0,70,15"
+                    Padding="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    CornerRadius="8"
+                    BorderBrush="{StaticResource Color.LightGray}"
+                    BorderThickness="1"
+                    Background="#66000000">
+                <StackPanel Spacing="6">
+                    <TextBlock x:Name="textBlockAppRulesSummary"
+                               Width="210"
+                               Foreground="White"
+                               TextWrapping="Wrap"
+                               FontWeight="SemiBold"
+                               FontSize="12"/>
+
+                    <Button x:Name="buttonManageAppRules"
+                            Width="150"
+                            Height="28"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource Lang.AppRules.Manage}"
+                            Theme="{StaticResource Button.Rectangle.Gray}"
+                            Foreground="White"
+                            FontSize="12"
+                            Click="OnManageAppRulesClick"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Add config panel -->
+        <Grid Grid.Row="1" IsVisible="False" x:Name="panelAddConfigs">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20,0">
+                <RadioButton GroupName="GroupImport"
+                    Content="{DynamicResource Lang.Window.Server.AddConfig.FromFile}"
+                    Foreground="White" IsChecked="True"
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="radioButtonFile"
+                    Click="OnFileRadioButtonClick"/>
+
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <Button Width="100" Height="30" Content="Choose File" 
+                        Theme="{StaticResource Button.Rectangle.Green}" 
+                        FontWeight="Bold" FontSize="12" 
+                        Foreground="{StaticResource Color.Gray}"
+                        x:Name="buttonConfigFile"
+                        Click="OnChooseFileButtonClick"/>
+
+                    <TextBlock Text="No file chosen" 
+                        Margin="10,0" Foreground="White" VerticalAlignment="Center"
+                        FontWeight="Normal" FontSize="14"
+                        x:Name="textBlockFileName"/>
+                </StackPanel>
+
+                <RadioButton GroupName="GroupImport"
+                    Content="{DynamicResource Lang.Window.Server.AddConfig.FromLink}"
+                    Foreground="White" IsChecked="False"
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="radioButtonLink"
+                    Click="OnLinkRadioButtonClick"/>
+
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    FontWeight="Normal" FontSize="14"
+                    Watermark="{DynamicResource Lang.Window.Server.AddConfig.Placeholder}"
+                    x:Name="textBoxConfigLink"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15,0">
+                <Button Width="100" Height="30" Content="Import" 
+                    Theme="{StaticResource Button.Rectangle.Green}" 
+                    FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnImportConfigButtonClick"/>
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Cancel}" Margin="10,0,0,0"
+                    Theme="{StaticResource Button.Rectangle.Red}" 
+                    FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Add subscription panel -->
+        <Grid Grid.Row="1" IsVisible="False" x:Name="panelAddSubscriptions">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Margin="20,0">
+                <TextBlock Text="Remarks" 
+                    Margin="10,0" Foreground="White" VerticalAlignment="Center"
+                    FontWeight="Normal" FontSize="14"/>
+
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    FontWeight="Normal" FontSize="14"
+                    x:Name="textBoxSubscriptionRemarks"/>
+
+                <TextBlock Text="{DynamicResource Lang.Window.Server.AddSub.FromLink}" 
+                    Margin="10,0" Foreground="White" VerticalAlignment="Center"
+                    FontWeight="Normal" FontSize="14"/>
+
+                <TextBox Margin="20" Height="30" VerticalContentAlignment="Center" 
+                    FontWeight="Normal" FontSize="14"
+                    Watermark="{DynamicResource Lang.Window.Server.AddSub.Placeholder}"
+                    x:Name="textBoxSubscriptionLink"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                HorizontalAlignment="Right" Margin="15,0">
+                <Button Width="100" Height="30" Content="Import" 
+                    Theme="{StaticResource Button.Rectangle.Green}" 
+                    FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnImportSubscriptionButtonClick"/>
+                <Button Width="100" Height="30" Content="{DynamicResource Lang.Cancel}" Margin="10,0,0,0"
+                    Theme="{StaticResource Button.Rectangle.Red}" 
+                    FontWeight="Bold" FontSize="12" 
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Loading panel -->
+        <Grid Grid.Row="1" Background="{StaticResource Color.DarkGrayOpacity}" 
+            IsVisible="False" x:Name="panelLoading">
+            <StackPanel Orientation="Horizontal" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0">
+                <ProgressBar IsIndeterminate="True" Width="20" Height="20" Margin="0,0,5,0"
+                    Foreground="White" Background="Transparent"/>
+                <TextBlock Text="Please wait..." Foreground="White" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    FontWeight="Normal" FontSize="14"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.Server}" Grid.Column="0" 
+                    Width="35" Height="35" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Bottom" 
+                        Text="{DynamicResource Lang.Window.Server.Title}"
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Top" 
+                        Text="Server management"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

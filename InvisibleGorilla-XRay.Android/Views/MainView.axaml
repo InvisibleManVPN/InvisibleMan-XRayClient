@@ -1,0 +1,1579 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="InvisibleGorillaXRay.Android.Views.MainView">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#1E1E1E" />
+        <SolidColorBrush x:Key="SurfaceLight" Color="#2D2D2D" />
+        <SolidColorBrush x:Key="SurfaceBright" Color="#3F3F3F" />
+        <SolidColorBrush x:Key="TextMuted" Color="#D0D0D0" />
+        <SolidColorBrush x:Key="AccentMint" Color="#6DCC8E" />
+        <SolidColorBrush x:Key="AccentMintLight" Color="#81ECA6" />
+        <SolidColorBrush x:Key="AccentMintDark" Color="#549F6E" />
+        <SolidColorBrush x:Key="AccentRed" Color="#D95F5F" />
+        <SolidColorBrush x:Key="AccentRedLight" Color="#E96666" />
+        <SolidColorBrush x:Key="AccentRedDark" Color="#CB5A5A" />
+        <SolidColorBrush x:Key="AccentBlue" Color="#19B3E4" />
+
+        <DrawingBrush x:Key="Icon.InvisibleGorilla" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#6dcc8e" Geometry="M698,349c0,192.75-156.25,349-349,349S0,541.75,0,349,156.25,0,349,0,698,156.25,698,349Z"/>
+                    <GeometryDrawing Brush="#4a8c62" Geometry="M349,100 C290,100 240,120 210,160 C180,200 165,255 163,320 C161,385 175,440 205,485 C235,525 283,555 349,555 C415,555 463,525 493,485 C523,440 537,385 535,320 C533,255 518,200 488,160 C458,120 408,100 349,100Z"/>
+                    <GeometryDrawing Brush="#3d7a55" Geometry="M170,260 C155,250 140,260 138,285 C136,310 145,330 160,325 C175,320 178,290 170,260Z"/>
+                    <GeometryDrawing Brush="#3d7a55" Geometry="M528,260 C543,250 558,260 560,285 C562,310 553,330 538,325 C523,320 520,290 528,260Z"/>
+                    <GeometryDrawing Brush="#3d7a55" Geometry="M310,130 C320,95 340,80 349,78 C358,80 378,95 388,130 C378,115 360,108 349,108 C338,108 320,115 310,130Z"/>
+                    <GeometryDrawing Brush="#1e3e2a" Geometry="M225,265 C235,238 280,220 349,220 C418,220 463,238 473,265 C480,282 474,305 462,318 C445,335 410,345 349,345 C288,345 253,335 236,318 C224,305 218,282 225,265Z"/>
+                    <GeometryDrawing Brush="#6dcc8e" Geometry="M258,278 A32,20 0 1,0 322,278 A32,20 0 1,0 258,278Z"/>
+                    <GeometryDrawing Brush="#6dcc8e" Geometry="M376,278 A32,20 0 1,0 440,278 A32,20 0 1,0 376,278Z"/>
+                    <GeometryDrawing Brush="#1e3e2a" Geometry="M278,278 A12,10 0 1,0 302,278 A12,10 0 1,0 278,278Z"/>
+                    <GeometryDrawing Brush="#1e3e2a" Geometry="M396,278 A12,10 0 1,0 420,278 A12,10 0 1,0 396,278Z"/>
+                    <GeometryDrawing Brush="#1e3e2a" Geometry="M290,350 C272,375 268,415 282,448 C294,475 318,492 349,492 C380,492 404,475 416,448 C430,415 426,375 408,350Z"/>
+                    <GeometryDrawing Brush="#6dcc8e" Geometry="M303,405 A16,19 0 1,0 335,405 A16,19 0 1,0 303,405Z"/>
+                    <GeometryDrawing Brush="#6dcc8e" Geometry="M363,405 A16,19 0 1,0 395,405 A16,19 0 1,0 363,405Z"/>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Server.MintyGreen" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#6dcc8e" Geometry="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM344 152c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm96-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zM344 408c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24zm104-24c0 13.3-10.7 24-24 24s-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Stop" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z"/>
+                    <GeometryDrawing Brush="#725b5b" Geometry="M328,95 C272,95 225,115 198,152 C171,189 158,242 156,305 C154,368 166,420 194,458 C216,487 248,510 286,522 C260,534 222,545 192,554 C158,564 134,572 120,582 C102,595 98,607 120,614 C154,624 218,632 328,632 C438,632 502,624 536,614 C558,607 554,595 536,582 C522,572 498,564 464,554 C434,545 396,534 370,522 C408,510 440,487 462,458 C490,420 502,368 500,305 C498,242 485,189 458,152 C431,115 384,95 328,95Z"/>
+                    <GeometryDrawing Brush="#5a4545" Geometry="M162,250 C148,240 134,250 132,274 C130,298 138,316 152,312 C166,308 168,280 162,250Z"/>
+                    <GeometryDrawing Brush="#5a4545" Geometry="M494,250 C508,240 522,250 524,274 C526,298 518,316 504,312 C490,308 488,280 494,250Z"/>
+                    <GeometryDrawing Brush="#5a4545" Geometry="M290,128 C300,95 320,80 328,78 C336,80 356,95 366,128 C356,115 340,108 328,108 C316,108 300,115 290,128Z"/>
+                    <GeometryDrawing Brush="#4a3535" Geometry="M205,270 C215,244 262,225 328,225 C394,225 441,244 451,270 C458,288 452,312 440,325 C424,342 392,352 328,352 C264,352 232,342 216,325 C204,312 198,288 205,270Z"/>
+                    <GeometryDrawing Brush="#4a3535" Geometry="M270,358 C254,381 250,418 264,448 C276,474 300,490 328,490 C356,490 380,474 392,448 C406,418 402,381 386,358Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M290,402 A15,18 0 1,0 320,402 A15,18 0 1,0 290,402Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M336,402 A15,18 0 1,0 366,402 A15,18 0 1,0 336,402Z"/>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Run" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M656,328c0,181.15-146.85,328-328,328S0,509.15,0,328,146.85,0,328,0,656,146.85,656,328Z"/>
+                    <GeometryDrawing Brush="#3c4444" Geometry="M328,95 C272,95 225,115 198,152 C171,189 158,242 156,305 C154,368 166,420 194,458 C216,487 248,510 286,522 C260,534 222,545 192,554 C158,564 134,572 120,582 C102,595 98,607 120,614 C154,624 218,632 328,632 C438,632 502,624 536,614 C558,607 554,595 536,582 C522,572 498,564 464,554 C434,545 396,534 370,522 C408,510 440,487 462,458 C490,420 502,368 500,305 C498,242 485,189 458,152 C431,115 384,95 328,95Z"/>
+                    <GeometryDrawing Brush="#2d3838" Geometry="M162,250 C148,240 134,250 132,274 C130,298 138,316 152,312 C166,308 168,280 162,250Z"/>
+                    <GeometryDrawing Brush="#2d3838" Geometry="M494,250 C508,240 522,250 524,274 C526,298 518,316 504,312 C490,308 488,280 494,250Z"/>
+                    <GeometryDrawing Brush="#2d3838" Geometry="M290,128 C300,95 320,80 328,78 C336,80 356,95 366,128 C356,115 340,108 328,108 C316,108 300,115 290,128Z"/>
+                    <GeometryDrawing Brush="#19b3e4" Geometry="M205,270 C215,244 262,225 328,225 C394,225 441,244 451,270 C458,288 452,312 440,325 C424,342 392,352 328,352 C264,352 232,342 216,325 C204,312 198,288 205,270Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M240,282 A32,20 0 1,0 304,282 A32,20 0 1,0 240,282Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M352,282 A32,20 0 1,0 416,282 A32,20 0 1,0 352,282Z"/>
+                    <GeometryDrawing Brush="#19b3e4" Geometry="M262,282 A12,10 0 1,0 286,282 A12,10 0 1,0 262,282Z"/>
+                    <GeometryDrawing Brush="#19b3e4" Geometry="M374,282 A12,10 0 1,0 398,282 A12,10 0 1,0 374,282Z"/>
+                    <GeometryDrawing Brush="#19b3e4" Geometry="M270,358 C254,381 250,418 264,448 C276,474 300,490 328,490 C356,490 380,474 392,448 C406,418 402,381 386,358Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M290,402 A15,18 0 1,0 320,402 A15,18 0 1,0 290,402Z"/>
+                    <GeometryDrawing Brush="#2d2d2d" Geometry="M336,402 A15,18 0 1,0 366,402 A15,18 0 1,0 336,402Z"/>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.About" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M13.5,4A1.5,1.5 0 0,0 12,5.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 15,5.5A1.5,1.5 0 0,0 13.5,4M13.14,8.77C11.95,8.87 8.7,11.46 8.7,11.46C8.5,11.61 8.56,11.6 8.72,11.88C8.88,12.15 8.86,12.17 9.05,12.04C9.25,11.91 9.58,11.7 10.13,11.36C12.25,10 10.47,13.14 9.56,18.43C9.2,21.05 11.56,19.7 12.17,19.3C12.77,18.91 14.38,17.8 14.54,17.69C14.76,17.54 14.6,17.42 14.43,17.17C14.31,17 14.19,17.12 14.19,17.12C13.54,17.55 12.35,18.45 12.19,17.88C12,17.31 13.22,13.4 13.89,10.71C14,10.07 14.3,8.67 13.14,8.77Z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Settings" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Update" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M21,10.12H14.22L16.96,7.3C14.23,4.6 9.81,4.5 7.08,7.2C4.35,9.91 4.35,14.28 7.08,17C9.81,19.7 14.23,19.7 16.96,17C18.32,15.65 19,14.08 19,12.1H21C21,14.08 20.12,16.65 18.36,18.39C14.85,21.87 9.15,21.87 5.64,18.39C2.14,14.92 2.11,9.28 5.62,5.81C9.13,2.34 14.76,2.34 18.27,5.81L21,3V10.12M12.5,8V12.25L16,14.33L15.28,15.54L11,13V8H12.5Z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Bug" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M12,5C12.74,5 13.47,5.1 14.15,5.29L15.78,2.46C16.06,2 16.67,1.82 17.15,2.1C17.63,2.37 17.79,3 17.5,3.46L16,6.07C17.22,6.78 18.23,7.79 18.93,9H5.07C5.77,7.79 6.78,6.78 8,6.07L6.5,3.46C6.21,3 6.37,2.37 6.85,2.1C7.33,1.82 7.94,2 8.22,2.46L9.85,5.29C10.53,5.1 11.26,5 12,5M20,13C20,17.17 16.82,20.59 12.75,20.97V10.5H19.6C19.86,11.29 20,12.13 20,13M4,13C4,12.13 4.14,11.29 4.4,10.5H11.25V20.97C7.18,20.59 4,17.17 4,13Z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Github" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M20.38,8.53C20.54,8.13 21.06,6.54 20.21,4.39C20.21,4.39 18.9,4 15.91,6C14.66,5.67 13.33,5.62 12,5.62C10.68,5.62 9.34,5.67 8.09,6C5.1,3.97 3.79,4.39 3.79,4.39C2.94,6.54 3.46,8.13 3.63,8.53C2.61,9.62 2,11 2,12.72C2,19.16 6.16,20.61 12,20.61C17.79,20.61 22,19.16 22,12.72C22,11 21.39,9.62 20.38,8.53M12,19.38C7.88,19.38 4.53,19.19 4.53,15.19C4.53,14.24 5,13.34 5.8,12.61C7.14,11.38 9.43,12.03 12,12.03C14.59,12.03 16.85,11.38 18.2,12.61C19,13.34 19.5,14.23 19.5,15.19C19.5,19.18 16.13,19.38 12,19.38M8.86,13.12C8.04,13.12 7.36,14.12 7.36,15.34C7.36,16.57 8.04,17.58 8.86,17.58C9.69,17.58 10.36,16.58 10.36,15.34C10.36,14.11 9.69,13.12 8.86,13.12M15.14,13.12C14.31,13.12 13.64,14.11 13.64,15.34C13.64,16.58 14.31,17.58 15.14,17.58C15.96,17.58 16.64,16.58 16.64,15.34C16.64,14.11 16,13.12 15.14,13.12Z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Plus" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#2d2d2d" Geometry="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Connection" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#ffffff" Geometry="M54.2 202.9C123.2 136.7 216.8 96 320 96s196.8 40.7 265.8 106.9c12.8 12.2 33 11.8 45.2-.9s11.8-33-.9-45.2C549.7 79.5 440.4 32 320 32S90.3 79.5 9.8 156.7C-2.9 169-3.3 189.2 8.9 202s32.5 13.2 45.2 .9zM320 256c56.8 0 108.6 21.1 148.2 56c13.3 11.7 33.5 10.4 45.2-2.8s10.4-33.5-2.8-45.2C459.8 219.2 393 192 320 192s-139.8 27.2-190.5 72c-13.3 11.7-14.5 31.9-2.8 45.2s31.9 14.5 45.2 2.8c39.5-34.9 91.3-56 148.2-56zm64 160a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Delete" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#ffffff" Geometry="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Refresh" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#ffffff" Geometry="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <DrawingBrush x:Key="Icon.Share" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Brush="#ffffff" Geometry="M339.588,314.529c-14.215,0-27.456,4.133-38.621,11.239l-112.682-78.67c1.809-6.315,2.798-12.976,2.798-19.871c0-6.896-0.989-13.557-2.798-19.871l109.64-76.547c11.764,8.356,26.133,13.286,41.662,13.286c39.79,0,72.047-32.257,72.047-72.047C411.634,32.258,379.378,0,339.588,0c-39.79,0-72.047,32.257-72.047,72.047c0,5.255,0.578,10.373,1.646,15.308l-112.424,78.491c-10.974-6.759-23.892-10.666-37.727-10.666c-39.79,0-72.047,32.257-72.047,72.047s32.256,72.047,72.047,72.047c13.834,0,26.753-3.907,37.727-10.666l113.292,79.097c-1.629,6.017-2.514,12.34-2.514,18.872c0,39.79,32.257,72.047,72.047,72.047c39.79,0,72.047-32.257,72.047-72.047C411.635,346.787,379.378,314.529,339.588,314.529z"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <ControlTheme x:Key="CircleActionButton" TargetType="Button">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="{StaticResource AccentMint}"
+                            CornerRadius="999">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentMintLight}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentMintDark}" />
+            </Style>
+            <Style Selector="^:disabled /template/ Border#border">
+                <Setter Property="Opacity" Value="0.35" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="GreenActionButton" TargetType="Button">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="{StaticResource AccentMint}"
+                            CornerRadius="3">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentMintLight}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentMintDark}" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="RedActionButton" TargetType="Button">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="{StaticResource AccentRed}"
+                            CornerRadius="3">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentRedLight}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource AccentRedDark}" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="GrayActionButton" TargetType="Button">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="{StaticResource SurfaceLight}"
+                            CornerRadius="3">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource SurfaceBright}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="#252526" />
+            </Style>
+            <Style Selector="^:disabled /template/ Border#border">
+                <Setter Property="Opacity" Value="0.35" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="TabButtonTheme" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource SurfaceLight}" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="{StaticResource SurfaceBright}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="#252526" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="IconActionButton" TargetType="Button">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="Transparent"
+                            Padding="6"
+                            CornerRadius="999">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="#343434" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="#252526" />
+            </Style>
+            <Style Selector="^:disabled /template/ Border#border">
+                <Setter Property="Opacity" Value="0.35" />
+            </Style>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            Background="Transparent"
+                            CornerRadius="8">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#border">
+                <Setter Property="Background" Value="#20FFFFFF" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#border">
+                <Setter Property="Background" Value="#14FFFFFF" />
+            </Style>
+        </ControlTheme>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource SurfaceDark}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="52" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceLight}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid ColumnDefinitions="75,*">
+                <Rectangle Grid.Column="0"
+                           Width="60"
+                           Height="60"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Fill="{StaticResource Icon.InvisibleGorilla}" />
+
+                <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Spacing="0">
+                    <TextBlock Margin="15,7,0,0"
+                               Text="INVISIBLE GORILLA"
+                               VerticalAlignment="Bottom"
+                                   FontWeight="Light"
+                               FontSize="14"
+                                   Foreground="White" />
+                    <TextBlock Margin="15,-4,0,0"
+                               Text="XRAY"
+                               VerticalAlignment="Top"
+                                   FontWeight="Light"
+                               FontSize="42"
+                                   Foreground="White" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <StackPanel x:Name="HomeSectionPanel"
+                            Margin="20,16,20,28"
+                            Spacing="0"
+                            IsVisible="True">
+                    <Grid Width="140"
+                          Height="140"
+                          Margin="0,6,0,0"
+                          HorizontalAlignment="Center">
+                        <Border x:Name="ConnectionHeroGlow"
+                                Width="140"
+                                Height="140"
+                                CornerRadius="70"
+                                Background="{StaticResource AccentMint}"
+                                Opacity="0.28"
+                                IsVisible="False" />
+
+                        <Grid x:Name="StoppedHeroIcon"
+                              Width="120"
+                              Height="120"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center">
+                            <Rectangle Fill="{StaticResource Icon.Stop}" />
+            </Grid>
+
+                        <Grid x:Name="RunningHeroIcon"
+                              Width="120"
+                              Height="120"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                              IsVisible="False">
+                            <Rectangle Fill="{StaticResource Icon.Run}" />
+                        </Grid>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="8"
+                                Margin="0,10,0,0">
+                        <Border x:Name="ConnectionStateIndicator"
+                                Width="12"
+                                Height="12"
+                                CornerRadius="6"
+                                Background="#D66A75"
+                                VerticalAlignment="Center" />
+                        <TextBlock x:Name="ConnectionStateTitleTextBlock"
+                                   Text="Stopped"
+                                   Foreground="White"
+                                   FontWeight="SemiBold"
+                                   FontSize="22"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock x:Name="ConnectionStateSubtitleTextBlock"
+                               Margin="0,8,0,0"
+                               MaxWidth="320"
+                               Text="Proxy mode is ready on Android."
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted}"
+                               FontSize="14" />
+
+                    <TextBlock x:Name="CurrentConfigNameTextBlock"
+                               Width="320"
+                               Margin="0,22,0,0"
+                               Text="No server configuration selected"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="White"
+                               FontWeight="Light"
+                               FontSize="18"
+                               HorizontalAlignment="Center" />
+
+                    <TextBlock x:Name="CurrentConfigAppRulesSummaryTextBlock"
+                               Width="320"
+                               Margin="0,8,0,0"
+                               Text="All apps"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted}"
+                               FontSize="12"
+                               HorizontalAlignment="Center" />
+
+                    <Button x:Name="CurrentConfigAppRulesButton"
+                            Theme="{StaticResource LinkButton}"
+                            MinWidth="220"
+                            MinHeight="36"
+                            HorizontalAlignment="Center"
+                            Margin="0,6,0,0"
+                            Padding="12,6"
+                            Click="OnOpenAppRulesEditorClick">
+                        <TextBlock x:Name="CurrentConfigAppRulesButtonTextBlock"
+                                   Text="App rules"
+                                   TextDecorations="Underline"
+                                   Foreground="{StaticResource AccentBlue}"
+                                   FontSize="13" />
+                    </Button>
+
+                    <Button Theme="{StaticResource LinkButton}"
+                            MinWidth="270"
+                            MinHeight="40"
+                            HorizontalAlignment="Center"
+                            Margin="0,10,0,0"
+                            Padding="18,8"
+                            Click="OnServersSectionClick">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="15"
+                                  Height="15"
+                                  Margin="0,0,7,0">
+                                <Border Height="5"
+                                        CornerRadius="2"
+                                        Background="{StaticResource AccentBlue}"
+                                        VerticalAlignment="Top" />
+                                <Border Height="5"
+                                        CornerRadius="2"
+                                        Background="{StaticResource AccentBlue}"
+                                        VerticalAlignment="Center" />
+                                <Border Height="5"
+                                        CornerRadius="2"
+                                        Background="{StaticResource AccentBlue}"
+                                        VerticalAlignment="Bottom" />
+                            </Grid>
+                            <TextBlock x:Name="ManageServerConfigurationTextBlock"
+                                       Text="Manage server configuration"
+                                       TextDecorations="Underline"
+                                       Foreground="{StaticResource AccentBlue}"
+                                       FontSize="14" />
+                </StackPanel>
+                    </Button>
+
+                    <Button x:Name="RunButton"
+                            Width="200"
+                            Height="40"
+                            Margin="0,26,0,0"
+                            Content="RUN"
+                            Theme="{StaticResource GreenActionButton}"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Foreground="#252526"
+                            HorizontalAlignment="Center"
+                            Click="OnRunClick" />
+
+                    <Button x:Name="StopButton"
+                            Width="200"
+                            Height="40"
+                            Margin="0,26,0,0"
+                            Content="STOP"
+                            Theme="{StaticResource RedActionButton}"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Foreground="#252526"
+                            HorizontalAlignment="Center"
+                            IsVisible="False"
+                            Click="OnStopClick" />
+
+                    <Border x:Name="HomeStatusPanel"
+                            Margin="0,18,0,0"
+                            Padding="16,14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}"
+                            IsVisible="False">
+                        <TextBlock x:Name="HomeStatusTextBlock"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   FontSize="14" />
+                    </Border>
+
+                    <Border x:Name="HomeInfoPanel"
+                            Margin="0,18,0,0"
+                            Padding="16,14"
+                            CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}"
+                            IsVisible="False">
+                        <TextBlock x:Name="HomeInfoTextBlock"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   FontSize="14" />
+                    </Border>
+                    </StackPanel>
+
+                <StackPanel x:Name="ServersSectionPanel"
+                            Margin="20,20,20,24"
+                            Spacing="14"
+                            IsVisible="False">
+                    <Border Padding="16,14"
+                            CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                        <Grid ColumnDefinitions="52,*">
+                            <Border Width="46"
+                                    Height="46"
+                                    CornerRadius="10"
+                                    Background="#252526"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                <Rectangle Fill="{StaticResource Icon.Server.MintyGreen}"
+                                           Width="24"
+                                           Height="24"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                </Border>
+
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Spacing="2">
+                                <TextBlock x:Name="ServersTitleTextBlock"
+                                           Text="SERVER CONFIG"
+                                           FontSize="21"
+                                           FontWeight="SemiBold" />
+                                <TextBlock x:Name="ServersDescriptionTextBlock"
+                                           Text="Manage server configuration"
+                                           Foreground="{StaticResource TextMuted}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="ServersStatusPanel"
+                            Padding="16,14"
+                            CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}"
+                            IsVisible="False">
+                        <TextBlock x:Name="ServersStatusTextBlock"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   FontSize="14" />
+                    </Border>
+
+                    <StackPanel x:Name="ServersBrowsePanel"
+                                Spacing="14">
+                        <Grid ColumnDefinitions="*,*">
+                            <Button x:Name="ConfigurationsTabButton"
+                                    Grid.Column="0"
+                                    Margin="0,0,5,0"
+                                    Height="38"
+                                    Content="Configuration"
+                                    Background="{StaticResource SurfaceBright}"
+                                    Theme="{StaticResource TabButtonTheme}"
+                                    Click="OnConfigurationsTabClick" />
+                            <Button x:Name="SubscriptionsTabButton"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    Height="38"
+                                    Content="Subscription"
+                                    Background="{StaticResource SurfaceLight}"
+                                    Theme="{StaticResource TabButtonTheme}"
+                                    Click="OnSubscriptionsTabClick" />
+                        </Grid>
+
+                        <StackPanel x:Name="ConfigurationsPanel" Spacing="14">
+                <Border Padding="14"
+                        CornerRadius="12"
+                                    BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                                    Background="{StaticResource SurfaceLight}">
+                                <StackPanel Spacing="10">
+                                    <TextBlock x:Name="AvailableConfigurationsTextBlock"
+                                               Text="Available configurations"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+
+                                    <Grid MinHeight="280">
+                                        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <StackPanel x:Name="GeneralConfigsListPanel"
+                                                        Margin="0,0,0,58"
+                                                        Spacing="6" />
+                                        </ScrollViewer>
+
+                                        <TextBlock x:Name="NoGeneralConfigsTextBlock"
+                                                   Margin="0,24,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Top"
+                                                   TextAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{StaticResource TextMuted}"
+                                                   IsVisible="False" />
+
+                                        <Button x:Name="AddConfigFloatingButton"
+                                                Width="56"
+                                                Height="56"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Theme="{StaticResource CircleActionButton}"
+                                                Click="OnAddConfigButtonClick">
+                                            <Rectangle Fill="{StaticResource Icon.Plus}"
+                                                       Width="18"
+                                                       Height="18"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Button>
+                                    </Grid>
+                    </StackPanel>
+                </Border>
+                        </StackPanel>
+
+                        <StackPanel x:Name="SubscriptionsPanel"
+                                    IsVisible="False"
+                                    Spacing="14">
+                            <Border Padding="12"
+                                    CornerRadius="12"
+                                    BorderBrush="{StaticResource SurfaceBright}"
+                                    BorderThickness="1"
+                                    Background="{StaticResource SurfaceLight}">
+                                <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                    <ComboBox x:Name="SubscriptionGroupComboBox"
+                                              Grid.Column="0"
+                                              Margin="0,0,8,0"
+                                              SelectionChanged="OnSubscriptionSelectionChanged" />
+
+                                    <Button x:Name="RefreshSubscriptionButton"
+                                            Grid.Column="1"
+                                            Width="30"
+                                            Height="30"
+                                            Theme="{StaticResource IconActionButton}"
+                                            Click="OnRefreshSubscriptionClick">
+                                        <Rectangle Fill="{StaticResource Icon.Refresh}"
+                                                   Width="14"
+                                                   Height="14"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+
+                                    <Button x:Name="ShareSubscriptionButton"
+                                            Grid.Column="2"
+                                            Width="30"
+                                            Height="30"
+                                            Margin="6,0,0,0"
+                                            Theme="{StaticResource IconActionButton}"
+                                            Click="OnShareSubscriptionClick">
+                                        <Rectangle Fill="{StaticResource Icon.Share}"
+                                                   Width="11"
+                                                   Height="13"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+
+                                    <Button x:Name="DeleteSubscriptionButton"
+                                            Grid.Column="3"
+                                            Width="30"
+                                            Height="30"
+                                            Margin="6,0,0,0"
+                                            Theme="{StaticResource IconActionButton}"
+                                            Click="OnDeleteSubscriptionClick">
+                                        <Rectangle Fill="{StaticResource Icon.Delete}"
+                                                   Width="12"
+                                                   Height="12"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                                    BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                                    Background="{StaticResource SurfaceLight}">
+                                <StackPanel Spacing="10">
+                                    <TextBlock x:Name="SubscriptionGroupsTitleTextBlock"
+                                               Text="Subscription groups"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+
+                                    <Grid MinHeight="280">
+                                        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <StackPanel x:Name="SubscriptionConfigsListPanel"
+                                                        Margin="0,0,0,58"
+                                                        Spacing="6" />
+                                        </ScrollViewer>
+
+                                        <TextBlock x:Name="NoSubscriptionConfigsTextBlock"
+                                                   Margin="0,24,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Top"
+                                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                                   Foreground="{StaticResource TextMuted}"
+                                                   IsVisible="False" />
+
+                                        <Button x:Name="AddSubscriptionFloatingButton"
+                                                Width="56"
+                                                Height="56"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Theme="{StaticResource CircleActionButton}"
+                                                Click="OnAddSubscriptionButtonClick">
+                                            <Rectangle Fill="{StaticResource Icon.Plus}"
+                                                       Width="18"
+                                                       Height="18"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Button>
+                                    </Grid>
+                    </StackPanel>
+                </Border>
+                        </StackPanel>
+            </StackPanel>
+
+                    <StackPanel x:Name="AddConfigPanel"
+                                Spacing="14"
+                                IsVisible="False">
+                        <Border Padding="16,14"
+                                CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                                BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                            <StackPanel Spacing="4">
+                                <TextBlock x:Name="AddConfigTitleTextBlock"
+                                           Text="Add configuration"
+                                           FontSize="20"
+                                           FontWeight="SemiBold" />
+                                <TextBlock x:Name="AddConfigDescriptionTextBlock"
+                                           Text="Choose a file or paste a link, just like in the desktop client."
+                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}" />
+                            </StackPanel>
+                        </Border>
+
+                <Grid ColumnDefinitions="*,*">
+                            <Button x:Name="ConfigImportFileModeButton"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                                    Height="38"
+                                    Content="Import from file"
+                                    Background="{StaticResource SurfaceLight}"
+                                    Theme="{StaticResource TabButtonTheme}"
+                                    Click="OnConfigFileModeClick" />
+                            <Button x:Name="ConfigImportLinkModeButton"
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                                    Height="38"
+                                    Content="Import from link"
+                                    Background="{StaticResource SurfaceBright}"
+                                    Theme="{StaticResource TabButtonTheme}"
+                                    Click="OnConfigLinkModeClick" />
+                </Grid>
+
+                        <Border x:Name="ConfigFileImportPanel"
+                                IsVisible="False"
+                                Padding="14"
+                            CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                            <StackPanel Spacing="10">
+                                <TextBlock x:Name="ConfigFileImportTitleTextBlock"
+                                           Text="Import config file"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Button x:Name="ChooseConfigFileButton"
+                                            Grid.Column="0"
+                                            Width="126"
+                                            Height="38"
+                                            Content="Choose file"
+                                            Theme="{StaticResource GreenActionButton}"
+                                            Foreground="#252526"
+                                            FontWeight="Bold"
+                                            Click="OnChooseConfigFileClick" />
+                                    <TextBlock x:Name="SelectedConfigFileTextBlock"
+                                               Grid.Column="1"
+                                               Margin="12,0,0,0"
+                                               VerticalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Foreground="{StaticResource TextMuted}"
+                                               Text="No file chosen..." />
+                                </Grid>
+                        </StackPanel>
+                    </Border>
+
+                        <Border x:Name="ConfigLinkImportPanel"
+                                Padding="14"
+                            CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                        <StackPanel Spacing="8">
+                                <TextBlock x:Name="ImportConfigTitleTextBlock"
+                                           Text="Import from link"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+                                <Grid ColumnDefinitions="*,Auto">
+                            <TextBox x:Name="ConfigLinkTextBox"
+                                             Grid.Column="0"
+                                             MinHeight="48"
+                                     Watermark="vless://, vmess://, trojan:// or ss://" />
+                                    <Button x:Name="PasteConfigLinkButton"
+                                            Grid.Column="1"
+                                            Width="92"
+                                            Height="42"
+                                            Margin="10,0,0,0"
+                                            Content="PASTE"
+                                            Theme="{StaticResource GrayActionButton}"
+                                            FontWeight="Bold"
+                                            Click="OnPasteConfigLinkClick" />
+                                </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Button x:Name="AdvancedImportToggleButton"
+                                Height="38"
+                            Content="Show advanced import tools"
+                                Theme="{StaticResource GrayActionButton}"
+                            Click="OnToggleAdvancedImportClick" />
+
+                    <Border x:Name="AdvancedImportPanel"
+                            IsVisible="False"
+                            Padding="14"
+                            CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                        <StackPanel Spacing="8">
+                                <TextBlock x:Name="AdvancedImportTitleTextBlock"
+                                           Text="Advanced import"
+                                       FontSize="18"
+                                       FontWeight="SemiBold" />
+                                <TextBlock x:Name="AdvancedImportDescriptionTextBlock"
+                                           Text="Use raw JSON only when you need full manual control over a profile."
+                                       TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}" />
+                            <TextBox x:Name="ConfigRemarkTextBox"
+                                     Watermark="Config name" />
+                            <TextBox x:Name="RawConfigTextBox"
+                                     Height="220"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     Watermark="{}{&quot;inbounds&quot;: [], &quot;outbounds&quot;: []}" />
+                                <Button x:Name="SaveRawConfigButton"
+                                        Content="Save raw JSON config"
+                                        Height="38"
+                                        Theme="{StaticResource GreenActionButton}"
+                                        Foreground="#252526"
+                                        FontWeight="Bold"
+                                    Click="OnSaveRawConfigClick" />
+                        </StackPanel>
+                    </Border>
+
+                            <Grid ColumnDefinitions="*,*">
+                            <Button x:Name="CancelConfigImportButton"
+                                    Grid.Column="0"
+                                        Margin="0,0,5,0"
+                                    Height="38"
+                                    Content="Cancel"
+                                    Theme="{StaticResource RedActionButton}"
+                                    Foreground="#252526"
+                                    FontWeight="Bold"
+                                    Click="OnCancelConfigImportClick" />
+                            <Button x:Name="ConfirmConfigImportButton"
+                                    Grid.Column="1"
+                                        Margin="5,0,0,0"
+                                    Height="38"
+                                    Content="Import"
+                                    Theme="{StaticResource GreenActionButton}"
+                                    Foreground="#252526"
+                                    FontWeight="Bold"
+                                    Click="OnImportConfigClick" />
+                            </Grid>
+                        </StackPanel>
+
+                    <StackPanel x:Name="AddSubscriptionPanel"
+                                Spacing="14"
+                                IsVisible="False">
+                        <Border Padding="16,14"
+                            CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                            <StackPanel Spacing="4">
+                                <TextBlock x:Name="AddSubscriptionTitleTextBlock"
+                                           Text="Add or replace subscription"
+                                           FontSize="20"
+                                       FontWeight="SemiBold" />
+                                <TextBlock x:Name="AddSubscriptionDescriptionTextBlock"
+                                           Text="Save a subscription by name and URL. Existing groups with the same name will be refreshed."
+                                       TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Padding="14"
+                                CornerRadius="12"
+                                BorderBrush="{StaticResource SurfaceBright}"
+                                BorderThickness="1"
+                                Background="{StaticResource SurfaceLight}">
+                            <StackPanel Spacing="10">
+                            <TextBox x:Name="SubscriptionRemarkTextBox"
+                                     Watermark="Subscription name" />
+                                <Grid ColumnDefinitions="*,Auto">
+                            <TextBox x:Name="SubscriptionLinkTextBox"
+                                             Grid.Column="0"
+                                             MinHeight="48"
+                                     Watermark="Subscription URL" />
+                                    <Button x:Name="PasteSubscriptionLinkButton"
+                                            Grid.Column="1"
+                                            Width="92"
+                                            Height="42"
+                                            Margin="10,0,0,0"
+                                            Content="PASTE"
+                                            Theme="{StaticResource GrayActionButton}"
+                                            FontWeight="Bold"
+                                            Click="OnPasteSubscriptionLinkClick" />
+                                </Grid>
+                        </StackPanel>
+                    </Border>
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Button x:Name="CancelSubscriptionButton"
+                                    Grid.Column="0"
+                                    Margin="0,0,5,0"
+                                    Height="38"
+                                    Content="Cancel"
+                                    Theme="{StaticResource RedActionButton}"
+                                    Foreground="#252526"
+                                    FontWeight="Bold"
+                                    Click="OnCancelSubscriptionClick" />
+                            <Button x:Name="SaveSubscriptionButton"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    Content="Save subscription"
+                                    Height="38"
+                                    Theme="{StaticResource GreenActionButton}"
+                                    Foreground="#252526"
+                                    FontWeight="Bold"
+                                    Click="OnImportSubscriptionClick" />
+                        </Grid>
+                </StackPanel>
+            </StackPanel>
+
+                <StackPanel x:Name="SettingsSectionPanel"
+                            Margin="20,20,20,24"
+                            Spacing="14"
+                            IsVisible="False">
+                    <TextBlock x:Name="SettingsTitleTextBlock"
+                               Text="Settings"
+                           FontSize="26"
+                           FontWeight="Bold" />
+                    <TextBlock x:Name="SettingsDescriptionTextBlock"
+                               Text="Android keeps the main screen compact. Network and diagnostics live here, while VPN/TUN remains visible as a planned capability."
+                           TextWrapping="Wrap"
+                               Foreground="{StaticResource TextMuted}" />
+
+                    <Border x:Name="SettingsStatusPanel"
+                            Padding="16,14"
+                            CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                            BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}"
+                            IsVisible="False">
+                        <TextBlock x:Name="SettingsStatusTextBlock"
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   FontSize="14" />
+                    </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                    <StackPanel Spacing="10">
+                            <TextBlock x:Name="BasicSettingsTitleTextBlock"
+                                       Text="Basic"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+                            <TextBlock x:Name="ConnectionModeTitleTextBlock"
+                                       Text="Connection mode" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Padding="10,4"
+                                    CornerRadius="999"
+                                        Background="{StaticResource AccentMint}">
+                                    <TextBlock x:Name="ProxyModeBadgeTextBlock"
+                                               Text="Proxy"
+                                               FontWeight="SemiBold"
+                                               Foreground="#252526" />
+                            </Border>
+                            <Border Padding="10,4"
+                                    CornerRadius="999"
+                                        Background="{StaticResource SurfaceBright}">
+                                    <TextBlock x:Name="VpnComingSoonBadgeTextBlock"
+                                               Text="VPN/TUN coming soon"
+                                               Foreground="{StaticResource TextMuted}" />
+                            </Border>
+                        </StackPanel>
+                            <TextBlock x:Name="ProtocolTitleTextBlock"
+                                       Text="Protocol" />
+                        <ComboBox x:Name="ProtocolComboBox" />
+                        <CheckBox x:Name="UdpEnabledCheckBox"
+                                  Content="Enable UDP" />
+                        <CheckBox x:Name="AnalyticsCheckBox"
+                                  Content="Send anonymous analytics" />
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                    <StackPanel Spacing="10">
+                            <TextBlock x:Name="NetworkTitleTextBlock"
+                                       Text="Network"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+                            <TextBlock x:Name="ProxyPortTitleTextBlock"
+                                       Text="Proxy port" />
+                        <TextBox x:Name="ProxyPortTextBox" />
+                            <TextBlock x:Name="DnsTitleTextBlock"
+                                       Text="DNS" />
+                        <TextBox x:Name="DnsTextBox" />
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                        <StackPanel Spacing="10">
+                            <TextBlock x:Name="AppRulesTitleTextBlock"
+                                       Text="App Rules"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+                            <TextBlock x:Name="AppRulesDescriptionTextBlock"
+                                       Text="Selected apps will bypass the VPN while the rest of the device traffic continues through XRay."
+                                   TextWrapping="Wrap"
+                                       Foreground="{StaticResource TextMuted}" />
+                            <Border Padding="10"
+                                    CornerRadius="10"
+                                    BorderBrush="{StaticResource SurfaceBright}"
+                                    BorderThickness="1"
+                                    Background="{StaticResource SurfaceDark}">
+                                <StackPanel Spacing="6">
+                                    <TextBlock x:Name="AppRulesSummaryTextBlock"
+                                               Text="All apps"
+                                               Foreground="White"
+                                               TextWrapping="Wrap"
+                                               FontWeight="SemiBold"
+                                               FontSize="13" />
+                                    <TextBlock x:Name="AppRulesConfigHintTextBlock"
+                                               Text="Bound to current configuration"
+                                               TextWrapping="Wrap"
+                                               Foreground="{StaticResource TextMuted}"
+                                               FontSize="11" />
+                                    <Button x:Name="OpenAppRulesEditorButton"
+                                            Height="36"
+                                            HorizontalAlignment="Left"
+                                            Padding="12,0"
+                                            Theme="{StaticResource GrayActionButton}"
+                                            Click="OnOpenAppRulesEditorClick">
+                                        <TextBlock x:Name="OpenAppRulesEditorButtonTextBlock"
+                                                   Text="Manage app rules"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel IsVisible="False">
+                                <CheckBox x:Name="AppRulesEnabledCheckBox" />
+                                <Button x:Name="RefreshInstalledAppsButton"
+                                        Click="OnRefreshInstalledAppsClick" />
+                                <StackPanel x:Name="AppRulesItemsPanel" />
+                                <TextBlock x:Name="NoDiscoveredAppsTextBlock" />
+                            </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                    <StackPanel Spacing="8">
+                            <TextBlock x:Name="TunTitleTextBlock"
+                                       Text="VPN/TUN"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+                            <TextBlock x:Name="TunDescriptionTextBlock"
+                                       Text="The Android UI keeps VPN/TUN visible for continuity with Windows and macOS, but the actual mobile tunnel runtime is not bundled yet."
+                                   TextWrapping="Wrap"
+                                       Foreground="{StaticResource TextMuted}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="14"
+                        CornerRadius="12"
+                            BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                            Background="{StaticResource SurfaceLight}">
+                    <StackPanel Spacing="10">
+                            <TextBlock x:Name="LogsAndDiagnosticsTitleTextBlock"
+                                       Text="Logs and diagnostics"
+                                   FontSize="18"
+                                   FontWeight="SemiBold" />
+                        <TextBlock x:Name="LogsDescriptionTextBlock"
+                                   Text="Capture, share or clear the in-app diagnostic log used for troubleshooting."
+                                   TextWrapping="Wrap"
+                                   Foreground="{StaticResource TextMuted}"
+                                   FontSize="12" />
+                        <TextBlock x:Name="LogsStatusTextBlock"
+                                   Text=""
+                                   TextWrapping="Wrap"
+                                   Foreground="{StaticResource TextMuted}"
+                                   FontSize="11" />
+                        <Button x:Name="ShareLogButton"
+                                Height="40"
+                                Theme="{StaticResource GreenActionButton}"
+                                Foreground="#252526"
+                                FontWeight="SemiBold"
+                                Click="OnShareLogClick">
+                            <TextBlock x:Name="ShareLogButtonTextBlock"
+                                       Text="Share log"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="SaveLogButton"
+                                Height="40"
+                                Theme="{StaticResource GrayActionButton}"
+                                Click="OnSaveLogClick">
+                            <TextBlock x:Name="SaveLogButtonTextBlock"
+                                       Text="Save log to device"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Button>
+                        <Button x:Name="ClearLogButton"
+                                Height="38"
+                                Theme="{StaticResource RedActionButton}"
+                                Click="OnClearLogClick">
+                            <TextBlock x:Name="ClearLogButtonTextBlock"
+                                       Text="Clear log"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Button>
+                        <TextBlock x:Name="RuntimeTextBlock"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+                <Button x:Name="SaveSettingsButton"
+                        Content="Save settings"
+                            Height="40"
+                            Theme="{StaticResource GreenActionButton}"
+                            Foreground="#252526"
+                            FontWeight="Bold"
+                        Click="OnSaveSettingsClick" />
+            </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <Border x:Name="ConfigShareActionSheetBorder"
+                Grid.Row="1"
+                Margin="20,0,20,18"
+                Padding="16,14"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Background="{StaticResource SurfaceLight}"
+                BorderBrush="{StaticResource SurfaceBright}"
+                BorderThickness="1"
+                CornerRadius="14"
+                BoxShadow="0 4 14 0 #66000000"
+                IsVisible="False">
+            <StackPanel Spacing="10">
+                <TextBlock x:Name="ConfigShareTitleLabel"
+                           Text="Share configuration"
+                           FontSize="18"
+                           FontWeight="SemiBold" />
+                <Button x:Name="CopyConfigLinkSheetButton"
+                        Height="40"
+                        Theme="{StaticResource GrayActionButton}"
+                        Click="OnCopyConfigLinkClick">
+                    <TextBlock Text="Copy source link"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+                <Button x:Name="ExportConfigSheetButton"
+                        Height="40"
+                        Theme="{StaticResource GreenActionButton}"
+                        Foreground="#252526"
+                        Click="OnExportConfigClick">
+                    <TextBlock Text="Export full configuration"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+                <Button x:Name="CancelConfigShareSheetButton"
+                        Height="38"
+                        Theme="{StaticResource GrayActionButton}"
+                        Click="OnCancelConfigShareClick">
+                    <TextBlock Text="Cancel"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <Border x:Name="AppRulesEditorOverlayBorder"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Background="#B0000000"
+                IsVisible="False">
+            <Grid Margin="14">
+                <Border Padding="16,14"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceLight}"
+                        BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                        CornerRadius="14">
+                    <Grid RowDefinitions="*,50">
+                        <ScrollViewer Grid.Row="0"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel Spacing="10">
+                                <TextBlock x:Name="AppRulesEditorTitleTextBlock"
+                                           Text="App rules"
+                                           FontSize="20"
+                                           FontWeight="SemiBold" />
+                                <TextBlock x:Name="AppRulesEditorDescriptionTextBlock"
+                                           Text="Pick a template, choose a mode, and select applications for the current configuration."
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}" />
+
+                                <Border Padding="10"
+                                        CornerRadius="10"
+                                        BorderBrush="{StaticResource SurfaceBright}"
+                                        BorderThickness="1"
+                                        Background="{StaticResource SurfaceDark}">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock x:Name="AppRulesEditorCurrentConfigLabelTextBlock"
+                                                   Text="Current configuration"
+                                                   Foreground="{StaticResource TextMuted}"
+                                                   FontSize="11" />
+                                        <TextBlock x:Name="AppRulesEditorCurrentConfigTextBlock"
+                                                   Text="No server configuration selected"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="White"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="14" />
+                                    </StackPanel>
+                                </Border>
+
+                                <TextBlock x:Name="AppRulesEditorTemplateTitleTextBlock"
+                                           Text="Template"
+                                           Foreground="White"
+                                           FontWeight="SemiBold"
+                                           FontSize="14" />
+                                <Grid ColumnDefinitions="*,8,110,8,110">
+                                    <ComboBox x:Name="AppRulesTemplateComboBox"
+                                              Grid.Column="0"
+                                              SelectionChanged="OnAppRulesTemplateSelectionChanged" />
+                                    <Button x:Name="NewAppRulesTemplateButton"
+                                            Grid.Column="2"
+                                            Height="36"
+                                            Theme="{StaticResource GrayActionButton}"
+                                            Click="OnNewAppRulesTemplateClick">
+                                        <TextBlock Text="New"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+                                    <Button x:Name="DeleteAppRulesTemplateButton"
+                                            Grid.Column="4"
+                                            Height="36"
+                                            Theme="{StaticResource RedActionButton}"
+                                            Click="OnDeleteAppRulesTemplateClick">
+                                        <TextBlock Text="Delete"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Button>
+                                </Grid>
+
+                                <TextBlock x:Name="AppRulesEditorTemplateNameLabelTextBlock"
+                                           Text="Template name"
+                                           Foreground="{StaticResource TextMuted}"
+                                           FontSize="11" />
+                                <TextBox x:Name="AppRulesTemplateNameTextBox"
+                                         TextChanged="OnAppRulesTemplateNameChanged" />
+
+                                <TextBlock x:Name="AppRulesEditorModeTitleTextBlock"
+                                           Text="Mode"
+                                           Foreground="White"
+                                           FontWeight="SemiBold"
+                                           FontSize="14" />
+                                <TextBlock x:Name="AppRulesEditorModeDescriptionTextBlock"
+                                           Text="Choose whether apps bypass the VPN, only selected apps use the VPN, or all apps are allowed."
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}" />
+
+                                <StackPanel Spacing="8">
+                                    <RadioButton x:Name="AppRulesModeAllAppsRadioButton"
+                                                 Content="All apps"
+                                                 Foreground="White"
+                                                 IsChecked="True"
+                                                 Checked="OnAppRulesModeChanged" />
+                                    <RadioButton x:Name="AppRulesModeBypassRadioButton"
+                                                 Content="Bypass selected apps"
+                                                 Foreground="White"
+                                                 Checked="OnAppRulesModeChanged" />
+                                    <RadioButton x:Name="AppRulesModeOnlySelectedRadioButton"
+                                                 Content="Only selected apps use VPN"
+                                                 Foreground="White"
+                                                 Checked="OnAppRulesModeChanged" />
+                                </StackPanel>
+
+                                <TextBlock x:Name="AppRulesEditorSelectedCountTextBlock"
+                                           Text="0 apps selected"
+                                           Foreground="{StaticResource TextMuted}"
+                                           TextWrapping="Wrap"
+                                           FontSize="13" />
+                                <Button x:Name="OpenAppPickerButton"
+                                        Height="40"
+                                        HorizontalAlignment="Stretch"
+                                        Theme="{StaticResource GrayActionButton}"
+                                        Click="OnOpenAppPickerClick">
+                                    <TextBlock x:Name="OpenAppPickerButtonTextBlock"
+                                               Text="Select applications"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Button>
+        </StackPanel>
+    </ScrollViewer>
+
+                        <Grid Grid.Row="1"
+                              ColumnDefinitions="*,10,*">
+                            <Button x:Name="CancelAppRulesEditorButton"
+                                    Grid.Column="0"
+                                    Height="40"
+                                    Theme="{StaticResource GrayActionButton}"
+                                    Click="OnCancelAppRulesEditorClick">
+                                <TextBlock Text="Cancel"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Button>
+                            <Button x:Name="SaveAppRulesEditorButton"
+                                    Grid.Column="2"
+                                    Height="40"
+                                    Theme="{StaticResource GreenActionButton}"
+                                    Foreground="#252526"
+                                    FontWeight="Bold"
+                                    Click="OnSaveAppRulesEditorClick">
+                                <TextBlock Text="Save app rules"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border x:Name="AppPickerOverlayBorder"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Background="#B0000000"
+                IsVisible="False">
+            <Grid Margin="14">
+                <Border Padding="16,14"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource SurfaceLight}"
+                        BorderBrush="{StaticResource SurfaceBright}"
+                        BorderThickness="1"
+                        CornerRadius="14">
+                    <Grid RowDefinitions="Auto,Auto,*,50">
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="Auto,*"
+                              Margin="0,0,0,10">
+                            <Button x:Name="AppPickerBackButton"
+                                    Grid.Column="0"
+                                    Width="36"
+                                    Height="36"
+                                    Theme="{StaticResource GrayActionButton}"
+                                    Click="OnAppPickerBackClick">
+                                <TextBlock Text="&#8592;"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="18" />
+                            </Button>
+                            <TextBlock x:Name="AppPickerTitleTextBlock"
+                                       Grid.Column="1"
+                                       Text="Select applications"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0" />
+                        </Grid>
+
+                        <Grid Grid.Row="1"
+                              ColumnDefinitions="*,8,Auto"
+                              Margin="0,0,0,10">
+                            <TextBox x:Name="AppPickerSearchTextBox"
+                                     Grid.Column="0"
+                                     Watermark="Search apps"
+                                     TextChanged="OnAppPickerSearchTextChanged" />
+                            <Button x:Name="AppPickerRefreshButton"
+                                    Grid.Column="2"
+                                    Width="36"
+                                    Height="36"
+                                    Theme="{StaticResource GrayActionButton}"
+                                    Click="OnAppPickerRefreshClick">
+                                <TextBlock Text="&#x21BB;"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="16" />
+                            </Button>
+                        </Grid>
+
+                        <ScrollViewer Grid.Row="2"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock x:Name="AppPickerLoadingTextBlock"
+                                           Text="Loading applications..."
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,40,0,0"
+                                           IsVisible="False" />
+                                <StackPanel x:Name="AppPickerItemsPanel"
+                                            Spacing="6" />
+                                <TextBlock x:Name="AppPickerNoAppsTextBlock"
+                                           Text="No launchable apps were found."
+                                           TextWrapping="Wrap"
+                                           Foreground="{StaticResource TextMuted}"
+                                           IsVisible="False" />
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Button x:Name="AppPickerDoneButton"
+                                Grid.Row="3"
+                                Height="40"
+                                HorizontalAlignment="Stretch"
+                                Theme="{StaticResource GreenActionButton}"
+                                Foreground="#252526"
+                                FontWeight="Bold"
+                                Click="OnAppPickerDoneClick">
+                            <TextBlock x:Name="AppPickerDoneButtonTextBlock"
+                                       Text="Done"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2"
+                Background="{StaticResource SurfaceLight}">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="10">
+                <Button x:Name="HomeSectionButton"
+                        Width="30"
+                        Height="30"
+                        Theme="{StaticResource CircleActionButton}"
+                        Click="OnHomeSectionClick">
+                    <Rectangle Fill="{StaticResource Icon.About}"
+                               Width="6"
+                               Height="14"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+
+                <Grid Width="30"
+                      Height="30">
+                    <Button Width="30"
+                            Height="30"
+                            Theme="{StaticResource CircleActionButton}"
+                            Click="OnOpenReleasesClick">
+                        <Rectangle Fill="{StaticResource Icon.Update}"
+                                   Width="15"
+                                   Height="15"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Button>
+                    <Ellipse x:Name="UpdateNotificationDot"
+                             Width="10"
+                             Height="10"
+                             Margin="-2,-2,0,0"
+                             Fill="#F0A43A"
+                             Stroke="{StaticResource SurfaceLight}"
+                             StrokeThickness="2"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Top"
+                             IsVisible="False" />
+                </Grid>
+
+                <Button x:Name="SettingsSectionButton"
+                        Width="30"
+                        Height="30"
+                        Theme="{StaticResource CircleActionButton}"
+                        Click="OnSettingsSectionClick">
+                    <Rectangle Fill="{StaticResource Icon.Settings}"
+                               Width="15"
+                               Height="15"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+
+                <Button Width="30"
+                        Height="30"
+                        Theme="{StaticResource CircleActionButton}"
+                        Click="OnOpenBugReportingClick">
+                    <Rectangle Fill="{StaticResource Icon.Bug}"
+                               Width="12"
+                               Height="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+
+                <Button Width="30"
+                        Height="30"
+                        Theme="{StaticResource CircleActionButton}"
+                        Click="OnOpenGitHubClick">
+                    <Rectangle Fill="{StaticResource Icon.Github}"
+                               Width="18"
+                               Height="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

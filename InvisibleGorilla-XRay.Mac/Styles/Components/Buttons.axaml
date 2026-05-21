@@ -1,0 +1,122 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Circle button: ellipse background with MintyGreen fill -->
+    <ControlTheme x:Key="Button.Circle" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Grid>
+                    <Ellipse Name="ellipse" Fill="{StaticResource Color.MintyGreen}"/>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Ellipse#ellipse">
+            <Setter Property="Fill" Value="{StaticResource Color.BrightGreen}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Ellipse#ellipse">
+            <Setter Property="Fill" Value="{StaticResource Color.InkyGreen}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Ellipse#ellipse">
+            <Setter Property="Opacity" Value="0.3"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Rounded rectangle, MintyGreen -->
+    <ControlTheme x:Key="Button.Rectangle.Green" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Border Name="border" BorderThickness="0"
+                        Background="{StaticResource Color.MintyGreen}"
+                        Padding="2.5,0" CornerRadius="3">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.LightGreen}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.DarkGreen}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.3"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Rounded rectangle, Red -->
+    <ControlTheme x:Key="Button.Rectangle.Red" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Border Name="border" BorderThickness="0"
+                        Background="{StaticResource Color.Red}"
+                        Padding="2.5,0" CornerRadius="3">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.LightRed}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.DarkRed}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.3"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Rounded rectangle, Gray -->
+    <ControlTheme x:Key="Button.Rectangle.Gray" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Border Name="border" BorderThickness="0"
+                        Background="{StaticResource Color.LightGray}"
+                        Padding="2.5,0" CornerRadius="3">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.Gray}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.DarkGray}"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Transparent button, hand cursor on hover -->
+    <ControlTheme x:Key="Button.None" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Button">
+                <Border Name="border" BorderThickness="0"
+                        Padding="2.5,0" Background="Transparent">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover">
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

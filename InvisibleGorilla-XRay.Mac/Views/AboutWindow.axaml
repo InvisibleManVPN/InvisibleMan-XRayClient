@@ -1,0 +1,100 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.AboutWindow"
+        Title="Invisible Gorilla XRay - About"
+        Height="450" 
+        Width="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+
+                <!-- Version info -->
+                <StackPanel Orientation="Vertical" Margin="20,20,20,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource Lang.Window.About.Version}"
+                            FontWeight="Light" FontSize="15" Foreground="White"/>
+                        <TextBlock Text=" " FontSize="15"/>
+                        <TextBlock x:Name="textApplicationVersion" Text="0.0.0"
+                            FontWeight="Normal" FontSize="15" Foreground="White"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource Lang.Window.About.XRayCoreVersion}"
+                            FontWeight="Light" FontSize="15" Foreground="White"/>
+                        <TextBlock Text=" " FontSize="15"/>
+                        <TextBlock x:Name="textXRayCoreVersion" Text="0.0.0"
+                            FontWeight="Normal" FontSize="15" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Description -->
+                <TextBlock Margin="20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run FontWeight="Normal" Text="Invisible Gorilla XRay"/>
+                    <Run Text=" "/>
+                    <Run Text="{DynamicResource Lang.Window.About.Description}"/>
+                </TextBlock>
+
+                <!-- Website link -->
+                <TextBlock Text="https://invisiblegorilla.github.io" 
+                    TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20,10,20,20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    PointerPressed="OnWebsiteClick"/>
+
+                <!-- Bug reporting -->
+                <TextBlock Margin="20,0,20,20" TextWrapping="Wrap" TextAlignment="Justify"
+                    FontWeight="Light" LineHeight="20" FontSize="15" Foreground="White">
+                    <Run Text="{DynamicResource Lang.Window.About.BugReport}"/>
+                </TextBlock>
+
+                <!-- Email link -->
+                <TextBlock Margin="20,0,20,0" FontWeight="Light" FontSize="15" Foreground="White">
+                    <Run Text="{DynamicResource Lang.Window.About.Email}"/>
+                </TextBlock>
+                <TextBlock Text="invisiblegorilla@gmail.com" 
+                    TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="20,10,20,20" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="15" Cursor="Hand"
+                    PointerPressed="OnEmailClick"/>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.About}" Grid.Column="0" 
+                    Width="15" Height="35" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Bottom" 
+                        Text="{DynamicResource Lang.Window.About.Title}"
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Top" 
+                        Text="Invisible Gorilla XRay"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,228 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.MainWindow"
+        Title="Invisible Gorilla XRay"
+        Height="550" 
+        Width="400"
+        CanResize="True"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="370"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.InvisibleGorilla}" Grid.Column="0" 
+                    Width="60" Height="60" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,7,0,0" VerticalAlignment="Bottom" 
+                        Text="INVISIBLE GORILLA"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                    <TextBlock Margin="15,-4,0,0" VerticalAlignment="Top" 
+                        Text="XRAY"
+                        FontWeight="Light" FontSize="42" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="210"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="95"/>
+            </Grid.RowDefinitions>
+
+            <!-- Stop status -->
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                IsVisible="True" x:Name="statusStop">
+                
+                <Grid Width="120" Height="120" Margin="0">
+                    <Rectangle Fill="{StaticResource Icon.Stop}"/>
+                </Grid>
+                
+                <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Ellipse
+                        Width="12" Height="12" Margin="0,0,2,0"
+                        VerticalAlignment="Center"
+                        Fill="{StaticResource Color.Red}"/>
+                    <TextBlock Text="{DynamicResource Lang.Status.Stopped}"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="16"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Wait for run status -->
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                IsVisible="False" x:Name="statusWaitForRun">
+                
+                <Grid Width="120" Height="120" Margin="0">
+                    <Rectangle Fill="{StaticResource Icon.Stop}"/>
+                    <ProgressBar IsIndeterminate="True" Width="80" Height="80"
+                        Foreground="{StaticResource Color.Red}"
+                        Background="Transparent"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+                
+                <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Ellipse
+                        Width="12" Height="12" Margin="0,0,2,0"
+                        VerticalAlignment="Center"
+                        Fill="Gray"/>
+                    <TextBlock Text="{DynamicResource Lang.Status.WaitForRun}"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="16"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Run status -->
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                IsVisible="False" x:Name="statusRun">
+
+                <Grid Width="120" Height="120" Margin="0">
+                    <!-- Glow effect -->
+                    <Ellipse x:Name="effectGlow" Width="120" Height="120"
+                        Fill="{StaticResource Color.Green}" Opacity="0.3"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Rectangle Fill="{StaticResource Icon.Run}"/>
+                </Grid>
+                
+                <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Ellipse
+                        Width="12" Height="12" Margin="0,0,2,0"
+                        VerticalAlignment="Center"
+                        Fill="{StaticResource Color.Green}"/>
+                    <TextBlock Text="{DynamicResource Lang.Status.Running}"
+                        Margin="0" Foreground="White" FontWeight="Light" FontSize="16"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Config name -->
+            <TextBlock Grid.Row="2" Width="300"
+                HorizontalAlignment="Center"
+                TextAlignment="Center" TextTrimming="CharacterEllipsis"
+                Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
+                x:Name="textServerConfig"
+                Text="{DynamicResource Lang.Message.NoServerConfiguration}"/>
+
+            <!-- Manage server configuration link -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Rectangle Fill="{StaticResource Icon.Server}"
+                    Width="15" Height="15" Margin="0,0,7,0" 
+                    HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <TextBlock Text="{DynamicResource Lang.Window.Main.ManageServerConfiguration}" 
+                    TextDecorations="Underline"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" 
+                    Margin="0" Foreground="{StaticResource Color.Blue}" 
+                    FontWeight="Normal" FontSize="14" Cursor="Hand"
+                    Tapped="OnManageServersClick"/>
+            </StackPanel>
+
+            <!-- Run button -->
+            <Button Grid.Row="4" Width="200" Height="40" 
+                Content="{DynamicResource Lang.Run}" Theme="{StaticResource Button.Rectangle.Green}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="True"
+                Click="OnRunButtonClick" x:Name="buttonRun"/>
+
+            <!-- Cancel button -->
+            <Button Grid.Row="4" Width="200" Height="40" 
+                Content="{DynamicResource Lang.Cancel}" Theme="{StaticResource Button.Rectangle.Red}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="False"
+                Click="OnCancelButtonClick" x:Name="buttonCancel"/>
+
+            <!-- Stop button -->
+            <Button Grid.Row="4" Width="200" Height="40" 
+                Content="{DynamicResource Lang.Stop}" Theme="{StaticResource Button.Rectangle.Red}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="False"
+                Click="OnStopButtonClick" x:Name="buttonStop"/>
+        </Grid>
+
+        <!-- Footer -->
+        <Grid Grid.Row="2">
+            <Grid Height="45" VerticalAlignment="Bottom" 
+                Background="{StaticResource Color.LightGray}">
+
+                <StackPanel Orientation="Horizontal" Margin="0"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    <Button Width="30" Height="30" Margin="0" 
+                        Theme="{StaticResource Button.Circle}"
+                        ToolTip.Tip="{DynamicResource Lang.ToolTip.About}"
+                        Click="OnAboutButtonClick">
+                        <Rectangle Fill="{StaticResource Icon.About}"
+                            Width="6" Height="14" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Grid Width="30" Height="30" Margin="10,0,0,0">
+                        <Button Theme="{StaticResource Button.Circle}" 
+                            ToolTip.Tip="{DynamicResource Lang.ToolTip.CheckForUpdates}"
+                            Click="OnUpdateButtonClick">
+                            <Rectangle Fill="{StaticResource Icon.Update}"
+                                Width="15" Height="15" Margin="0" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button>
+                        <Ellipse Width="12" Height="12" Margin="-2" IsVisible="False"
+                            Fill="{StaticResource Color.Orange}" 
+                            Stroke="{StaticResource Color.LightGray}" StrokeThickness="2"
+                            VerticalAlignment="Top" HorizontalAlignment="Right"
+                            x:Name="notificationUpdate"/>
+                    </Grid>
+
+                    <Button Width="30" Height="30" Margin="10,0,0,0" 
+                        Theme="{StaticResource Button.Circle}"
+                        ToolTip.Tip="{DynamicResource Lang.ToolTip.Settings}"
+                        Click="OnSettingsButtonClick">
+                        <Rectangle Fill="{StaticResource Icon.Settings}"
+                            Width="15" Height="15" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Button Width="30" Height="30" Margin="10,0,0,0" 
+                        Theme="{StaticResource Button.Circle}"
+                        ToolTip.Tip="{DynamicResource Lang.ToolTip.BugReporting}"
+                        Click="OnBugReportingButtonClick">
+                        <Rectangle Fill="{StaticResource Icon.Bug}"
+                            Width="12" Height="16" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Button Width="30" Height="30" Margin="10,0,0,0"
+                        Theme="{StaticResource Button.Circle}"
+                        ToolTip.Tip="{DynamicResource Lang.ToolTip.SourceCodeOnGitHub}"
+                        Click="OnGitHubButtonClick">
+                        <Rectangle Fill="{StaticResource Icon.Github}"
+                            Width="18" Height="16" Margin="0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

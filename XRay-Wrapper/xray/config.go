@@ -110,11 +110,11 @@ func overrideLog(logLevel clog.Severity, logPath *C.char) *serial.TypedMessage {
 	})
 }
 
-func overrideInbound(port net.Port, isSocks bool, isUdpEnabled bool) []*core.InboundHandlerConfig {
+func overrideInbound(port net.Port, isSocks bool, isUdpEnabled bool, auth *localSocksAuth) []*core.InboundHandlerConfig {
 	if isSocks == false {
 		return overrideInboundToHttp(port)
 	} else {
-		return overrideInboundToSocks(port, isUdpEnabled)
+		return overrideInboundToSocks(port, isUdpEnabled, auth)
 	}
 }
 
@@ -138,7 +138,15 @@ func overrideInboundToHttp(port net.Port) []*core.InboundHandlerConfig {
 	}
 }
 
-func overrideInboundToSocks(port net.Port, isUdpEnabled bool) []*core.InboundHandlerConfig {
+func overrideInboundToSocks(port net.Port, isUdpEnabled bool, auth *localSocksAuth) []*core.InboundHandlerConfig {
+	serverConfig := &socks.ServerConfig{
+		UdpEnabled: isUdpEnabled,
+	}
+	if auth != nil && auth.enabled() {
+		serverConfig.AuthType = socks.AuthType_PASSWORD
+		serverConfig.Accounts = auth.accounts()
+	}
+
 	return []*core.InboundHandlerConfig{
 		{
 			ReceiverSettings: serial.ToTypedMessage(&proxyman.ReceiverConfig{
@@ -153,7 +161,7 @@ func overrideInboundToSocks(port net.Port, isUdpEnabled bool) []*core.InboundHan
 					},
 				},
 			}),
-			ProxySettings: serial.ToTypedMessage(&socks.ServerConfig{UdpEnabled: isUdpEnabled}),
+			ProxySettings: serial.ToTypedMessage(serverConfig),
 		},
 	}
 }

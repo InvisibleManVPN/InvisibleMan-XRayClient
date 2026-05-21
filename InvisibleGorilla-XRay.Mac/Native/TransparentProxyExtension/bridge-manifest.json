@@ -1,0 +1,7 @@
+{
+  "helperType": "macos-transparent-proxy",
+  "configFile": "TUN/macos-transparent-proxy-config.json",
+  "excludedAppIdKind": "bundleIdentifier",
+  "providerScaffold": "Sources/TransparentProxyProvider.swift",
+  "configuratorScaffold": "Sources/TransparentProxyConfigurator.swift"
+}

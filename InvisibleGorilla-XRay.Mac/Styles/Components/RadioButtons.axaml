@@ -1,0 +1,37 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="RadioButton">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Grid Grid.Column="0" Width="16" Height="16">
+                        <Border Name="RadioOuter"
+                                Background="{StaticResource Color.LightGray}"
+                                BorderBrush="{StaticResource Color.BrightGray}"
+                                BorderThickness="1.5"
+                                CornerRadius="8"/>
+                        <Border Name="RadioMark"
+                                CornerRadius="4"
+                                Margin="4"
+                                Background="White"
+                                IsVisible="False"/>
+                    </Grid>
+                    <ContentPresenter Grid.Column="1"
+                                      Margin="3,1,0,0"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Border#RadioMark">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+        <Style Selector="^:checked /template/ Border#RadioOuter">
+            <Setter Property="BorderBrush" Value="{StaticResource Color.Blue}"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

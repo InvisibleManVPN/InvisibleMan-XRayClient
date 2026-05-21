@@ -1,0 +1,348 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.SettingsWindow"
+        Title="Invisible Gorilla XRay - Settings"
+        Height="450" 
+        Width="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Tab bar -->
+            <Grid Grid.Row="0" Margin="0,0,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}" IsEnabled="False"
+                        x:Name="buttonBasicTab" Click="OnBasicTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Settings.Basic}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonPortTab" Click="OnPortTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Settings.Port}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="4">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonTunTab" Click="OnTunTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Settings.TUN}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+
+                <Grid Grid.Column="6">
+                    <Button Theme="{StaticResource Button.Rectangle.Gray}"
+                        x:Name="buttonLogTab" Click="OnLogTabClick"/>
+                    <TextBlock Text="{DynamicResource Lang.Window.Settings.Log}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="White" FontWeight="Normal" FontSize="14"
+                        IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+
+            <!-- Content + buttons -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <!-- Basic panel -->
+                <ScrollViewer x:Name="panelBasic" HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto" IsVisible="True">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20,20,20,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="White"
+                                Text="{DynamicResource Lang.Window.Settings.Language}"
+                                FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="comboBoxLanguage" Grid.Column="1" Height="26"
+                                FontWeight="Normal" FontSize="14"/>
+                        </Grid>
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="White"
+                                Text="{DynamicResource Lang.Window.Settings.Mode}"
+                                FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="comboBoxMode" Grid.Column="1" Height="26"
+                                FontWeight="Normal" FontSize="14"
+                                SelectionChanged="OnModeComboBoxSelectionChanged"/>
+                        </Grid>
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="White"
+                                Text="{DynamicResource Lang.Window.Settings.Protocol}"
+                                FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="comboBoxProtocol" Grid.Column="1" Height="26"
+                                FontWeight="Normal" FontSize="14"/>
+                        </Grid>
+
+                        <CheckBox x:Name="checkBoxUseSystemProxy" Margin="5,25,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.SystemProxy}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <CheckBox x:Name="checkBoxEnableUdp" Margin="5,15,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.UDP}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <CheckBox x:Name="checkBoxRunAtStartup" Margin="5,15,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.RunAtStartup}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <CheckBox x:Name="checkBoxStartHidden" Margin="5,15,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.StartHidden}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <CheckBox x:Name="checkBoxAutoConnect" Margin="5,15,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.AutoConnect}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <CheckBox x:Name="checkBoxSendAnalytics" Margin="5,15,0,0" Foreground="White" 
+                            Content="{DynamicResource Lang.Window.Settings.SendAnalytics}"
+                            FontWeight="Normal" FontSize="14"/>
+
+                        <Border Margin="0,22,0,0"
+                                Padding="12"
+                                CornerRadius="10"
+                                BorderBrush="{StaticResource Color.LightGray}"
+                                BorderThickness="1">
+                            <StackPanel Spacing="8">
+                                <TextBlock Foreground="White"
+                                           Text="{DynamicResource Lang.AppRules.Title}"
+                                           FontWeight="SemiBold"
+                                           FontSize="15"/>
+
+                                <TextBlock Foreground="#C9C9C9"
+                                           Text="{DynamicResource Lang.AppRules.Description.Desktop}"
+                                           TextWrapping="Wrap"
+                                           FontSize="12"/>
+
+                                <Border Margin="0,6,0,0"
+                                        Padding="10"
+                                        CornerRadius="8"
+                                        BorderBrush="{StaticResource Color.LightGray}"
+                                        BorderThickness="1">
+                                    <StackPanel Spacing="6">
+                                        <TextBlock x:Name="textBlockAppRulesSummary"
+                                                   Foreground="White"
+                                                   TextWrapping="Wrap"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="13"/>
+
+                                        <TextBlock x:Name="textBlockAppRulesConfigHint"
+                                                   Foreground="#C9C9C9"
+                                                   TextWrapping="Wrap"
+                                                   FontSize="11"/>
+
+                                        <Button x:Name="buttonManageAppRules"
+                                                Width="170"
+                                                Height="30"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource Lang.AppRules.Manage}"
+                                                Theme="{StaticResource Button.Rectangle.Gray}"
+                                                FontWeight="Normal"
+                                                FontSize="12"
+                                                Foreground="White"
+                                                Click="OnManageAppRulesClick"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <StackPanel IsVisible="False">
+                                    <CheckBox x:Name="checkBoxEnableAppRules"/>
+                                    <Button x:Name="buttonRefreshDesktopApps"
+                                            Click="OnRefreshAppRulesClick"/>
+                                    <StackPanel x:Name="panelAppRulesItems"/>
+                                    <TextBlock x:Name="textBlockNoDiscoveredApps"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Port panel -->
+                <StackPanel x:Name="panelPort" Orientation="Vertical" VerticalAlignment="Center"
+                    Margin="20,0" IsVisible="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.ProxyPort}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxProxyPort"/>
+                    </Grid>
+
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.TunPort}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxTunPort"/>
+                    </Grid>
+
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.TestPort}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxTestPort"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- TUN panel -->
+                <StackPanel x:Name="panelTun" Orientation="Vertical" VerticalAlignment="Center"
+                    Margin="20,0" IsVisible="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.TunIp}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxTunDeviceIp"/>
+                    </Grid>
+
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.Dns}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxTunDns"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Log panel -->
+                <StackPanel x:Name="panelLog" Orientation="Vertical" VerticalAlignment="Center"
+                    Margin="20,0" IsVisible="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.LogLevel}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="comboBoxLogLevel" Grid.Column="1" Height="26"
+                            FontWeight="Normal" FontSize="14"/>
+                    </Grid>
+
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Foreground="White"
+                            Text="{DynamicResource Lang.Window.Settings.LogPath}"
+                            FontWeight="Normal" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
+                            FontWeight="Normal" FontSize="14"
+                            x:Name="textBoxLogPath"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Confirm / Cancel buttons -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" Margin="15,0">
+                    <Button Width="100" Height="30"
+                        Content="{DynamicResource Lang.Window.Settings.Confirm}" 
+                        Theme="{StaticResource Button.Rectangle.Green}" 
+                        FontWeight="Bold" FontSize="12" 
+                        Foreground="{StaticResource Color.Gray}"
+                        Click="OnConfirmButtonClick"/>
+                    <Button Width="100" Height="30" Margin="10,0,0,0"
+                        Content="{DynamicResource Lang.Window.Settings.Cancel}" 
+                        Theme="{StaticResource Button.Rectangle.Red}" 
+                        FontWeight="Bold" FontSize="12" 
+                        Foreground="{StaticResource Color.Gray}"
+                        Click="OnCancelButtonClick"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.Settings}" Grid.Column="0" 
+                    Width="34" Height="35" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Bottom" 
+                        Text="{DynamicResource Lang.Window.Settings.Title}"
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Top" 
+                        Text="Preferences"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- App-private files (Context.getFilesDir()) — diagnostic.log lives under
+         files/InvisibleGorilla-XRay/diagnostic.log because of AndroidAppStorage.ResolveAppRoot. -->
+    <files-path
+        name="igxray_internal"
+        path="." />
+
+    <!-- App-private cache (Context.getCacheDir()) — used for the temporary
+         "share log" snapshot so the FileProvider can hand it to email / Telegram. -->
+    <cache-path
+        name="igxray_cache"
+        path="." />
+
+    <!-- External app-specific cache. Used as a fallback target for "save log to device". -->
+    <external-cache-path
+        name="igxray_external_cache"
+        path="." />
+
+    <!-- External app-specific files dir. Same fallback purpose. -->
+    <external-files-path
+        name="igxray_external_files"
+        path="." />
+</paths>

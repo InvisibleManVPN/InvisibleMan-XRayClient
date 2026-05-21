@@ -1,0 +1,111 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.UpdateWindow"
+        Title="Invisible Gorilla XRay - Update"
+        Height="450" 
+        Width="350"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            
+            <Grid HorizontalAlignment="Center">
+                <Ellipse Width="120" Height="120" Fill="{StaticResource Color.LightGray}"/>
+
+                <!-- Checking status -->
+                <Grid Width="120" Height="120" IsVisible="True" x:Name="statusCheckForUpdate">
+                    <Rectangle Fill="{StaticResource Icon.Update}" Width="50" Height="50"/>
+                    <ProgressBar IsIndeterminate="True" Width="80" Height="80"
+                        Foreground="{StaticResource Color.Red}"
+                        Background="Transparent"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Update available -->
+                <Grid Width="120" Height="120" IsVisible="False" x:Name="statusUpdateAvailable">
+                    <Rectangle Fill="{StaticResource Icon.Update}" Width="50" Height="50"/>
+                    <Ellipse Width="20" Height="20" Fill="{StaticResource Color.Green}"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
+                </Grid>
+
+                <!-- Up to date -->
+                <Grid Width="120" Height="120" IsVisible="False" x:Name="statusUpdateUnavailable">
+                    <Rectangle Fill="{StaticResource Icon.Update}" Width="50" Height="50"/>
+                </Grid>
+
+                <!-- Error -->
+                <Grid Width="120" Height="120" IsVisible="False" x:Name="statusConnectionError">
+                    <Rectangle Fill="{StaticResource Icon.Update}" Width="50" Height="50"/>
+                    <Ellipse Width="20" Height="20" Fill="{StaticResource Color.Red}"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
+                </Grid>
+            </Grid>
+
+            <TextBlock Foreground="White" Margin="0,10" HorizontalAlignment="Center"
+                FontWeight="Light" FontSize="16"
+                x:Name="textUpdateStatus"
+                Text="{DynamicResource Lang.Window.Update.Checking}"/>
+
+            <!-- Cancel button (while checking) -->
+            <Button Width="200" Height="40" Margin="0,20"
+                Content="{DynamicResource Lang.Cancel}" Theme="{StaticResource Button.Rectangle.Red}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="True"
+                x:Name="buttonCancel" Click="OnCancelButtonClick"/>
+
+            <!-- Update button (when available) -->
+            <Button Width="200" Height="40" Margin="0,20"
+                Content="{DynamicResource Lang.Window.Update.Update}" Theme="{StaticResource Button.Rectangle.Green}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="False"
+                x:Name="buttonUpdate" Click="OnUpdateButtonClick"/>
+
+            <!-- Try again button (on error) -->
+            <Button Width="200" Height="40" Margin="0,20"
+                Content="{DynamicResource Lang.Window.Update.TryAgain}" Theme="{StaticResource Button.Rectangle.Red}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="False"
+                x:Name="buttonTryAgain" Click="OnTryAgainButtonClick"/>
+
+            <!-- Close button (up to date) -->
+            <Button Width="200" Height="40" Margin="0,20"
+                Content="{DynamicResource Lang.Window.Update.Close}" Theme="{StaticResource Button.Rectangle.Red}" 
+                FontWeight="Bold" FontSize="15" 
+                Foreground="{StaticResource Color.Gray}" IsVisible="False"
+                x:Name="buttonClose" Click="OnCloseButtonClick"/>
+        </StackPanel>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Color.LightGray}"
+                BoxShadow="0 2 4 0 #66000000">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
+                    Width="35" Height="35" Margin="0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Bottom" 
+                        Text="{DynamicResource Lang.Window.Update.Title}"
+                        FontWeight="Light" FontSize="20" Foreground="White"/>
+                    <TextBlock Margin="15,0,0,0" VerticalAlignment="Top" 
+                        Text="Check for updates"
+                        FontWeight="Light" FontSize="14" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

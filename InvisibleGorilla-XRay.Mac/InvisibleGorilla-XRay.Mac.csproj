@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>InvisibleGorillaXRay.Mac</RootNamespace>
+    <AssemblyName>InvisibleGorilla-XRay.Mac</AssemblyName>
+    <Nullable>enable</Nullable>
+    <NoWarn>0108;8600;8601;8602;8603;8604;8605;8618;8622;8625;8629;8762</NoWarn>
+    <RuntimeIdentifiers>osx-arm64;osx-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InvisibleGorilla.Core\InvisibleGorilla.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Native\TransparentProxyExtension\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

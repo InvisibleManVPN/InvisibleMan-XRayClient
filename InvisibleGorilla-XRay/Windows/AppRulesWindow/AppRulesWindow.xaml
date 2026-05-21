@@ -1,0 +1,244 @@
+<Window x:Class="InvisibleGorillaXRay.AppRulesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Invisible Gorilla XRay - App rules"
+        Height="720"
+        Width="560"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+
+    <Window.Background>
+        <StaticResource ResourceKey="Color.DarkGray"/>
+    </Window.Background>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Label Padding="0"
+                       Foreground="White"
+                       Content="{DynamicResource Lang.AppRules.Title}"
+                       FontFamily="{StaticResource SegoeUI}"
+                       FontWeight="SemiBold"
+                       FontSize="18"/>
+
+                <TextBlock Margin="0 6 0 0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.ManagerDescription}"
+                           TextWrapping="Wrap"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontSize="12"/>
+
+                <Border Margin="0 14 0 0"
+                        Padding="12"
+                        BorderBrush="{StaticResource Color.LightGray}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                    <StackPanel>
+                        <TextBlock Foreground="#C9C9C9"
+                                   Text="{DynamicResource Lang.AppRules.CurrentConfig}"
+                                   FontFamily="{StaticResource SegoeUI}"
+                                   FontSize="11"/>
+                        <TextBlock x:Name="textBlockCurrentConfig"
+                                   Margin="0 4 0 0"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"
+                                   FontFamily="{StaticResource SegoeUI}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Margin="0 18 0 0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.Template.Title}"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <Grid Margin="0 8 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="110"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox x:Name="comboBoxTemplate"
+                              Grid.Column="0"
+                              Height="28"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"
+                              FontFamily="{StaticResource SegoeUI}"
+                              FontSize="13"
+                              SelectionChanged="OnTemplateSelectionChanged"/>
+
+                    <Button x:Name="buttonNewTemplate"
+                            Grid.Column="2"
+                            Width="110"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.Template.New}"
+                            Style="{StaticResource Button.Rectangle.Gray}"
+                            FontFamily="{StaticResource SegoeUI}"
+                            FontSize="12"
+                            Foreground="White"
+                            Click="OnNewTemplateClick"/>
+
+                    <Button x:Name="buttonDeleteTemplate"
+                            Grid.Column="4"
+                            Width="110"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.Template.Delete}"
+                            Style="{StaticResource Button.Rectangle.Red}"
+                            FontFamily="{StaticResource SegoeUI}"
+                            FontSize="12"
+                            Foreground="White"
+                            Click="OnDeleteTemplateClick"/>
+                </Grid>
+
+                <TextBlock Margin="0 10 0 0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.Template.Name}"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontSize="11"/>
+
+                <TextBox x:Name="textBoxTemplateName"
+                         Margin="0 4 0 0"
+                         Height="28"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource TextBox.Default}"
+                         FontFamily="{StaticResource SegoeUI}"
+                         FontSize="13"
+                         TextChanged="OnTemplateNameChanged"/>
+
+                <TextBlock Margin="0 18 0 0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.Mode.Title}"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <TextBlock Margin="0 6 0 0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.Mode.Description}"
+                           TextWrapping="Wrap"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontSize="12"/>
+
+                <StackPanel Margin="0 8 0 0">
+                    <RadioButton x:Name="radioButtonAllApps"
+                                 Margin="0 0 0 8"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.AllApps}"
+                                 FontFamily="{StaticResource SegoeUI}"
+                                 FontSize="13"
+                                 Checked="OnModeChanged"/>
+
+                    <RadioButton x:Name="radioButtonBypassApps"
+                                 Margin="0 0 0 8"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.Bypass}"
+                                 FontFamily="{StaticResource SegoeUI}"
+                                 FontSize="13"
+                                 Checked="OnModeChanged"/>
+
+                    <RadioButton x:Name="radioButtonOnlySelectedApps"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.OnlySelected}"
+                                 FontFamily="{StaticResource SegoeUI}"
+                                 FontSize="13"
+                                 Checked="OnModeChanged"/>
+                </StackPanel>
+
+                <TextBlock Margin="0 18 0 0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.AppList.Title}"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <Grid Margin="0 8 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="textBoxSearch"
+                             Grid.Column="0"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Style="{StaticResource TextBox.Default}"
+                             FontFamily="{StaticResource SegoeUI}"
+                             FontSize="13"
+                             TextChanged="OnSearchTextChanged"/>
+
+                    <Button x:Name="buttonRefreshApps"
+                            Grid.Column="2"
+                            Width="150"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.RefreshApps}"
+                            Style="{StaticResource Button.Rectangle.Gray}"
+                            FontFamily="{StaticResource SegoeUI}"
+                            FontSize="12"
+                            Foreground="White"
+                            Click="OnRefreshAppsClick"/>
+                </Grid>
+
+                <Border Margin="0 10 0 0"
+                        Padding="8"
+                        BorderBrush="{StaticResource Color.LightGray}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <ScrollViewer MaxHeight="270"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="panelAppItems"/>
+                    </ScrollViewer>
+                </Border>
+
+                <TextBlock x:Name="textBlockNoApps"
+                           Margin="0 10 0 0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.NoAppsFound}"
+                           TextWrapping="Wrap"
+                           Visibility="Collapsed"
+                           FontFamily="{StaticResource SegoeUI}"
+                           FontSize="12"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Width="120"
+                    Height="30"
+                    Content="{DynamicResource Lang.Button.Confirm}"
+                    Style="{StaticResource Button.Rectangle.Green}"
+                    FontFamily="{StaticResource SegoeUI}"
+                    FontWeight="Bold"
+                    FontSize="12"
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnSaveButtonClick"/>
+
+            <Button Width="120"
+                    Height="30"
+                    Margin="10 0 0 0"
+                    Content="{DynamicResource Lang.Button.Cancel}"
+                    Style="{StaticResource Button.Rectangle.Red}"
+                    FontFamily="{StaticResource SegoeUI}"
+                    FontWeight="Bold"
+                    FontSize="12"
+                    Foreground="{StaticResource Color.Gray}"
+                    Click="OnCancelButtonClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

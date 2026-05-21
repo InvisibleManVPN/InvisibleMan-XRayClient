@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="0,0,-3,0"/>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ScrollBar">
+                <Grid Name="Root" Background="{TemplateBinding Background}">
+                    <Track Name="PART_Track"
+                           IsDirectionReversed="True"
+                           Minimum="{TemplateBinding Minimum}"
+                           Maximum="{TemplateBinding Maximum}"
+                           Value="{TemplateBinding Value, Mode=TwoWay}"
+                           ViewportSize="{TemplateBinding ViewportSize}"
+                           Orientation="{TemplateBinding Orientation}">
+                        <Track.DecreaseButton>
+                            <RepeatButton Name="PageUp" Focusable="False">
+                                <RepeatButton.Template>
+                                    <ControlTemplate>
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </RepeatButton.Template>
+                            </RepeatButton>
+                        </Track.DecreaseButton>
+                        <Track.IncreaseButton>
+                            <RepeatButton Name="PageDown" Focusable="False">
+                                <RepeatButton.Template>
+                                    <ControlTemplate>
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </RepeatButton.Template>
+                            </RepeatButton>
+                        </Track.IncreaseButton>
+                        <Track.Thumb>
+                            <Thumb Name="thumb" MinHeight="20">
+                                <Thumb.Template>
+                                    <ControlTemplate>
+                                        <Border Background="{StaticResource Color.BrightGray}"
+                                                CornerRadius="0"/>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track.Thumb>
+                    </Track>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:vertical">
+            <Setter Property="Width" Value="10"/>
+        </Style>
+        <Style Selector="^:horizontal">
+            <Setter Property="Height" Value="10"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Thumb#thumb">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="InvisibleGorillaXRay.Mac.App"
+             RequestedThemeVariant="Dark">
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Styles/Colors.axaml"/>
+                <ResourceInclude Source="/Assets/Icons.axaml"/>
+                <ResourceInclude Source="/Styles/Components/Buttons.axaml"/>
+                <ResourceInclude Source="/Styles/Components/TextBoxes.axaml"/>
+                <ResourceInclude Source="/Styles/Components/CheckBoxes.axaml"/>
+                <ResourceInclude Source="/Styles/Components/ComboBoxes.axaml"/>
+                <ResourceInclude Source="/Styles/Components/RadioButtons.axaml"/>
+                <ResourceInclude Source="/Styles/Components/ScrollViews.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>InvisibleGorillaXRay.Android</RootNamespace>
+    <AssemblyName>InvisibleGorilla-XRay.Android</AssemblyName>
+    <Nullable>enable</Nullable>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <ApplicationId>io.invisiblegorilla.xray</ApplicationId>
+    <ApplicationTitle>Invisible Gorilla XRay</ApplicationTitle>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <AndroidPackageFormats>apk</AndroidPackageFormats>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidManifest>AndroidManifest.xml</AndroidManifest>
+    <PublishTrimmed>false</PublishTrimmed>
+    <RunAOTCompilation>false</RunAOTCompilation>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Android" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InvisibleGorilla.Core\InvisibleGorilla.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Assets\Localization\*.axaml"
+                      Link="Assets\Localization\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidAsset Remove="Assets\Runtime\**\*.so" />
+    <AndroidNativeLibrary Remove="Assets\Runtime\**\*.so" />
+    <Content Remove="Assets\Runtime\**\*.so" />
+    <None Remove="Assets\Runtime\**\*.so" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Runtime\**\*.*"
+                  Exclude="Assets\Runtime\**\*.so"
+                  LogicalName="runtime/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidNativeLibrary Include="Assets\Runtime\arm64-v8a\libXRayCore.so"
+                          Condition="Exists('Assets\Runtime\arm64-v8a\libXRayCore.so')">
+      <Abi>arm64-v8a</Abi>
+    </AndroidNativeLibrary>
+    <AndroidNativeLibrary Include="Assets\Runtime\x86_64\libXRayCore.so"
+                          Condition="Exists('Assets\Runtime\x86_64\libXRayCore.so')">
+      <Abi>x86_64</Abi>
+    </AndroidNativeLibrary>
+  </ItemGroup>
+
+</Project>

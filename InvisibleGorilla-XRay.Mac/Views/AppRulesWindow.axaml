@@ -1,0 +1,201 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="InvisibleGorillaXRay.Mac.Views.AppRulesWindow"
+        Title="Invisible Gorilla XRay - App rules"
+        Width="560"
+        Height="720"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{StaticResource Color.DarkGray}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0">
+                <TextBlock Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.Title}"
+                           FontWeight="SemiBold"
+                           FontSize="18"/>
+
+                <TextBlock Margin="0,6,0,0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.ManagerDescription}"
+                           TextWrapping="Wrap"
+                           FontSize="12"/>
+
+                <Border Margin="0,14,0,0"
+                        Padding="12"
+                        BorderBrush="{StaticResource Color.LightGray}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                    <StackPanel>
+                        <TextBlock Foreground="#C9C9C9"
+                                   Text="{DynamicResource Lang.AppRules.CurrentConfig}"
+                                   FontSize="11"/>
+                        <TextBlock x:Name="textBlockCurrentConfig"
+                                   Margin="0,4,0,0"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Margin="0,18,0,0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.Template.Title}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <Grid Margin="0,8,0,0"
+                      ColumnDefinitions="*,8,110,8,110">
+                    <ComboBox x:Name="comboBoxTemplate"
+                              Grid.Column="0"
+                              Height="28"
+                              SelectionChanged="OnTemplateSelectionChanged"/>
+
+                    <Button x:Name="buttonNewTemplate"
+                            Grid.Column="2"
+                            Width="110"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.Template.New}"
+                            Theme="{StaticResource Button.Rectangle.Gray}"
+                            Foreground="White"
+                            FontSize="12"
+                            Click="OnNewTemplateClick"/>
+
+                    <Button x:Name="buttonDeleteTemplate"
+                            Grid.Column="4"
+                            Width="110"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.Template.Delete}"
+                            Theme="{StaticResource Button.Rectangle.Red}"
+                            Foreground="White"
+                            FontSize="12"
+                            Click="OnDeleteTemplateClick"/>
+                </Grid>
+
+                <TextBlock Margin="0,10,0,0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.Template.Name}"
+                           FontSize="11"/>
+
+                <TextBox x:Name="textBoxTemplateName"
+                         Margin="0,4,0,0"
+                         Height="28"
+                         VerticalContentAlignment="Center"
+                         TextChanged="OnTemplateNameChanged"/>
+
+                <TextBlock Margin="0,18,0,0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.Mode.Title}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <TextBlock Margin="0,6,0,0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.Mode.Description}"
+                           TextWrapping="Wrap"
+                           FontSize="12"/>
+
+                <StackPanel Margin="0,8,0,0"
+                            Spacing="8">
+                    <RadioButton x:Name="radioButtonAllApps"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.AllApps}"
+                                 FontSize="13"
+                                 IsChecked="True"
+                                 Checked="OnModeChanged"/>
+
+                    <RadioButton x:Name="radioButtonBypassApps"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.Bypass}"
+                                 FontSize="13"
+                                 Checked="OnModeChanged"/>
+
+                    <RadioButton x:Name="radioButtonOnlySelectedApps"
+                                 Foreground="White"
+                                 Content="{DynamicResource Lang.AppRules.Mode.OnlySelected}"
+                                 FontSize="13"
+                                 Checked="OnModeChanged"/>
+                </StackPanel>
+
+                <TextBlock Margin="0,18,0,0"
+                           Foreground="White"
+                           Text="{DynamicResource Lang.AppRules.AppList.Title}"
+                           FontWeight="SemiBold"
+                           FontSize="14"/>
+
+                <Grid Margin="0,8,0,0"
+                      ColumnDefinitions="*,8,150">
+                    <TextBox x:Name="textBoxSearch"
+                             Grid.Column="0"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             TextChanged="OnSearchTextChanged"/>
+
+                    <Button x:Name="buttonRefreshApps"
+                            Grid.Column="2"
+                            Width="150"
+                            Height="28"
+                            Content="{DynamicResource Lang.AppRules.RefreshApps}"
+                            Theme="{StaticResource Button.Rectangle.Gray}"
+                            Foreground="White"
+                            FontSize="12"
+                            Click="OnRefreshAppsClick"/>
+                </Grid>
+
+                <Border Margin="0,10,0,0"
+                        Padding="8"
+                        CornerRadius="8"
+                        BorderBrush="{StaticResource Color.LightGray}"
+                        BorderThickness="1">
+                    <ScrollViewer MaxHeight="270"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="panelAppItems"
+                                    Spacing="6"/>
+                    </ScrollViewer>
+                </Border>
+
+                <TextBlock x:Name="textBlockNoApps"
+                           Margin="0,10,0,0"
+                           Foreground="#C9C9C9"
+                           Text="{DynamicResource Lang.AppRules.NoAppsFound}"
+                           TextWrapping="Wrap"
+                           IsVisible="False"
+                           FontSize="12"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="10">
+            <Button Width="120"
+                    Height="30"
+                    Content="{DynamicResource Lang.Window.Settings.Confirm}"
+                    Theme="{StaticResource Button.Rectangle.Green}"
+                    Foreground="{StaticResource Color.Gray}"
+                    FontWeight="Bold"
+                    FontSize="12"
+                    Click="OnSaveButtonClick"/>
+
+            <Button Width="120"
+                    Height="30"
+                    Content="{DynamicResource Lang.Window.Settings.Cancel}"
+                    Theme="{StaticResource Button.Rectangle.Red}"
+                    Foreground="{StaticResource Color.Gray}"
+                    FontWeight="Bold"
+                    FontSize="12"
+                    Click="OnCancelButtonClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

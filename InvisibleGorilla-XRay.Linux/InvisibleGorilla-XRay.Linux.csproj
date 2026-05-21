@@ -1,0 +1,90 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>InvisibleGorillaXRay.Linux</RootNamespace>
+    <AssemblyName>InvisibleGorilla-XRay.Linux</AssemblyName>
+    <Nullable>enable</Nullable>
+    <NoWarn>0108;8600;8601;8602;8603;8604;8605;8618;8622;8625;8629;8762</NoWarn>
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
+    <UseAppHost>true</UseAppHost>
+    <ApplicationManifest></ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InvisibleGorilla.Core\InvisibleGorilla.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Reuse Avalonia views/styles/assets from the Mac project to keep the GUI in sync. -->
+  <ItemGroup>
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\MainWindow.axaml.cs" Link="Views\MainWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\ServerWindow.axaml.cs" Link="Views\ServerWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\SettingsWindow.axaml.cs" Link="Views\SettingsWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\AppRulesWindow.axaml.cs" Link="Views\AppRulesWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\AboutWindow.axaml.cs" Link="Views\AboutWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\UpdateWindow.axaml.cs" Link="Views\UpdateWindow.axaml.cs" />
+    <Compile Include="..\InvisibleGorilla-XRay.Mac\Views\PolicyWindow.axaml.cs" Link="Views\PolicyWindow.axaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\MainWindow.axaml" Link="Views\MainWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\ServerWindow.axaml" Link="Views\ServerWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\SettingsWindow.axaml" Link="Views\SettingsWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\AppRulesWindow.axaml" Link="Views\AppRulesWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\AboutWindow.axaml" Link="Views\AboutWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\UpdateWindow.axaml" Link="Views\UpdateWindow.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Views\PolicyWindow.axaml" Link="Views\PolicyWindow.axaml" />
+
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Colors.axaml" Link="Styles\Colors.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\Buttons.axaml" Link="Styles\Components\Buttons.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\CheckBoxes.axaml" Link="Styles\Components\CheckBoxes.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\ComboBoxes.axaml" Link="Styles\Components\ComboBoxes.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\RadioButtons.axaml" Link="Styles\Components\RadioButtons.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\ScrollViews.axaml" Link="Styles\Components\ScrollViews.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Styles\Components\TextBoxes.axaml" Link="Styles\Components\TextBoxes.axaml" />
+
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Assets\Icons.axaml" Link="Assets\Icons.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Assets\Localization\en-US.axaml" Link="Assets\Localization\en-US.axaml" />
+    <AvaloniaResource Include="..\InvisibleGorilla-XRay.Mac\Assets\Localization\ru-RU.axaml" Link="Assets\Localization\ru-RU.axaml" />
+  </ItemGroup>
+
+  <!--
+    AvaloniaResource only embeds the XAML; the Avalonia source generator that emits
+    InitializeComponent / strongly-typed field accessors (e.g. buttonRun, statusStop)
+    walks <AdditionalFiles SourceItemGroup="AvaloniaXaml">. Linked XAML files must
+    be exposed with the same SourceItemGroup metadata so the generator picks them up.
+  -->
+  <ItemGroup>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\MainWindow.axaml" Link="Views\MainWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\ServerWindow.axaml" Link="Views\ServerWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\SettingsWindow.axaml" Link="Views\SettingsWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\AppRulesWindow.axaml" Link="Views\AppRulesWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\AboutWindow.axaml" Link="Views\AboutWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\UpdateWindow.axaml" Link="Views\UpdateWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\InvisibleGorilla-XRay.Mac\Views\PolicyWindow.axaml" Link="Views\PolicyWindow.axaml">
+      <SourceItemGroup>AvaloniaXaml</SourceItemGroup>
+    </AdditionalFiles>
+  </ItemGroup>
+
+</Project>

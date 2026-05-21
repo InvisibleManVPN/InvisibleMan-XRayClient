@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource Color.LightGray}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Color.BrightGray}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ComboBox">
+                <Grid ColumnDefinitions="*,20">
+                    <Border Name="Background" Grid.ColumnSpan="2"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                    <ContentPresenter Name="ContentPresenter"
+                                      Grid.Column="0"
+                                      Margin="5,3,0,3"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding SelectionBoxItem}"/>
+
+                    <Path Name="Arrow" Grid.Column="1"
+                          Data="M0,0 L4,4 L8,0"
+                          Fill="White"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"/>
+
+                    <Popup Name="PART_Popup"
+                           IsLightDismissEnabled="True"
+                           IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                           MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                           Placement="Bottom">
+                        <Border Background="{StaticResource Color.LightGray}"
+                                BorderBrush="{StaticResource Color.BrightGray}"
+                                BorderThickness="1.5"
+                                Margin="0,1,0,0">
+                            <ScrollViewer Margin="4">
+                                <ItemsPresenter Name="PART_ItemsPresenter"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#Background">
+            <Setter Property="Background" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border#Background">
+            <Setter Property="Background" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:disabled">
+            <Setter Property="Foreground" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:disabled /template/ Border#Background">
+            <Setter Property="Opacity" Value="0.3"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ComboBoxItem">
+                <Border Name="border"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}">
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.BrightGray}"/>
+        </Style>
+        <Style Selector="^:selected /template/ Border#border">
+            <Setter Property="Background" Value="{StaticResource Color.Blue}"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

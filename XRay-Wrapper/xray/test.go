@@ -25,6 +25,6 @@ func RunTest(path string, port int, logLevel string, logPath string, isSocks boo
 	config := LoadConfig(format, file)
 	fmt.Println("config:", C.GoString(config))
 
-	StartServer(config, port, cLogLevel, cLogPath, isSocks, isUdpEnabled)
+	StartServer(config, port, cLogLevel, cLogPath, isSocks, isUdpEnabled, nil, nil)
 	fmt.Println("end of test.")
 }

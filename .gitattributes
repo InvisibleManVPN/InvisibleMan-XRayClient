@@ -1,0 +1,25 @@
+# Force LF for shell scripts and other POSIX-sensitive text files so CRLF
+# line endings never sneak in via Windows editors or `core.autocrlf=true`.
+# This is required for build.sh and any other *.sh helpers to run on Linux.
+*.sh              text eol=lf
+*.bash            text eol=lf
+build.sh          text eol=lf
+install.sh        text eol=lf
+run-igxray        text eol=lf
+
+# Linux desktop integration files are plain-text with LF endings.
+*.desktop         text eol=lf
+*.service         text eol=lf
+*.policy          text eol=lf
+
+# Avalonia / .NET text assets — keep cross-platform friendly defaults.
+*.cs              text
+*.csproj          text
+*.sln             text
+*.axaml           text
+*.xaml            text
+*.xml             text
+*.json            text
+*.yaml            text
+*.yml             text
+*.md              text
