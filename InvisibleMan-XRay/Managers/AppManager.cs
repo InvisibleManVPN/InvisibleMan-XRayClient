@@ -57,29 +57,12 @@ namespace InvisibleManXRay.Managers
                 if (IsThereAnyArg())
                     PipeManager.SignalOpenedApp(args);
                 else
-                    ShowAppAlreadyRunningMessageBox();
+                    PipeManager.SignalShowWindow();
                 
                 Environment.Exit(0);
             }
 
             bool IsThereAnyArg() => args.Length != 0;
-
-            void ShowAppAlreadyRunningMessageBox()
-            {
-                SettingsHandler settingsHandler = new SettingsHandler();
-                
-                LocalizationHandler localizationHandler = new LocalizationHandler();
-                localizationHandler.Setup(
-                    getCurrentLanguage: settingsHandler.UserSettings.GetLanguage
-                );
-
-                LocalizationService localizationService = new LocalizationService();
-                localizationService.Setup(
-                    getLocalizationResource: localizationHandler.GetLocalizationResource
-                );
-
-                MessageBox.Show(localizationService.GetTerm(Localization.APP_ALREADY_RUNNING));
-            }
         }
 
         private void SetApplicationCurrentDirectory()

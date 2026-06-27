@@ -14,9 +14,11 @@
     <Nullable>enable</Nullable>
     <NoWarn>0108;8600;8601;8602;8603;8604;8618;8625;8629;8762</NoWarn>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Assets/Icon.ico</ApplicationIcon>
     <PublishSingleFile>true</PublishSingleFile>
     <_SuppressWpfTrimError>true</_SuppressWpfTrimError>
+    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>partial</TrimMode>
@@ -28,7 +30,6 @@
     <PackageReference Include="QRCoder.Xaml" Version="1.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.0" />
-    <PackageReference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>
