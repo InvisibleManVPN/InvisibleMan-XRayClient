@@ -44,6 +44,7 @@ namespace InvisibleManXRay.Managers.Initializers
             SetupNotifyHandler();
             SetupDeepLinkHandler();
             SetupLocalizationHandler();
+            SetupPipeManager();
 
             void SetupProcessHandler()
             {
@@ -179,6 +180,11 @@ namespace InvisibleManXRay.Managers.Initializers
                 HandlersManager.GetHandler<LocalizationHandler>().Setup(
                     getCurrentLanguage: settingsHandler.UserSettings.GetLanguage
                 );
+            }
+
+            void SetupPipeManager()
+            {
+                PipeManager.OnShowWindow += OpenApplication;
             }
         }
         

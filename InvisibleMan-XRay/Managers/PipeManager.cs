@@ -9,8 +9,10 @@ namespace InvisibleManXRay.Managers
     public static class PipeManager
     {
         private const string PIPE_NAME = "InvisibleManXRayPipe";
+        private const string SHOW_WINDOW_COMMAND = "--show-window";
 
         public static Action<string> OnReceiveArg = delegate{};
+        public static Action OnShowWindow = delegate{};
 
         public static void ListenForPipes()
         {
@@ -23,7 +25,10 @@ namespace InvisibleManXRay.Managers
                     StreamReader reader = new StreamReader(pipeServer);
                     string message = reader.ReadToEnd();
                     Application.Current.Dispatcher.BeginInvoke(new Action(delegate {
-                        OnReceiveArg.Invoke(message);
+                        if (message.Trim() == SHOW_WINDOW_COMMAND)
+                            OnShowWindow.Invoke();
+                        else
+                            OnReceiveArg.Invoke(message);
                     }));
                     
                     pipeServer.Close();
@@ -39,6 +44,17 @@ namespace InvisibleManXRay.Managers
 
             StreamWriter writer = new StreamWriter(pipeClient);
             writer.WriteLine(args[0]);
+            writer.Flush();
+            writer.Close();
+        }
+
+        public static void SignalShowWindow()
+        {
+            NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", PIPE_NAME);
+            pipeClient.Connect();
+
+            StreamWriter writer = new StreamWriter(pipeClient);
+            writer.WriteLine(SHOW_WINDOW_COMMAND);
             writer.Flush();
             writer.Close();
         }
