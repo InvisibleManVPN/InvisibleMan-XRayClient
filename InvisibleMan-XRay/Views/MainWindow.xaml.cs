@@ -314,23 +314,14 @@ namespace InvisibleManXRay
         }
 
         /// <summary>
-        /// Мост ViewModel → legacy визуальное дерево (status*/button* видимость).
-        /// Вызывается при смене ConnectionState в VM.
+        /// Мост ViewModel → legacy визуальное дерево.
+        /// Шаг 4 (MVVM): видимость Hero-зоны полностью declarative (Binding State +
+        /// ConnectionStateToVisibilityConverter в XAML), поэтому здесь остаётся
+        /// только побочная логика смены состояния (анимации/фокус — по мере надобности).
         /// </summary>
         private void ApplyVisualState(MainViewModel.ConnectionState state)
         {
-            switch (state)
-            {
-                case MainViewModel.ConnectionState.Connected:
-                    ShowRunStatus();
-                    break;
-                case MainViewModel.ConnectionState.Connecting:
-                    ShowWaitForRunStatus();
-                    break;
-                default:
-                    ShowStopStatus();
-                    break;
-            }
+            // No-op: visibility управляется биндингами на ViewModel.State.
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -382,26 +373,8 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
-        private void OnRunButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Шаг 4 (MVVM): логика в MainViewModel.ConnectAsyncCommand.
-            if (runWorker.IsBusy)
-                return;
-
-            ViewModel?.ConnectAsyncCommand.Execute(null);
-        }
-
-        private void OnStopButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Шаг 4 (MVVM): логика в MainViewModel.StopCommand.
-            ViewModel?.StopCommand.Execute(null);
-        }
-
-        private void OnCancelButtonClick(object sender, RoutedEventArgs e)
-        {
-            // Шаг 4 (MVVM): логика в MainViewModel.CancelConnectingCommand.
-            ViewModel?.CancelConnectingCommand.Execute(null);
-        }
+        // NOTE (Шаг 4, MVVM): OnRunButtonClick/OnStopButtonClick/OnCancelButtonClick удалены —
+        // XAML биндится напрямую на ToggleConnectionCommand (единая точка входа Hero-кнопки).
 
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
         {
@@ -450,8 +423,9 @@ namespace InvisibleManXRay
         {
             if (!isNeedToAutoConnect.Invoke())
                 return;
-            
-            OnRunButtonClick(null, null);
+
+            // Шаг 4 (MVVM): автоподключение идёт через команду VM, как и клик по Hero-кнопке.
+            ViewModel?.ConnectAsyncCommand.Execute(null);
         }
 
         private void TryOpenPolicyWindow()
@@ -495,38 +469,8 @@ namespace InvisibleManXRay
             aboutWindow.ShowDialog();
         }
 
-        private void ShowRunStatus()
-        {
-            statusRun.Visibility = Visibility.Visible;
-            statusStop.Visibility = Visibility.Hidden;
-            statusWaitForRun.Visibility = Visibility.Hidden;
-
-            buttonStop.Visibility = Visibility.Visible;
-            buttonCancel.Visibility = Visibility.Hidden;
-            buttonRun.Visibility = Visibility.Hidden;
-        }
-
-        private void ShowStopStatus()
-        {
-            statusStop.Visibility = Visibility.Visible;
-            statusRun.Visibility = Visibility.Hidden;
-            statusWaitForRun.Visibility = Visibility.Hidden;
-
-            buttonRun.Visibility = Visibility.Visible;
-            buttonCancel.Visibility = Visibility.Hidden;
-            buttonStop.Visibility = Visibility.Hidden;
-        }
-
-        private void ShowWaitForRunStatus()
-        {
-            statusWaitForRun.Visibility = Visibility.Visible;
-            statusStop.Visibility = Visibility.Hidden;
-            statusRun.Visibility = Visibility.Hidden;
-
-            buttonCancel.Visibility = Visibility.Visible;
-            buttonRun.Visibility = Visibility.Hidden;
-            buttonStop.Visibility = Visibility.Hidden;
-        }
+        // NOTE (Шаг 4, MVVM): ShowRunStatus/ShowStopStatus/ShowWaitForRunStatus удалены —
+        // видимость status*/button* теперь declarative-биндинги на ViewModel.State.
 
         protected override void OnClosing(CancelEventArgs e)
         {

@@ -6,6 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:InvisibleManXRay"
         xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
+        xmlns:Converters="clr-namespace:InvisibleManXRay.Converters"
         mc:Ignorable="d"
         Title="Invisible Man XRay"
         Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -26,6 +27,11 @@
         Legacy-контент (статус, кнопки Run/Stop/Cancel, footer-иконки, Broadcast)
         перенесён в страницу «Профиль» без изменения code-behind — поведение 1:1.
     -->
+
+    <ui:UiWindow.Resources>
+        <!-- Шаг 4 (MVVM): Hero-зона биндится на MainViewModel.State -->
+        <Converters:ConnectionStateToVisibilityConverter x:Key="ConnectionStateToVisibility"/>
+    </ui:UiWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -172,7 +178,7 @@
 
                                 <StackPanel Orientation="Vertical"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Visibility="Visible" x:Name="statusStop">
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Disconnected}" x:Name="statusStop">
                                     <Grid Width="120" Height="120">
                                         <Ellipse Width="120" Height="120"
                                                  Fill="{DynamicResource Accent.DangerSoftBrush}"/>
@@ -192,7 +198,7 @@
 
                                 <StackPanel Orientation="Vertical"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Visibility="Hidden" x:Name="statusWaitForRun">
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Connecting}" x:Name="statusWaitForRun">
                                     <Grid Width="120" Height="120">
                                         <Ellipse Width="120" Height="120"
                                                  Fill="{DynamicResource Accent.TrafficSoftBrush}"/>
@@ -213,7 +219,7 @@
 
                                 <StackPanel Orientation="Vertical"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Visibility="Hidden" x:Name="statusRun">
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Connected}" x:Name="statusRun">
                                     <Grid Width="120" Height="120">
                                         <Ellipse Width="120" Height="120"
                                                  Fill="{DynamicResource Accent.SuccessSoftBrush}"/>
@@ -262,22 +268,25 @@
                                     Content="{DynamicResource Lang.Run}"
                                     Style="{StaticResource Premium.HeroButton}"
                                     Tag="Disconnected"
-                                    Visibility="Visible"
-                                    Click="OnRunButtonClick" x:Name="buttonRun"/>
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Disconnected}"
+                                    IsEnabled="{Binding IsActionEnabled}"
+                                    Command="{Binding ToggleConnectionCommand}" x:Name="buttonRun"/>
 
                                 <Button Width="220" Height="50"
                                     Content="{DynamicResource Lang.Cancel}"
                                     Style="{StaticResource Premium.HeroButton}"
                                     Tag="Connecting"
-                                    Visibility="Hidden"
-                                    Click="OnCancelButtonClick" x:Name="buttonCancel"/>
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Connecting}"
+                                    IsEnabled="{Binding IsActionEnabled}"
+                                    Command="{Binding ToggleConnectionCommand}" x:Name="buttonCancel"/>
 
                                 <Button Width="220" Height="50"
                                     Content="{DynamicResource Lang.Stop}"
                                     Style="{StaticResource Premium.HeroButton}"
                                     Tag="Connected"
-                                    Visibility="Hidden"
-                                    Click="OnStopButtonClick" x:Name="buttonStop"/>
+                                    Visibility="{Binding State, Converter={StaticResource ConnectionStateToVisibility}, ConverterParameter=Connected}"
+                                    IsEnabled="{Binding IsActionEnabled}"
+                                    Command="{Binding ToggleConnectionCommand}" x:Name="buttonStop"/>
                             </StackPanel>
                         </Grid>
 
