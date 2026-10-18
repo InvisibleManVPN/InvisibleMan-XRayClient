@@ -1,8 +1,9 @@
-namespace InvisibleManXRay.Managers.Initializers
+﻿namespace InvisibleManXRay.Managers.Initializers
 {
     using Models;
     using Managers;
     using Services;
+    using Services.UI;
     using Handlers;
 
     public class ServicesInitializer
@@ -15,6 +16,8 @@ namespace InvisibleManXRay.Managers.Initializers
 
             ServicesManager.AddService(new LocalizationService());
             ServicesManager.AddService(new AnalyticsService());
+            // Шаг 4 (MVVM): единый сервис конвейера подключения для MainViewModel.
+            ServicesManager.AddService(new ConnectionService());
         }
 
         public void Setup(HandlersManager handlersManager)

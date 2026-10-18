@@ -1,0 +1,109 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        PREMIUM THEME TOKENS
+        Все цвета UI используются через DynamicResource, чтобы Light/Dark
+        (SystemThemeWatcher) и ребрендинг не требовали правок во View.
+
+        Акценты по дизайн-системе:
+          Success  #00FF88  — подключение активно / низкий пинг
+          Traffic  #00D4FF  — график трафика / informational
+          Danger   #FF3B5C  — остановка / высокий пинг / ошибки
+    -->
+
+    <!-- ===== Accent brushes ===== -->
+    <Color x:Key="Accent.Success.Color">#00FF88</Color>
+    <Color x:Key="Accent.Traffic.Color">#00D4FF</Color>
+    <Color x:Key="Accent.Danger.Color">#FF3B5C</Color>
+    <Color x:Key="Accent.Warning.Color">#FCB448</Color>
+
+    <SolidColorBrush x:Key="Accent.SuccessBrush" Color="{DynamicResource Accent.Success.Color}"/>
+    <SolidColorBrush x:Key="Accent.TrafficBrush" Color="{DynamicResource Accent.Traffic.Color}"/>
+    <SolidColorBrush x:Key="Accent.DangerBrush" Color="{DynamicResource Accent.Danger.Color}"/>
+    <SolidColorBrush x:Key="Accent.WarningBrush" Color="{DynamicResource Accent.Warning.Color}"/>
+
+    <!-- Soft variants (glow / hover overlays) -->
+    <SolidColorBrush x:Key="Accent.SuccessSoftBrush" Color="#00FF88" Opacity="0.18"/>
+    <SolidColorBrush x:Key="Accent.DangerSoftBrush" Color="#FF3B5C" Opacity="0.18"/>
+    <SolidColorBrush x:Key="Accent.TrafficSoftBrush" Color="#00D4FF" Opacity="0.18"/>
+
+    <!-- ===== Surfaces (Mica-friendly, semi-transparent cards) ===== -->
+    <SolidColorBrush x:Key="SurfaceCardBrush" Color="#FFFFFF" Opacity="0.06"/>
+    <SolidColorBrush x:Key="SurfaceCardHoverBrush" Color="#FFFFFF" Opacity="0.10"/>
+    <SolidColorBrush x:Key="SurfaceAltBrush" Color="#FFFFFF" Opacity="0.03"/>
+    <SolidColorBrush x:Key="StrokeSubtleBrush" Color="#FFFFFF" Opacity="0.08"/>
+
+    <!-- ===== Text ===== -->
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F3F3F3"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#A0A0A0"/>
+
+    <!-- ===== Geometry / corner radius tokens ===== -->
+    <CornerRadius x:Key="Radius.Card">12</CornerRadius>
+    <CornerRadius x:Key="Radius.SmallCard">8</CornerRadius>
+    <CornerRadius x:Key="Radius.Button">25</CornerRadius>
+
+    <!-- ===== Motion tokens (200–300 ms, CubicEase) ===== -->
+    <Duration x:Key="Motion.Fast">0:0:0.200</Duration>
+    <Duration x:Key="Motion.Normal">0:0:0.250</Duration>
+    <Duration x:Key="Motion.Slow">0:0:0.300</Duration>
+
+    <!-- NOTE: easing/scale создаются per-element в триггерах — общие Frozen-экземпляры в ресурсах недопустимы -->
+
+    <!-- ===== Glow effect presets ===== -->
+    <DropShadowEffect x:Key="Glow.Success" Color="{DynamicResource Accent.Success.Color}"
+                      BlurRadius="24" ShadowDepth="0" Opacity="0.55"/>
+    <DropShadowEffect x:Key="Glow.Danger" Color="{DynamicResource Accent.Danger.Color}"
+                      BlurRadius="24" ShadowDepth="0" Opacity="0.55"/>
+    <DropShadowEffect x:Key="Glow.Traffic" Color="{DynamicResource Accent.Traffic.Color}"
+                      BlurRadius="20" ShadowDepth="0" Opacity="0.45"/>
+    <DropShadowEffect x:Key="Glow.Card" Color="#000000"
+                      BlurRadius="16" ShadowDepth="4" Direction="270" Opacity="0.35"/>
+
+    <!-- ===== Noise overlay brush (4%) ===== -->
+    <!-- Tileable 128x128 noise PNG rendered at 4% opacity over the Mica backdrop -->
+    <ImageBrush x:Key="NoiseOverlayBrush"
+                ImageSource="/Assets/noise.png"
+                Stretch="None"
+                TileMode="Tile"
+                Viewport="0,0,128,128"
+                ViewportUnits="Absolute"
+                Opacity="0.04"/>
+
+    <!-- ===== Reusable card style ===== -->
+    <Style x:Key="Premium.Card" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource SurfaceCardBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource StrokeSubtleBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{DynamicResource Radius.Card}"/>
+        <Setter Property="Padding" Value="16"/>
+    </Style>
+
+    <!-- ===== Pill icon-button (About / Update / Settings / Bug / GitHub) ===== -->
+    <Style x:Key="Premium.IconButton" TargetType="Button">
+        <Setter Property="Width" Value="34"/>
+        <Setter Property="Height" Value="34"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{DynamicResource SurfaceCardBrush}"
+                            BorderBrush="{DynamicResource StrokeSubtleBrush}"
+                            BorderThickness="1"
+                            CornerRadius="17">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource SurfaceCardHoverBrush}"/>
+                            <Setter TargetName="Root" Property="Effect" Value="{DynamicResource Glow.Traffic}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

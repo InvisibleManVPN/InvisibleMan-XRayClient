@@ -23,12 +23,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- WPF-UI: Modern WPF controls, Mica backdrop, TitleBar, NavigationMenu, Snackbar, SystemThemeWatcher -->
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <!-- WPF-UI.Tray: NotifyIcon + tray context menu (replaces WinForms NotifyIcon) -->
+    <PackageReference Include="WPF-UI.Tray" Version="3.0.5" />
+    <!-- LiveCharts2: traffic chart with SkiaSharp rendering -->
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc3.3" />
+    <!-- MVVM Toolkit: ObservableObject, RelayCommand, Messaging -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
     <PackageReference Include="NetCore5.0.Microsoft.Expression.Drawing" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="QRCoder.Xaml" Version="1.6.0" />
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Management" Version="7.0.0" />
-    <PackageReference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>

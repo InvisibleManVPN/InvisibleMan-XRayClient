@@ -1,0 +1,188 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================ -->
+    <!--  PREMIUM NAVIGATION PILLET (WPF-UI NavigationView item)     -->
+    <!--  Selected pill: Accent.Success glow, 250ms CubicEase        -->
+    <!-- ============================================================ -->
+    <Style x:Key="Premium.NavItem" TargetType="ListBoxItem">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="8 3 8 3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Root"
+                            CornerRadius="8"
+                            Padding="12 9"
+                            Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- selection pill -->
+                            <Border x:Name="Pill" Grid.Column="0"
+                                    Width="3" Height="16"
+                                    CornerRadius="2"
+                                    Margin="-8 0 10 0"
+                                    VerticalAlignment="Center"
+                                    Opacity="0"
+                                    Background="{DynamicResource Accent.SuccessBrush}"/>
+
+                            <ContentPresenter Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource SurfaceCardHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Pill" Property="Opacity" Value="1"/>
+                            <Setter TargetName="Root" Property="Background" Value="{DynamicResource SurfaceCardBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============================================================ -->
+    <!--  HERO CONNECT BUTTON — 3 states + hover glow + scale 1.03   -->
+    <!--  DataContext expected: MainViewModel.ConnectionState enum   -->
+    <!--  via Tag binding (Disconnected / Connecting / Connected)    -->
+    <!-- ============================================================ -->
+    <Style x:Key="Premium.HeroButton" TargetType="Button">
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="MinWidth" Value="220"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontFamily" Value="{StaticResource SegoeUI}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <!-- Контрастный текст поверх ярких акцентов (читается в Light и Dark) -->
+        <Setter Property="Foreground" Value="#0B1220"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <!-- glow halo behind the button -->
+                        <Border x:Name="GlowHalo"
+                                CornerRadius="25"
+                                Background="{DynamicResource Accent.SuccessSoftBrush}"
+                                Opacity="0"/>
+
+                        <Border x:Name="Chrome"
+                                CornerRadius="25"
+                                Padding="24 0"
+                                Background="{DynamicResource Accent.SuccessBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- hover: glow + scale 1.03, 250ms CubicEase -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Name="HoverIn">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GlowHalo"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleX">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1.03">
+                                                <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.ScaleY">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1.03">
+                                                <EasingDoubleKeyFrame.EasingFunction><CubicEase EasingMode="EaseOut"/></EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <StopStoryboard BeginStoryboardName="HoverIn"/>
+                                <BeginStoryboard Name="HoverOut">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GlowHalo"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                         To="1" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                                         To="1" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <!-- STATE: Connecting — Traffic accent, no pointer while busy -->
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Value="Connecting">
+                            <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Accent.TrafficBrush}"/>
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </DataTrigger>
+
+                        <!-- STATE: Connected — Danger accent (click = disconnect) -->
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Value="Connected">
+                            <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Accent.DangerBrush}"/>
+                        </DataTrigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Chrome" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============================================================ -->
+    <!--  SERVER CARD — hover glow, radius 12                         -->
+    <!-- ============================================================ -->
+    <Style x:Key="Premium.ServerCard" TargetType="Border" BasedOn="{StaticResource Premium.Card}">
+        <Setter Property="Padding" Value="14 12"/>
+        <Setter Property="Margin" Value="0 0 0 10"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)"
+                                         To="1" Duration="0:0:0.2"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
