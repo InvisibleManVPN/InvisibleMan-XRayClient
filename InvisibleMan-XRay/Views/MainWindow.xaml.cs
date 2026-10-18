@@ -8,12 +8,17 @@ namespace InvisibleManXRay
     using Models;
     using Values;
     using Services;
+    using Services.UI;
+    using ViewModels;
     using Services.Analytics.General;
     using Services.Analytics.MainWindow;
 
     public partial class MainWindow : UiWindow
     {
         private bool isRerunRequest;
+
+        /// <summary>MVVM-модель (Шаг 4). Hero-кнопка, статус, команды окон.</summary>
+        public MainViewModel ViewModel { get; private set; }
 
         private Func<bool> isNeedToShowPolicyWindow;
         private Func<bool> shouldStartHidden;
@@ -47,6 +52,7 @@ namespace InvisibleManXRay
         public MainWindow()
         {
             InitializeComponent();
+            InitializeViewModel();
             InitializeNavigation();
             InitializeRunWorker();
             InitializeUpdateWorker();
@@ -84,7 +90,7 @@ namespace InvisibleManXRay
 
                 runWorker.DoWork += (sender, e) => {
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowWaitForRunStatus();
+                        ViewModel.State = MainViewModel.ConnectionState.Connecting;
                     }));
 
                     Status configStatus = loadConfig.Invoke();
@@ -93,7 +99,7 @@ namespace InvisibleManXRay
                     {
                         Dispatcher.BeginInvoke(new Action(delegate {
                             HandleError();
-                            ShowStopStatus();
+                            ViewModel.State = MainViewModel.ConnectionState.Disconnected;
                         }));
 
                         return;
@@ -111,7 +117,7 @@ namespace InvisibleManXRay
                                 MessageBoxButton.OK, 
                                 MessageBoxImage.Error
                             );
-                            ShowStopStatus();
+                            ViewModel.State = MainViewModel.ConnectionState.Disconnected;
                         }));
 
                         return;
@@ -121,7 +127,7 @@ namespace InvisibleManXRay
                         if (modeStatus.SubCode == SubCode.CANCELED)
                         {
                             Dispatcher.BeginInvoke(new Action(delegate {
-                                ShowStopStatus();
+                                ViewModel.State = MainViewModel.ConnectionState.Disconnected;
                             }));
 
                             return;
@@ -129,13 +135,13 @@ namespace InvisibleManXRay
                     }
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowRunStatus();
+                        ViewModel.State = MainViewModel.ConnectionState.Connected;
                     }));
 
                     onRunServer.Invoke(configStatus.Content.ToString());
 
                     Dispatcher.BeginInvoke(new Action(delegate {
-                        ShowStopStatus();
+                        ViewModel.State = MainViewModel.ConnectionState.Disconnected;
                     }));
 
                     void HandleError()
@@ -274,7 +280,57 @@ namespace InvisibleManXRay
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
 
+            InitializeViewModelDelegates();
+
             UpdateUI();
+        }
+
+        /// <summary>
+        /// Шаг 4 (MVVM): создаём MainViewModel поверх ConnectionService (если ещё нет)
+        /// и инициализируем его делегатами после Setup(). DataContext — для bindings в XAML.
+        /// </summary>
+        private void InitializeViewModel()
+        {
+            ConnectionService connectionService = ServiceLocator.Get<ConnectionService>();
+
+            ViewModel = new MainViewModel(connectionService);
+            DataContext = ViewModel;
+
+            // Legacy-визуалы подписаны на состояние VM: единый источник истины.
+            ViewModel.StateChangedExternally += (sender, state) => ApplyVisualState(state);
+        }
+
+        private void InitializeViewModelDelegates()
+        {
+            ViewModel.Initialize(
+                getConfig: getConfig,
+                openServerWindow: () => OpenServerWindow(),
+                openSettingsWindow: () => OpenSettingsWindow(),
+                openUpdateWindow: () => OpenUpdateWindow(),
+                openAboutWindow: () => OpenAboutWindow(),
+                onGitHubClick: () => onGitHubClick.Invoke(),
+                onBugReportingClick: () => onBugReportingClick.Invoke()
+            );
+        }
+
+        /// <summary>
+        /// Мост ViewModel → legacy визуальное дерево (status*/button* видимость).
+        /// Вызывается при смене ConnectionState в VM.
+        /// </summary>
+        private void ApplyVisualState(MainViewModel.ConnectionState state)
+        {
+            switch (state)
+            {
+                case MainViewModel.ConnectionState.Connected:
+                    ShowRunStatus();
+                    break;
+                case MainViewModel.ConnectionState.Connecting:
+                    ShowWaitForRunStatus();
+                    break;
+                default:
+                    ShowStopStatus();
+                    break;
+            }
         }
 
         protected override void OnContentRendered(EventArgs e)
@@ -290,6 +346,9 @@ namespace InvisibleManXRay
         {
             Config config = getConfig.Invoke();
 
+            // Шаг 4 (MVVM): имя конфига живёт в VM — legacy-TextBlock остаётся как fallback.
+            ViewModel?.RefreshConfigName();
+
             if (config == null)
             {
                 textServerConfig.Text = LocalizationService.GetTerm(Localization.NO_SERVER_CONFIGURATION);
@@ -301,21 +360,20 @@ namespace InvisibleManXRay
 
         public void TryRerun()
         {
+            // Шаг 4 (MVVM): делегируем в RestartCommand (connectionService.Restart).
             if (!runWorker.IsBusy)
                 return;
-            
-            onStopServer.Invoke();
-            isRerunRequest = true;
+
+            ViewModel?.RestartCommand.Execute(null);
         }
 
         public void TryDisableModeAndRerun()
         {
+            // Шаг 4 (MVVM): делегируем в RestartWithDisabledModeCommand.
             if (!runWorker.IsBusy)
                 return;
-            
-            onDisableMode.Invoke();
-            onStopServer.Invoke();
-            isRerunRequest = true;
+
+            ViewModel?.RestartWithDisabledModeCommand.Execute(null);
         }
 
         private void OnManageServersClick(object sender, RoutedEventArgs e)
@@ -326,27 +384,23 @@ namespace InvisibleManXRay
 
         private void OnRunButtonClick(object sender, RoutedEventArgs e)
         {
+            // Шаг 4 (MVVM): логика в MainViewModel.ConnectAsyncCommand.
             if (runWorker.IsBusy)
                 return;
 
-            runWorker.RunWorkerAsync();
-            AnalyticsService.SendEvent(new RunButtonClickedEvent());
+            ViewModel?.ConnectAsyncCommand.Execute(null);
         }
 
         private void OnStopButtonClick(object sender, RoutedEventArgs e)
         {
-            onStopServer.Invoke();
-            onDisableMode.Invoke();
-            isRerunRequest = false;
-            AnalyticsService.SendEvent(new StopButtonClickedEvent());
+            // Шаг 4 (MVVM): логика в MainViewModel.StopCommand.
+            ViewModel?.StopCommand.Execute(null);
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            if (!runWorker.IsBusy)
-                return;
-
-            onCancelServer.Invoke();
+            // Шаг 4 (MVVM): логика в MainViewModel.CancelConnectingCommand.
+            ViewModel?.CancelConnectingCommand.Execute(null);
         }
 
         private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
