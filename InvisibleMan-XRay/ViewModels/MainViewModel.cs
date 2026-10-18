@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -29,6 +30,9 @@ namespace InvisibleManXRay.ViewModels
         }
 
         private readonly IConnectionService connectionService;
+
+        // Токен активной фазы «Подключение» — отменяет ожидание ConnectAsync по Cancel.
+        private CancellationTokenSource cancellationTokenSource;
 
         // Колбэки legacy-обвязки MainWindow (окна, политика, приватность).
         private Func<Config> getConfig = () => null;
@@ -61,6 +65,23 @@ namespace InvisibleManXRay.ViewModels
         public MainViewModel(IConnectionService connectionService)
         {
             this.connectionService = connectionService;
+
+            // Мгновенный переход Connecting → Connected при входе worker'а
+            // в удержание соединения (не дожидаясь завершения ConnectAsync).
+            if (connectionService is ConnectionService concrete)
+                concrete.ProgressChanged += OnConnectionProgress;
+        }
+
+        private void OnConnectionProgress(object sender, Status status)
+        {
+            if (status.Code != Code.SUCCESS || status.SubCode != SubCode.RUNNING)
+                return;
+
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (State == ConnectionState.Connecting)
+                    State = ConnectionState.Connected;
+            }));
         }
 
         /// <summary>
@@ -144,25 +165,33 @@ namespace InvisibleManXRay.ViewModels
             State = ConnectionState.Connecting;
             AnalyticsService.SendEvent(new RunButtonClickedEvent());
 
-            Status status = await connectionService.ConnectAsync().ConfigureAwait(true);
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = new CancellationTokenSource();
 
-            // Rerun-сценарий (смена конфига/режима): worker перезапустится сам —
-            // состояние оставляем Connecting, вторая волна completion обработает итог.
-            bool isRerunning = connectionService.IsBusy && State == ConnectionState.Connecting;
+            // ВАЖНО: await без ConfigureAwait(true) — continuation резюмируется на UI-потоке
+            // автоматически (SynchronizationContext), при этом сам awaited Task не захватывает
+            // контекст → нет deadlock при вызове ConnectAsyncCommand.Execute из non-UI кода
+            // (трей/хоткей на Шагах 7/10/11).
+            Status status = await connectionService
+                .ConnectAsync(cancellationTokenSource.Token);
 
-            if (!isRerunning)
-            {
-                if (status.Code == Code.ERROR)
-                {
-                    State = ConnectionState.Disconnected;
-                    ShowError(status);
-                }
-                else
-                {
-                    // INFO+CANCELED (отмена) или SUCCESS (стоп) — возвращаемся в Disconnected.
-                    State = ConnectionState.Disconnected;
-                }
-            }
+            // Цикл мог быть отменён через CancellationToken (CancelConnecting) —
+            // итоговое состояние уже выставлено там, не перетираем.
+            if (cancellationTokenSource != null && cancellationTokenSource.IsCancellationRequested)
+                return;
+
+            // Соединение установлено и удерживается (RUNNING) → Connected.
+            // ERROR / INFO+CANCELED / SUCCESS (стоп или rerun-остановка) → Disconnected.
+            // Rerun: worker перезапускается внутри ConnectionService — вторая волна
+            // ConnectAsync завершится уже с итоговым статусом нового цикла.
+            if (status.Code == Code.SUCCESS && status.SubCode == SubCode.RUNNING)
+                State = ConnectionState.Connected;
+            else
+                State = ConnectionState.Disconnected;
+
+            // Ошибки pipeline (NO_CONFIG / INVALID_CONFIG / CANT_PROXY / CANT_TUNNEL).
+            if (status.Code == Code.ERROR)
+                HandleConnectionError(status);
 
             IsActionEnabled = true;
         }
@@ -174,7 +203,13 @@ namespace InvisibleManXRay.ViewModels
             if (State != ConnectionState.Connecting)
                 return;
 
+            // Отключаем expectation-обработчик ConnectAsync (он выйдет по токену)
+            // и выставляем Disconnected сразу — как legacy runWorker cancel flow.
+            cancellationTokenSource?.Cancel();
             connectionService.Cancel();
+
+            State = ConnectionState.Disconnected;
+            IsActionEnabled = true;
         }
 
         /// <summary>Остановка активного соединения + выключение режима.</summary>
@@ -189,26 +224,35 @@ namespace InvisibleManXRay.ViewModels
             State = ConnectionState.Disconnected;
         }
 
-        /// <summary>Rerun при смене конфигурации (вызывается из WindowFactory.UpdateConfig).</summary>
+        /// <summary>
+        /// Rerun при смене конфигурации (вызывается из WindowFactory.UpdateConfig).
+        /// Semantics как legacy runWorker: если worker не запущен — просто обновить имя конфига.
+        /// </summary>
         [RelayCommand]
         private void Restart()
         {
             RefreshConfigName();
 
-            if (State == ConnectionState.Disconnected)
+            if (!connectionService.IsBusy)
                 return;
 
             connectionService.Restart();
         }
 
-        /// <summary>Rerun со сменой режима (System Proxy ↔ TUN) из настроек.</summary>
+        /// <summary>
+        /// Rerun со сменой режима (System Proxy ↔ TUN) из настроек.
+        /// Если worker запущен — перезапуск; иначе — только выключение режима (как legacy).
+        /// </summary>
         [RelayCommand]
         private void RestartWithDisabledMode()
         {
-            if (State == ConnectionState.Disconnected)
+            if (connectionService.IsBusy)
+            {
+                connectionService.RestartWithDisabledMode();
                 return;
+            }
 
-            connectionService.RestartWithDisabledMode();
+            connectionService.DisableModeOnly();
         }
 
         /// <summary>Автоподключение при старте (настройка AutoConnect).</summary>
@@ -265,12 +309,18 @@ namespace InvisibleManXRay.ViewModels
         //  ОШИБКИ
         // ============================================================
 
-        private void ShowError(Status status)
+        /// <summary>
+        /// Единая обработка ошибок подключения (1:1 с legacy runWorker.HandleError):
+        /// NO_CONFIG → warning + окно серверов; INVALID_CONFIG / CANT_PROXY / CANT_TUNNEL → error.
+        /// Вызывается на UI-потоке (после await ConnectAsync).
+        /// </summary>
+        public void HandleConnectionError(Status status)
         {
             switch (status.SubCode)
             {
                 case SubCode.NO_CONFIG:
                     MessageBoxResult result = MessageBox.Show(
+                        Application.Current?.MainWindow,
                         status.Content.ToString(),
                         Caption.WARNING,
                         MessageBoxButton.OK,
@@ -282,7 +332,10 @@ namespace InvisibleManXRay.ViewModels
                     break;
 
                 case SubCode.INVALID_CONFIG:
+                case SubCode.CANT_PROXY:
+                case SubCode.CANT_TUNNEL:
                     MessageBox.Show(
+                        Application.Current?.MainWindow,
                         status.Content.ToString(),
                         Caption.ERROR,
                         MessageBoxButton.OK,
@@ -290,24 +343,6 @@ namespace InvisibleManXRay.ViewModels
                     );
                     break;
             }
-        }
-
-        /// <summary>
-        /// Обработка ошибок режима (CANT_PROXY / CANT_TUNNEL) из потока подключения.
-        /// Вызывается code-behind MainWindow через Dispatcher.
-        /// </summary>
-        public void HandleModeFailure(Status modeStatus)
-        {
-            if (modeStatus.Code != Code.ERROR)
-                return;
-
-            Application.Current?.Dispatcher.Invoke(() =>
-                MessageBox.Show(
-                    modeStatus.Content.ToString(),
-                    Caption.ERROR,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                ));
         }
     }
 }

@@ -15,8 +15,6 @@ namespace InvisibleManXRay
 
     public partial class MainWindow : UiWindow
     {
-        private bool isRerunRequest;
-
         /// <summary>MVVM-модель (Шаг 4). Hero-кнопка, статус, команды окон.</summary>
         public MainViewModel ViewModel { get; private set; }
 
@@ -42,9 +40,11 @@ namespace InvisibleManXRay
         private Action onBugReportingClick;
         private Action<string> onCustomLinkClick;
 
-        private BackgroundWorker runWorker;
         private BackgroundWorker updateWorker;
         private BackgroundWorker broadcastWorker;
+
+        /// <summary>Один раз за жизненный цикл окна — guard для ConnectionService.Setup.</summary>
+        private bool isConnectionPipelineInitialized;
 
         private LocalizationService LocalizationService => ServiceLocator.Get<LocalizationService>();
         private AnalyticsService AnalyticsService => ServiceLocator.Get<AnalyticsService>();
@@ -54,7 +54,6 @@ namespace InvisibleManXRay
             InitializeComponent();
             InitializeViewModel();
             InitializeNavigation();
-            InitializeRunWorker();
             InitializeUpdateWorker();
             InitializeBroadcastWorker();
 
@@ -76,132 +75,9 @@ namespace InvisibleManXRay
                 };
             }
 
-            void InitializeRunWorker()
-            {
-                runWorker = new BackgroundWorker();
-
-                runWorker.RunWorkerCompleted += (sender, e) => {
-                    if (isRerunRequest)
-                    {
-                        runWorker.RunWorkerAsync();
-                        isRerunRequest = false;
-                    }
-                };
-
-                runWorker.DoWork += (sender, e) => {
-                    Dispatcher.BeginInvoke(new Action(delegate {
-                        ViewModel.State = MainViewModel.ConnectionState.Connecting;
-                    }));
-
-                    Status configStatus = loadConfig.Invoke();
-
-                    if (configStatus.Code == Code.ERROR)
-                    {
-                        Dispatcher.BeginInvoke(new Action(delegate {
-                            HandleError();
-                            ViewModel.State = MainViewModel.ConnectionState.Disconnected;
-                        }));
-
-                        return;
-                    }
-
-                    Status modeStatus = enableMode.Invoke();
-
-                    if (modeStatus.Code == Code.ERROR)
-                    {
-                        Dispatcher.BeginInvoke(new Action(delegate {
-                            MessageBox.Show(
-                                this,
-                                modeStatus.Content.ToString(), 
-                                Caption.ERROR, 
-                                MessageBoxButton.OK, 
-                                MessageBoxImage.Error
-                            );
-                            ViewModel.State = MainViewModel.ConnectionState.Disconnected;
-                        }));
-
-                        return;
-                    }
-                    else if (modeStatus.Code == Code.INFO)
-                    {
-                        if (modeStatus.SubCode == SubCode.CANCELED)
-                        {
-                            Dispatcher.BeginInvoke(new Action(delegate {
-                                ViewModel.State = MainViewModel.ConnectionState.Disconnected;
-                            }));
-
-                            return;
-                        }
-                    }
-
-                    Dispatcher.BeginInvoke(new Action(delegate {
-                        ViewModel.State = MainViewModel.ConnectionState.Connected;
-                    }));
-
-                    onRunServer.Invoke(configStatus.Content.ToString());
-
-                    Dispatcher.BeginInvoke(new Action(delegate {
-                        ViewModel.State = MainViewModel.ConnectionState.Disconnected;
-                    }));
-
-                    void HandleError()
-                    {
-                        if (IsAnotherWindowOpened())
-                            return;
-                        
-                        ForceShowWindowIfNeeded();
-
-                        switch (configStatus.SubCode)
-                        {
-                            case SubCode.NO_CONFIG:
-                                HandleNoConfigError();
-                                break;
-                            case SubCode.INVALID_CONFIG:
-                                HandleInvalidConfigError();
-                                break;
-                            default:
-                                return;
-                        }
-
-                        bool IsWindowHidden() => this.Visibility == Visibility.Hidden;
-
-                        bool IsAnotherWindowOpened() => Application.Current.Windows.Count > 1;
-
-                        void ForceShowWindowIfNeeded()
-                        {
-                            if (!IsWindowHidden())
-                                return;
-                            
-                            this.Show();
-                        }
-
-                        void HandleNoConfigError()
-                        {
-                            MessageBoxResult result = MessageBox.Show(
-                                this,
-                                configStatus.Content.ToString(), 
-                                Caption.WARNING, 
-                                MessageBoxButton.OK, 
-                                MessageBoxImage.Warning
-                            );
-
-                            if (result == MessageBoxResult.OK)
-                                OpenServerWindow();
-                        }
-
-                        void HandleInvalidConfigError()
-                        {
-                            MessageBox.Show(
-                                this,
-                                configStatus.Content.ToString(), 
-                                Caption.ERROR, 
-                                MessageBoxButton.OK, 
-                                MessageBoxImage.Error
-                            );
-                        }
-                    }
-                };
-            }
+            // NOTE (Шаг 4): runWorker удалён — конвейер подключения
+            // (loadConfig → enableMode → runServer) инкапсулирован в ConnectionService,
+            // а состояние Hero-зоны управляется только MainViewModel.State.
 
             void InitializeUpdateWorker()
             {
@@ -280,9 +156,31 @@ namespace InvisibleManXRay
             this.onBugReportingClick = onBugReportingClick;
             this.onCustomLinkClick = onCustomLinkClick;
 
+            InitializeConnectionPipeline();
             InitializeViewModelDelegates();
 
             UpdateUI();
+        }
+
+        /// <summary>
+        /// Шаг 4 (завершение): прокидываем legacy-конвейер Core в ConnectionService
+        /// (единая точка входа для MVVM), один раз за жизненный цикл окна.
+        /// </summary>
+        private void InitializeConnectionPipeline()
+        {
+            if (isConnectionPipelineInitialized)
+                return;
+
+            ServiceLocator.Get<ConnectionService>().Setup(
+                loadConfig: loadConfig,
+                enableMode: enableMode,
+                runServer: onRunServer,
+                stopServer: onStopServer,
+                cancelServer: onCancelServer,
+                disableMode: onDisableMode
+            );
+
+            isConnectionPipelineInitialized = true;
         }
 
         /// <summary>
@@ -351,19 +249,14 @@ namespace InvisibleManXRay
 
         public void TryRerun()
         {
-            // Шаг 4 (MVVM): делегируем в RestartCommand (connectionService.Restart).
-            if (!runWorker.IsBusy)
-                return;
-
+            // Шаг 4 (MVVM): делегируем в RestartCommand — ConnectionService остановит
+            // worker и перезапустит его с новым конфигом (состояние остаётся Connecting/Connected).
             ViewModel?.RestartCommand.Execute(null);
         }
 
         public void TryDisableModeAndRerun()
         {
             // Шаг 4 (MVVM): делегируем в RestartWithDisabledModeCommand.
-            if (!runWorker.IsBusy)
-                return;
-
             ViewModel?.RestartWithDisabledModeCommand.Execute(null);
         }
 
@@ -373,38 +266,13 @@ namespace InvisibleManXRay
             AnalyticsService.SendEvent(new ManageServersButtonClickedEvent());
         }
 
-        // NOTE (Шаг 4, MVVM): OnRunButtonClick/OnStopButtonClick/OnCancelButtonClick удалены —
-        // XAML биндится напрямую на ToggleConnectionCommand (единая точка входа Hero-кнопки).
+        // NOTE (Шаг 4, MVVM): OnRunButtonClick/OnStopButtonClick/OnCancelButtonClick и
+        // клик-обработчики footer-иконок удалены — XAML биндится на команды MainViewModel.
 
-        private void OnGitHubButtonClick(object sender, RoutedEventArgs e)
-        {
-            onGitHubClick.Invoke();
-            AnalyticsService.SendEvent(new GitHubButtonClickedEvent());
-        }
 
-        private void OnBugReportingButtonClick(object sender, RoutedEventArgs e)
-        {
-            onBugReportingClick.Invoke();
-            AnalyticsService.SendEvent(new BugReportingButtonClickedEvent());
-        }
 
-        private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
-        {
-            OpenSettingsWindow();
-            AnalyticsService.SendEvent(new SettingsButtonClickedEvent());
-        }
 
-        private void OnUpdateButtonClick(object sender, RoutedEventArgs e)
-        {
-            OpenUpdateWindow();
-            AnalyticsService.SendEvent(new UpdateButtonClickedEvent());
-        }
 
-        private void OnAboutButtonClick(object sender, RoutedEventArgs e)
-        {
-            OpenAboutWindow();
-            AnalyticsService.SendEvent(new AboutButtonClickedEvent());
-        }
 
         private void TryStartHidden()
         {

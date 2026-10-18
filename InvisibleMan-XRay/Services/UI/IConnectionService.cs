@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace InvisibleManXRay.Services.UI
@@ -17,6 +17,18 @@ namespace InvisibleManXRay.Services.UI
         bool IsBusy { get; }
 
         /// <summary>
+        /// Инициализация legacy-конвейера (делегаты Core из WindowFactory).
+        /// Вызывается один раз из MainWindow.Setup до любой команды.
+        /// </summary>
+        void Setup(
+            System.Func<Status> loadConfig,
+            System.Func<Status> enableMode,
+            System.Action<string> runServer,
+            System.Action stopServer,
+            System.Action cancelServer,
+            System.Action disableMode);
+
+        /// <summary>
         /// Полный цикл подключения: загрузка конфига → включение режима →
         /// удержание соединения до отмены/остановки. Бег в Task — UI не блокируется.
         /// </summary>
@@ -28,8 +40,16 @@ namespace InvisibleManXRay.Services.UI
         /// <summary>Остановить соединение (без выключения режима — rerun-сценарий).</summary>
         void Stop();
 
-        /// <summary>Остановить соединение и выключить режим (полный STOP пользователем).</summary>
+        /// <summary>
+        /// Остановить соединение и выключить режим (полный STOP пользователем).
+        /// </summary>
         void StopWithDisabledMode();
+
+        /// <summary>
+        /// Только выключить режим (без соединения) — legacy-семантика смены настроек
+        /// режима в stopped-состоянии.
+        /// </summary>
+        void DisableModeOnly();
 
         /// <summary>
         /// Остановить и перезапустить (rerun) — при смене конфига, пока worker активен.
