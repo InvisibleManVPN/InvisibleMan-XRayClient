@@ -1,234 +1,311 @@
-﻿<Window x:Class="InvisibleManXRay.MainWindow"
+<ui:UiWindow x:Class="InvisibleManXRay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:InvisibleManXRay"
         xmlns:Controls="clr-namespace:InvisibleManXRay.Components"
         mc:Ignorable="d"
         Title="Invisible Man XRay"
-        Height="550" 
-        Width="400" 
-        WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanMinimize">
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="RoundSmall"
+        Height="640"
+        Width="960"
+        MinHeight="560"
+        MinWidth="780"
+        WindowStartupLocation="CenterScreen">
 
-    <Window.Background>
-        <StaticResource ResourceKey="Color.DarkGray"/>
-    </Window.Background>
+    <!--
+        PREMIUM SHELL (Шаг 3):
+        ui:UiWindow + Mica backdrop + кастомный TitleBar + noise overlay 4%
+        + NavigationMenu (Профиль / Серверы / Настройки).
+        Legacy-контент (статус, кнопки Run/Stop/Cancel, footer-иконки, Broadcast)
+        перенесён в страницу «Профиль» без изменения code-behind — поведение 1:1.
+    -->
 
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="370"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="210"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="95"/>
-                </Grid.RowDefinitions>
+        <!-- ================= CUSTOM TITLE BAR ================= -->
+        <ui:titlebar.TitleBar Grid.Row="0" x:Name="titleBar"
+                              Height="44"
+                              HorizontalAlignment="Left">
+            <ui:titlebar.TitleBar.Icon>
+                <ui:ImageControl Source="/Assets/Icon.ico" Width="20" Height="20" Margin="8 0 0 0"/>
+            </ui:titlebar.TitleBar.Icon>
+            <ui:titlebar.TitleBar.Content>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10 0 0 0">
+                    <TextBlock Text="INVISIBLE MAN" FontFamily="{StaticResource SegoeUI}"
+                               FontWeight="Light" FontSize="13" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="XRAY" FontFamily="{StaticResource SegoeUI}"
+                               FontWeight="SemiBold" FontSize="17" Margin="8 0 0 0"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource Accent.SuccessBrush}"/>
+                </StackPanel>
+            </ui:titlebar.TitleBar.Content>
+        </ui:titlebar.TitleBar>
 
-                <StackPanel Grid.Row="0" Orientation="Vertical"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                    Visibility="Visible" x:Name="statusStop">
-                    
-                    <Grid Width="120" Height="120" Margin="0">
-                        <Rectangle Fill="{StaticResource Icon.Stop}"/>
-                    </Grid>
-                    
-                    <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center" Margin="0 10 0 0">
+        <!-- ================= MAIN LAYOUT ================= -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                        <Ellipse
-                            Width="12" Height="12" Margin="0 0 2 0"
-                            VerticalAlignment="Center"
-                            Fill="{StaticResource Color.Red}"/>
-                        <Label Content="{DynamicResource Lang.Status.Stopped}" FontFamily="{StaticResource SegoeUI}" 
-                            Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
+            <!-- ============ LEFT RAIL: brand + nav + footer ============ -->
+            <DockPanel Grid.Column="0" LastChildFill="False" Margin="0">
+
+                <!-- Brand block -->
+                <Border DockPanel.Dock="Top" Padding="18 14 18 10">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="42" Height="42" CornerRadius="12"
+                                Background="{DynamicResource SurfaceCardBrush}"
+                                BorderBrush="{DynamicResource StrokeSubtleBrush}" BorderThickness="1">
+                            <Rectangle Fill="{StaticResource Icon.InvisibleMan}" Width="28" Height="28"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Margin="12 0 0 0">
+                            <TextBlock Text="INVISIBLE MAN" FontFamily="{StaticResource SegoeUI}"
+                                       FontWeight="Light" FontSize="11"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                            <TextBlock Text="XRAY" FontFamily="{StaticResource SegoeUI}"
+                                       FontWeight="SemiBold" FontSize="22"
+                                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </Border>
 
-                <StackPanel Grid.Row="0" Orientation="Vertical"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                    Visibility="Hidden" x:Name="statusWaitForRun">
-                    
-                    <Grid Width="120" Height="120" Margin="0">
-                        <Rectangle Fill="{StaticResource Icon.Stop}"/>
-                        <Controls:Loading Foreground="{StaticResource Color.Red}"/>
-                    </Grid>
-                    
-                    <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center" Margin="0 10 0 0">
+                <!-- ============ NAVIGATION MENU (P0-1) ============ -->
+                <ListBox DockPanel.Dock="Top" x:Name="navMenu"
+                         SelectedIndex="0"
+                         Margin="0 12 0 12"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ItemContainerStyle="{StaticResource Premium.NavItem}">
+                    <ListBoxItem Content="Профиль" Tag="profile"/>
+                    <ListBoxItem Content="Серверы" Tag="servers"/>
+                    <ListBoxItem Content="Настройки" Tag="settings"/>
+                </ListBox>
 
-                        <Ellipse
-                            Width="12" Height="12" Margin="0 0 2 0"
-                            VerticalAlignment="Center"
-                            Fill="Gray"/>
-                        <Label Content="{DynamicResource Lang.Status.WaitForRun}" FontFamily="{StaticResource SegoeUI}" 
-                            Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Grid.Row="0" Orientation="Vertical"
-                    HorizontalAlignment="Center" VerticalAlignment="Bottom" 
-                    Visibility="Hidden" x:Name="statusRun">
-
-                    <Grid Width="120" Height="120" Margin="0">
-                        <Controls:Glow x:Name="effectGlow"/>
-                        <Rectangle Fill="{StaticResource Icon.Run}"/>
-                    </Grid>
-                    
-                    <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center" Margin="0 10 0 0">
-
-                        <Ellipse
-                            Width="12" Height="12" Margin="0 0 2 0"
-                            VerticalAlignment="Center"
-                            Fill="{StaticResource Color.Green}"/>
-                        <Label Content="{DynamicResource Lang.Status.Running}" FontFamily="{StaticResource SegoeUI}" 
-                            Margin="0" Foreground="White" FontWeight="Light" FontSize="16"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <Controls:Broadcast Grid.Row="0" VerticalAlignment="Top" 
-                    Visibility="Hidden" x:Name="barBroadcast"/>
-
-                <TextBlock Grid.Row="2" Width="300"
-                    HorizontalAlignment="Center" FontFamily="{StaticResource SegoeUI}"
-                    TextAlignment="Center" TextTrimming="CharacterEllipsis"
-                    Margin="0" Foreground="White" FontWeight="Light" FontSize="18"
-                    x:Name="textServerConfig">
-
-                    <Run Text="{DynamicResource Lang.Message.NoServerConfiguration}" /> 
-                </TextBlock>
-
-                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Rectangle Fill="{StaticResource Icon.Server}" Grid.Column="0" 
-                        Width="15" Height="15" Margin="0 0 7 0" 
-                        HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock Grid.Row="2" Text="{DynamicResource Lang.Window.Main.ManageServerConfiguration}" 
-                        FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
-                        HorizontalAlignment="Center" VerticalAlignment="Top" 
-                        Margin="0" Foreground="{StaticResource Color.Blue}" 
-                        FontWeight="Normal" FontSize="14" Cursor="Hand"
-                        PreviewMouseDown="OnManageServersClick"/>
-                </StackPanel>
-
-                <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="{DynamicResource Lang.Run}" Style="{StaticResource Button.Rectangle.Green}" 
-                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
-                    Foreground="{StaticResource Color.Gray}" Visibility="Visible"
-                    Click="OnRunButtonClick" x:Name="buttonRun">
-
-                </Button>
-
-                <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="{DynamicResource Lang.Cancel}" Style="{StaticResource Button.Rectangle.Red}" 
-                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
-                    Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
-                    Click="OnCancelButtonClick" x:Name="buttonCancel">
-
-                </Button>
-
-                <Button Grid.Row="4" Width="200" Height="40" 
-                    Content="{DynamicResource Lang.Stop}" Style="{StaticResource Button.Rectangle.Red}" 
-                    FontFamily="{StaticResource SegoeUI}" FontWeight="Bold" FontSize="15" 
-                    Foreground="{StaticResource Color.Gray}" Visibility="Hidden"
-                    Click="OnStopButtonClick" x:Name="buttonStop">
-
-                </Button>
-            </Grid>
-
-            <Grid Grid.Row="0" Background="{StaticResource Color.LightGray}">
-                <Grid.Effect>
-                    <DropShadowEffect Direction="270" Opacity="0.4" ShadowDepth="2"/>
-                </Grid.Effect>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="75"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Rectangle Fill="{StaticResource Icon.InvisibleMan}" Grid.Column="0" 
-                    Width="60" Height="60" Margin="0" 
-                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    
-                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                    <Label Padding="0" Margin="15 7 0 0" VerticalAlignment="Bottom" 
-                        Content="INVISIBLE MAN" FontFamily="{StaticResource SegoeUI}" 
-                        FontWeight="Light" FontSize="14" Foreground="White"/>
-                    <Label Padding="0" Margin="15 -7 0 0" VerticalAlignment="Top" 
-                        Content="XRAY" FontFamily="{StaticResource SegoeUI}" 
-                        FontWeight="Light" FontSize="42" Foreground="White"/>
-                </StackPanel>
-            </Grid>
-            
-            <Grid Grid.Row="2">
-                <Grid Height="45" VerticalAlignment="Bottom" 
-                    Background="{StaticResource Color.LightGray}">
-
-                    <StackPanel Orientation="Horizontal" Margin="0"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                        <Button Width="30" Height="30" Margin="0" 
-                            Style="{StaticResource Button.Circle}"
-                            ToolTip="{DynamicResource Lang.ToolTip.About}" RenderTransformOrigin="0.5,0.5"
+                <!-- Footer icon rail (legacy buttons preserved) -->
+                <Border DockPanel.Dock="Bottom" Padding="14 10 14 14" Margin="12 0 12 12">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="{DynamicResource SurfaceAltBrush}"/>
+                            <Setter Property="CornerRadius" Value="{DynamicResource Radius.SmallCard}"/>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Style="{StaticResource Premium.IconButton}" Margin="0 0 8 0"
+                            ToolTip="{DynamicResource Lang.ToolTip.About}"
                             Click="OnAboutButtonClick">
-
-                            <Rectangle Fill="{StaticResource Icon.About}" Grid.Column="0" 
-                                Width="6" Height="14" Margin="0" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{StaticResource Icon.About}" Width="6" Height="14"/>
                         </Button>
-                        <Grid Width="30" Height="30" Margin="10 0 0 0">
-                            <Button  Style="{StaticResource Button.Circle}" 
-                                ToolTip="{DynamicResource Lang.ToolTip.CheckForUpdates}" RenderTransformOrigin="0.5,0.5"
+                        <Grid Width="34" Height="34" Margin="0 0 8 0">
+                            <Button Style="{StaticResource Premium.IconButton}"
+                                ToolTip="{DynamicResource Lang.ToolTip.CheckForUpdates}"
                                 Click="OnUpdateButtonClick">
-
-                                <Rectangle Fill="{StaticResource Icon.Update}" Grid.Column="0" 
-                                    Width="15" Height="15" Margin="0" 
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Rectangle Fill="{StaticResource Icon.Update}" Width="15" Height="15"/>
                             </Button>
                             <Ellipse Width="12" Height="12" Margin="-2" Visibility="Hidden"
-                                Fill="{StaticResource Color.Orange}" 
-                                Stroke="{StaticResource Color.LightGray}" StrokeThickness="2"
+                                Fill="{DynamicResource Color.Orange}"
+                                Stroke="{DynamicResource Color.Gray}" StrokeThickness="2"
                                 VerticalAlignment="Top" HorizontalAlignment="Right"
                                 x:Name="notificationUpdate"/>
                         </Grid>
-                        <Button Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}"
-                            ToolTip="{DynamicResource Lang.ToolTip.Settings}" RenderTransformOrigin="0.5,0.5"
+                        <Button Style="{StaticResource Premium.IconButton}" Margin="0 0 8 0"
+                            ToolTip="{DynamicResource Lang.ToolTip.Settings}"
                             Click="OnSettingsButtonClick">
-
-                            <Rectangle Fill="{StaticResource Icon.Settings}" Grid.Column="0" 
-                                Width="15" Height="15" Margin="0" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{StaticResource Icon.Settings}" Width="15" Height="15"/>
                         </Button>
-                        <Button Width="30" Height="30" Margin="10 0 0 0" 
-                            Style="{StaticResource Button.Circle}"
-                            ToolTip="{DynamicResource Lang.ToolTip.BugReporting}" RenderTransformOrigin="0.5,0.5"
+                        <Button Style="{StaticResource Premium.IconButton}" Margin="0 0 8 0"
+                            ToolTip="{DynamicResource Lang.ToolTip.BugReporting}"
                             Click="OnBugReportingButtonClick">
-
-                            <Rectangle Fill="{StaticResource Icon.Bug}" Grid.Column="0" 
-                                Width="12" Height="16" Margin="0" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{StaticResource Icon.Bug}" Width="12" Height="16"/>
                         </Button>
-                        <Button Width="30" Height="30" Margin="10 0 0 0"
-                            Style="{StaticResource Button.Circle}"
-                            ToolTip="{DynamicResource Lang.ToolTip.SourceCodeOnGitHub}" RenderTransformOrigin="0.5,0.5"
+                        <Button Style="{StaticResource Premium.IconButton}"
+                            ToolTip="{DynamicResource Lang.ToolTip.SourceCodeOnGitHub}"
                             Click="OnGitHubButtonClick">
-
-                            <Rectangle Fill="{StaticResource Icon.Github}" Grid.Column="0" 
-                                Width="18" Height="16" Margin="0" 
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Rectangle Fill="{StaticResource Icon.Github}" Width="18" Height="16"/>
                         </Button>
                     </StackPanel>
-                </Grid>
+                </Border>
+            </DockPanel>
+
+            <!-- ============ CONTENT AREA + NOISE OVERLAY ============ -->
+            <Grid Grid.Column="1" Margin="0 0 8 8">
+                <Border CornerRadius="{DynamicResource Radius.Card}"
+                        Background="{DynamicResource SurfaceAltBrush}"
+                        BorderBrush="{DynamicResource StrokeSubtleBrush}"
+                        BorderThickness="1">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Broadcast bar (legacy component kept working) -->
+                        <Controls:Broadcast Grid.Row="0" VerticalAlignment="Top"
+                            Visibility="Hidden" Margin="10 10 10 0"
+                            x:Name="barBroadcast"/>
+
+                        <!-- PROFILE PAGE (legacy hero content, premium restyle) -->
+                        <Grid Grid.Row="1" x:Name="pageProfile" Visibility="Visible">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="26"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- ===== STATUS HERO (Disconnected / Connecting / Connected) ===== -->
+                            <Grid Grid.Row="0" VerticalAlignment="Center">
+
+                                <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="Visible" x:Name="statusStop">
+                                    <Grid Width="120" Height="120">
+                                        <Ellipse Width="120" Height="120"
+                                                 Fill="{DynamicResource Accent.DangerSoftBrush}"/>
+                                        <Rectangle Fill="{StaticResource Icon.Stop}" Width="72" Height="72"/>
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center" Margin="0 12 0 0">
+                                        <Ellipse Width="12" Height="12" Margin="0 0 6 0"
+                                            VerticalAlignment="Center"
+                                            Fill="{DynamicResource Accent.DangerBrush}"/>
+                                        <Label Content="{DynamicResource Lang.Status.Stopped}"
+                                            FontFamily="{StaticResource SegoeUI}"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            FontWeight="Light" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="Hidden" x:Name="statusWaitForRun">
+                                    <Grid Width="120" Height="120">
+                                        <Ellipse Width="120" Height="120"
+                                                 Fill="{DynamicResource Accent.TrafficSoftBrush}"/>
+                                        <Rectangle Fill="{StaticResource Icon.Stop}" Width="72" Height="72"/>
+                                        <Controls:Loading Foreground="{DynamicResource Accent.TrafficBrush}"/>
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center" Margin="0 12 0 0">
+                                        <Ellipse Width="12" Height="12" Margin="0 0 6 0"
+                                            VerticalAlignment="Center"
+                                            Fill="{DynamicResource Accent.TrafficBrush}"/>
+                                        <Label Content="{DynamicResource Lang.Status.WaitForRun}"
+                                            FontFamily="{StaticResource SegoeUI}"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            FontWeight="Light" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="Hidden" x:Name="statusRun">
+                                    <Grid Width="120" Height="120">
+                                        <Ellipse Width="120" Height="120"
+                                                 Fill="{DynamicResource Accent.SuccessSoftBrush}"/>
+                                        <Controls:Glow x:Name="effectGlow"/>
+                                        <Rectangle Fill="{StaticResource Icon.Run}" Width="72" Height="72"/>
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center" Margin="0 12 0 0">
+                                        <Ellipse Width="12" Height="12" Margin="0 0 6 0"
+                                            VerticalAlignment="Center"
+                                            Fill="{DynamicResource Accent.SuccessBrush}"/>
+                                        <Label Content="{DynamicResource Lang.Status.Running}"
+                                            FontFamily="{StaticResource SegoeUI}"
+                                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                            FontWeight="Light" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Active config name -->
+                            <TextBlock Grid.Row="1" Width="360"
+                                HorizontalAlignment="Center" FontFamily="{StaticResource SegoeUI}"
+                                TextAlignment="Center" TextTrimming="CharacterEllipsis"
+                                Margin="0 0 0 6" FontSize="18" FontWeight="Light"
+                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                x:Name="textServerConfig">
+                                <Run Text="{DynamicResource Lang.Message.NoServerConfiguration}" />
+                            </TextBlock>
+
+                            <!-- Manage servers link -->
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 14">
+                                <Rectangle Fill="{StaticResource Icon.Server}"
+                                    Width="15" Height="15" Margin="0 0 7 0"
+                                    VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource Lang.Window.Main.ManageServerConfiguration}"
+                                    FontFamily="{StaticResource SegoeUI}" TextDecorations="Underline"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource Accent.TrafficBrush}"
+                                    FontWeight="Normal" FontSize="14" Cursor="Hand"
+                                    PreviewMouseDown="OnManageServersClick"/>
+                            </StackPanel>
+
+                            <!-- Hero action buttons (Run / Cancel / Stop) -->
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Width="220" Height="50"
+                                    Content="{DynamicResource Lang.Run}"
+                                    Style="{StaticResource Premium.HeroButton}"
+                                    Tag="Disconnected"
+                                    Visibility="Visible"
+                                    Click="OnRunButtonClick" x:Name="buttonRun"/>
+
+                                <Button Width="220" Height="50"
+                                    Content="{DynamicResource Lang.Cancel}"
+                                    Style="{StaticResource Premium.HeroButton}"
+                                    Tag="Connecting"
+                                    Visibility="Hidden"
+                                    Click="OnCancelButtonClick" x:Name="buttonCancel"/>
+
+                                <Button Width="220" Height="50"
+                                    Content="{DynamicResource Lang.Stop}"
+                                    Style="{StaticResource Premium.HeroButton}"
+                                    Tag="Connected"
+                                    Visibility="Hidden"
+                                    Click="OnStopButtonClick" x:Name="buttonStop"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- SERVERS PAGE (placeholder → ServerCard list on Шаг 6) -->
+                        <Border Grid.Row="1" x:Name="pageServers" Visibility="Collapsed"
+                                Style="{StaticResource Premium.Card}" Margin="16">
+                            <TextBlock Text="Серверы — страница будет на Шаге 6 (ServerCard + Drag&amp;Drop)"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource SegoeUI}" FontSize="14"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        </Border>
+
+                        <!-- SETTINGS PAGE (placeholder → интеграция SettingsWindow позже) -->
+                        <Border Grid.Row="1" x:Name="pageSettings" Visibility="Collapsed"
+                                Style="{StaticResource Premium.Card}" Margin="16">
+                            <TextBlock Text="Настройки — интеграция существующего SettingsWindow на последующих шагах"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       FontFamily="{StaticResource SegoeUI}" FontSize="14"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- NOISE OVERLAY 4% (по дизайн-спеке, поверх контента, non-hit-test) -->
+                <Rectangle Fill="{DynamicResource NoiseOverlayBrush}"
+                           IsHitTestVisible="False"
+                           RadiusX="12" RadiusY="12"/>
             </Grid>
         </Grid>
     </Grid>
-</Window>
+</ui:UiWindow>

@@ -4,13 +4,14 @@ using System.ComponentModel;
 
 namespace InvisibleManXRay
 {
+    using Wpf.Ui.Controls;
     using Models;
     using Values;
     using Services;
     using Services.Analytics.General;
     using Services.Analytics.MainWindow;
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : UiWindow
     {
         private bool isRerunRequest;
 
@@ -46,12 +47,28 @@ namespace InvisibleManXRay
         public MainWindow()
         {
             InitializeComponent();
+            InitializeNavigation();
             InitializeRunWorker();
             InitializeUpdateWorker();
             InitializeBroadcastWorker();
 
             updateWorker.RunWorkerAsync();
             broadcastWorker.RunWorkerAsync();
+
+            void InitializeNavigation()
+            {
+                navMenu.SelectionChanged += (sender, e) =>
+                {
+                    if (e.Source != navMenu)
+                        return;
+
+                    string page = (navMenu.SelectedItem as ListBoxItem)?.Tag as string ?? "profile";
+
+                    pageProfile.Visibility = page == "profile" ? Visibility.Visible : Visibility.Collapsed;
+                    pageServers.Visibility = page == "servers" ? Visibility.Visible : Visibility.Collapsed;
+                    pageSettings.Visibility = page == "settings" ? Visibility.Visible : Visibility.Collapsed;
+                };
+            }
 
             void InitializeRunWorker()
             {
