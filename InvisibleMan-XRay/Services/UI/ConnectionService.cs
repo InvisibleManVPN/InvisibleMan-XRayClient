@@ -163,9 +163,8 @@ namespace InvisibleManXRay.Services.UI
             if (!isBusy)
                 return;
 
-            stopServer?.Invoke();
             isRerunRequested = true;
-        }
+            stopServer?.Invoke();
 
         /// <inheritdoc/>
         public void RestartWithDisabledMode()
