@@ -162,9 +162,9 @@ namespace InvisibleManXRay.ViewModels
                     // INFO+CANCELED (отмена) или SUCCESS (стоп) — возвращаемся в Disconnected.
                     State = ConnectionState.Disconnected;
                 }
-            }
 
-            IsActionEnabled = true;
+                IsActionEnabled = true;
+            }
         }
 
         /// <summary>Отмена фазы «Подключение».</summary>
