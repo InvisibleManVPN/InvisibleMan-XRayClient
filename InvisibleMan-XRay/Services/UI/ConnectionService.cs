@@ -172,9 +172,8 @@ namespace InvisibleManXRay.Services.UI
             if (!isBusy)
                 return;
 
+            isRerunRequested = true;
             disableMode?.Invoke();
             stopServer?.Invoke();
-            isRerunRequested = true;
-        }
     }
 }
