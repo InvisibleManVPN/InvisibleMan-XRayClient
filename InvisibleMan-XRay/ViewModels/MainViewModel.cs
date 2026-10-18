@@ -193,7 +193,8 @@ namespace InvisibleManXRay.ViewModels
             if (status.Code == Code.ERROR)
                 HandleConnectionError(status);
 
-            IsActionEnabled = true;
+                IsActionEnabled = true;
+            }
         }
 
         /// <summary>Отмена фазы «Подключение».</summary>

@@ -159,6 +159,15 @@ namespace InvisibleManXRay
             InitializeConnectionPipeline();
             InitializeViewModelDelegates();
 
+            ConnectionService connectionService = ServiceLocator.Get<ConnectionService>();
+            connectionService.Setup(
+                loadConfig: loadConfig,
+                enableMode: enableMode,
+                runServer: onRunServer,
+                stopServer: onStopServer,
+                cancelServer: onCancelServer,
+                disableMode: onDisableMode);
+
             UpdateUI();
         }
 
